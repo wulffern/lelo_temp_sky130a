@@ -8,10 +8,11 @@ df = pd.read_csv("tb.csv")
 
 fig,ax = plt.subplots(2,1,figsize=(16,9),sharex=True)
 
-offset = -63
-gain = 2.6
+aoffset = -130
+boffset = 0
+gain = 1.2
 
-y = (df["count"]+offset)*gain
+y = (df["count"]+aoffset)*gain + boffset
 x = df["temperature"]
 coefficients = np.polyfit(x, y, 1) # '1' indicates a first-degree polynomial (linear)
 slope = coefficients[0]

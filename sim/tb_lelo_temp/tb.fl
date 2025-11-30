@@ -1,3 +1,5 @@
+//Automatic include file
 ../../design/LELO_TEMP_SKY130A/LELO_TEMP.v
-counter.v
+../../design/LELO_TEMP_SKY130A/LELO_TEMP_ANA.v
+temp_osc_controller.v
 tb.v

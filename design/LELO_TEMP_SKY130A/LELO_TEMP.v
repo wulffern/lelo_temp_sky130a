@@ -34,64 +34,26 @@ module LELO_TEMP (
   output wire [7:0] uio_out,  // IOs: Output path
   output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
   input  wire       ena,      // always 1 when the design is powered, so you can ignore it
-  input  wire       clk,      // clock
+  input  wire       clk,      // clock - 32768 Hz
   input  wire       rst_n     // reset_n - low to reset
 `ifdef ANA_TYPE_REAL
   ,input real        temperature
 `endif
   );
 
-   //- Define the clock
-   logic            oclk = 0;
-   wire            dout;
+  wire osc;
+  wire pwrup;
+  assign pwrup = ui_in[0];
+  assign uo_out[0] = osc;
 
-   //- Setup the outputs
-   logic            tie_l  =0;
-   assign dout  = oclk*clk;
-   assign uo_out = {7'b0,dout};
-   assign uio_out = tie_l;
-   assign uio_oe  = tie_l;
+  LELO_TEMP_ANA u1_ana (.PWRUP_1V8(pwrup),
+      .VDD_1V8(1'b1),
+      .VSS(1'b1),
+      .OSC_TEMP_1V8(osc),
+      `ifdef ANA_TYPE_REAL
+      .temperature(temperature)
+      `endif
+      );
 
-
-   //- Pre-calcualted k/q
-   real             k_q = 8.61733e-5;
-   real             deltaV,id,vd;
-
-   //- Resistance
-   real             rd = 70e3;
-   real             res_temp = rd;
-
-   //- Capacitor to charge
-   real             cap = 100e-15;
-
-   //- Delta time for output clock
-   real             dt = 1000;
-   real             to_ns = 1e9;
-
-
-   always_ff @(posedge clk) begin
-`ifdef ANA_TYPE_REAL
-
-      //- Calculate diode voltage
-      //- https://analogicus.com/aic2025/2024/10/25/Diodes.html
-      vd = k_q*(273.15 + temperature)*(3 - 3 *$ln(273.15 + temperature)) + 1.12;
-
-      //- Calculate the delta voltage across the resistance
-      deltaV = k_q*(273.15 + temperature)*$ln(8);
-
-      //Model temperture dependent resistance
-      res_temp = (rd + (273.15 + temperature)/300*rd/20);
-
-      //- Calculate the time to reach the diode voltage
-      id = deltaV/res_temp;
-
-      dt = cap*vd/id*to_ns;
-`endif
-   end
-
-   //- Generate the output clock
-   always begin
-      #(dt) oclk = ~oclk;
-   end
 
 endmodule

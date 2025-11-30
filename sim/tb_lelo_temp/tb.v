@@ -27,28 +27,26 @@
 `timescale 1 ns / 1 ps
 
 module test;
-
    //- Clock period is set to 1/(32768 Hz) ns
    //- Most micro controllers will have a real time clock of this frequency
-   int clk_period = 30517;
+   int lfclk_period = 30517;
 
-   //- Initialize reset ETC
+   //- Initialize
    logic rst_n = 0;
-   logic clk = 0;
+   logic lf_clk = 0;
    logic ena = 0;
+   logic [7:0]    ui_in;
 
    //- Our real time clock
-   always #(clk_period/2) clk = ~clk;
+   always #(lfclk_period/2) lf_clk = ~lf_clk;
 
    //- Default temperature
-   real  temperature = -40;
-
-   logic [7:0]    ui_in;
-   logic [7:0]    uo_out;
-   logic [7:0]    uio_in;
-   logic [7:0]    uio_out;
-   logic [7:0]    uio_oe;
-
+   integer  temperature;
+   
+   wire[7:0] uo_out;
+   wire[7:0] uio_oe;
+   wire[7:0] uio_out;
+   wire[7:0] uio_in;
    `LELO_DESIGN  dut (
                      .ui_in(ui_in),
                      .uo_out(uo_out),
@@ -56,7 +54,7 @@ module test;
                      .uio_out(uio_out),
                      .uio_oe(uio_oe),
                      .ena(ena),
-                     .clk(clk),
+                     .clk(lf_clk),
                      .rst_n(rst_n)
 //- Magic to feed the temperature into the verilog model
 `ifdef ANA_TYPE_REAL
@@ -64,58 +62,55 @@ module test;
 `endif
                      );
 
-   wire [10:0]    count;
+
+
+
+   wire[7:0] delta;
+   wire delta_valid;
+
+   temp_osc_measure u1_count (.lf_clk(lf_clk),
+   .ana_clk(uo_out[0]),
+   .rst_n(rst_n),
+   .ana_en(ui_in[0]),
+   .delta(delta),
+   .delta_valid(delta_valid)
+   );
+
    
-   //- Counter to count the oscillator clock cycles from the analog module
-   logic reset = 0;
-   counter dut_count (.clk(uo_out[0]),
-                      .reset(reset),
-                      .count(count));
+   wire ana_en; 
+   assign ana_en = ui_in[0];
+   wire osc_clk;
 
-   //- Synchronize the count to the clock domain
-   logic [10:0] lastcount;
-   always_ff @(posedge clk ) begin
-      lastcount <= count;
-   end
+   assign osc_clk = uo_out[0];
 
-   integer i;
-   integer f;
+  
 
-   //How many temperature steps to run
-   integer steps = 50;
-   integer tstep = 1;
 
+   integer file;
    initial
      begin
-
         //- Output a file that can be opened in GTKWave
         $dumpfile("tb.vcd");
         $dumpvars(0,test);
 
         //- Create a CSV file
-        f = $fopen("tb.csv","w");
-        $fwrite(f,"temperature,count\n");
-        ui_in = 0;
+        file = $fopen("tb.csv","w");
+        $fwrite(file,"temperature,count\n");
+        #10 rst_n = 1;
         #10 rst_n = 0;
         #10 rst_n = 1;
 
-        //Enable the module
-        ui_in[0] = 1;
+        @(posedge delta_valid);
 
-        //Change the temperature
-        tstep = (125+40)/steps;
-        @(posedge clk)
-         #10 reset = 1;
-         #10 reset = 0;
-        for (i=0;i<steps;i++) begin
-           @(posedge clk)
-           #10 reset = 1;
-           #10 reset = 0;
-           temperature +=tstep;
-           if(i > 1)
-             $fwrite(f,"%d,%d\n",temperature,lastcount);
+        //Wait for temperature sweep to continue
+        for (temperature=-40;temperature<126;temperature++) begin
+         @(posedge delta_valid)
+         $fwrite(file,"%d,%d\n",temperature,delta );
+         $display("Temperature =%d",temperature);  
         end
 
-        #(clk_period*2) $stop;
+        #(lfclk_period*2) $stop;
      end
 endmodule
+
+
