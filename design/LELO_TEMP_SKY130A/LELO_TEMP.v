@@ -27,33 +27,53 @@
 `timescale 1 ns / 1 ps
 `default_nettype none
 
-module LELO_TEMP (
-  input  wire [7:0] ui_in,    // Dedicated inputs
-  output wire [7:0] uo_out,   // Dedicated outputs
-  input  wire [7:0] uio_in,   // IOs: Input path
-  output wire [7:0] uio_out,  // IOs: Output path
-  output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
-  input  wire       ena,      // always 1 when the design is powered, so you can ignore it
-  input  wire       clk,      // clock - 32768 Hz
-  input  wire       rst_n     // reset_n - low to reset
+module LELO_TEMP(
+                     input wire  PWRUP_1V8,
+                     input wire  VDD_1V8,
+                     input wire  VSS,
+                     output wire OSC_TEMP_1V8
 `ifdef ANA_TYPE_REAL
-  ,input real        temperature
+                     ,input real temperature
 `endif
-  );
+                     );
+   //- Define the clock
+   logic                         oclk = 0;
 
-  wire osc;
-  wire pwrup;
-  assign pwrup = ui_in[0];
-  assign uo_out[0] = osc;
+   assign OSC_TEMP_1V8 = PWRUP_1V8 &oclk;
 
-  LELO_TEMP_ANA u1_ana (.PWRUP_1V8(pwrup),
-      .VDD_1V8(1'b1),
-      .VSS(1'b1),
-      .OSC_TEMP_1V8(osc),
-      `ifdef ANA_TYPE_REAL
-      .temperature(temperature)
-      `endif
-      );
+   //- Pre-calcualted k/q
+   real                          k_q = 8.61733e-5;
+   real                          deltaV,id,vd;
 
+   //- Resistance
+   real                          rd = 70e3;
+   real                          res_temp = rd;
 
-endmodule
+   //- Capacitor to charge
+   real                          cap = 100e-15;
+
+   //- Delta time for output clock
+   real                          dt = 1000;
+   real                          to_ns = 1e9;
+
+   //- Generate the output clock
+   always begin
+         //- Calculate diode voltage
+         //- https://analogicus.com/aic2025/2024/10/25/Diodes.html
+         vd = k_q*(273.15 + temperature)*(3 - 3 *$ln(273.15 + temperature)) + 1.12;
+
+         //- Calculate the delta voltage across the resistance
+         deltaV = k_q*(273.15 + temperature)*$ln(8);
+
+         //Model temperture dependent resistance
+         res_temp = (rd + (273.15 + temperature)/300*rd/20);
+
+         //- Calculate the time to reach the diode voltage
+         id = deltaV/res_temp;
+
+         dt = cap*vd/id*to_ns;
+
+         #(dt) oclk = ~oclk;
+   end
+
+endmodule // LELO_TEMP_ANA

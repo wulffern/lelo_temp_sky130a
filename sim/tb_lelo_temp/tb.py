@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv("tb.csv")
 
-fig,ax = plt.subplots(2,1,figsize=(16,9),sharex=True)
+fig,ax = plt.subplots(2,1,figsize=(12,6),sharex=True)
 
 aoffset = -130
 boffset = 0
@@ -26,5 +26,7 @@ ax[0].set_ylabel("Temperature estimate [C]")
 ax[1].set_ylabel("Temperature error [C]")
 ax[0].grid()
 ax[1].grid()
+plt.tight_layout()
+plt.savefig("verilog.png")
 
-plt.show()
+#plt.show()

@@ -42,20 +42,15 @@ module test;
 
    //- Default temperature
    integer  temperature;
+
+   wire pwrup;   
+   wire osc_clk;
    
-   wire[7:0] uo_out;
-   wire[7:0] uio_oe;
-   wire[7:0] uio_out;
-   wire[7:0] uio_in;
-   `LELO_DESIGN  dut (
-                     .ui_in(ui_in),
-                     .uo_out(uo_out),
-                     .uio_in(uio_in),
-                     .uio_out(uio_out),
-                     .uio_oe(uio_oe),
-                     .ena(ena),
-                     .clk(lf_clk),
-                     .rst_n(rst_n)
+   //- Temperature sensor output
+   `LELO_DESIGN  dut_ana (.PWRUP_1V8(pwrup),
+                     .VDD_1V8(1'b1),
+                     .VSS(1'b0),
+                     .OSC_TEMP_1V8(osc_clk)
 //- Magic to feed the temperature into the verilog model
 `ifdef ANA_TYPE_REAL
    ,.temperature(temperature)
@@ -63,28 +58,18 @@ module test;
                      );
 
 
-
-
    wire[7:0] delta;
    wire delta_valid;
 
    temp_osc_measure u1_count (.lf_clk(lf_clk),
-   .ana_clk(uo_out[0]),
+   .ana_clk(osc_clk),
    .rst_n(rst_n),
-   .ana_en(ui_in[0]),
+   .ana_en(pwrup),
    .delta(delta),
    .delta_valid(delta_valid)
    );
 
    
-   wire ana_en; 
-   assign ana_en = ui_in[0];
-   wire osc_clk;
-
-   assign osc_clk = uo_out[0];
-
-  
-
 
    integer file;
    initial
