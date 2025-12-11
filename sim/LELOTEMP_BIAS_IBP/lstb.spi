@@ -3,9 +3,9 @@
 * Include
 *----------------------------------------------------------------
 #ifdef Lay
-.include ../../../work/lpe/JNW_BIAS_IBP_lpe.spi
+.include ../../../work/lpe/LELOTEMP_BIAS_IBP_lpe.spi
 #else
-.include ../../../work/xsch/JNW_BIAS_IBP.spice
+.include ../../../work/xsch/LELOTEMP_BIAS_IBP.spice
 #endif
 
 *-----------------------------------------------------------------
@@ -29,7 +29,8 @@
 *-----------------------------------------------------------------
 VSS  VSS  0     dc 0
 VDD  VDD_1V8  0 dc {AVDD}
-VSTR STARTUP_1V8 0 dc 0
+VPWR PWRUP_1V8 0 dc {AVDD}
+VPWRN PWRUP_N_1V8 0 dc 0
 
 V1 IBP_1U<0> 0 dc 0.6
 
@@ -48,8 +49,8 @@ X999 LPI LPO loopgainprobe
 .save all
 #endif
 
+.save v(vd1)
 .save v(xdut.vr1)
-.save v(xdut.vd1)
 .save v(xdut.vd2)
 .save v(lpo)
 .save i(vss)

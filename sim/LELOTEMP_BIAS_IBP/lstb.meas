@@ -10,15 +10,14 @@ load {cicname}_OP.raw
 print i(v1)
 print i(vss)
 print i(vdd)
-print v(xdut.vd1)
 
-let vdiff = v(xdut.vd1) - v(xdut.vr1)
-let vd = v(xdut.vd1) - v(xdut.vd2)
+let vdiff = v(vd1) - v(xdut.vr1)
+let vd = v(vd1) - v(xdut.vd2)
 print vdiff
 print vd
 print v(lpo)
 print v(xdut.vr1)
-print v(xdut.vd1)
+print v(vd1)
 
 load {cicname}_LSTB.raw
 
