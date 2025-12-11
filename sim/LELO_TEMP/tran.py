@@ -17,10 +17,10 @@ def calcTemperatureFromFreq(freq,compensate=False):
     res_125 = 1/10e-6
     res_d_dtemp = (res_125 - res_n25)/(125-25)
 
-    gain1 = 0.55
-    offset1 = -12
+    gain1 = 0.57
+    offset1 = -40
     gain2 = 0.765
-    offset2 = -12
+    offset2 = -35
 
 
     #- boltzman/unit charge
@@ -112,7 +112,7 @@ def main(name,show=False):
   ax[1].grid()
   ax[0].legend()
   ax[1].legend()
-  ax[1].set_ylim(-2,2)
+  ax[1].set_ylim(-5,5)
   plt.tight_layout()
   if(show):
     plt.show()
