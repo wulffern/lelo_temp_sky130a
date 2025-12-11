@@ -1,18 +1,22 @@
 library: LELO_TEMP_SKY130A
 cell: LELO_TEMP
-# Your name
-author: Anonymous
-# Your github username
-github: analogicus
-# Something funny and descriptive
-tagline: The answer is 42
-# Your email, if you so wish
-email: anon@anon.com
+
+author: Carsten Wulff
+github: wulffern
+tagline: Example of a temperture sensor
+
+email: carsten@wulff.no
 # Your github site, usually <github username>.github.io
-url: analogicus.github.io
+url: analogicus.com
 doc:
   # Make docs
-  #libraries:
-  #   <library>:
+  libraries:
+    LELO_TEMP_SKY130A:
+      - LELOTEMP_BIAS_IBP
+      - LELOTEMP_OTA
+      - LELO_TEMP
+      - LELOTEMP_CMP
+
+      
   #       - <cell>
   #       - <cell>

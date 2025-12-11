@@ -1,0 +1,46 @@
+
+
+#<name>:
+#  src:
+#    - <paramters>
+#  typ: <typical spec value>
+#  name: <long name>
+#  min: <minimum spec value>
+#  max: <maximum spec value>
+#  scale: <scale, multiply result by scale>
+#  digits: <significant digits>
+#  unit: Unit
+
+ierr:
+  src:
+    - ibp_err_max
+    - ibp_err_min
+  typ: 0
+  min: -30
+  max: +20
+  scale: 1e9
+  digits: 2
+  unit: nA
+
+i:
+  src:
+    - imax
+    - imin
+  typ: 0
+  min: 0.5
+  max: 2
+  scale: 1e6
+  digits: 2
+  unit: uA
+
+
+a_per_c:
+  src:
+    - a_per_c
+  description: Ampere per Celcius
+  typ: 3
+  min: 1
+  max: 5
+  scale: 1e9
+  digits: 2
+  unit: nA

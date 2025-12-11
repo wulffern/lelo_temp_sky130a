@@ -1,0 +1,80 @@
+*TB_SUN_TR_SKY130NM/TB_NCM
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/JNW_BIAS_IBP_lpe.spi
+#else
+.include ../../../work/xsch/JNW_BIAS_IBP.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-15 reltol=1e-3
+
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param TRF = 10p
+
+.param AVDD = {vdda}
+
+.ic v(xdut.vd1) = 0.7
+.ic v(xdut.vr1) = 0.7
+.ic v(lpi) = 0.6
+
+*-----------------------------------------------------------------
+* FORCE
+*-----------------------------------------------------------------
+VSS  VSS  0     dc 0
+VDD  VDD_1V8  0 dc {AVDD}
+VSTR STARTUP_1V8 0 dc 0
+
+V1 IBP_1U<0> 0 dc 0.6
+
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+.include ../xdut.spi
+
+
+.include ../../../../cpdk/ngspice/tian_subckt.lib
+X999 LPI LPO loopgainprobe
+
+*.option savecurrents
+#ifdef Debug
+.save all
+#endif
+
+.save v(xdut.vr1)
+.save v(xdut.vd1)
+.save v(xdut.vd2)
+.save v(lpo)
+.save i(vss)
+.save i(v.x999.vi)
+.save v(x999.x)
+.save i(v1)
+.save i(vdd)
+
+.control
+optran 0 0 0 10n 20u 0
+op
+write {cicname}_OP.raw
+
+* Set voltage AC to 1
+ac dec 50 1 1G
+
+* Set Current to 1
+alter i.X999.Ii acmag=1
+alter v.X999.Vi acmag=0
+ac dec 50 1 1G
+
+let lg_mag = db(tian_loop())
+let lg_phase = 180*cph(tian_loop())/pi
+
+write {cicname}_LSTB.raw
+exit
+.endc
+.end

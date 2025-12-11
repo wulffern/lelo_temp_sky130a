@@ -1,0 +1,68 @@
+*TB_SUN_TR_SKY130NM/TB_NCM
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/LELOTEMP_BIAS_IBP_lpe.spi
+#else
+.include ../../../work/xsch/LELOTEMP_BIAS_IBP.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-15 reltol=1e-3
+
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param TRF = 10p
+
+.param AVDD = {vdda}
+
+.ic v(xdut.vd1) = 0.7
+.ic v(xdut.vr1) = 0.7
+.ic v(lpi) = 0.6
+
+*-----------------------------------------------------------------
+* FORCE
+*-----------------------------------------------------------------
+VSS  VSS  0     dc 0
+VDD  VDD_1V8  0 dc {AVDD}
+VPWR PWRUP_1V8 0 dc {AVDD}
+VPWRN PWRUP_N_1V8 0 dc 0
+
+V1 IBP_1U<0> 0 dc 0.6
+
+
+VLP LPI LPO dc 0
+
+Bt1 vtemp 0 V=TEMPER
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+.include ../xdut.spi
+
+
+.option savecurrents
+
+#ifdef Debug
+.save all
+#endif
+
+.save v(xdut.vr1)
+.save v(xdut.vd1)
+.save v(vtemp)
+.save i(v1)
+
+.control
+optran 0 0 0 10n 10u 0
+op
+
+dc TEMP -45 125 5
+
+write {cicname}.raw
+exit
+.endc
+.end

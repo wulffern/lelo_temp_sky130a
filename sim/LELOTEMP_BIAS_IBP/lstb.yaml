@@ -1,0 +1,102 @@
+
+
+gainMargin:
+  src: gm_db
+  name: Gain Margin
+  typ: -10
+  min: -50
+  max: -10
+  scale: 1
+  unit: dB
+
+gain:
+  src: lf_gain
+  name: DC gain
+  typ: 40
+  min: 25
+  max: 55
+  scale: 1
+  unit: dB
+
+phaseMargin:
+  src: pm_deg
+  name: Phase Margin
+  typ: 60
+  min: 45
+  max: 90
+  scale: 1
+  unit: ""
+
+unityGain:
+  src: ug
+  name: Unity Gain Frequency
+  typ: 15
+  min: 0.4
+  max: 100
+  scale: 1e-6
+  unit: "MHz"
+
+vlpo:
+  src: v(lpo)
+  name: PMOS gate
+  typ: 0.7
+  min: 0.45
+  max: 1.1
+  scale: 1
+  unit: "V"
+
+vd1:
+  src: v(xdut.vd1)
+  name: Diode voltage
+  typ: 0.7
+  min: 0.45
+  max: 1
+  scale: 1
+  unit: "V"
+
+
+vd1:
+  src: vd
+  name: Delta diode voltage
+  typ: 106
+  min: 80
+  max: 150
+  scale: 1e3
+  unit: "mV"
+
+
+ibp_1u:
+  src: i(v1)
+  name: Output current
+  typ: 1
+  min: 0.5
+  max: 2
+  scale: 1e6
+  unit: "uA"
+
+#idd:
+#  src: i(vdd)
+#  name: VDD current
+#  typ: 10
+#  min: 5
+#  max: 40
+#  scale: -1e6
+#  unit: "uA"
+
+#iss:
+#  src: i(vss)
+#  name: VSS current
+#  typ: 10
+#  min: 5
+#  max: 40
+#  scale: 1e6
+#  unit: "uA"
+
+vddiff:
+  src: vdiff
+  name: VD Error
+  typ: 0
+  min: -6
+  max: 6
+  scale: 1e3
+  unit: "mV"

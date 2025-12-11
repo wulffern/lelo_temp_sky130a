@@ -1,0 +1,71 @@
+description: ""
+simulations:
+   lstb:
+    name: Loop stability
+    description: |
+      Check stability
+    data:
+      - name: Sch_typ
+        src: results/lstb_Sch_typical
+        method: typical
+      - name: Lay_typ
+        src: results/lstb_Lay_typical
+        method: typical
+      - name: Sch_etc
+        src: results/lstb_Sch_etc
+        method: minmax
+      - name: Lay_etc
+        src: results/lstb_Lay_etc
+        method: minmax
+      - name: Sch_3std
+        src: results/lstb_Sch_mc
+        method: 3std
+      - name: Lay_3std
+        src: results/lstb_Lay_mc
+        method: 3std
+   tran:
+    name: Transient
+    description: |
+      Check settling time and current variation
+    data:
+      - name: Sch_typ
+        src: results/tran_Sch_typical
+        method: typical
+      - name: Lay_typ
+        src: results/tran_Lay_typical
+        method: typical
+      - name: Sch_etc
+        src: results/tran_Sch_etc
+        method: minmax
+      - name: Lay_etc
+        src: results/tran_Lay_etc
+        method: minmax
+      - name: Sch_3std
+        src: results/tran_Sch_mc
+        method: 3std
+      - name: Lay_3std
+        src: results/tran_Lay_mc
+        method: 3std
+   dc:
+    name: DC
+    description: |
+      Check temperature performance
+    data:
+      - name: Sch_typ
+        src: results/dc_Sch_typical
+        method: typical
+      - name: Lay_typ
+        src: results/dc_Lay_typical
+        method: typical
+      - name: Sch_etc
+        src: results/dc_Sch_etc
+        method: minmax
+      - name: Lay_etc
+        src: results/dc_Lay_etc
+        method: minmax
+      - name: Sch_3std
+        src: results/dc_Sch_mc
+        method: 3std
+      - name: Lay_3std
+        src: results/dc_Lay_mc
+        method: 3std

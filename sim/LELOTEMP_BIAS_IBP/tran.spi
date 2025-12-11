@@ -1,0 +1,81 @@
+*TB_SUN_TR_SKY130NM/TB_NCM
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/LELOTEMP_BIAS_IBP_lpe.spi
+#else
+.include ../../../work/xsch/LELOTEMP_BIAS_IBP.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-15 reltol=1e-3 method=gear
+
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param TRF = 10p
+
+.param AVDD = {vdda}
+
+*-----------------------------------------------------------------
+* FORCE
+*-----------------------------------------------------------------
+VSS  VSS  0     dc 0
+VDD  VDD_1V8  VSS  pwl 0 0 10n {AVDD}
+VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start}-1n} {AVDD}
+VPWRN  PWRUP_N_1V8  VSS  pwl 0 {AVDD} {t_start} {AVDD} {{t_start}-1n} {0}
+
+V0 IBP_1U<0> 0 dc 0.5
+V1 IBP_1U<1> 0 dc 0.6
+V2 IBP_1U<2> 0 dc 0.7
+V3 IBP_1U<3> 0 dc 0.8
+
+VLP LPI LPO dc 0
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+
+.include ../xdut.spi
+
+
+
+*----------------------------------------------------------------
+* PROBE
+*----------------------------------------------------------------
+#ifdef Debug
+.save all
+.option savecurrents=all
+#endif
+
+.save v(LPI)
+.save i(V0)
+.save i(V1)
+.save i(V2)
+.save i(V3)
+.save i(vdd)
+
+
+
+*----------------------------------------------------------------
+* NGSPICE control
+*----------------------------------------------------------------
+.control
+set num_threads=8
+set color0=white
+set color1=black
+unset askquit
+
+optran 0 0 0 1n 1u 0
+
+tran 1n {t_end}
+write
+
+quit
+
+.endc
+
+.end

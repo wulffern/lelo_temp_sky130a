@@ -1,0 +1,32 @@
+* Measure JNW_BIAS_IBP
+.control
+
+
+
+echo "MEAS_START"
+
+load {cicname}_OP.raw
+
+print i(v1)
+print i(vss)
+print i(vdd)
+print v(xdut.vd1)
+
+let vdiff = v(xdut.vd1) - v(xdut.vr1)
+let vd = v(xdut.vd1) - v(xdut.vd2)
+print vdiff
+print vd
+print v(lpo)
+print v(xdut.vr1)
+print v(xdut.vd1)
+
+load {cicname}_LSTB.raw
+
+meas ac gm_db find lg_mag when lg_phase=0
+meas ac pm_deg find lg_phase when lg_mag=0
+meas ac f3db when lg_phase=135
+meas ac ug when lg_mag=0
+meas ac lf_gain find lg_mag at=1k
+
+echo "MEAS_END"
+.endc

@@ -1,0 +1,56 @@
+* Measure LELOTEMP_BIAS_IBP
+.control
+
+
+load {cicname}.raw
+
+echo "MEAS_START"
+
+
+let io = i(v1)
+
+
+
+let vt = v(vtemp)
+let N = length(io)
+compose tvals start=-40 stop=125 step=5
+let ibp = tvals
+let offset = 0
+let i = 1
+while i < N
+    let temp = vt[i]
+    let ibp[i-1] = io[i]
+    if temp < 1 and temp > -1
+       let offset = ibp[i-1]
+    end
+    let i=i+1
+end
+
+let imax = maximum(ibp)
+let imin = minimum(ibp)
+let tmax = maximum(tvals)
+let tmin = minimum(tvals)
+set sgain = {(imax - imin)/(tmax - tmin)}
+let a_per_c = $sgain
+
+let ibp_ref = a_per_c*tvals + offset
+let ibp_err = ibp - ibp_ref
+
+let ibp_err_max = maximum(ibp_err)
+let ibp_err_min = minimum(ibp_err)
+
+print ibp_err_max
+print ibp_err_min
+
+
+print a_per_c
+print imax
+print imin
+print offset
+
+
+write {cicname}_meas.raw
+
+
+echo "MEAS_END"
+.endc

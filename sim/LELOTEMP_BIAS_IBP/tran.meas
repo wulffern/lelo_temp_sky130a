@@ -1,0 +1,43 @@
+* Measure LELOTEMP_BIAS_IBP
+.control
+
+set t_end={t_end_meas}
+set t_iddq={t_iddq}
+
+load {cicname}.raw
+
+echo "MEAS_START"
+
+let ind = length(i(v0))-1
+set end_val = i(v0)[ind]*1.0
+
+let v1 = i(v0)
+
+
+let N = length(v1)
+let v1_rev = v1
+
+let i = 0
+while i < N
+    let v1_rev[i] = v1[N - 1 - i]
+    let i = i + 1
+end
+
+let iout = abs(v1_rev - $end_val)/$end_val
+
+write {cicname}_meas.raw
+
+meas tran t_settle_rev find time when iout=0.01
+meas tran i0 find i(v0) at=$t_end
+meas tran i1 find i(v1) at=$t_end
+meas tran i2 find i(v2) at=$t_end
+meas tran i3 find i(v3) at=$t_end
+meas tran idd find i(vdd) at=$t_end
+meas tran iddq find i(vdd) at=$t_iddq
+
+
+
+* TODO: Measure settling time
+
+echo "MEAS_END"
+.endc

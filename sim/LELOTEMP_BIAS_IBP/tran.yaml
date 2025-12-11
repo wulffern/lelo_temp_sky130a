@@ -1,0 +1,43 @@
+#<name>:
+#  src:
+#    - <paramters>
+#  typ: <typical spec value>
+#  name: <long name>
+#  min: <minimum spec value>
+#  max: <maximum spec value>
+#  scale: <scale, multiply result by scale>
+#  digits: <significant digits>
+#  unit: Unit
+
+t_settle:
+  src:
+    - t_settle
+  typ: 0.05
+  min: 0.01
+  max: 2
+  scale: 1e6
+  digits: 2
+  unit: us
+
+iout:
+  src:
+    - i0
+    - i1
+    - i2
+    - i3
+  typ: 1
+  min: 0.5
+  max: 2
+  scale: 1e6
+  digits: 3
+  unit: uA
+
+idd:
+  src:
+    - idd
+  typ: 30
+  min: 5
+  max: 60
+  scale: -1e6
+  digits: 3
+  unit: uA

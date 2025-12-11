@@ -1,0 +1,4 @@
+t_end: 10u
+t_end_meas: 9u
+t_start: 1u
+t_iddq: 0.9u

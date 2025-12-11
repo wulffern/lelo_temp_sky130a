@@ -8,39 +8,7 @@ import matplotlib.pyplot as plt
 import scipy.constants as const
 import re
 import os
-
-def calcTemperatureFromFreq(freq,compensate=False):
-    C = 53e-15*10
-    R = 7.535e3*(8+4)
-    N = 64
-
-    #- temperature coefficient from resistor
-    res_n25 = 1/10.6e-6
-    res_125 = 1/10e-6
-    res_d_dtemp = (res_125 - res_n25)/(125-25)
-
-    gain = 0.77
-    offset = 1
-
-
-    #- boltzman/unit charge
-    k_q = const.k/const.e
-
-    #- Calculate the diode voltage
-    vd = k_q*(273.15 + 25)*(3 - 3*np.log(273.15 + 25)) + 1.12
-    #- Estimate first temperature
-    temperature = freq*R*C/np.log(N)/k_q - 180
-
-    if(compensate):
-      #- Calculate the temperature dependent resistor from the temperature
-      R_tcomp = (R - (res_d_dtemp)*(temperature - 25))
-      #R_tcomp = R
-      vdt = k_q*(273.15 + temperature)*(3 - 3*np.log(273.15 + temperature)) + 1.12
-
-      temperature = (2*freq*R_tcomp*C/np.log(N)/k_q*vd - 273.15)*gain - offset
-
-    return temperature
-
+import sys
 
 
 def calcFreq(temperature,compensate=False):
@@ -71,6 +39,9 @@ def calcFreq(temperature,compensate=False):
 
 
 def main(name,show=False):
+    sys.path.append(".")
+    #- Get the model for calculating the temperature from the frequency
+    from sim.LELO_TEMP.tran import calcTemperatureFromFreq 
 
     x = np.arange(-40,125,5)
 
