@@ -7,3 +7,6 @@ because I don't want to complicate the loop startup behavior.
 The output of the OTA is pull high in power down to ensure that the PMOS current
 mirror in the bandgap is turned off in power down.
 
+The circuit on the right side is used to generate the cascode bias for the main
+bandgap. 
+

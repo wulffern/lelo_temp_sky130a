@@ -15,6 +15,7 @@ doc:
       - LELOTEMP_OTA
       - LELO_TEMP
       - LELOTEMP_CMP
+      - TB_LELO_TEMP
 
       
   #       - <cell>

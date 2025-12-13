@@ -6,13 +6,8 @@ The output current is approximately 1 uA.
 The current charges the capacitor. When the voltage on the capacitor reaches $V_C$
 the comparator will trigger (low to high).
 
-The CPMO is delayed through an inverter chain, and is fed to the RST of the
-capacitor. The loop delay of comparator and inverters result in a short reset
-pulse.
-
-The reset pulse is also used for a divide-by-two circuit with the flip flop. An
-inverter is used from the Q output to the D input to ensure the hold time is not
-violated.
+The two comparators alternate to trigger the set/reset latch made by the NOR
+gates. As such, the two capacitors are alternatively charged.
 
 The output frequency can be calculated from the voltage/current relationship of
 a capacitor. 
@@ -27,9 +22,9 @@ The $\Delta V$ increases with temperature and $V_C$ decreases with temperature,
 turns out the $\Delta V$ increases faster than $V_C$ drops, so the overall
 gradient is positive.
 
-| Temperature [C]           | -40  | 25   | 125 |
-|---------------------------|------|------|-----|
-| Estimated frequency [MHz] | 2.16 | 3 | 4.8 |
+| Temperature [C]           | -40  | 25 | 125 |
+|---------------------------|------|----|-----|
+| Estimated frequency [MHz] | 2.16 | 3  | 4.8 |
 
 
 
