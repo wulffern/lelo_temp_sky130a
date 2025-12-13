@@ -12,7 +12,7 @@ foreach vtemp {temperatures}
 load {cicname}_$vtemp$fend
 
 meas tran t1_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 CROSS=2 FROM={t_start}
-meas tran t2_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 CROSS=3 FROM={t_start}
+meas tran t2_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 CROSS=5 FROM={t_start}
 
 meas tran vc_$vtemp FIND V(xdut.vc) AT={t_stop}
 

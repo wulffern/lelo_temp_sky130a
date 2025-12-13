@@ -31,7 +31,8 @@ def main(name,show=False,ax=None):
 
   y = list()
   for t in x:
-    freq = float(1/(float(obj[f"t2_{t}"]) - float(obj[f"t1_{t}"])))
+    dt = (float(obj[f"t2_{t}"]) - float(obj[f"t1_{t}"]))/3
+    freq = float(1/dt)
     y.append(freq)
 
   xk = x + lt.T0

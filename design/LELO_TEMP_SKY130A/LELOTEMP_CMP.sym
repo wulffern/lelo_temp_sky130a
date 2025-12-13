@@ -1,4 +1,4 @@
-v {xschem version=3.4.6 file_version=1.2}
+v {xschem version=3.4.7 file_version=1.2}
 G {}
 K {type=subcircuit
 format="@name @pinlist @symname"
@@ -27,7 +27,7 @@ B 5 -152.5 7.5 -147.5 12.5 {name=VIN dir=in}
 B 5 -152.5 27.5 -147.5 32.5 {name=VSS dir=in}
 B 5 -62.5 -62.5 -57.5 -57.5 {name=PWRUP_1V8 dir=in}
 B 5 -42.5 -62.5 -37.5 -57.5 {name=PWRUP_N_1V8 dir=in}
-B 5 -22.5 -62.5 -17.5 -57.5 {name=IBP_1U[2:0] dir=in}
+B 5 -22.5 -62.5 -17.5 -57.5 {name=IBP_1U dir=in}
 T {@symname} -117.5 44 0 0 0.3 0.3 {}
 T {@name} 15 -52 0 0 0.2 0.2 {}
 T {VDD_1V8} -125 -34 0 0 0.2 0.2 {}

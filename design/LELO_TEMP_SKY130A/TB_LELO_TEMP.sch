@@ -12,16 +12,15 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=4e-06
+x1=6e-07
+x2=4.6e-06
 divx=5
 subdivx=4
 xlabmag=1.0
 ylabmag=1.0
 node="osc_temp_1v8
 xdut.ibp_1u<0>
-
-xdut.cmpo"
+xdut.ibp_1u<1>"
 color="4 5 6"
 dataset=-1
 unitx=1
@@ -30,15 +29,15 @@ logy=0
 rawfile=$netlist_dir/TB_LELO_TEMP_tran.raw
 legend=1}
 B 2 61.08447877947143 -1125 861.0844787794714 -725 {flags=graph
-y1=0
-y2=2.3e-06
+y1=1.3102875e-06
+y2=1.3484724e-06
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=4e-06
+x1=6e-07
+x2=4.6e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -63,8 +62,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=4e-06
+x1=6e-07
+x2=4.6e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -87,8 +86,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=4e-06
+x1=6e-07
+x2=4.6e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -99,9 +98,10 @@ logx=0
 logy=0
 rawfile=$netlist_dir/TB_LELO_TEMP_tran.raw
 legend=1
-color=4
-node=xdut.rst
-}
+color="4 10"
+node="xdut.rst_a
+xdut.rst_b"
+autoload=1}
 T {Test bench to load current results} -650 -230 0 0 0.4 0.4 {}
 N -80 -60 -30 -60 {lab=OSC_TEMP_1V8}
 N -640 -110 -640 -80 {lab=VDD_1V8}
