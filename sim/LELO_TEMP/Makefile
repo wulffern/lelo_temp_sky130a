@@ -14,7 +14,9 @@ OPT=
 all:
 	${MAKE} typical
 	${MAKE} etc
+	${MAKE} supply
 	${MAKE} mc
+	${MAKE} rc
 
 include ../../tech/make/sim.make
 
@@ -57,6 +59,12 @@ ntc: netlist
 
 temp: netlist
 	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Ktt" "Tt,Th,Tl" Vt
+
+supply: netlist
+	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Ktt" "Tt" "Vl,Vt,Vh"
+
+rc: netlist
+	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Kll,Ktt,Khh" "Tt" "Vt"
 
 summary:
 	cicsim summary --output "README.md"

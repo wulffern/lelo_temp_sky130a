@@ -34,7 +34,7 @@ idd:
     - idd_25
   typ: 30
   min: 5
-  max: 60
+  max: 100
   scale: -1e6
   digits: 3
   unit: uA

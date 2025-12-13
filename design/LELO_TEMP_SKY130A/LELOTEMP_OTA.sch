@@ -187,7 +187,7 @@ C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 210 -240 0 1 {name=xca3}
 C {JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sym} 860 -760 0 0 {name=xbb3}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 860 -240 0 0 {name=xcb4}
 C {devices/lab_wire.sym} 690 -300 0 1 {name=p6 sig_type=std_logic lab=VD2}
-C {JNW_TR_SKY130A/JNWTR_RPPO2.sym} 620 -600 3 0 {name=xd2 }
+C {JNW_TR_SKY130A/JNWTR_RPPO4.sym} 620 -600 3 0 {name=xd2 }
 C {devices/ipin.sym} 110 -450 2 1 {name=p9 lab=PWRUP_N_1V8}
 C {JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sym} 320 -760 0 0 {name=xba7}
 C {JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sym} 580 -760 0 0 {name=xba1}

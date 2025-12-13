@@ -153,7 +153,7 @@ C {devices/lab_pin.sym} 980 -220 0 1 {name=l4 sig_type=std_logic lab=VD2}
 C {devices/lab_pin.sym} 980 -430 0 1 {name=l5 sig_type=std_logic lab=VR1}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 940 -890 0 0 {name=xca2}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 680 -890 0 1 {name=xca1[7:0]}
-C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 790 -960 2 1 {name=xd1[9:0]}
+C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 790 -960 2 1 {name=xd1[4:0]}
 C {LELO_TEMP_SKY130A/LELOTEMP_OTA.sym} 800 -710 1 1 {name=xad6}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 1140 -890 0 0 {name=xca3[3:0]}
 C {JNW_TR_SKY130A/JNWTR_RPPO4.sym} 980 -310 1 0 {name=xac2}

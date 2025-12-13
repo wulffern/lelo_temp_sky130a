@@ -12,8 +12,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=6e-07
-x2=4.6e-06
+x1=2.2681691e-06
+x2=3.6040757e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -36,8 +36,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=6e-07
-x2=4.6e-06
+x1=2.2681691e-06
+x2=3.6040757e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -62,8 +62,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=6e-07
-x2=4.6e-06
+x1=2.2681691e-06
+x2=3.6040757e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -86,8 +86,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=6e-07
-x2=4.6e-06
+x1=2.2681691e-06
+x2=3.6040757e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -102,6 +102,32 @@ color="4 10"
 node="xdut.rst_a
 xdut.rst_b"
 autoload=1}
+B 2 -828.9155212205286 -720 -28.9155212205286 -320 {flags=graph
+y1=0.62
+y2=0.74
+ypos1=0
+ypos2=2
+divy=5
+subdivy=4
+unity=1
+x1=2.2681691e-06
+x2=3.6040757e-06
+divx=5
+subdivx=4
+xlabmag=1.0
+ylabmag=1.0
+dataset=-1
+unitx=1
+logx=0
+logy=0
+rawfile=$netlist_dir/TB_LELO_TEMP_tran.raw
+legend=1
+color="7 13 12"
+node="xdut.vc
+xdut.x1_ibp.vr1
+xdut.x1_ibp.vd2"
+hcursor1_y=0.62778329
+hcursor2_y=0.73700424}
 T {Test bench to load current results} -650 -230 0 0 0.4 0.4 {}
 N -80 -60 -30 -60 {lab=OSC_TEMP_1V8}
 N -640 -110 -640 -80 {lab=VDD_1V8}
@@ -115,7 +141,7 @@ C {devices/lab_wire.sym} -430 -60 0 0 {name=p1 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_wire.sym} -460 -20 0 0 {name=p3 sig_type=std_logic lab=0}
 C {devices/lab_wire.sym} -30 -60 0 1 {name=p4 sig_type=std_logic lab=OSC_TEMP_1V8}
 C {devices/vsource.sym} -640 -50 0 0 {name=V1 value="pwl 0 0 0.5u 0 1.5u \{VDDA\}" savecurrent=false}
-C {devices/code_shown.sym} -870 -660 0 0 {name=s1 only_toplevel=false value="
+C {devices/code_shown.sym} -1200 -380 0 0 {name=s1 only_toplevel=false value="
 .param mc_mm_switch=0
 .param mc_pr_switch=0
 
@@ -137,7 +163,7 @@ exit
 .endc
 
 "}
-C {devices/launcher.sym} -150 -670 0 0 {name=h5
+C {devices/launcher.sym} -180 80 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/TB_LELO_TEMP_tran.raw tran"
 }

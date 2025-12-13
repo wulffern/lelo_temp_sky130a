@@ -12,7 +12,7 @@ class LELO_TEMP():
         self.T0 = 273.15
 
         #- fudge factor to get the second order compensation working
-        self.fudge = 3.05
+        self.fudge = 3.125
         self.cmp_delay = 1e-9
         self.cmp_delay = 0
         #- Simulation of 1 V across the resistor
@@ -23,7 +23,7 @@ class LELO_TEMP():
         self.R_d_dtemp = (self.R_75 - self.R_n25)/100*self.fudge
 
         self.k_q = const.k/const.e
-        self.onePointGain = 1.59
+        self.onePointGain = 1.63
         #- Modify capacitor to get gain correct
         #self.C = 53.8e-15*10
         self.C = 53.8e-15*5
