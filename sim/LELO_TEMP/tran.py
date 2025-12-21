@@ -12,7 +12,7 @@ sys.path.append("../../design/LELO_TEMP_SKY130A/")
 
 import LELO_TEMP
 
-def main(name,corner=None,show=False,ax=None):
+def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
 
   print(f"INFO: Opening {name}")
 
@@ -37,8 +37,7 @@ def main(name,corner=None,show=False,ax=None):
   freq = np.array(y)
 
   if(ax is None):
-    fig,ax = plt.subplots(2,1,figsize=(12,6),sharex=True)
-
+    fig,ax = plt.subplots(2,2,figsize=(16,9),sharex=True,sharey=True)
 
   #- Find calibration values
   cname = name.replace("tran","calibrate").replace("Vh","Vt").replace("Vl","Vt") + ".yaml"
@@ -55,7 +54,6 @@ def main(name,corner=None,show=False,ax=None):
     #- Calculate two point calibration
     temp2 = lt.KelvinFromFreq(freq)
     temp_two = temp2*calib["two_gain"] + calib["two_offset"]
-
 
     pass
   else:
@@ -82,42 +80,72 @@ def main(name,corner=None,show=False,ax=None):
   addError("2p",error_two)
 
 
+  obj["freq_min"] = float(freq.min())
+  obj["freq_max"] = float(freq.min())
 
   with open(yamlfile,"w") as fo:
     yaml.dump(obj,fo)
 
-
-
   xp = xk
   yp1 = temp_one
   yp2 = temp_two
-  #print(yp1,yp2)
 
-  ax[0].plot(lt.celcius(xp),lt.celcius(yp1),marker="o",color="blue")
-  ax[0].plot(lt.celcius(xp),lt.celcius(yp2),marker="o",color="red")
+  shortname = name.split("/")[-1]
 
-  ax[0].plot(lt.celcius(xp),lt.celcius(xp),color="black",marker="x",linestyle="dotted",alpha=0.5)
-  ax[1].plot(lt.celcius(xp),lt.celcius(yp1) - lt.celcius(xp),marker="o",color="blue")
-  ax[1].plot(lt.celcius(xp),lt.celcius(yp2) - lt.celcius(xp),marker="o",color="red")
-  ax[1].set_xlabel("Temperature [C]")
-  ax[0].set_ylabel("Temperature estimate [C]")
-  ax[1].set_ylabel("Temperature error [C]")
-  ax[0].grid()
-  ax[1].grid()
+  #- Use blue color map for yp1 and red color map for yp2 
+  ax[0][0].plot(lt.celcius(xp),lt.celcius(yp1),marker="o",color=blueColor,label=shortname)
+  ax[0][1].plot(lt.celcius(xp),lt.celcius(yp2),marker="o",color=redColor,label=shortname)
+  ax[0][0].plot(lt.celcius(xp),lt.celcius(xp),color="black",marker="x",linestyle="dotted",alpha=0.5)
+  ax[0][1].plot(lt.celcius(xp),lt.celcius(xp),color="black",marker="x",linestyle="dotted",alpha=0.5)
+  ax[1][0].plot(lt.celcius(xp),lt.celcius(yp1) - lt.celcius(xp),marker="o",color=blueColor,label=shortname)
+  ax[1][1].plot(lt.celcius(xp),lt.celcius(yp2) - lt.celcius(xp),marker="o",color=redColor,label=shortname)
+  ax[1][0].set_xlabel("Temperature [C]")
+  ax[0][0].set_ylabel("Temperature estimate [C]")
+  ax[1][0].set_ylabel("Temperature error [C]")
+  ax[1][1].set_xlabel("Temperature [C]")
+  ax[0][0].set_title("One Point Calibration")
+  ax[0][1].set_title("Two Point Calibration")
+  #ax[3].set_ylabel("Temperature error [C]")
+  ax[0][0].grid(True)
+  ax[0][1].grid(True)  
+  ax[1][0].grid(True)  
+  ax[1][1].grid(True)  
+ # ax[2].grid(True)
+  #ax[3].grid(True)
+  #- Use font size small for the legend with multiple columns
+  ax[0][0].legend(fontsize=8, ncol=3, loc='upper left', bbox_to_anchor=(0, 1))
+  ax[0][1].legend(fontsize=8, ncol=3, loc='upper left', bbox_to_anchor=(0, 1))
   plt.tight_layout()
-  if(show):
-    plt.show()
-  else:
-    plt.savefig(f"{name}.png")
+  if(ax is None):
+    if(show):
+      plt.show()
+    else:
+      plt.savefig(f"{name}.png")
 
 if __name__ == "__main__":
 
   if(len(sys.argv) > 1):
-    fig,ax = plt.subplots(2,1,figsize=(12,6),sharex=True)
+    fig,ax = plt.subplots(2,2,figsize=(16,9),sharex=True)
+
+    # Read all lines from all files first to determine total count
+    all_lines = []
     for f in sys.argv[1:]:
       with open(f) as fi:
-        for l in fi:
-          main(l.strip(),show=False,ax=ax)
-    plt.show()
+        all_lines.extend([l.strip() for l in fi if l.strip()])
+    
+    # Create colormaps for blue and red
+    blue_cmap = plt.cm.jet
+    red_cmap = plt.cm.jet
+    n_lines = len(all_lines)
+    
+    # Process each line with colors from the colormaps
+    for i, line in enumerate(all_lines):
+      # Map index to colormap (use range 0.4 to 0.9 to avoid too light colors)
+      blue_color = blue_cmap(0.4 + 0.5 * i / max(1, n_lines - 1))
+      red_color = red_cmap(0.4 + 0.5 * i / max(1, n_lines - 1))
+      main(line, show=False, ax=ax, blueColor=blue_color, redColor=red_color)
+    
+    #plt.show()
+    plt.savefig(f.replace(".run",".png"))
   else:
     main("output_tran/tran_SchGtKttTtVt",show=True)

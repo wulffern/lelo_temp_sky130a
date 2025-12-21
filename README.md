@@ -40,12 +40,23 @@ See Schematic to see how it works
 
 # Key parameters
 
-| Parameter           | Min     | Typ             | Max     | Unit  |
-| :---                | :---:   | :---:           | :---:   | :---: |
-| Technology          |         | Skywater 130 nm |         |       |
-| AVDD                | 1.7     | 1.8             | 1.9     | V     |
-| Temperature         | -40     | 27              | 125     | C     |
+| Parameter             | Min | Typ             | Max | Unit |
+|:----------------------|:---:|:---------------:|:---:|:----:|
+| Technology            |     | Skywater 130 nm |     |      |
+| AVDD                  | 1.7 | 1.8             | 1.9 | V    |
+| Oscillation frequency |     |                 |     |      |
+| Temperature           | -40 | 27              | 125 | C    |
 
 
 
 
+Typical temperature error 
+
+![](sim/LELO_TEMP/tran_Sch_typical.png)
+
+Mismatch
+
+![](sim/LELO_TEMP/tran_Sch_mc.png)
+
+Extreme test condition
+![](sim/LELO_TEMP/tran_Sch_tec.png)

@@ -19,10 +19,12 @@ all:
 	${MAKE} typical
 	${MAKE} etc
 	${MAKE} mc
+	${MAKE} summary
+	python3 tran.py tran_Sch_typical.run
+	python3 tran.py tran_Sch_etc.run
+	python3 tran.py tran_Sch_mc.run
 
 include ../../tech/make/sim.make
-
-
 
 test:
 	${MAKE} typical OPT="Debug"

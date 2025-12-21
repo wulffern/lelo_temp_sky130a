@@ -63,6 +63,7 @@ if __name__ == "__main__":
 
   if(len(sys.argv) > 1):
     fig,ax = plt.subplots(2,1,figsize=(12,6),sharex=True)
+    ax[0].set_title("")
     for f in sys.argv[1:]:
       with open(f) as fi:
         for l in fi:

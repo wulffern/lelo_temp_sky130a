@@ -34,8 +34,8 @@ ind_1p:
     - ind_1p_min
   typ: 0
   desc: Industrial 1 point calibration
-  min: -10
-  max: +10
+  min: -15
+  max: +15
   scale: 1
   digits: 3
   unit: C
@@ -45,8 +45,8 @@ ind_2p:
     - ind_2p_min
   typ: 0
   desc: Industrial 2 point calibration
-  min: -5
-  max: +5
+  min: -10
+  max: +10
   scale: 1
   digits: 3
   unit: C
@@ -67,8 +67,19 @@ com_2p:
     - com_2p_min
   typ: 0
   desc: Commercial 2 point calibration
-  min: -1
-  max: +1
+  min: -5
+  max: +5
   scale: 1
   digits: 3
   unit: C
+freq:
+  src:
+    - freq_min
+    - freq_max
+  typ: 3
+  desc: Frequency
+  min: 1.5
+  max: 4.8
+  scale: 1e-6
+  digits: 3
+  unit: MHz
