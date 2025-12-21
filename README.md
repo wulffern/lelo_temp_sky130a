@@ -44,9 +44,8 @@ See Schematic to see how it works
 |:----------------------|:---:|:---------------:|:---:|:----:|
 | Technology            |     | Skywater 130 nm |     |      |
 | AVDD                  | 1.7 | 1.8             | 1.9 | V    |
-| Oscillation frequency |     |                 |     |      |
+| Oscillation frequency | 1.7 | 3.0             | 4.0 | MHz  |
 | Temperature           | -40 | 27              | 125 | C    |
-
 
 
 
@@ -59,4 +58,4 @@ Mismatch
 ![](sim/LELO_TEMP/tran_Sch_mc.png)
 
 Extreme test condition
-![](sim/LELO_TEMP/tran_Sch_tec.png)
+![](sim/LELO_TEMP/tran_Sch_etc.png)
