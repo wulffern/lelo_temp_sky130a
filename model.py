@@ -28,7 +28,7 @@ def getR(temperature):
     return R_tcomp
 
 def getC():
-    return 53e-15*10
+    return 53e-15*5
 
 def calcTKelvinFromFreq(freq,temperature=25):
     #- f = 2/RC*DeltaV/Vc

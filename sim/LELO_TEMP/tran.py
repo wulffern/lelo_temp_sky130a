@@ -109,7 +109,9 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
   ax[0][0].grid(True)
   ax[0][1].grid(True)  
   ax[1][0].grid(True)  
-  ax[1][1].grid(True)  
+  ax[1][1].grid(True)
+  ax[1][0].set_ylim(-15,15)
+  ax[1][1].set_ylim(-15,15)
  # ax[2].grid(True)
   #ax[3].grid(True)
   #- Use font size small for the legend with multiple columns

@@ -5,15 +5,15 @@ V {}
 S {}
 E {}
 B 2 60 -680 860 -280 {flags=graph
-y1=-0.15679861
-y2=2.3142014
+y1=-0.6509986
+y2=1.8200014
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=2.2681691e-06
-x2=3.6040757e-06
+x1=2.7686828e-06
+x2=3.262102e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -36,8 +36,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=2.2681691e-06
-x2=3.6040757e-06
+x1=2.7686828e-06
+x2=3.262102e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -62,8 +62,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=2.2681691e-06
-x2=3.6040757e-06
+x1=2.7686828e-06
+x2=3.262102e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -86,8 +86,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=2.2681691e-06
-x2=3.6040757e-06
+x1=2.7686828e-06
+x2=3.262102e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -110,8 +110,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=2.2681691e-06
-x2=3.6040757e-06
+x1=2.7686828e-06
+x2=3.262102e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -128,6 +128,30 @@ xdut.x1_ibp.vr1
 xdut.x1_ibp.vd2"
 hcursor1_y=0.62778329
 hcursor2_y=0.73700424}
+B 2 56.05499033927435 -680 856.0549903392744 -280 {flags=graph
+y1=-0.15679861
+y2=2.3142014
+ypos1=0
+ypos2=2
+divy=5
+subdivy=4
+unity=1
+x1=2.7686828e-06
+x2=3.262102e-06
+divx=5
+subdivx=4
+xlabmag=1.0
+ylabmag=1.0
+node="osc_temp_1v8
+xdut.ibp_1u<0>
+xdut.ibp_1u<1>"
+color="4 5 6"
+dataset=-1
+unitx=1
+logx=0
+logy=0
+rawfile=$netlist_dir/TB_LELO_TEMP_tran.raw
+legend=1}
 T {Test bench to load current results} -650 -230 0 0 0.4 0.4 {}
 N -80 -60 -30 -60 {lab=OSC_TEMP_1V8}
 N -640 -110 -640 -80 {lab=VDD_1V8}
@@ -146,7 +170,7 @@ C {devices/code_shown.sym} -1200 -380 0 0 {name=s1 only_toplevel=false value="
 .param mc_pr_switch=0
 
 .lib "../../../tech/ngspice/temperature.spi" Tt
-.lib "../../../tech/ngspice/corners.spi" Kff
+.lib "../../../tech/ngspice/corners.spi" Ktt
 .lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 

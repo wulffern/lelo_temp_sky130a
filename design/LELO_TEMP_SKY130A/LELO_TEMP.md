@@ -1,6 +1,6 @@
 
 Bandgap (LEOTEMP\_BIAS\_IPB) is used to provide a PTAT current for the frequency
-conversion and the comparator. The VD is the CTAT diode voltage in the bandgap.
+conversion and the comparator. The $V_C$ is the CTAT diode voltage in the bandgap.
 The output current is approximately 1 uA.
 
 The current charges the capacitor. When the voltage on the capacitor reaches $V_C$

@@ -46,11 +46,11 @@ module LELO_TEMP(
    real                          deltaV,id,vd;
 
    //- Resistance
-   real                          rd = 70e3;
+   real                          rd =  7.535e3*(8+4);
    real                          res_temp = rd;
 
    //- Capacitor to charge
-   real                          cap = 100e-15;
+   real                          cap = 53e-15*5;
 
    //- Delta time for output clock
    real                          dt = 1000;
@@ -60,10 +60,10 @@ module LELO_TEMP(
    always begin
          //- Calculate diode voltage
          //- https://analogicus.com/aic2025/2024/10/25/Diodes.html
-         vd = k_q*(273.15 + temperature)*(3 - 3 *$ln(273.15 + temperature)) + 1.12;
+         vd = k_q*(273.15 + temperature)*(2.35 - 3 *$ln(273.15 + temperature)) + 1.12;
 
          //- Calculate the delta voltage across the resistance
-         deltaV = k_q*(273.15 + temperature)*$ln(8);
+         deltaV = k_q*(273.15 + temperature)*$ln(64);
 
          //Model temperture dependent resistance
          res_temp = (rd + (273.15 + temperature)/300*rd/20);

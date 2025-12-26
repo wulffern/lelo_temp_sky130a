@@ -20,6 +20,9 @@ all:
 	${MAKE} etc
 	${MAKE} mc
 	${MAKE} summary
+	${MAKE} plotall
+
+plotall:
 	python3 tran.py tran_Sch_typical.run
 	python3 tran.py tran_Sch_etc.run
 	python3 tran.py tran_Sch_mc.run
