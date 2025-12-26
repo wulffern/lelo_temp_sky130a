@@ -3,35 +3,22 @@
 module temp_osc_measure #(
                           parameter WIDTH = 10                // Counter resolution
                           )(
-                            input wire               lf_clk,  // 32.768 kHz reference
+                            input wire               lfClk,  // 32.768 kHz reference
                             input wire               start,
-                            input wire               ana_clk, // Temperature-dependent oscillator
+                            input wire               clkOsc, // Temperature-dependent oscillator
                             input wire               rst_n,
                             output logic             done,
-                            output logic             ana_en,  // Enables analog osc (1 lf_clk period)
+                            output logic             pwrupOsc,  // Enables analog osc (1 lfClk period)
                             output logic [WIDTH-1:0] cycles   // Measured cycles
                             );
 
    logic                                             reset;
 
-   //- Counter
-   logic [WIDTH-1:0]                                 reg_count;
-   logic [WIDTH-1:0]                                 count;
-   always_comb begin
-      count = reg_count + 1;
-   end
-   always_ff @(posedge ana_clk or posedge reset) begin
-      if(reset)
-        reg_count <= 0;
-      else
-        reg_count <= count;
-   end
 
    //- FSM
    parameter IDLE = 0, PWRUP = 1, PWRDWN = 2, CAPTURE = 3;
    logic [1:0] state;
    logic [1:0] next_state;
-
 
    //- Decide next state
    always_comb begin
@@ -46,35 +33,37 @@ module temp_osc_measure #(
 
 
    //- Control signals
-   always_ff @(posedge lf_clk or negedge rst_n) begin
+   always_ff @(posedge lfClk or negedge rst_n) begin
       if(~rst_n) begin
          state <= IDLE;
-         ana_en <= 0;
+         pwrupOsc <= 0;
          reset <= 1;
          done <= 1;
+         cycles <= 0;
       end
       else begin
          state <= next_state;
          case (state)
            IDLE: begin
-              ana_en <= 0;
+              pwrupOsc <= 0;
               reset <= 1;
               done <= 1;
            end
            PWRUP: begin
-              ana_en <= 1;
+              pwrupOsc <= 1;
               reset <= 0;
               done <= 0;
            end
            PWRDWN: begin
-              ana_en <= 0;
+              pwrupOsc <= 0;
               reset <= 0;
               done <= 0;
            end
            CAPTURE: begin
-              ana_en <= 0;
+              pwrupOsc <= 0;
               reset <= 0;
-              cycles <= reg_count;
+              cycles[WIDTH-1] <= ~ reg_count[WIDTH-1];
+              cycles[WIDTH-2:0] <= reg_count[WIDTH-2:0];
               done <= 0;
            end
          endcase

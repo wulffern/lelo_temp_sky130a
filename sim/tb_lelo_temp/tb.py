@@ -8,7 +8,7 @@ df = pd.read_csv("tb.csv")
 
 fig,ax = plt.subplots(2,1,figsize=(12,6),sharex=True)
 
-boffset = -160
+boffset = -157.5
 gain = 2
 
 y = (df["count"])*gain + boffset

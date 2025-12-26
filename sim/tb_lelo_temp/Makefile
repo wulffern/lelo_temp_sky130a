@@ -11,7 +11,9 @@ fl:
 	cat "../../design/${LIB}/${CELL}.fl" | xargs -I{} echo "../../design/${LIB}/{}">> tb.fl
 	#echo "counter.v" >> tb.fl
 	#echo "temp_osc_controller.v" >> tb.fl
-	echo "temp_osc_measure.v" >> tb.fl
+	echo "../../rtl/tempCounter.v" >> tb.fl
+	echo "../../rtl/tempFsm.v" >> tb.fl
+
 	echo "tb.v" >> tb.fl
 	-rm tb.csv
 
@@ -27,3 +29,7 @@ clean:
 	-rm *.vcd
 	-rm design
 	-rm tb.csv
+
+
+dot:
+	dot -Tpdf ../../rtl/tempFsm.dot -o tempFsm.pdf

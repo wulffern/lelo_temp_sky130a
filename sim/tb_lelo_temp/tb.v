@@ -33,47 +33,62 @@ module test;
 
    //- Initialize
    logic rst_n = 0;
-   logic lf_clk = 0;
+   logic lfClk = 0;
    logic ena = 0;
-   logic [7:0]    ui_in;
+   logic [7:0] ui_in;
 
    //- Our real time clock
-   always #(lfclk_period/2) lf_clk = ~lf_clk;
+   always #(lfclk_period/2) lfClk = ~lfClk;
+
+
 
    //- Default temperature
-   integer  temperature;
-   wire pwrup;   
-   wire osc_clk;
-   
+   integer     temperature;
+   wire        pwrupOsc;
+   wire        clkOsc;
+
    //- Temperature sensor output
-   `LELO_DESIGN  dut_ana (.PWRUP_1V8(pwrup),
-                     .VDD_1V8(1'b1),
-                     .VSS(1'b0),
-                     .OSC_TEMP_1V8(osc_clk)
-//- Magic to feed the temperature into the verilog model
+   `LELO_DESIGN  dut_ana (.PWRUP_1V8(pwrupOsc),
+                          .VDD_1V8(1'b1),
+                          .VSS(1'b0),
+                          .OSC_TEMP_1V8(clkOsc)
+                          //- Magic to feed the temperature into the verilog model
 `ifdef ANA_TYPE_REAL
-   ,.temperature(temperature)
+                          ,.temperature(temperature)
 `endif
-                     );
+                          );
 
 
-   wire[7:0] delta;
-   wire [9:0] cycles;
-   logic start;
-   wire  done;
 
-   temp_osc_measure u1_count (.lf_clk(lf_clk),
+   parameter   WIDTH = 8;
+
+   wire [7:0]  delta;
+   wire [WIDTH-1:0]  cycles;
+   wire [WIDTH-1:0] count;
+   logic       start;
+   wire        done;
+   wire        resetCount;
+
+
+   tempCounter  #(.WIDTH(WIDTH)) u1_count (.clk(clkOsc),
+                                 .reset(resetCount),
+                                 .count(count)
+                                 );
+
+   tempFsm #(.WIDTH(WIDTH)) u1_fsm  (.lfClk(lfClk),
                               .start(start),
-   .ana_clk(osc_clk),
-   .rst_n(rst_n),
+                              .clkOsc(clkOsc),
+                              .rst_n(rst_n),
                               .done(done),
-   .ana_en(pwrup),
-   .cycles(cycles)
-   );
+                                     .resetCount(resetCount),
+                              .pwrupOsc(pwrupOsc),
+                                     .count(count),
+                              .cycles(cycles)
+                              );
 
-   
 
-   integer file;
+
+   integer     file;
    initial
      begin
         //- Output a file that can be opened in GTKWave
@@ -89,20 +104,18 @@ module test;
         #10 rst_n = 0;
         #10 rst_n = 1;
 
-        #10 start = 1;
-
-
-        @(posedge done);
+        #(lfclk_period*9) start = 1;
+        #(lfclk_period) start = 0;
 
         //Wait for temperature sweep to continue
         for (temperature=-40;temperature<126;temperature++) begin
-         @(posedge done)
-         $fwrite(file,"%d,%d\n",temperature,cycles );
-         $display("Temperature =%d",temperature);  
+           @(posedge done)
+             #(lfclk_period) start = 1;
+             #(lfclk_period) start = 0;
+             $fwrite(file,"%d,%d\n",temperature,cycles );
+           $display("Temperature =%d",temperature);
         end
 
         #(lfclk_period*2) $stop;
      end
 endmodule
-
-

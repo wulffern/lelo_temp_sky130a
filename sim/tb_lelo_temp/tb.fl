@@ -1,4 +1,5 @@
 //Automatic include file
 ../../design/LELO_TEMP_SKY130A/LELO_TEMP.v
-temp_osc_measure.v
+../../rtl/tempCounter.v
+../../rtl/tempFsm.v
 tb.v

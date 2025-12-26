@@ -1,0 +1,16 @@
+digraph finite_state_machine {
+    rankdir=LR;
+    size="8,5"
+
+    node [shape = doublecircle, label="IDLE\nReset Counter", fontsize=12] IDLE;
+    node [shape = circle, label="PWRUP\npwrupOsc=1\nCount oscillator pulses", fontsize=12] PWRUP;
+    node [shape = circle, label="PWRDWN\npwrupOsc=0", fontsize=12] PWRDWN;
+    node [shape = circle, label="CAPTURE\nStore counter value", fontsize=12] CAPTURE;
+
+    IDLE->IDLE [label="start = 0"];
+    IDLE->PWRUP [label="start = 1"];
+    PWRUP->PWRDWN  [label=""];
+    PWRDWN->CAPTURE [label=""];
+    CAPTURE->IDLE [label=""];
+
+}
