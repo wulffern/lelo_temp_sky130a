@@ -18,6 +18,7 @@ One way to make a temperature sensor is to create a temperature dependent
 oscillator, and then measure the frequency of the oscillator. 
 
 ![](system.svg)
+
 <sub> Figure 0: System overview </sub>
 
 This temperature sensor was made to conform to the specification at [The
@@ -42,6 +43,7 @@ After one clock period the FSM powers down the oscillator. In the CAPTURE state
 the value of the counter is stored, and the FSM returns to idle.
 
 ![](sim/tb_lelo_temp/tempFsm.svg)
+
 <sub>Figure 1: Finite-State Machine of the temperature sensor controller </sub> 
 
 A waveform of the sequence can be seen in Figure 2. The signal start asserted transitions the
@@ -52,6 +54,7 @@ counter naturally stops. The value from the oscillator is stored in the cycles
 register. 
 
 ![](sim/tb_lelo_temp/tb.png)
+
 <sub>Figure 2: Waves from simulation of the oscillator </sub>
 
 
@@ -64,6 +67,7 @@ modeled both the temperature dependent resistor in the bandgap, and the
 apparently second-order dependence of the diode voltage.
 
 ![](sim/tb_lelo_temp/verilog.png)
+
 <sub>Figure 3: Simulation of the verilog model of the oscillator</sub>
 
 # What
@@ -106,15 +110,18 @@ Over mismatch and extreme test condition (ETC) the temperature error increase.
 
 
 ![](sim/LELO_TEMP/tran_Sch_typical.png)
+
 <sub> Figure 4: Typical simulation results of the oscillator</sub>
 
 
 ![](sim/LELO_TEMP/tran_Sch_mc.png)
+
 <sub> Figure 5: Mismatch simulation of the oscillator</sub>
 
 
 
 ![](sim/LELO_TEMP/tran_Sch_etc.png)
+
 <sub> Figure 6: Extreme test conditions (PVT) simulation of oscillator </sub>
 
 
