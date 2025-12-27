@@ -32,4 +32,4 @@ clean:
 
 
 dot:
-	dot -Tpdf ../../rtl/tempFsm.dot -o tempFsm.pdf
+	dot -Tsvg ../../rtl/tempFsm.dot -o tempFsm.svg

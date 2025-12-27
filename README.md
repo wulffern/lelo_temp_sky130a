@@ -23,7 +23,7 @@ and we use the count x LF_CLK to measure the oscillation frequency.
 After one clock period the FSM powers down the oscillator. In the CAPTURE state
 the value of the counter is stored, and the FSM returns to idle.
 
-![](sim/tb_lelo_temp/tempFsm.pdf)
+![](sim/tb_lelo_temp/tempFsm.svg)
 <sub>Figure 1: Finite-State Machine of the temperature sensor controller </sub> 
 
 A waveform of the sequence can be seen below. Start=1 transitions the
