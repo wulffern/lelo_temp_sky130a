@@ -17,3 +17,6 @@ CELL=LELO_TEMP
 CELLS = LELO_TEMP
 
 include ../tech/make/core.make
+
+ota:
+	cicpy sch2mag  --techlib sky130 ${LIB} LELOTEMP_OTA
