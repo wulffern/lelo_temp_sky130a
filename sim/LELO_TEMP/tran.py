@@ -8,7 +8,7 @@ import re
 import os
 import sys
 
-sys.path.append("../../design/LELO_TEMP_SKY130A/")
+sys.path.append("../../py/")
 
 import LELO_TEMP
 
@@ -28,8 +28,11 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
   x = np.array([int(i) for i in re.split(r"\s+",replace["temperatures"])])
 
   y = list()
+  clock_periods = 4
   for t in x:
-    dt = (float(obj[f"t2_{t}"]) - float(obj[f"t1_{t}"]))/3
+    print(f"INFO: {t} {obj[f"t2_{t}"]} {obj[f"t1_{t}"]}")
+    dt = (float(obj[f"t2_{t}"]) - float(obj[f"t1_{t}"]))/clock_periods
+    print(f"INFO: {t} {dt}")
     y.append(float(1/dt))
 
     lt = LELO_TEMP.LELO_TEMP()
@@ -37,7 +40,7 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
   freq = np.array(y)
 
   if(ax is None):
-    fig,ax = plt.subplots(2,2,figsize=(16,9),sharex=True,sharey=True)
+    fig,ax = plt.subplots(2,2,figsize=(16,9),sharex=True,sharey=False)
 
   #- Find calibration values
   cname = name.replace("tran","calibrate").replace("Vh","Vt").replace("Vl","Vt") + ".yaml"
@@ -48,12 +51,11 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
 
 
     #- Calculate one point calibration
-    temp1 = lt.KelvinFromFreq(freq)
-    temp_one =  temp1 +  calib["one_offset"]
+    temp = lt.KelvinFromFreq(freq,compensate=True)
+    temp_one =  temp +  calib["one_offset"]
 
     #- Calculate two point calibration
-    temp2 = lt.KelvinFromFreq(freq)
-    temp_two = temp2*calib["two_gain"] + calib["two_offset"]
+    temp_two = temp*calib["two_gain"] + calib["two_offset"]
 
     pass
   else:
@@ -82,6 +84,8 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
 
   obj["freq_min"] = float(freq.min())
   obj["freq_max"] = float(freq.min())
+  obj["temperature"] = [float(lt.celcius(x)) for x in xk]
+  obj["freq"] = [float(f) for f in freq]
 
   with open(yamlfile,"w") as fo:
     yaml.dump(obj,fo)
@@ -89,6 +93,8 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
   xp = xk
   yp1 = temp_one
   yp2 = temp_two
+
+  
 
   shortname = name.split("/")[-1]
 
@@ -123,6 +129,9 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
       plt.show()
     else:
       plt.savefig(f"{name}.png")
+  else:
+    if(show):
+      plt.show()
 
 if __name__ == "__main__":
 

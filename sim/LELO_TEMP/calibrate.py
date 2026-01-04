@@ -8,7 +8,7 @@ import re
 
 import sys
 
-sys.path.append("../../design/LELO_TEMP_SKY130A/")
+sys.path.append("../../py/")
 
 import LELO_TEMP
 
@@ -28,9 +28,10 @@ def main(name,corner=None,show=False,ax=None):
 
   x = [25,85]
 
+  clock_periods = 4
   y = list()
   for t in x:
-    dt = (float(obj[f"t2_{t}"]) - float(obj[f"t1_{t}"]))/3
+    dt = (float(obj[f"t2_{t}"]) - float(obj[f"t1_{t}"]))/clock_periods
     freq = float(1/dt)
     y.append(freq)
 
@@ -39,16 +40,16 @@ def main(name,corner=None,show=False,ax=None):
 
 
   #- One point calibration
-  temp1 = lt.KelvinFromFreq(freq,np.array([25,25]))
-  one_b1 = (lt.T0 + 25) - temp1[0]
-  temp_onepoint = temp1 + one_b1
+  temp = lt.KelvinFromFreq(freq,None,compensate=True)
+  one_b1 = (lt.T0 + 25) - temp[0]
+  temp_onepoint = temp + one_b1
 
   #- Two point calibration
-  temp2 = lt.KelvinFromFreq(freq)
-  gain = 60/(temp2[1] - temp2[0])
-  temp3 = temp2*gain
+
+  gain = 60/(temp[1] - temp[0])
+  temp3 = temp*gain
   offset = (lt.T0 + 25) - temp3[0]
-  temp_twopoint = temp2*gain + offset
+  temp_twopoint = temp*gain + offset
 
 
   obj["one_offset"] = float(one_b1)

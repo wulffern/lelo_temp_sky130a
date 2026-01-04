@@ -143,6 +143,7 @@ N 640 -730 640 -410 {lab=VD1}
 N 940 -780 940 -750 {lab=VCP}
 N 1140 -780 1140 -750 {lab=VCP}
 N 680 -760 680 -730 {lab=VCP}
+N 970 -890 980 -890 {lab=VDD_1V8}
 C {devices/ipin.sym} 300 -970 0 0 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 313.9889709803555 -100 0 0 {name=p5 lab=VSS}
 C {devices/ipin.sym} 860 -810 2 0 {name=p7 lab=LPI}

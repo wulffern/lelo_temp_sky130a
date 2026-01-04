@@ -11,7 +11,7 @@ The current in the resistor will be
 
 $$ I_{R} = \frac{\Delta V}{(4 + 8) \times RPPO}$$
 
-Where $RPPO$ is the unit resistor, nominally 7.53 k $\Omega$.
+Where $RPPO$ is the unit resistor.
 
 The $V_C$ is a bit more complicated, but can be calculated to be 
 
@@ -40,12 +40,15 @@ But it is understandable.
 
 See [Diodes](https://analogicus.com/aic2026/2024/10/25/Diodes.html#forward-voltage-temperature-dependence)
 
+Estimated values from the model in [LELO\_TEMP.py](py/LELO_TEMP.py) are shown in table below.
 
-| Temperature [C]        | -40  | 25   | 125  |
-|------------------------|------|------|------|
-| Estimated Current [uA] | 0.96 | 1.18 | 1.48 |
-| Estimated VC           | 0.84 | 0.74 | 0.58 |
-| Estimated Delta V      | 83   | 106  | 142  |
+| Temperature [C] | Current [uA] | VD1 [V] | DeltaV [mV] |
+|-----------------|--------------|---------|-------------|
+| -40             | 0.816        | 0.8386  | 83.6        |
+| 25              | 1.035        | 0.7412  | 106.9       |
+| 125             | 1.347        | 0.5844  | 142.7       |
+
+The table was generated from [model.ipynb](model.ipynb)
 
 The startup circuit on the left side will ensure that the LPI node is pulled
 down when the circuit starts up. The PWRUP will enable the NMOS between LPI and

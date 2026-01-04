@@ -1,9 +1,4 @@
 
-
-all: typical etc mc summary
-
-
-
 TB=tran
 VIEW=Sch
 #VIEW=Lay
@@ -11,16 +6,22 @@ CELL=LELO_TEMP
 LIB =LELO_TEMP_SKY130A
 OPT=
 
-all:
-#- Run calibration corners
-	${MAKE} process TB=calibrate
-	${MAKE} mc TB=calibrate
-#- Run corners
-	${MAKE} typical
-	${MAKE} etc
-	${MAKE} mc
-	${MAKE} summary
-	${MAKE} plotall
+.PHONY: all calib runs report plotall
+
+all: report plotall
+
+runs: typical etc mc
+
+report: calib runs summary
+
+calib: ctyp cproc cmc
+
+ctyp:
+	${MAKE} typical TB=calibrate OPT=${OPT}
+cproc:
+	${MAKE} process TB=calibrate OPT=${OPT}
+cmc:
+	${MAKE} mc TB=calibrate OPT=${OPT}
 
 plotall:
 	python3 tran.py tran_Sch_typical.run
@@ -51,7 +52,6 @@ fast_2:
 
 fast: netlist fast_1 fast_2
 
-
 tfs: netlist
 	cicsim run --replace replace.yaml --name ${VIEW}_tfs ${TB} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt" "Vt,Vl,Vh"
 
@@ -62,7 +62,7 @@ process: netlist
 	cicsim run --replace replace.yaml --name ${VIEW}_etc ${TB} ${OPT} ${VIEW} Gt "Kss,Kff,Ksf,Kfs,Khh,Kll" "Tt" "Vt"
 
 mc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_mc --count 30 ${TB} ${OPT} ${VIEW} Gt "Kttmm" "Tt" "Vt"
+	cicsim run --replace replace.yaml --name ${VIEW}_mc --count 10 ${TB} ${OPT} ${VIEW} Gt "Kttmm" "Tt" "Vt"
 
 ntc: netlist
 	cicsim run --replace replace.yaml --name ${VIEW}_ntc ${TB} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt" Vt

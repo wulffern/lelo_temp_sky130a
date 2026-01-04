@@ -5,15 +5,15 @@ V {}
 S {}
 E {}
 B 2 170 -590 970 -190 {flags=graph
-y1=-1.3e-05
-y2=-1.1e-05
+y1=-9.9e-06
+y2=-9.1e-06
 ypos1=0
 ypos2=2
 divy=5
-subdivy=1
+subdivy=4
 unity=1
 x1=-40
-x2=110
+x2=125
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -25,7 +25,8 @@ unitx=1
 logx=0
 logy=0
 rawfile=$netlist_dir/TB_RES_TEMP.raw
-autoload=1}
+autoload=1
+sim_type=dc}
 N 100 -120 100 -100 {lab=#net1}
 N 50 -160 80 -160 {lab=0}
 N 50 -160 50 -60 {lab=0}
@@ -63,5 +64,5 @@ exit
 "}
 C {devices/launcher.sym} -20 -550 0 0 {name=h5
 descr="load waves" 
-tclcommand="xschem raw_read $netlist_dir/TB_RES_TEMP.raw tran"
+tclcommand="xschem raw_read $netlist_dir/TB_RES_TEMP.raw dc"
 }

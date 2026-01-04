@@ -8,8 +8,8 @@ foreach vtemp 25 85
 
 load {cicname}_$vtemp$fend
 
-meas tran t1_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 CROSS=2 FROM={t_start}
-meas tran t2_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 CROSS=5 FROM={t_start}
+meas tran t1_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 FROM={t_start}
+meas tran t2_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=5 FROM={t_start}
 meas tran vc_$vtemp FIND V(xdut.vc) AT={t_stop}
 meas tran idd_$vtemp AVG i(vdd) from={t_start} to={t_stop}
 meas tran iddq_$vtemp AVG i(vdd) from=0.5u to=1.5u

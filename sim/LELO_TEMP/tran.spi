@@ -62,7 +62,7 @@ write {cicname}.raw
 set fend = .raw
 foreach vtemp {temperatures}
   option temp=$vtemp
-  tran 0.5n {t_stop}
+  tran 1n {t_stop}
   write {cicname}_$vtemp$fend
 end
 

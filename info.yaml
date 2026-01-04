@@ -1,22 +1,16 @@
 library: LELO_TEMP_SKY130A
 cell: LELO_TEMP
-
 author: Carsten Wulff
 github: wulffern
 tagline: Example of a temperature sensor
 email: carsten@wulff.no
-# Your github site, usually <github username>.github.io
 url: analogicus.com
 doc:
-  # Make docs
   libraries:
     LELO_TEMP_SKY130A:
       - LELOTEMP_BIAS_IBP
       - LELOTEMP_OTA
       - LELO_TEMP
+      - LELOTEMP_CCMP
       - LELOTEMP_CMP
       - TB_LELO_TEMP
-
-      
-  #       - <cell>
-  #       - <cell>
