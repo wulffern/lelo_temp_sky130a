@@ -42,11 +42,12 @@ See [Diodes](https://analogicus.com/aic2026/2024/10/25/Diodes.html#forward-volta
 
 Estimated values from the model in [LELO\_TEMP.py](py/LELO_TEMP.py) are shown in table below.
 
-| Temperature [C] | Current [uA] | VD1 [V] | DeltaV [mV] |
-|-----------------|--------------|---------|-------------|
-| -40             | 0.816        | 0.8386  | 83.6        |
-| 25              | 1.035        | 0.7412  | 106.9       |
-| 125             | 1.347        | 0.5844  | 142.7       |
+
+| Temperature [C] | Current [uA] | Vc [V] | DeltaV [mV] |
+|-----------------|--------------|--------|-------------|
+| -40             | 0.902        | 0.8386 | 83.6        |
+| 25              | 1.133        | 0.7412 | 106.9       |
+| 125             | 1.470        | 0.5844 | 142.7       |
 
 The table was generated from [model.ipynb](model.ipynb)
 

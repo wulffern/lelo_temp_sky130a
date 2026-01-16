@@ -5,15 +5,15 @@ V {}
 S {}
 E {}
 B 2 60 -680 860 -280 {flags=graph
-y1=-0.084242693
+y1=-0.0842427
 y2=1.1809093
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=-9e-07
-x2=5.1e-06
+x1=-5.9186076e-08
+x2=5.9408137e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -33,8 +33,8 @@ rawfile=$netlist_dir/TB_LELO_TEMP_tran.raw
 legend=1
 sim_type=tran}
 B 2 61.08447877947143 -1125 861.0844787794714 -725 {flags=graph
-y1=1.0439036e-06
-y2=1.0630808e-06
+y1=1.1474633e-06
+y2=1.1666407e-06
 ypos1=0
 ypos2=2
 divy=5
@@ -49,7 +49,6 @@ ylabmag=1.0
 node="i(@m.xdut.x1_ibp.xca3<3>.xm1.msky130_fd_pr__pfet_01v8[id])
 i(@m.xdut.x1_ibp.xca3<2>.xm1.msky130_fd_pr__pfet_01v8[id])
 i(@m.xdut.x1_ibp.xca3<0>.xm1.msky130_fd_pr__pfet_01v8[id])
-
 i(@m.xdut.x1_ibp.xca3<1>.xm1.msky130_fd_pr__pfet_01v8[id])"
 color="4 6 7 15"
 dataset=-1
@@ -146,13 +145,13 @@ C {devices/lab_wire.sym} -430 -60 0 0 {name=p1 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_wire.sym} -460 -20 0 0 {name=p3 sig_type=std_logic lab=0}
 C {devices/lab_wire.sym} -30 -60 0 1 {name=p4 sig_type=std_logic lab=OSC_TEMP_1V8}
 C {devices/vsource.sym} -640 -50 0 0 {name=V1 value="pwl 0 0 0.5u 0 1.5u \{VDDA\}" savecurrent=false}
-C {devices/code_shown.sym} -1200 -380 0 0 {name=s1 only_toplevel=false value="
+C {devices/code_shown.sym} -1200 -390 0 0 {name=s1 only_toplevel=false value="
 .param mc_mm_switch=0
 .param mc_pr_switch=0
 
-.lib "../../../tech/ngspice/temperature.spi" Th
-.lib "../../../tech/ngspice/corners.spi" Ktt
-.lib "../../../tech/ngspice/supply.spi" Vt
+.lib "../../../tech/ngspice/temperature.spi" Tl
+.lib "../../../tech/ngspice/corners.spi" Kss
+.lib "../../../tech/ngspice/supply.spi" Vl
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 
 .option SEED=1
@@ -162,14 +161,14 @@ C {devices/code_shown.sym} -1200 -380 0 0 {name=s1 only_toplevel=false value="
 optran 0 0 0 10n 1u 0
 
 
-tran 0.5n 6u
+tran 0.5n 8u
 write TB_LELO_TEMP_tran.raw
 
 exit
 .endc
 
 "}
-C {devices/launcher.sym} -170 90 0 0 {name=h5
+C {devices/launcher.sym} -170 100 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/TB_LELO_TEMP_tran.raw tran"
 }

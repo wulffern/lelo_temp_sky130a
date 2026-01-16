@@ -16,7 +16,7 @@ df = pd.read_csv("tb.csv")
 
 freq = df["count"]*32768
 
-offset = -6
+offset = -15
 x = df["temperature"]
 y = lt.KelvinFromFreq(freq,compensate=True) - lt.T0 + offset
 

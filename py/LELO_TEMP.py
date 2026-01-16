@@ -21,11 +21,11 @@ class LELO_TEMP():
         self.cmp_delay = 1.5e-9
 
         #- Simulation of 1 V across the resistor
-        self.T_points = np.array([self.T0 -25, self.T0 + 27, self.T0 + 75])
+        self.T_points = np.array([self.T0-25, self.T0 + 27, self.T0 + 75])
         self.R_points = np.array([
-            1 / 9.77e-6,
-            1 / 9.68e-6,
-            1 / 9.44e-6
+            1 / 1.08e-5,
+            1 / 1.06e-5,
+            1 / 1.03e-5
         ])
 
         #- Boltzmann's constatnt over the unit charge

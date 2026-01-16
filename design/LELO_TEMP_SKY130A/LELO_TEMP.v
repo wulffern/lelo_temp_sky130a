@@ -46,8 +46,8 @@ module LELO_TEMP(
    real                      deltaV,id,vd;
 
    //- Resistance
-   real                      rd =  8.608e3*(8+4);
-   real                      r_per_K = 35.78;
+   real                      rd =  7.535e3*(8+4);
+   real                      r_per_K = 36;
    real                      res_temp = rd;
 
    //- Capacitor to charge

@@ -32,14 +32,10 @@ The estimated frequency is shown in the table below (the table was generated fro
 
 | Temperature [C] | Frequency [MHz] |
 |-----------------|-----------------|
-| -40             | 1.681           |
-| 25              | 2.406           |
-| 125             | 3.954           |
-|                 |                 |
+| -40             | 1.858           |
+| 25              | 2.634           |
+| 125             | 4.310           |
 
-| Temperature [C]           | -40  | 25 | 125 |
-|---------------------------|------|----|-----|
-| Estimated frequency [MHz] | 2.16 | 3  | 4.8 |
 
 
 
