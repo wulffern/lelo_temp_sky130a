@@ -1,4 +1,5 @@
-v {xschem version=3.4.7 file_version=1.2}
+v {xschem version=3.4.5 file_version=1.2
+}
 G {}
 K {}
 V {}
@@ -12,8 +13,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=-5.9186076e-08
-x2=5.9408137e-06
+x1=0
+x2=8e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -41,7 +42,7 @@ divy=5
 subdivy=4
 unity=1
 x1=0
-x2=6e-06
+x2=8e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -66,7 +67,7 @@ divy=5
 subdivy=4
 unity=1
 x1=0
-x2=6e-06
+x2=8e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -91,7 +92,7 @@ divy=5
 subdivy=4
 unity=1
 x1=0
-x2=6e-06
+x2=8e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -115,7 +116,7 @@ divy=5
 subdivy=4
 unity=1
 x1=0
-x2=6e-06
+x2=8e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -149,9 +150,9 @@ C {devices/code_shown.sym} -1200 -390 0 0 {name=s1 only_toplevel=false value="
 .param mc_mm_switch=0
 .param mc_pr_switch=0
 
-.lib "../../../tech/ngspice/temperature.spi" Tl
-.lib "../../../tech/ngspice/corners.spi" Kss
-.lib "../../../tech/ngspice/supply.spi" Vl
+.lib "../../../tech/ngspice/temperature.spi" Tt
+.lib "../../../tech/ngspice/corners.spi" Ktt
+.lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 
 .option SEED=1
@@ -161,7 +162,7 @@ C {devices/code_shown.sym} -1200 -390 0 0 {name=s1 only_toplevel=false value="
 optran 0 0 0 10n 1u 0
 
 
-tran 0.5n 8u
+tran 0.1n 8u
 write TB_LELO_TEMP_tran.raw
 
 exit
