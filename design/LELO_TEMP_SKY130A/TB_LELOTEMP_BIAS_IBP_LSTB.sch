@@ -6,7 +6,7 @@ S {}
 E {}
 B 2 390 -840 1190 -440 {flags=graph
 
-y2=64
+y2=70
 ypos1=0
 ypos2=2
 divy=5
@@ -26,9 +26,8 @@ logx=1
 logy=0
 sim_type=ac
 
-y1=-57
+y1=-72
 autoload=1
-rawfile=$netlist_dir/TB_LELOTEMP_BIAS_IBP_LSTB.raw
 x1=2
 x2=9}
 B 2 390 -420 1190 -20 {flags=graph
@@ -85,42 +84,39 @@ N -110 -100 -80 -100 {
 lab=0}
 N -110 -80 -80 -80 {
 lab=0}
-C {devices/vsource.sym} -280 -80 0 0 {name=V1 value=1.8 savecurrent=false}
+C {devices/vsource.sym} -280 -80 0 0 {name=V1 value=\{vdda\} savecurrent=false}
 C {devices/gnd.sym} -220 -10 0 0 {name=l1 lab=0}
 C {devices/vsource.sym} 290 -60 0 0 {name=V2 value=0.5 savecurrent=false}
 C {devices/lab_wire.sym} 230 -120 0 1 {name=p1 sig_type=std_logic lab=LPI}
-C {devices/code_shown.sym} -300 -920 0 0 {name=s1 only_toplevel=false value="
+C {devices/code_shown.sym} -299.3514969502943 -970 0 0 {name=s1 only_toplevel=false value="
 
 .lib "../../../tech/ngspice/corners.spi" Ktt
 .lib "../../../tech/ngspice/temperature.spi" Tt
-.lib "../../../tech/ngspice/supply.spi" Vl
-
+.lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/tian_subckt.lib
 X999 LPI LPO loopgainprobe
 
-.include ../../../../cpdk/ngspice/ideal_circuits.spi
-
-
-.option savecurrents
-.save all
-.save i(v1)
-.save i(v2)
 .control
 optran 0 0 0 10n 20u 0
+save alli
+save allv
+save @m.*[gm]
 op
+remzerovec
 write TB_LELOTEMP_BIAS_IBP_LSTB_OP.raw
+unsave all
 
+save allv
+save i(v1) i(v2)
 * Set voltage AC to 1
 ac dec 50 100 1G
-
 * Set Current to 1
 alter i.X999.Ii acmag=1
 alter v.X999.Vi acmag=0
 ac dec 50 100 1G
-
 let lg_mag = db(tian_loop())
 let lg_phase = 180*cph(tian_loop())/pi
-
+remzerovec
 write TB_LELOTEMP_BIAS_IBP_LSTB.raw
 
 meas ac gm_db find lg_mag when lg_phase=0
@@ -128,6 +124,7 @@ meas ac pm_deg find lg_phase when lg_mag=0
 meas ac f3db when lg_phase=135
 meas ac ug when lg_mag=0
 meas ac lf_gain find lg_mag at=1k
+remzerovec
 write TB_LELOTEMP_BIAS_IBP_LSTB_meas.raw
 exit
 .endc

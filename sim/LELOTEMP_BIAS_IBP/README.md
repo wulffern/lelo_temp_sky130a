@@ -9,37 +9,37 @@ Check stability
 |**Name**|**Parameter**|**Description**| |**Min**|**Typ**|**Max**| Unit|
 |:---|:---|:---|---:|:---:|:---:|:---:| ---:|
 |**Gain Margin**|**gm\_db** || **Spec**  | **-50.00** | **-10.00** | **-10.00** | **dB** |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | -15.21 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|-23.43 | -15.39 | -12.64 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|-21.01 | -17.10 | -13.20 | |
-|**DC gain**|**lf\_gain** || **Spec**  | **25.00** | **40.00** | **55.00** | **dB** |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 42.73 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|39.81 | 42.69 | 43.82 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|40.40 | 42.87 | 45.34 | |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | -12.00 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|-16.58 | -12.55 | <span style='color:red'>**-9.17**</span> | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|-13.59 | -12.28 | -10.97 | |
+|**DC gain**|**lf\_gain** || **Spec**  | **50.00** | **40.00** | **80.00** | **dB** |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 69.75 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**43.72**</span> | 67.99 | 71.06 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|66.85 | 69.38 | 71.91 | |
 |**Phase Margin**|**pm\_deg** || **Spec**  | **45.00** | **60.00** | **90.00** |  |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 59.47 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|48.87 | 59.69 | 76.89 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|56.88 | 62.53 | 68.18 | |
-|**Unity Gain Frequency**|**ug** || **Spec**  | **0.40** | **15.00** | **100.00** | **MHz** |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 5.38 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|1.92 | 5.63 | 9.02 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|4.11 | 5.51 | 6.91 | |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 50.81 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**37.40**</span> | 53.43 | 67.56 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|46.66 | 52.00 | 57.33 | |
+|**Unity Gain Frequency**|**ug** || **Spec**  | **3.00** | **15.00** | **100.00** | **MHz** |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 8.84 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|3.99 | 7.86 | 14.09 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|6.84 | 8.52 | 10.19 | |
 |**PMOS gate**|**v(lpo)** || **Spec**  | **0.45** | **0.70** | **1.10** | **V** |
 | | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 0.76 |  | |
 | | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|0.52 | 0.78 | 1.05 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|0.73 | 0.76 | 0.79 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|0.75 | 0.76 | 0.77 | |
 |**Delta diode voltage**|**vd** || **Spec**  | **80.00** | **106.00** | **150.00** | **mV** |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 109.24 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|84.62 | 115.01 | 145.74 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|104.90 | 108.98 | 113.05 | |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 109.29 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|84.63 | 114.99 | 145.78 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|104.92 | 108.99 | 113.05 | |
 |**Output current**|**i(v1)** || **Spec**  | **0.50** | **1.00** | **2.00** | **uA** |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 1.24 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|0.70 | 1.09 | 1.75 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|0.67 | 1.10 | 1.54 | |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 1.23 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|0.81 | 1.12 | 1.73 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|0.85 | 1.20 | 1.54 | |
 |**VD Error**|**vdiff** || **Spec**  | **-6.00** | **0.00** | **6.00** | **mV** |
-| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | 0.64 |  | |
-| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|0.25 | 0.60 | 1.02 | |
-| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|<span style='color:red'>**-32.30**</span> | -0.01 | <span style='color:red'>**32.29**</span> | |
+| | | |<a href='results/lstb_Sch_typical.html'>Sch_typ</a>| | -0.04 |  | |
+| | | |<a href='results/lstb_Sch_etc.html'>Sch_etc</a>|-0.37 | -0.08 | 0.10 | |
+| | | |<a href='results/lstb_Sch_mc.html'>Sch_3std</a>|<span style='color:red'>**-14.15**</span> | 1.91 | <span style='color:red'>**17.97**</span> | |
 
 #### Transient (tran)
 
@@ -50,29 +50,29 @@ Check settling time and current variation
 |**Name**|**Parameter**|**Description**| |**Min**|**Typ**|**Max**| Unit|
 |:---|:---|:---|---:|:---:|:---:|:---:| ---:|
 ||**t\_settle** || **Spec**  | **0.01** | **0.05** | **2.00** | **us** |
-| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 0.91 |  | |
-| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|0.71 | 1.12 | <span style='color:red'>**2.23**</span> | |
-| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.68 | 0.91 | 1.13 | |
+| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | <span style='color:red'>**2.12**</span> |  | |
+| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|0.55 | <span style='color:red'>**2.91**</span> | <span style='color:red'>**8.98**</span> | |
+| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|1.73 | <span style='color:red'>**2.15**</span> | <span style='color:red'>**2.56**</span> | |
 ||**i0** || **Spec**  | **0.500** | **1.000** | **2.000** | **uA** |
-| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.153 |  | |
-| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|0.806 | 1.162 | 1.657 | |
-| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.690 | 1.139 | 1.588 | |
+| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.160 |  | |
+| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**0.000**</span> | 1.169 | 1.667 | |
+| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.789 | 1.129 | 1.468 | |
 ||**i1** || **Spec**  | **0.500** | **1.000** | **2.000** | **uA** |
-| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.152 |  | |
-| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|0.805 | 1.162 | 1.657 | |
-| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.697 | 1.146 | 1.594 | |
+| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.159 |  | |
+| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**0.000**</span> | 1.169 | 1.667 | |
+| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.829 | 1.122 | 1.414 | |
 ||**i2** || **Spec**  | **0.500** | **1.000** | **2.000** | **uA** |
-| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.152 |  | |
-| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|0.804 | 1.162 | 1.656 | |
-| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.726 | 1.131 | 1.537 | |
+| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.159 |  | |
+| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**0.000**</span> | 1.168 | 1.666 | |
+| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.827 | 1.124 | 1.421 | |
 ||**i3** || **Spec**  | **0.500** | **1.000** | **2.000** | **uA** |
-| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.152 |  | |
-| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|0.804 | 1.161 | 1.656 | |
-| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.664 | 1.152 | 1.639 | |
+| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 1.159 |  | |
+| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**0.000**</span> | 1.168 | 1.666 | |
+| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|0.894 | 1.136 | 1.378 | |
 ||**idd** || **Spec**  | **5.000** | **30.000** | **60.000** | **uA** |
-| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 29.134 |  | |
-| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|15.579 | 30.086 | 48.825 | |
-| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|23.875 | 28.985 | 34.095 | |
+| | | |<a href='results/tran_Sch_typical.html'>Sch_typ</a>| | 37.527 |  | |
+| | | |<a href='results/tran_Sch_etc.html'>Sch_etc</a>|<span style='color:red'>**0.474**</span> | 35.672 | 49.636 | |
+| | | |<a href='results/tran_Sch_mc.html'>Sch_3std</a>|30.925 | 36.712 | 42.498 | |
 
 #### DC (dc)
 
@@ -83,23 +83,23 @@ Check temperature performance
 |**Name**|**Parameter**|**Description**| |**Min**|**Typ**|**Max**| Unit|
 |:---|:---|:---|---:|:---:|:---:|:---:| ---:|
 ||**ibp\_err\_max** || **Spec**  | **-30.00** | **0.00** | **20.00** | **nA** |
-| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 8.23 |  | |
-| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|7.33 | 8.26 | 9.40 | |
-| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|5.26 | 8.35 | 11.45 | |
+| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 8.34 |  | |
+| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|7.43 | 8.31 | 9.50 | |
+| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|4.21 | 8.50 | 12.79 | |
 ||**ibp\_err\_min** || **Spec**  | **-30.00** | **0.00** | **20.00** | **nA** |
-| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | -18.01 |  | |
-| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|-20.64 | -18.04 | -15.92 | |
-| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|<span style='color:red'>**-35.11**</span> | -18.10 | -1.08 | |
+| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | -18.35 |  | |
+| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|-20.95 | -18.33 | -16.02 | |
+| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|-29.22 | -18.48 | -7.74 | |
 ||**imax** || **Spec**  | **0.50** | **0.00** | **2.00** | **uA** |
-| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 1.45 |  | |
-| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|1.28 | 1.45 | 1.66 | |
-| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|0.99 | 1.43 | 1.87 | |
+| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 1.46 |  | |
+| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|1.29 | 1.46 | 1.67 | |
+| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|1.09 | 1.43 | 1.77 | |
 ||**imin** || **Spec**  | **0.50** | **0.00** | **2.00** | **uA** |
 | | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 0.91 |  | |
-| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|0.81 | 0.91 | 1.04 | |
-| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|<span style='color:red'>**0.46**</span> | 0.90 | 1.33 | |
+| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|0.81 | 0.92 | 1.05 | |
+| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|0.55 | 0.88 | 1.21 | |
 ||**a\_per\_c** || **Spec**  | **1.00** | **3.00** | **5.00** | **nA** |
-| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 3.25 |  | |
-| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|2.89 | 3.25 | 3.73 | |
-| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|2.84 | 3.23 | 3.62 | |
+| | | |<a href='results/dc_Sch_typical.html'>Sch_typ</a>| | 3.27 |  | |
+| | | |<a href='results/dc_Sch_etc.html'>Sch_etc</a>|2.90 | 3.28 | 3.76 | |
+| | | |<a href='results/dc_Sch_mc.html'>Sch_3std</a>|2.82 | 3.30 | 3.78 | |
 
