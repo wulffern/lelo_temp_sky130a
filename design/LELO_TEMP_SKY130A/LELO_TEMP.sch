@@ -65,7 +65,6 @@ C {cborder/border_xs.sym} 150 -160 0 0 { user="wulff" company="wulff"}
 C {devices/ipin.sym} 100 -700 0 0 {name=p1 lab=VDD_1V8}
 C {devices/ipin.sym} 100 -200 0 0 {name=p2 lab=VSS}
 C {devices/ipin.sym} 100 -300 0 0 {name=p3 lab=PWRUP_1V8}
-C {devices/opin.sym} 1320 -750 0 0 {name=p4 lab=OSC_TEMP_1V8}
 C {LELO_TEMP_SKY130A/LELOTEMP_BIAS_IBP.sym} 660 -290 0 0 {name=x1_ibp}
 C {devices/lab_wire.sym} 840 -300 0 0 {name=p8 sig_type=std_logic lab=LPI}
 C {devices/lab_wire.sym} 840 -260 0 0 {name=p9 sig_type=std_logic lab=VC}
@@ -113,3 +112,4 @@ C {devices/lab_wire.sym} 480 -410 0 0 {name=p24 sig_type=std_logic lab=RST_B}
 C {devices/lab_wire.sym} 480 -390 0 0 {name=p25 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 860 -510 0 0 {name=p26 sig_type=std_logic lab=CMPO_A}
 C {devices/lab_wire.sym} 840 -770 0 0 {name=p27 sig_type=std_logic lab=CMPO_B}
+C {devices/opin.sym} 1320 -750 0 0 {name=p29 lab=OSC_TEMP_1V8}
