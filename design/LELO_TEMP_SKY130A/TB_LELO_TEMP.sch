@@ -149,8 +149,8 @@ C {devices/code_shown.sym} -1200 -390 0 0 {name=s1 only_toplevel=false value="
 .param mc_mm_switch=0
 .param mc_pr_switch=0
 
-.lib "../../../tech/ngspice/temperature.spi" Tt
-.lib "../../../tech/ngspice/corners.spi" Ktt
+.lib "../../../tech/ngspice/temperature.spi" Tl
+.lib "../../../tech/ngspice/corners.spi" Kss
 .lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 
