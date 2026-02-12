@@ -5,8 +5,8 @@ V {}
 S {}
 E {}
 B 2 170 -590 970 -190 {flags=graph
-y1=-9.9e-06
-y2=-9.1e-06
+y1=-1.3143006e-06
+y2=-4.02814e-08
 ypos1=0
 ypos2=2
 divy=5
@@ -49,10 +49,13 @@ C {devices/code_shown.sym} -410 -430 0 0 {name=s1 only_toplevel=false value="
 .lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 
+Bt1 vtemp 0 V=TEMPER
+
 .option savecurrents
 .save all
 .control
 optran 0 0 0 10n 1u 0
+
 
 
 dc TEMP -40 125 5

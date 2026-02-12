@@ -40,8 +40,8 @@ R2 clk OSC_TEMP_1V8 1
 * DUT
 *-----------------------------------------------------------------
 .include ../xdut.spi
-.include ../svinst.spi
-*.include ../svinst_tc.spi
+* .include ../svinst.spi
+* .include ../svinst_tc.spi
 .include ../svinst_tfsm.spi
 *----------------------------------------------------------------
 * PROBE
