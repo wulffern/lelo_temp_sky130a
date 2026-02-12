@@ -146,12 +146,12 @@ C {devices/lab_wire.sym} -430 -60 0 0 {name=p1 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_wire.sym} -460 -20 0 0 {name=p3 sig_type=std_logic lab=0}
 C {devices/lab_wire.sym} -30 -60 0 1 {name=p4 sig_type=std_logic lab=OSC_TEMP_1V8}
 C {devices/vsource.sym} -640 -50 0 0 {name=V1 value="pwl 0 0 0.5u 0 1.5u \{VDDA\}" savecurrent=false}
-C {devices/code_shown.sym} -1200 -390 0 0 {name=s1 only_toplevel=false value="
+C {devices/code_shown.sym} -1170 -350 0 0 {name=s1 only_toplevel=false value="
 .param mc_mm_switch=0
 .param mc_pr_switch=0
 
-.lib "../../../tech/ngspice/temperature.spi" Tt
-.lib "../../../tech/ngspice/corners.spi" Ktt
+.lib "../../../tech/ngspice/temperature.spi" Tl
+.lib "../../../tech/ngspice/corners.spi" Kss
 .lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 
@@ -161,8 +161,9 @@ C {devices/code_shown.sym} -1200 -390 0 0 {name=s1 only_toplevel=false value="
 .control
 optran 0 0 0 10n 1u 0
 
-
 tran 0.1n 8u
+remzerovec
+
 write TB_LELO_TEMP_tran.raw
 
 exit

@@ -13,8 +13,8 @@ gain:
   src: lf_gain
   name: DC gain
   typ: 40
-  min: 25
-  max: 55
+  min: 50
+  max: 80
   scale: 1
   unit: dB
 
@@ -31,7 +31,7 @@ unityGain:
   src: ug
   name: Unity Gain Frequency
   typ: 15
-  min: 0.4
+  min: 3
   max: 100
   scale: 1e-6
   unit: "MHz"
