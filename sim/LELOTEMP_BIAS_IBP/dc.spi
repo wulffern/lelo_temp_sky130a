@@ -45,10 +45,11 @@ Bt1 vtemp 0 V=TEMPER
 .include ../xdut.spi
 
 
-.option savecurrents
+
 
 #ifdef Debug
 .save all
+.option savecurrents
 #endif
 
 .save v(xdut.vr1)

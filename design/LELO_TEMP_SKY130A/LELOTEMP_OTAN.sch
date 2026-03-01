@@ -283,14 +283,32 @@ N 1760 -100 1760 -70 {lab=VSS}
 N 1800 -40 1820 -40 {lab=PWRUP_N_1V8}
 N 1680 -10 1760 -10 {lab=VCN}
 N 1680 -290 1680 -10 {lab=VCN}
+N 1620 -740 1620 -730 {lab=VDD_1v8}
+N 1620 -740 1710 -740 {lab=VDD_1v8}
+N 1680 -740 1680 -730 {lab=VDD_1v8}
+N 1650 -740 1650 -730 {lab=VDD_1v8}
+N 1650 -690 1650 -490 {lab=VCP}
+N 1600 -490 1650 -490 {lab=VCP}
+N 1710 30 1730 30 {lab=VSS}
+N 1730 30 1730 60 {lab=VSS}
+N 1680 60 1730 60 {lab=VSS}
+N 1680 30 1680 60 {lab=VSS}
+N 1680 30 1680 60 {lab=VSS}
+N 1650 60 1680 60 {lab=VSS}
+N 1650 30 1650 60 {lab=VSS}
+N 1650 -100 1650 30 {lab=VSS}
+N 1330 -120 1330 -100 {lab=VSS}
+N 1360 -120 1360 -100 {lab=VSS}
+N 1390 -120 1390 -100 {lab=VSS}
+N 1360 -190 1360 -160 {lab=VBNT}
 C {devices/ipin.sym} 210 -760 2 1 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 100 -100 2 1 {name=p5 lab=VSS}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 330 -450 0 1 {name=xca3}
 C {devices/ipin.sym} 150 -450 2 1 {name=p9 lab=PWRUP_N_1V8}
 C {devices/ipin.sym} 150 -690 2 1 {name=p10 lab=PWRUP_1V8}
 C {cborder/border_xs.sym} 60 10 0 0 {user="Carsten Wulff" company="Carsten Wulff Software"}
-C {LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sym} 570 -400 0 0 {name=xbb1[3:0]}
-C {LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sym} 880 -400 0 1 {name=xbb2[3:0]}
+C {LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sym} 570 -400 0 0 {name=xbb1[7:0]}
+C {LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sym} 880 -400 0 1 {name=xbb2[7:0]}
 C {devices/lab_wire.sym} 630 -400 0 1 {name=p1 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 820 -400 0 0 {name=p2 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 690 -320 0 0 {name=p7 sig_type=std_logic lab=VS}
@@ -361,7 +379,7 @@ C {devices/lab_wire.sym} 1750 -440 0 1 {name=p35 sig_type=std_logic lab=VCN}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 760 -130 0 1 {name=xca1[3:0]}
 C {devices/lab_wire.sym} 800 -130 0 1 {name=p15 sig_type=std_logic lab=PWRUP_1V8}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 1560 -130 0 0 {name=xca15[1:0]}
-C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 2070 -130 0 0 {name=xca9}
+C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 2070 -130 0 0 {name=xca9[1:0]}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 2250 -200 0 0 {name=xca10}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C1F2.sym} 2250 -300 0 0 {name=xba3}
 C {devices/lab_wire.sym} 2290 -330 0 1 {name=p43 sig_type=std_logic lab=VDD_1V8}
@@ -427,3 +445,6 @@ C {devices/lab_wire.sym} 1440 -730 0 1 {name=p68 sig_type=std_logic lab=PWRUP_1V
 }
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 1800 -40 2 0 {name=xca19}
 C {devices/lab_wire.sym} 1820 -40 2 0 {name=p69 sig_type=std_logic lab=PWRUP_N_1V8}
+C {JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sym} 1650 -690 3 0 {name=xbb4}
+C {LELO_ATR_SKY130A/LELOATR_PCH_12C5F0.sym} 1680 -10 1 0 {name=x2 }
+C {LELO_ATR_SKY130A/LELOATR_PCH_12C5F0.sym} 1360 -160 1 0 {name=x3 }
