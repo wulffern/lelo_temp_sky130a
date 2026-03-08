@@ -18,11 +18,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "docs"
+  group: "pdf"
   cancel-in-progress: true
 
 jobs:
-  docs:
+  pdf:
     uses: analogicus/jnw-actions/.github/workflows/pdf.yaml@main
     permissions:
       contents: read
