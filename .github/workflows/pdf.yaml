@@ -1,0 +1,30 @@
+name: DOCS
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**.md'
+      - 'documents/**'
+      - 'media/**'
+      - 'design/**'
+      - 'info.yaml'
+      - 'config.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "docs"
+  cancel-in-progress: true
+
+jobs:
+  docs:
+    uses: analogicus/jnw-actions/.github/workflows/pdf.yaml@latex
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
