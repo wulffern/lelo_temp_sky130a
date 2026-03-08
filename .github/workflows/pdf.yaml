@@ -1,4 +1,4 @@
-name: DOCS
+name: PDF
 
 on:
   push:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   docs:
-    uses: analogicus/jnw-actions/.github/workflows/pdf.yaml@latex
+    uses: analogicus/jnw-actions/.github/workflows/pdf.yaml@main
     permissions:
       contents: read
       pages: write
