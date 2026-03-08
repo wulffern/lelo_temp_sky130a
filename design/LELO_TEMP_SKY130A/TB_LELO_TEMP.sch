@@ -6,8 +6,8 @@ V {}
 S {}
 E {}
 B 2 60 -680 860 -280 {flags=graph
-y1=-0.0842427
-y2=1.1809093
+y1=-0.032
+y2=1.8
 ypos1=0
 ypos2=2
 divy=5
@@ -43,6 +43,7 @@ subdivy=4
 unity=1
 x1=0
 x2=8e-06
+
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -59,8 +60,8 @@ logy=0
 rawfile=$netlist_dir/TB_LELO_TEMP_tran.raw
 legend=1}
 B 2 -828.9155212205286 -1130 -28.9155212205286 -730 {flags=graph
-y1=4.6e-16
-y2=1.9
+y1=-5.1e-15
+y2=1.8
 ypos1=0
 ypos2=2
 divy=5
@@ -150,8 +151,9 @@ C {devices/code_shown.sym} -1170 -350 0 0 {name=s1 only_toplevel=false value="
 .param mc_mm_switch=0
 .param mc_pr_switch=0
 
-.lib "../../../tech/ngspice/temperature.spi" Tl
-.lib "../../../tech/ngspice/corners.spi" Kss
+
+.lib "../../../tech/ngspice/temperature.spi" Tt
+.lib "../../../tech/ngspice/corners.spi" Ktt
 .lib "../../../tech/ngspice/supply.spi" Vt
 .include ../../../../cpdk/ngspice/ideal_circuits.spi
 
@@ -160,8 +162,9 @@ C {devices/code_shown.sym} -1170 -350 0 0 {name=s1 only_toplevel=false value="
 .save all
 .control
 optran 0 0 0 10n 1u 0
+unset askquit
 
-tran 0.1n 8u
+tran 2n 8u
 remzerovec
 
 write TB_LELO_TEMP_tran.raw

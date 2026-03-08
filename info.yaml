@@ -11,6 +11,7 @@ doc:
   libraries:
     LELO_TEMP_SKY130A:
       - LELOTEMP_BIAS_IBP
+      #- LELOTEMP_OTA
       - LELOTEMP_OTAN
       - LELO_TEMP
       - LELOTEMP_CCMP

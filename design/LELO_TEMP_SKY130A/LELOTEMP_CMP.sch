@@ -110,8 +110,6 @@ C {devices/ipin.sym} 750 -530 2 0 {name=p2 lab=VIP}
 C {devices/ipin.sym} 470 -530 2 1 {name=p3 lab=VIN}
 C {devices/ipin.sym} 130 -810 2 1 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 90 -130 2 1 {name=p5 lab=VSS}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 490 -530 0 0 {name=xpb1[1:0]}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 730 -530 0 1 {name=xpc2[1:0]}
 C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 570 -240 0 1 {name=xca4}
 C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 650 -240 0 0 {name=xca8}
 C {cborder/border_xs.sym} 0 -10 0 0 {user="Carsten Wulff" company="Carsten Wulff Software"}
@@ -131,3 +129,5 @@ C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 1230 -760 0 0 {name=xpd10}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 660 -760 0 1 {name=xpd9[2:0]}
 C {devices/lab_wire.sym} 620 -600 0 0 {name=p7 sig_type=std_logic lab=VS}
 C {devices/lab_wire.sym} 1140 -650 0 0 {name=p13 sig_type=std_logic lab=VBP2}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 730 -530 0 1 {name=xpd1}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 490 -530 0 0 {name=xpd2}

@@ -58,8 +58,8 @@ C {devices/code_shown.sym} -690 -310 0 0 {name=s1 only_toplevel=false value="
 optran 0 0 0 10n 10u 0
 op
 
-dc TEMP -40 125 10
-
+dc TEMP -40 125 5
+print i(V1)
 write res_tempco.raw
 exit
 .endc
