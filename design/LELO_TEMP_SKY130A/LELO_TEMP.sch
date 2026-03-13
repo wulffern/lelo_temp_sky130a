@@ -53,7 +53,6 @@ N 480 -690 510 -690 {lab=VC}
 N 480 -670 510 -670 {lab=RST_A}
 N 480 -650 510 -650 {lab=VSS}
 N 810 -770 850 -770 {lab=CMPO_B}
-N 810 -510 980 -510 {lab=CMPO_A}
 N 480 -510 510 -510 {lab=VDD_1V8}
 N 480 -490 510 -490 {lab=IBP_1U[3:2]}
 N 480 -470 510 -470 {lab=PWRUP_N_1V8}
@@ -61,6 +60,10 @@ N 480 -450 510 -450 {lab=PWRUP_B_1V8}
 N 480 -430 510 -430 {lab=VC}
 N 480 -410 510 -410 {lab=RST_B}
 N 480 -390 510 -390 {lab=VSS}
+N 930 -510 980 -510 {lab=#net2}
+N 810 -510 850 -510 {lab=CMPO_A}
+N 890 -470 910 -470 {lab=VSS}
+N 890 -550 910 -550 {lab=VDD_1V8}
 C {cborder/border_xs.sym} 150 -160 0 0 { user="wulff" company="wulff"}
 C {devices/ipin.sym} 100 -700 0 0 {name=p1 lab=VDD_1V8}
 C {devices/ipin.sym} 100 -200 0 0 {name=p2 lab=VSS}
@@ -110,6 +113,9 @@ C {devices/lab_wire.sym} 480 -650 0 0 {name=p22 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 480 -430 0 0 {name=p23 sig_type=std_logic lab=VC}
 C {devices/lab_wire.sym} 480 -410 0 0 {name=p24 sig_type=std_logic lab=RST_B}
 C {devices/lab_wire.sym} 480 -390 0 0 {name=p25 sig_type=std_logic lab=VSS}
-C {devices/lab_wire.sym} 860 -510 0 0 {name=p26 sig_type=std_logic lab=CMPO_A}
+C {devices/lab_wire.sym} 840 -510 0 0 {name=p26 sig_type=std_logic lab=CMPO_A}
 C {devices/lab_wire.sym} 840 -770 0 0 {name=p27 sig_type=std_logic lab=CMPO_B}
 C {devices/opin.sym} 1320 -750 0 0 {name=p29 lab=OSC_TEMP_1V8}
+C {JNW_TR_SKY130A/JNWTR_BFX1_CV.sym} 850 -510 0 0 {name=x1 }
+C {devices/lab_pin.sym} 910 -470 0 1 {name=l11 sig_type=std_logic lab=VSS}
+C {devices/lab_pin.sym} 910 -550 0 1 {name=l12 sig_type=std_logic lab=VDD_1V8}

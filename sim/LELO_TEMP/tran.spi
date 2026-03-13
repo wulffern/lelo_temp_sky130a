@@ -11,7 +11,8 @@
 *-----------------------------------------------------------------
 * OPTIONS
 *-----------------------------------------------------------------
-.option TNOM=27 GMIN=1e-15 reltol=1e-5
+.option TNOM=27 GMIN=1e-15 reltol=1e-4 method=gear
+.options sparse
 *-----------------------------------------------------------------
 * PARAMETERS
 *-----------------------------------------------------------------
@@ -50,9 +51,9 @@ VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start} + 10p} {AVDD}
 * NGSPICE control
 *----------------------------------------------------------------
 .control
-set num_threads=8
-set color0=white
-set color1=black
+*set num_threads=64
+*set color0=white
+*set color1=black
 unset askquit
 
 optran 0 0 0 1n 1u 0

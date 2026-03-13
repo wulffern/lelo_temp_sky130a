@@ -1,0 +1,30 @@
+name: PDF
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**.md'
+      - 'documents/**'
+      - 'media/**'
+      - 'design/**'
+      - 'info.yaml'
+      - 'config.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pdf"
+  cancel-in-progress: true
+
+jobs:
+  pdf:
+    uses: analogicus/jnw-actions/.github/workflows/pdf.yaml@main
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

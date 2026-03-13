@@ -51,8 +51,6 @@ N 310 -970 340 -970 {
 lab=VDD_1V8}
 N 680 -890 680 -830 {
 lab=LPI}
-N 670 -890 950 -890 {
-lab=LPI}
 N 1180 -970 1180 -920 {
 lab=VDD_1V8}
 N 980 -970 1180 -970 {
@@ -81,7 +79,6 @@ N 790 -560 790 -480 {
 lab=VD1}
 N 980 -330 980 -310 {lab=#net1}
 N 890 -270 960 -270 {lab=VSS}
-N 790 -900 790 -890 {lab=LPI}
 N 680 -830 680 -810 {lab=LPI}
 N 680 -810 800 -810 {lab=LPI}
 N 770 -560 770 -510 {lab=VSS}
@@ -132,6 +129,10 @@ N 940 -780 940 -750 {lab=VCP}
 N 1140 -780 1140 -750 {lab=VCP}
 N 680 -760 680 -730 {lab=VCP}
 N 970 -890 980 -890 {lab=VDD_1V8}
+N 710 -900 710 -760 {lab=VCP}
+N 680 -760 710 -760 {lab=VCP}
+N 680 -890 940 -890 {lab=LPI}
+N 830 -900 830 -890 {lab=LPI}
 C {devices/ipin.sym} 300 -970 0 0 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 313.9889709803555 -100 0 0 {name=p5 lab=VSS}
 C {devices/ipin.sym} 860 -810 2 0 {name=p7 lab=LPI}
@@ -142,7 +143,7 @@ C {devices/lab_pin.sym} 980 -220 0 1 {name=l4 sig_type=std_logic lab=VD2}
 C {devices/lab_pin.sym} 980 -430 0 1 {name=l5 sig_type=std_logic lab=VR1}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 940 -890 0 0 {name=xca2}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 680 -890 0 1 {name=xca1[7:0]}
-C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 790 -960 2 1 {name=xd1[4:0]}
+C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 830 -960 2 1 {name=xd1[9:0]}
 C {LELO_TEMP_SKY130A/LELOTEMP_OTAN.sym} 800 -710 1 1 {name=xad6}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 1140 -890 0 0 {name=xca3[3:0]}
 C {JNW_TR_SKY130A/JNWTR_RPPO4.sym} 980 -310 1 0 {name=xrac2}
@@ -168,3 +169,4 @@ C {devices/lab_pin.sym} 1140 -750 1 1 {name=l17 sig_type=std_logic lab=VCP}
 C {devices/lab_pin.sym} 640 -840 0 0 {name=l19 sig_type=std_logic lab=VBD1}
 C {devices/lab_pin.sym} 980 -840 0 0 {name=l20 sig_type=std_logic lab=VBD2}
 C {devices/lab_pin.sym} 680 -730 1 1 {name=l21 sig_type=std_logic lab=VCP}
+C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 710 -960 2 1 {name=xd2[2:0]}
