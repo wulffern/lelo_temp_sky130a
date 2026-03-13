@@ -86,6 +86,8 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
   obj["freq_max"] = float(freq.min())
   obj["temperature"] = [float(lt.celcius(x)) for x in xk]
   obj["freq"] = [float(f) for f in freq]
+  obj["error_two_pp"] = float(np.abs((error_two[istart:istop+1].max() - error_two[istart:istop+1].min())))
+  obj["FOM"] = float((-obj["idd_25"]*(1/32768)/(100e-3) -obj["iddq_25"])*obj["error_two_pp"])
 
   with open(yamlfile,"w") as fo:
     yaml.dump(obj,fo)
