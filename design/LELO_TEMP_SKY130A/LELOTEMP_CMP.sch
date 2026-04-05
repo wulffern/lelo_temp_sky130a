@@ -131,3 +131,22 @@ C {devices/lab_wire.sym} 620 -600 0 0 {name=p7 sig_type=std_logic lab=VS}
 C {devices/lab_wire.sym} 1140 -650 0 0 {name=p13 sig_type=std_logic lab=VBP2}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 730 -530 0 1 {name=xbd_right[0]}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 490 -530 0 0 {name=xbc_left[0]}
+C {devices/code_shown.sym} 1460 -980 0 0 {name=s_dummy only_toplevel=false value="
+* Layout dummy devices
+xfill_n_bias_ref_0 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_bias_ref_1 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_left_0 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_left_1 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_right_0 VSS VSS VSS VSS JNWATR_NCH_2C1F2
+xfill_n_right_1 VSS VSS VSS VSS JNWATR_NCH_2C1F2
+xfill_n_out_0 VSS VSS VSS VSS JNWATR_NCH_4C5F0
+xfill_n_out_1 VSS VSS VSS VSS JNWATR_NCH_4C5F0
+xfill_n_out_2 VSS VSS VSS VSS JNWATR_NCH_4C5F0
+xfill_p_bias_ref_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C5F0
+xfill_p_left_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_left_1 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_right_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_right_1 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_out_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C5F0
+xfill_p_out_1 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C5F0
+"}

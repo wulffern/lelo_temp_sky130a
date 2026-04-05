@@ -3,198 +3,342 @@ tech sky130A
 magscale 1 2
 timestamp 1775340000
 << checkpaint >>
-rect 0 0 5248 7920
+rect 0 0 5344 8520
+<< locali >>
+rect 0 2740 832 2820
+rect 0 2420 704 2500
+rect 642 2420 702 2500
+rect 0 3540 832 3620
+rect 0 3220 704 3300
+rect 642 3220 702 3300
+rect 2048 2740 2880 2820
+rect 2048 2420 2752 2500
+rect 2690 2420 2750 2500
+rect 2048 3540 2880 3620
+rect 2048 3220 2752 3300
+rect 2690 3220 2750 3300
+rect 3200 2776 3904 2784
+rect 3200 2760 3776 2800
+rect 3714 2600 3774 2640
+rect 3200 3576 3904 3584
+rect 3200 3560 3776 3600
+rect 3714 3400 3774 3440
+rect 4096 1940 5056 2020
+rect 4096 1620 4928 1700
+rect 4802 1620 4862 1700
+rect 4096 2740 5056 2820
+rect 4096 2420 4928 2500
+rect 4802 2420 4862 2500
+rect 4096 3540 5056 3620
+rect 4096 3220 4928 3300
+rect 4802 3220 4862 3300
+rect 0 5700 832 5780
+rect 0 5380 704 5460
+rect 642 5380 702 5460
+rect 2048 5700 2880 5780
+rect 2048 5540 2752 5620
+rect 2690 5540 2750 5620
+rect 2048 6500 2880 6580
+rect 2048 6340 2752 6420
+rect 2690 6340 2750 6420
+rect 3072 5700 3904 5780
+rect 3072 5540 3776 5620
+rect 3714 5540 3774 5620
+rect 3072 6500 3904 6580
+rect 3072 6340 3776 6420
+rect 3714 6340 3774 6420
+rect 4096 5700 4928 5780
+rect 4096 5380 4800 5460
+rect 4738 5380 4798 5460
+rect 4096 6500 4928 6580
+rect 4096 6180 4800 6260
+rect 4738 6180 4798 6260
+rect 96 8340 5344 8520
+rect 96 8340 5344 8520
+rect 0 6500 192 8520
+rect 0 7300 192 8520
+rect 1024 5700 1216 8520
+rect 1024 6500 1216 8520
+rect 1024 7300 1216 8520
+rect 2048 7300 2240 8520
+rect 3072 7300 3264 8520
+rect 4096 7300 4288 8520
+rect 96 0 5344 180
+rect 96 0 5344 180
+rect 0 0 192 1220
+rect 0 0 192 2020
+rect 1024 0 1216 1220
+rect 1024 0 1216 2020
+rect 1024 0 1216 2820
+rect 1024 0 1216 3620
+rect 2048 0 2240 1220
+rect 2048 0 2240 2020
+rect 3072 0 3264 1220
+rect 3072 0 3264 2020
+rect 4096 0 4288 1220
+rect 640 6180 832 6260
+rect 320 6180 640 6260
+rect 640 6180 1344 6260
+rect 640 6180 1344 6260
+rect 640 6180 1344 6260
+rect 640 6180 4416 6260
 << metal1 >>
-rect 288 5640 480 5720
-rect 3232 5400 3296 5480
-rect 3616 520 3808 600
-rect 2208 5400 2272 5480
-rect 288 1080 480 1160
-rect 160 5400 224 5480
-rect 160 840 224 920
-rect 544 520 736 600
+rect 384 6740 576 8520
+rect 384 7540 576 8520
+rect 1408 5940 1600 8520
+rect 1408 6740 1600 8520
+rect 1408 7540 1600 8520
+rect 4480 7540 4672 8520
+rect 384 0 576 1460
+rect 384 0 576 2260
+rect 1408 0 1600 1460
+rect 1408 0 1600 2260
+rect 1408 0 1600 3060
+rect 1408 0 1600 3860
+rect 2432 0 2624 1460
+rect 2432 0 2624 2260
+rect 3456 0 3648 1460
+rect 3456 0 3648 2260
+rect 4480 0 4672 1460
+rect 3328 7300 3392 7380
+rect 3712 820 3904 900
+rect 2304 7300 2368 7380
+rect 256 6500 320 6580
+rect 256 1140 320 1220
+rect 640 820 832 900
 use JNWATR_NCH_2C5F0 xaa_bias_ref<0> ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 480
-box 0 480 1024 1280
+transform 1 0 96 0 1 780
+box 96 780 1120 1580
 use JNWATR_NCH_2C5F0 xaa_bias_ref<1> ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 1280
-box 0 1280 1024 2080
+transform 1 0 96 0 1 1580
+box 96 1580 1120 2380
 use JNWATR_NCH_2C5F0 xab_bias_mirror<0> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 480
-box 1024 480 2048 1280
+transform 1 0 1120 0 1 780
+box 1120 780 2144 1580
 use JNWATR_NCH_2C5F0 xab_bias_mirror<1> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 1280
-box 1024 1280 2048 2080
+transform 1 0 1120 0 1 1580
+box 1120 1580 2144 2380
 use JNWATR_NCH_2C5F0 xab_bias_mirror<2> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 2080
-box 1024 2080 2048 2880
+transform 1 0 1120 0 1 2380
+box 1120 2380 2144 3180
 use JNWATR_NCH_2C5F0 xab_bias_mirror<3> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 2880
-box 1024 2880 2048 3680
+transform 1 0 1120 0 1 3180
+box 1120 3180 2144 3980
 use JNWATR_NCH_2C5F0 xac_left<0> ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 480
-box 2048 480 3072 1280
+transform 1 0 2144 0 1 780
+box 2144 780 3168 1580
 use JNWATR_NCH_2C5F0 xac_left<1> ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 1280
-box 2048 1280 3072 2080
+transform 1 0 2144 0 1 1580
+box 2144 1580 3168 2380
 use JNWATR_NCH_2C1F2 xad_right<0> ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 480
-box 3072 480 4096 1280
+transform 1 0 3168 0 1 780
+box 3168 780 4192 1580
 use JNWATR_NCH_2C5F0 xad_right<1> ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 1280
-box 3072 1280 4096 2080
+transform 1 0 3168 0 1 1580
+box 3168 1580 4192 2380
 use JNWATR_NCH_4C5F0 xae_out<0> ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 480
-box 4096 480 5248 1280
+transform 1 0 4192 0 1 780
+box 4192 780 5344 1580
 use JNWATR_PCH_2C5F0 xba_bias_ref<0> ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 5040
-box 0 5040 1024 5840
+transform 1 0 96 0 1 6140
+box 96 6140 1120 6940
 use JNWATR_PCH_2C5F0 xba_bias_ref<1> ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 5840
-box 0 5840 1024 6640
+transform 1 0 96 0 1 6940
+box 96 6940 1120 7740
 use JNWATR_PCH_2C5F0 xbb_bias_mirror<0> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 5040
-box 1024 5040 2048 5840
+transform 1 0 1120 0 1 5340
+box 1120 5340 2144 6140
 use JNWATR_PCH_2C5F0 xbb_bias_mirror<1> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 5840
-box 1024 5840 2048 6640
+transform 1 0 1120 0 1 6140
+box 1120 6140 2144 6940
 use JNWATR_PCH_2C5F0 xbb_bias_mirror<2> ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 6640
-box 1024 6640 2048 7440
+transform 1 0 1120 0 1 6940
+box 1120 6940 2144 7740
 use JNWATR_PCH_2C1F2 xbc_left<0> ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 5040
-box 2048 5040 3072 5840
+transform 1 0 2144 0 1 6940
+box 2144 6940 3168 7740
 use JNWATR_PCH_2C1F2 xbd_right<0> ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 5040
-box 3072 5040 4096 5840
+transform 1 0 3168 0 1 6940
+box 3168 6940 4192 7740
 use JNWATR_PCH_2C5F0 xbe_out<0> ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 5040
-box 4096 5040 5120 5840
+transform 1 0 4192 0 1 6940
+box 4192 6940 5216 7740
 use JNWATR_NCH_2C5F0 xfill_n_bias_ref_0 ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 2080
-box 0 2080 1024 2880
+transform 1 0 96 0 1 2380
+box 96 2380 1120 3180
 use JNWATR_NCH_2C5F0 xfill_n_bias_ref_1 ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 2880
-box 0 2880 1024 3680
+transform 1 0 96 0 1 3180
+box 96 3180 1120 3980
 use JNWATR_NCH_2C5F0 xfill_n_left_0 ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 2080
-box 2048 2080 3072 2880
+transform 1 0 2144 0 1 2380
+box 2144 2380 3168 3180
 use JNWATR_NCH_2C5F0 xfill_n_left_1 ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 2880
-box 2048 2880 3072 3680
-use JNWATR_NCH_2C1F2 xfill_n_right_0 ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 2080
-box 3072 2080 4096 2880
-use JNWATR_NCH_2C1F2 xfill_n_right_1 ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 2880
-box 3072 2880 4096 3680
+transform 1 0 2144 0 1 3180
+box 2144 3180 3168 3980
 use JNWATR_NCH_4C5F0 xfill_n_out_0 ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 1280
-box 4096 1280 5248 2080
+transform 1 0 4192 0 1 1580
+box 4192 1580 5344 2380
 use JNWATR_NCH_4C5F0 xfill_n_out_1 ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 2080
-box 4096 2080 5248 2880
+transform 1 0 4192 0 1 2380
+box 4192 2380 5344 3180
 use JNWATR_NCH_4C5F0 xfill_n_out_2 ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 2880
-box 4096 2880 5248 3680
-use JNWATR_NCH_2CTAPBOT xstack_n_bias_ref_bot ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 0
-box 0 0 1024 480
-use JNWATR_NCH_2CTAPTOP xstack_n_bias_ref_top ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 3680
-box 0 3680 1024 4160
-use JNWATR_NCH_2CTAPBOT xstack_n_bias_mirror_bot ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 0
-box 1024 0 2048 480
-use JNWATR_NCH_2CTAPTOP xstack_n_bias_mirror_top ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 3680
-box 1024 3680 2048 4160
-use JNWATR_NCH_2CTAPBOT xstack_n_left_bot ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 0
-box 2048 0 3072 480
-use JNWATR_NCH_2CTAPTOP xstack_n_left_top ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 3680
-box 2048 3680 3072 4160
-use JNWATR_NCH_2CTAPBOT xstack_n_right_bot ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 0
-box 3072 0 4096 480
-use JNWATR_NCH_2CTAPTOP xstack_n_right_top ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 3680
-box 3072 3680 4096 4160
-use JNWATR_NCH_4CTAPBOT xstack_n_out_bot ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 0
-box 4096 0 5248 480
-use JNWATR_NCH_4CTAPTOP xstack_n_out_top ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 3680
-box 4096 3680 5248 4160
+transform 1 0 4192 0 1 3180
+box 4192 3180 5344 3980
+use JNWATR_NCH_2C1F2 xfill_n_right_0 ../JNW_ATR_SKY130A
+transform 1 0 3168 0 1 2380
+box 3168 2380 4192 3180
+use JNWATR_NCH_2C1F2 xfill_n_right_1 ../JNW_ATR_SKY130A
+transform 1 0 3168 0 1 3180
+box 3168 3180 4192 3980
 use JNWATR_PCH_2C5F0 xfill_p_bias_ref_0 ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 6640
-box 0 6640 1024 7440
+transform 1 0 96 0 1 5340
+box 96 5340 1120 6140
 use JNWATR_PCH_2C1F2 xfill_p_left_0 ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 5840
-box 2048 5840 3072 6640
+transform 1 0 2144 0 1 6140
+box 2144 6140 3168 6940
 use JNWATR_PCH_2C1F2 xfill_p_left_1 ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 6640
-box 2048 6640 3072 7440
-use JNWATR_PCH_2C1F2 xfill_p_right_0 ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 5840
-box 3072 5840 4096 6640
-use JNWATR_PCH_2C1F2 xfill_p_right_1 ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 6640
-box 3072 6640 4096 7440
+transform 1 0 2144 0 1 5340
+box 2144 5340 3168 6140
 use JNWATR_PCH_2C5F0 xfill_p_out_0 ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 5840
-box 4096 5840 5120 6640
+transform 1 0 4192 0 1 6140
+box 4192 6140 5216 6940
 use JNWATR_PCH_2C5F0 xfill_p_out_1 ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 6640
-box 4096 6640 5120 7440
+transform 1 0 4192 0 1 5340
+box 4192 5340 5216 6140
+use JNWATR_PCH_2C1F2 xfill_p_right_0 ../JNW_ATR_SKY130A
+transform 1 0 3168 0 1 6140
+box 3168 6140 4192 6940
+use JNWATR_PCH_2C1F2 xfill_p_right_1 ../JNW_ATR_SKY130A
+transform 1 0 3168 0 1 5340
+box 3168 5340 4192 6140
+use JNWATR_NCH_2CTAPBOT xstack_n_bias_ref_bot ../JNW_ATR_SKY130A
+transform 1 0 96 0 1 300
+box 96 300 1120 780
+use JNWATR_NCH_2CTAPTOP xstack_n_bias_ref_top ../JNW_ATR_SKY130A
+transform 1 0 96 0 1 3980
+box 96 3980 1120 4460
+use JNWATR_NCH_2CTAPBOT xstack_n_bias_mirror_bot ../JNW_ATR_SKY130A
+transform 1 0 1120 0 1 300
+box 1120 300 2144 780
+use JNWATR_NCH_2CTAPTOP xstack_n_bias_mirror_top ../JNW_ATR_SKY130A
+transform 1 0 1120 0 1 3980
+box 1120 3980 2144 4460
+use JNWATR_NCH_2CTAPBOT xstack_n_left_bot ../JNW_ATR_SKY130A
+transform 1 0 2144 0 1 300
+box 2144 300 3168 780
+use JNWATR_NCH_2CTAPTOP xstack_n_left_top ../JNW_ATR_SKY130A
+transform 1 0 2144 0 1 3980
+box 2144 3980 3168 4460
+use JNWATR_NCH_2CTAPBOT xstack_n_right_bot ../JNW_ATR_SKY130A
+transform 1 0 3168 0 1 300
+box 3168 300 4192 780
+use JNWATR_NCH_2CTAPTOP xstack_n_right_top ../JNW_ATR_SKY130A
+transform 1 0 3168 0 1 3980
+box 3168 3980 4192 4460
+use JNWATR_NCH_4CTAPBOT xstack_n_out_bot ../JNW_ATR_SKY130A
+transform 1 0 4192 0 1 300
+box 4192 300 5344 780
+use JNWATR_NCH_4CTAPTOP xstack_n_out_top ../JNW_ATR_SKY130A
+transform 1 0 4192 0 1 3980
+box 4192 3980 5344 4460
 use JNWATR_PCH_2CTAPBOT xstack_p_bias_ref_bot ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 4560
-box 0 4560 1024 5040
+transform 1 0 96 0 1 4860
+box 96 4860 1120 5340
 use JNWATR_PCH_2CTAPTOP xstack_p_bias_ref_top ../JNW_ATR_SKY130A
-transform 1 0 0 0 1 7440
-box 0 7440 1024 7920
+transform 1 0 96 0 1 7740
+box 96 7740 1120 8220
 use JNWATR_PCH_2CTAPBOT xstack_p_bias_mirror_bot ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 4560
-box 1024 4560 2048 5040
+transform 1 0 1120 0 1 4860
+box 1120 4860 2144 5340
 use JNWATR_PCH_2CTAPTOP xstack_p_bias_mirror_top ../JNW_ATR_SKY130A
-transform 1 0 1024 0 1 7440
-box 1024 7440 2048 7920
+transform 1 0 1120 0 1 7740
+box 1120 7740 2144 8220
 use JNWATR_PCH_2CTAPBOT xstack_p_left_bot ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 4560
-box 2048 4560 3072 5040
+transform 1 0 2144 0 1 4860
+box 2144 4860 3168 5340
 use JNWATR_PCH_2CTAPTOP xstack_p_left_top ../JNW_ATR_SKY130A
-transform 1 0 2048 0 1 7440
-box 2048 7440 3072 7920
+transform 1 0 2144 0 1 7740
+box 2144 7740 3168 8220
 use JNWATR_PCH_2CTAPBOT xstack_p_right_bot ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 4560
-box 3072 4560 4096 5040
+transform 1 0 3168 0 1 4860
+box 3168 4860 4192 5340
 use JNWATR_PCH_2CTAPTOP xstack_p_right_top ../JNW_ATR_SKY130A
-transform 1 0 3072 0 1 7440
-box 3072 7440 4096 7920
+transform 1 0 3168 0 1 7740
+box 3168 7740 4192 8220
 use JNWATR_PCH_2CTAPBOT xstack_p_out_bot ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 4560
-box 4096 4560 5120 5040
+transform 1 0 4192 0 1 4860
+box 4192 4860 5216 5340
 use JNWATR_PCH_2CTAPTOP xstack_p_out_top ../JNW_ATR_SKY130A
-transform 1 0 4096 0 1 7440
-box 4096 7440 5120 7920
+transform 1 0 4192 0 1 7740
+box 4192 7740 5216 8220
+use cut_M1M2_2x2 xcut0 
+transform 1 0 384 0 1 8340
+box 384 8340 560 8516
+use cut_M1M2_2x2 xcut1 
+transform 1 0 384 0 1 8340
+box 384 8340 560 8516
+use cut_M1M2_2x2 xcut2 
+transform 1 0 1408 0 1 8340
+box 1408 8340 1584 8516
+use cut_M1M2_2x2 xcut3 
+transform 1 0 1408 0 1 8340
+box 1408 8340 1584 8516
+use cut_M1M2_2x2 xcut4 
+transform 1 0 1408 0 1 8340
+box 1408 8340 1584 8516
+use cut_M1M2_2x2 xcut5 
+transform 1 0 4480 0 1 8340
+box 4480 8340 4656 8516
+use cut_M1M2_2x2 xcut6 
+transform 1 0 384 0 1 0
+box 384 0 560 176
+use cut_M1M2_2x2 xcut7 
+transform 1 0 384 0 1 0
+box 384 0 560 176
+use cut_M1M2_2x2 xcut8 
+transform 1 0 1408 0 1 0
+box 1408 0 1584 176
+use cut_M1M2_2x2 xcut9 
+transform 1 0 1408 0 1 0
+box 1408 0 1584 176
+use cut_M1M2_2x2 xcut10 
+transform 1 0 1408 0 1 0
+box 1408 0 1584 176
+use cut_M1M2_2x2 xcut11 
+transform 1 0 1408 0 1 0
+box 1408 0 1584 176
+use cut_M1M2_2x2 xcut12 
+transform 1 0 2432 0 1 0
+box 2432 0 2608 176
+use cut_M1M2_2x2 xcut13 
+transform 1 0 2432 0 1 0
+box 2432 0 2608 176
+use cut_M1M2_2x2 xcut14 
+transform 1 0 3456 0 1 0
+box 3456 0 3632 176
+use cut_M1M2_2x2 xcut15 
+transform 1 0 3456 0 1 0
+box 3456 0 3632 176
+use cut_M1M2_2x2 xcut16 
+transform 1 0 4480 0 1 0
+box 4480 0 4656 176
 << labels >>
-flabel metal1 s 288 5640 480 5720 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 96 8340 5344 8520 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
-flabel metal1 s 3232 5400 3296 5480 0 FreeSans 400 0 0 0 VIP
-port 2 nsew signal bidirectional
-flabel metal1 s 3616 520 3808 600 0 FreeSans 400 0 0 0 VO
-port 3 nsew signal bidirectional
-flabel metal1 s 2208 5400 2272 5480 0 FreeSans 400 0 0 0 VIN
-port 4 nsew signal bidirectional
-flabel metal1 s 288 1080 480 1160 0 FreeSans 400 0 0 0 VSS
+flabel locali s 96 0 5344 180 0 FreeSans 400 0 0 0 VSS
 port 5 nsew ground bidirectional
-flabel metal1 s 160 5400 224 5480 0 FreeSans 400 0 0 0 PWRUP_1V8
+flabel metal1 s 3328 7300 3392 7380 0 FreeSans 400 0 0 0 VIP
+port 2 nsew signal bidirectional
+flabel metal1 s 3712 820 3904 900 0 FreeSans 400 0 0 0 VO
+port 3 nsew signal bidirectional
+flabel metal1 s 2304 7300 2368 7380 0 FreeSans 400 0 0 0 VIN
+port 4 nsew signal bidirectional
+flabel metal1 s 256 6500 320 6580 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 6 nsew signal bidirectional
-flabel metal1 s 160 840 224 920 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal1 s 256 1140 320 1220 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 7 nsew signal bidirectional
-flabel metal1 s 544 520 736 600 0 FreeSans 400 0 0 0 IBP_1U
+flabel metal1 s 640 820 832 900 0 FreeSans 400 0 0 0 IBP_1U
 port 8 nsew signal bidirectional
 << properties >>
-string FIXED_BBOX 0 0 5248 7920
+string FIXED_BBOX 0 0 5344 8520
 << end >>
