@@ -29,6 +29,9 @@ See work/Makefile for commands
 - In custom `cicpy` Python placers, disable the default `AVDD/AVSS` paint step with `layout.noPowerRoute = True` when the cell instead uses `VDD_1V8`/`VSS`.
 - When debugging routing, prefer the fast route-short report from `cicpy sch2mag`. It now runs automatically and is intended to point back to the Python route statement that caused the short.
 - Use full connectivity checking only when needed. `cicpy sch2mag --check-connectivity <LIB> <CELL>` is slower and better suited for broader open/split-net analysis than day-to-day route debugging.
+- `sch2mag` writes a top-cell `.cic` plus generated cut cells. Child library cells are not embedded in that file. When rendering or inspecting such a cell outside Magic, include dependent library `.cic` files explicitly.
+- `cicpy` commands that read `.cic` now support `--I <lib.cic>` to merge additional library files before processing. Use that for `svg`, `transpile`, `jcell`, `minecraft`, and similar design readers when the top cell references external primitive libraries.
+- For `LELOTEMP_CMP` SVG/debug outside Magic, include at least `JNW_ATR_SKY130A.cic` and `JNW_TR_SKY130A.cic`, and use `tech/cic/sky130A.tech` rather than `sky130.tech` because the rendered libraries use layers like `POR`.
 - Keep route-debug instrumentation concise. The useful output is: shorted nets, one offending route command, and one `file:line` callsite. Avoid flooding the report with internal dummy-route details.
 - Internal dummy routes should be treated as implementation detail. If a report is dominated by `xfill_*_dummy_*` nets, suppress them and focus on user-created routes such as `addConnectivityRoute(...)`.
 - For quick route debug, checking generated route geometry against exposed terminal/port access is usually enough. Full recursive geometry expansion is only needed for deeper connectivity analysis.
