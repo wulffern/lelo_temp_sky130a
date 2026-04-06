@@ -36,6 +36,20 @@ See work/Makefile for commands
 - Internal dummy routes should be treated as implementation detail. If a report is dominated by `xfill_*_dummy_*` nets, suppress them and focus on user-created routes such as `addConnectivityRoute(...)`.
 - For quick route debug, checking generated route geometry against exposed terminal/port access is usually enough. Full recursive geometry expansion is only needed for deeper connectivity analysis.
 - Run layout generation from `work/` with `cicpy sch2mag <LIB> <CELL>`, then inspect the generated `.mag` to confirm stack order and tap placement.
+- A short that shorts many nets is worse than a few opens
+- M1 = locali, M2 = metal1, read sky130A.tech for details
+- Keep the Magic vs `cicpy` layer naming straight when inspecting `.mag`: Magic `metal3` = `cicpy M4`, Magic `metal4` = `cicpy M5`. For `JNWTR_CAPX1`, terminal `A` is on Magic `metal3` and terminal `B` is on Magic `metal4`.
+- In hierarchical cells like `LELOTEMP_CCMP`, prefer routing to exposed child instance ports and `addConnectivityRoute(...)` / `addOrthogonalConnectivityRoute(...)` over custom rectangle gathering. If a parent route still needs raw terminal access, that usually means the child or primitive should expose a better port instead.
+- `addOrthogonalConnectivityRoute(...)` should be allowed to discover ports from the net graph. Use `includeInstances` to limit scope instead of manually searching rectangles in the cell Python when possible.
+- `OrthogonalLayerRoute` currently expects at least two access rectangles to create real route metal. If only one access is discovered, it will not form a useful connection; fix the port exposure or the `includeInstances` scope rather than trying to patch around it in the parent cell.
+- `OrthogonalLayerRoute` now enforces a minimum cut array of 2, so orthogonal routes should generate `1x2` or `2x1` cuts, never `1x1`.
+- When using `addPortOnEdge(...)`, `offset_trackN` moves the endpoint rectangle on the edge, while `trackN` controls the route corridor. `offset_track` shifts X for top/bottom edges and Y for left/right edges.
+- Future routing is easier if child cells export every parent-used net to the boundary on a legal preferred layer. For `LELOTEMP_CMP`, that means `IBP_1U`, `PWRUP_N_1V8`, `PWRUP_1V8`, `VIN`, `VIP`, `VO`, `CMPO`, and `VC` should be reachable as intentional edge ports rather than incidental internal access.
+- For parent integration, separate “distribution spines” from “local stitches”. Good pattern: first connect repeated devices internally within a local group, then connect the group to the rest of the cell with one short API-routed branch.
+- For `LELOTEMP_CCMP`, keep `x1_cmp`, the NMOS helper branch, and the cap bank on one baseline, and avoid introducing a second Y band unless it solves a specific routing conflict.
+- When a cap bank participates in a bias net, route the cap stack internally first on the cap’s native top metal, then connect that stack to the rest of the circuit. Do not drop vias through the MIM body to reach lower metals.
+- If a hierarchical route keeps collapsing to one discovered access, treat that as a port-exposure problem first. Fix the child edge port or primitive port visibility before adding custom parent routing logic.
+- For analog parent cells, reserve distinct corridors for unrelated control/bias nets early. In this block, `IBP_1U<0>` and `PWRUP_N_1V8` should not be forced through the same side corridor near `x1_cmp`.
 
 ## Layout rules
 - Always connect diode connected transistor gate/drain in lowest possible metal layer

@@ -12,6 +12,9 @@ def beforePlace(layout):
 
 
 def beforeRoute(layout):
+    # VBP2: top-only M3 rail + M4 vertical stubs from each pin up to the rail.
+    # Using location="t" avoids vertical M3 edges that would short VS's M3 branches.
+    layout.addRouteRing("M3", "VBP2", "t", widthmult=2, spacemult=2)
     layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
     layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
     layout.addPowerConnection("VDD_1V8", "", "top")
@@ -25,14 +28,19 @@ def beforeRoute(layout):
     nmos.addOrthogonalConnectivityRoute("M4", "M3", "^PWRUP_N_1V8$", "onTopLeft,track6", 1, accessLayer="M2")
     pmos.addOrthogonalConnectivityRoute("M4", "M3", "^VS$", "track0", 1, accessLayer="M1")
     # Cross-group routes last.
-    # VBP2: top-only M3 rail + M4 vertical stubs from each pin up to the rail.
-    # Using location="t" avoids vertical M3 edges that would short VS's M3 branches.
-    layout.addRouteRing("M3", "VBP2", "t", widthmult=2, spacemult=2)
+
     layout.addRouteConnection("^VBP2$", "", "M4", "top", "")
     layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO1$", "onTopLeft,track6", 1, "", "", accessLayer="M1")
     layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO$", "onTopLeft,track8", 1, "", "", accessLayer="M1")
     layout.addOrthogonalConnectivityRoute("M4", "M3", "^VBN1$", "onTopLeft,track4", 1, "", "", accessLayer="M1")
 
+def afterPorts(layout):
+    layout.addPortOnEdge("M4","VO","top","||", "")
+    layout.addPortOnEdge("M3","IBP_1U","left","|-", "track0")
+    layout.addPortOnEdge("M3","PWRUP_N_1V8","left","|-", "track6")
+    layout.addPortOnEdge("M2","VIN","bottom","||", "")
+    layout.addPortOnEdge("M3","PWRUP_1V8","right","-|", "offset_track0")
+    layout.addPortOnEdge("M2","VIP","bottom","--|-", "offset_track-4,track4")
 
 def afterPlace(layout):
     branch_gap = 2 * layout.um
