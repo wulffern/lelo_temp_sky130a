@@ -110,24 +110,43 @@ C {devices/ipin.sym} 750 -530 2 0 {name=p2 lab=VIP}
 C {devices/ipin.sym} 470 -530 2 1 {name=p3 lab=VIN}
 C {devices/ipin.sym} 130 -810 2 1 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 90 -130 2 1 {name=p5 lab=VSS}
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 570 -240 0 1 {name=xca4}
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 650 -240 0 0 {name=xca8}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 570 -240 0 1 {name=xac_left[1]}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 650 -240 0 0 {name=xad_right[1]}
 C {cborder/border_xs.sym} 0 -10 0 0 {user="Carsten Wulff" company="Carsten Wulff Software"}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 860 -760 0 0 {name=xpd5}
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C1F2.sym} 860 -310 0 0 {name=xca9}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 860 -760 0 0 {name=xbe_out[0]}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C1F2.sym} 860 -310 0 0 {name=xad_right[0]}
 C {devices/ipin.sym} 110 -450 2 1 {name=p9 lab=PWRUP_N_1V8}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 390 -760 0 0 {name=xpd8}
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 300 -180 0 0 {name=xca1}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 390 -760 0 0 {name=xba_bias_ref[0]}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 300 -180 0 0 {name=xac_left[0]}
 C {devices/ipin.sym} 130 -760 2 1 {name=p10 lab=PWRUP_1V8}
 C {devices/ipin.sym} 1100 -310 3 1 {name=p11 lab=IBP_1U}
-C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 790 -190 0 0 {name=xca10}
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1140 -240 0 1 {name=xca11}
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1230 -240 0 0 {name=xca12[3:0]
+C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 790 -190 0 0 {name=xae_out[0]}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1140 -240 0 1 {name=xaa_bias_ref[1]}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1230 -240 0 0 {name=xab_bias_mirror[3:0]
 }
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1160 -180 0 0 {name=xca13}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 1230 -760 0 0 {name=xpd10}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 660 -760 0 1 {name=xpd9[2:0]}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1160 -180 0 0 {name=xaa_bias_ref[0]}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 1230 -760 0 0 {name=xba_bias_ref[1]}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 660 -760 0 1 {name=xbb_bias_mirror[2:0]}
 C {devices/lab_wire.sym} 620 -600 0 0 {name=p7 sig_type=std_logic lab=VS}
 C {devices/lab_wire.sym} 1140 -650 0 0 {name=p13 sig_type=std_logic lab=VBP2}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 730 -530 0 1 {name=xpd1}
-C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 490 -530 0 0 {name=xpd2}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 730 -530 0 1 {name=xbd_right[0]}
+C {JNW_ATR_SKY130A/JNWATR_PCH_2C1F2.sym} 490 -530 0 0 {name=xbc_left[0]}
+C {devices/code_shown.sym} 1460 -980 0 0 {name=s_dummy only_toplevel=false value="
+* Layout dummy devices
+xfill_n_bias_ref_0 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_bias_ref_1 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_left_0 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_left_1 VSS VSS VSS VSS JNWATR_NCH_2C5F0
+xfill_n_right_0 VSS VSS VSS VSS JNWATR_NCH_2C1F2
+xfill_n_right_1 VSS VSS VSS VSS JNWATR_NCH_2C1F2
+xfill_n_out_0 VSS VSS VSS VSS JNWATR_NCH_4C5F0
+xfill_n_out_1 VSS VSS VSS VSS JNWATR_NCH_4C5F0
+xfill_n_out_2 VSS VSS VSS VSS JNWATR_NCH_4C5F0
+xfill_p_bias_ref_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C5F0
+xfill_p_left_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_left_1 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_right_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_right_1 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C1F2
+xfill_p_out_0 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C5F0
+xfill_p_out_1 VDD_1V8 VDD_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_2C5F0
+"}

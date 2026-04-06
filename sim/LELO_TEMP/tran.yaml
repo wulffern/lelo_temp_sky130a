@@ -83,3 +83,13 @@ freq:
   scale: 1e-6
   digits: 3
   unit: MHz
+freq:
+  src:
+    - FOM
+  typ: 40
+  desc: Figure Of Merit
+  min: 10
+  max: 400
+  scale: 1e9
+  digits: 3
+  unit: nAK

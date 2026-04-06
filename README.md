@@ -78,6 +78,15 @@ of the curve needs to be compensated for. See the python model for details.
 
 <sub>Figure 3: Simulation of the verilog model of the oscillator</sub>
 
+## Layout direction
+
+The layout flow in this repository is 
+currently moving from plain schematic-to-layout generation toward a more analog-aware compiler flow.
+
+The goal is to get an agent to write the necessary python to do the layout. 
+
+This work is described in more detail in [LAYOUT_FLOW.md](LAYOUT_FLOW.md).
+
 # What
 
 | What            | Cell/Name                              |
@@ -131,5 +140,4 @@ Over mismatch and extreme test condition (ETC) the temperature error increase.
 ![](sim/LELO_TEMP/tran_Sch_etc.png)
 
 <sub> Figure 6: Extreme test conditions (PVT) simulation of oscillator </sub>
-
 

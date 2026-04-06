@@ -38,7 +38,9 @@ VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start} + 10p} {AVDD}
 *.save all
 .save v(vdd_1v8) v(vss) v(pwrup_1v8) v(osc_temp_1v8)
 .save v(xdut.LPI) v(xdut.CMPO) v(xdut.clk)
-.save i(vdd) v(xdut.ibp_1u<0>) v(xdut.vc) v(xdut.rst)
+.save i(vdd) v(xdut.ibp_1u<0>) v(xdut.ibp_1u<1>) v(xdut.ibp_1u<2>) v(xdut.ibp_1u<3>) v(xdut.vc)
+.save v(xdut.rst_a) v(xdut.rst_b)
+.save v(xdut.cmpo_b) v(xdut.cmpo_a)
 .save v(xdut.x1_ibp.vr1) v(xdut.x1_ibp.vd2)
 
 #ifdef Debug

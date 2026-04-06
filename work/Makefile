@@ -20,6 +20,5 @@ include ../tech/make/core.make
 
 ota:
 	cicpy sch2mag  --techlib sky130 ${LIB} LELOTEMP_OTA
-
 mag:
-	cicpy sch2mag ${LIB} LELOTEMP_CMP
+	cicpy sch2mag ${LIB} ${CELL} ${OPT}
