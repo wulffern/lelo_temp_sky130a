@@ -36,7 +36,24 @@ def beforeRoute(layout):
     layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
     layout.addPowerConnection("VDD_1V8", "^xb", "top")
     layout.addPowerConnection("VSS", "^xa", "bottom")
-    #layout.addConnectivityRoute("M1", "^VBP2$", "-", "", 1, "", "^xb")
+
+    # All signal routes on M2 (M1 is reserved for power/taps/dummy-device routing)
+
+    # Cross-domain routes (NMOS <-> PMOS, needs vertical component)
+    layout.addConnectivityRoute("M2", "^VBP2$", "-|--", "", 1, "", "")
+    layout.addConnectivityRoute("M2", "^net1$", "-|--", "", 1, "", "")
+    layout.addConnectivityRoute("M2", "^net2$", "-|--", "", 1, "", "")
+    layout.addConnectivityRoute("M2", "^VO$", "-|--", "", 1, "", "")
+
+    # PMOS horizontal routes
+    layout.addConnectivityRoute("M2", "^VS$", "-", "", 1, "", "^xb")
+    layout.addConnectivityRoute("M2", "^PWRUP_1V8$", "-", "", 1, "", "^xb")
+    layout.addConnectivityRoute("M2", "^VIN$", "-", "", 1, "", "^xb")
+    layout.addConnectivityRoute("M2", "^VIP$", "-", "", 1, "", "^xb")
+
+    # NMOS horizontal routes
+    layout.addConnectivityRoute("M2", "^IBP_1U$", "-", "", 1, "", "^xa")
+    layout.addConnectivityRoute("M2", "^PWRUP_N_1V8$", "-", "", 1, "", "^xa")
 
 
 def afterPlace(layout):

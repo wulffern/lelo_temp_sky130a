@@ -34,6 +34,13 @@ See work/Makefile for commands
 - For quick route debug, checking generated route geometry against exposed terminal/port access is usually enough. Full recursive geometry expansion is only needed for deeper connectivity analysis.
 - Run layout generation from `work/` with `cicpy sch2mag <LIB> <CELL>`, then inspect the generated `.mag` to confirm stack order and tap placement.
 
+## Layout rules
+- Always connect diode connected transistor gate/drain in lowest possible metal layer
+- M1 cannot be used for signal routing
+- M2 is vertical
+- M3 is horizontal
+- M4 is vertical
+
 ## Files 
 ```bash 
 ├── config.yaml  # Dependencies
@@ -58,3 +65,29 @@ See work/Makefile for commands
 └── work
     ├── Makefile # How to run commands
 ```
+
+---
+LELOTEMP_CMP Layout Routing (added 2026-04-05)
+
+Workflow
+
+- Regenerate layout from schematic + .py: make mag CELL=LELOTEMP_CMP (from work/)
+- Check routing connectivity: make mag CELL=LELOTEMP_CMP OPT=--check-connectivity
+- Run LVS: make cdl lvs CELL=LELOTEMP_CMP (from work/)
+
+cicpy Routing API (beforeRoute function)
+
+layout.addConnectivityRoute(layer, regex, routeType, options, cuts, excludeInstances, includeInstances)
+- Route types: "-" horizontal, "||" vertical, "-|--" L-shaped (LEFT), "--|-" R-shaped (RIGHT)
+- includeInstances: regex to limit which instances contribute rectangles (e.g. "^xb" = PMOS, "^xa" = NMOS)
+- --check-connectivity reports OPEN (split nets) and SHORT (merged nets) after routing
+
+LELOTEMP_CMP Net Topology
+
+- NMOS group (prefix xa): n_bias_ref, n_bias_mirror, n_left, n_right, n_out
+- PMOS group (prefix xb): p_bias_ref, p_bias_mirror, p_left, p_right, p_out
+- Cross-domain nets (need M2 -|--): VBP2, net1, net2, VO
+- PMOS-only horizontal (M1 -, includeInstances="^xb"): VS, VIN, VIP, PWRUP_1V8
+- NMOS-only horizontal (M1 -, includeInstances="^xa"): IBP_1U, PWRUP_N_1V8
+
+---
