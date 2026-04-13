@@ -157,8 +157,8 @@ if __name__ == "__main__":
       blue_color = blue_cmap(0.4 + 0.5 * i / max(1, n_lines - 1))
       red_color = red_cmap(0.4 + 0.5 * i / max(1, n_lines - 1))
       main(line, show=False, ax=ax, blueColor=blue_color, redColor=red_color)
-    
-    plt.show()
     plt.savefig(f.replace(".run",".png"))
+    #plt.show()
+
   else:
     main("output_tran/tran_SchGtKttTtVt",show=True)
