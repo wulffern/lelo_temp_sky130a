@@ -57,10 +57,36 @@ def beforeRoute(layout):
     layout.addPowerConnection("VSS", "", "bottom")
 
     caps = layout._route_scopes["caps"]
-    cmp_group = layout._route_scopes["cmp"]
     nmos = layout._route_scopes["nmos"]
 
     caps.addConnectivityRoute("M5", "^IBP_1U<0>$", "||")
     nmos.addConnectivityRoute("M2", "^IBP_1U<0>$", "||")
-    layout.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U<0>$", "track0", 1, "", "^(x1_cmp|xg1)$", accessLayer="M2")
+    layout.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U<0>$", "track0", 1, "", "^(x1_cmp|xg1|xg4)$", accessLayer="M2")
     layout.addOrthogonalConnectivityRoute("M2", "M3", "^PWRUP_N_1V8$", "onTopLeft,track0,left", 1, "", "^(x1_cmp|xg4)$")
+
+
+def afterPorts(layout):
+    caps = layout._route_scopes["caps"]
+    cmp_group = layout._route_scopes["cmp"]
+    nmos = layout._route_scopes["nmos"]
+
+    exported_ports = [
+        ("CMPO", cmp_group.representativeAccessRects("CMPO", "M4"), "M4"),
+        ("VC", cmp_group.representativeAccessRects("VC", "M2"), "M2"),
+        ("PWRUP_B_1V8", cmp_group.representativeAccessRects("PWRUP_B_1V8", "M3"), "M3"),
+        ("PWRUP_N_1V8", cmp_group.representativeAccessRects("PWRUP_N_1V8", "M3"), "M3"),
+        ("IBP_1U<1>", cmp_group.representativeAccessRects("IBP_1U<1>", "M3"), "M3"),
+        ("RST", nmos.representativeAccessRects("RST", "M2", anymetal=True), "M2"),
+    ]
+    for node, rects, layer in exported_ports:
+        if rects:
+            layout.addPortFromRect(node, rects[0], routeLayer=layer)
+
+    cap_ring = layout.addRouteRingOnRect("M5", "ibp_cap_pickup", caps.getCopy(), "t", widthmult=1, spacemult=2)
+
+    cap_rects = caps.representativeAccessRects("IBP_1U<0>", "M5")
+    branch_rects = cmp_group.representativeAccessRects("IBP_1U<0>", "M2")
+    if cap_ring is not None and cap_rects and branch_rects:
+        layout.addRouteFromRects("IBP_1U<0>", "M5", cap_rects, [cap_ring.get("top")], "||", "nolabel")
+        layout.addOrthogonalRouteFromRects("IBP_1U<0>", "M4", "M5", [branch_rects[0], cap_ring.get("top")], "onTopTop,track2,nolabel", cuts=1)
+        layout.addPortFromRect("IBP_1U<0>", cap_ring.get("top"), routeLayer="M5")

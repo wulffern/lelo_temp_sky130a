@@ -2639,7 +2639,7 @@
                                     "x2": 41200.0,
                                     "y2": 124400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2658,7 +2658,7 @@
                                     "x2": 41200.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2677,7 +2677,7 @@
                                     "x2": 38300.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -2686,7 +2686,7 @@
                                     "x2": 32000.0,
                                     "y2": 121000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -2710,7 +2710,7 @@
                                     "x2": 41200.0,
                                     "y2": 164400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2729,7 +2729,7 @@
                                     "x2": 41200.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2748,7 +2748,7 @@
                                     "x2": 38300.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -2757,7 +2757,7 @@
                                     "x2": 32000.0,
                                     "y2": 161000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -2781,7 +2781,7 @@
                                     "x2": 41200.0,
                                     "y2": 204400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2800,7 +2800,7 @@
                                     "x2": 41200.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2819,7 +2819,7 @@
                                     "x2": 38300.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -2828,7 +2828,7 @@
                                     "x2": 32000.0,
                                     "y2": 201000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -2852,7 +2852,7 @@
                                     "x2": 41200.0,
                                     "y2": 244400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2871,7 +2871,7 @@
                                     "x2": 41200.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2890,7 +2890,7 @@
                                     "x2": 38300.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -2899,7 +2899,7 @@
                                     "x2": 32000.0,
                                     "y2": 241000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -2923,7 +2923,7 @@
                                     "x2": 214800.0,
                                     "y2": 44400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2942,7 +2942,7 @@
                                     "x2": 214800.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -2961,7 +2961,7 @@
                                     "x2": 211900.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -2970,7 +2970,7 @@
                                     "x2": 205600.0,
                                     "y2": 41000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -2994,7 +2994,7 @@
                                     "x2": 189700.0,
                                     "y2": 65800.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_1x2",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3013,7 +3013,7 @@
                                     "x2": 192400.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3032,7 +3032,7 @@
                                     "x2": 189500.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -3041,7 +3041,7 @@
                                     "x2": 186400.0,
                                     "y2": 57000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -3065,7 +3065,7 @@
                                     "x2": 214800.0,
                                     "y2": 84400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3084,7 +3084,7 @@
                                     "x2": 214800.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3103,7 +3103,7 @@
                                     "x2": 211900.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -3112,7 +3112,7 @@
                                     "x2": 205600.0,
                                     "y2": 81000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -3136,7 +3136,7 @@
                                     "x2": 189700.0,
                                     "y2": 145800.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_1x2",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3155,7 +3155,7 @@
                                     "x2": 192400.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3174,7 +3174,7 @@
                                     "x2": 189500.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -3183,7 +3183,7 @@
                                     "x2": 186400.0,
                                     "y2": 137000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -3207,7 +3207,7 @@
                                     "x2": 189700.0,
                                     "y2": 185800.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_1x2",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3226,7 +3226,7 @@
                                     "x2": 192400.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3245,7 +3245,7 @@
                                     "x2": 189500.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -3254,7 +3254,7 @@
                                     "x2": 186400.0,
                                     "y2": 177000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -3278,7 +3278,7 @@
                                     "x2": 189700.0,
                                     "y2": 225800.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_1x2",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3297,7 +3297,7 @@
                                     "x2": 192400.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3316,7 +3316,7 @@
                                     "x2": 189500.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -3325,7 +3325,7 @@
                                     "x2": 186400.0,
                                     "y2": 217000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -3349,7 +3349,7 @@
                                     "x2": 189700.0,
                                     "y2": 265800.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M2M4_1x2",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3368,7 +3368,7 @@
                                     "x2": 192400.0,
                                     "y2": 312400.0,
                                     "layer": "",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "cut_M3M4_2x1",
                                     "has_pr": false,
                                     "ckt": {},
@@ -3387,7 +3387,7 @@
                                     "x2": 189500.0,
                                     "y2": 312000.0,
                                     "layer": "M4",
-                                    "net": ""
+                                    "net": "VBP2"
                                 },
                                 {
                                     "class": "Text",
@@ -3396,7 +3396,7 @@
                                     "x2": 186400.0,
                                     "y2": 257000.0,
                                     "layer": "TXT",
-                                    "net": "",
+                                    "net": "VBP2",
                                     "name": "VBP2"
                                 }
                             ]
@@ -4647,7 +4647,7 @@
                             "x2": 41200.0,
                             "y2": 44700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -4666,7 +4666,7 @@
                             "x2": 48000.0,
                             "y2": 47400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4730,7 +4730,7 @@
                             "x2": 41200.0,
                             "y2": 84700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -4749,7 +4749,7 @@
                             "x2": 48000.0,
                             "y2": 87400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4813,7 +4813,7 @@
                             "x2": 16100.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4832,7 +4832,7 @@
                             "x2": 48000.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4896,7 +4896,7 @@
                             "x2": 16100.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4915,7 +4915,7 @@
                             "x2": 48000.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4979,7 +4979,7 @@
                             "x2": 16100.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -4998,7 +4998,7 @@
                             "x2": 48000.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5062,7 +5062,7 @@
                             "x2": 16100.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5081,7 +5081,7 @@
                             "x2": 48000.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5145,7 +5145,7 @@
                             "x2": 16100.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5164,7 +5164,7 @@
                             "x2": 48000.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5192,7 +5192,7 @@
                             "x2": 44600.0,
                             "y2": 41000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "IBP_1U"
                         },
                         {
@@ -5247,7 +5247,7 @@
                             "x2": 41200.0,
                             "y2": 44700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -5266,7 +5266,7 @@
                             "x2": 48000.0,
                             "y2": 47400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5330,7 +5330,7 @@
                             "x2": 41200.0,
                             "y2": 84700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -5349,7 +5349,7 @@
                             "x2": 48000.0,
                             "y2": 87400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5413,7 +5413,7 @@
                             "x2": 16100.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5432,7 +5432,7 @@
                             "x2": 48000.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5496,7 +5496,7 @@
                             "x2": 16100.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5515,7 +5515,7 @@
                             "x2": 48000.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5579,7 +5579,7 @@
                             "x2": 16100.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5598,7 +5598,7 @@
                             "x2": 48000.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5662,7 +5662,7 @@
                             "x2": 16100.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5681,7 +5681,7 @@
                             "x2": 48000.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5745,7 +5745,7 @@
                             "x2": 16100.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5764,7 +5764,7 @@
                             "x2": 48000.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5792,7 +5792,7 @@
                             "x2": 44600.0,
                             "y2": 41000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "IBP_1U"
                         }
                     ]
@@ -5861,7 +5861,7 @@
                             "x2": 16100.0,
                             "y2": 63400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5880,7 +5880,7 @@
                             "x2": 58400.0,
                             "y2": 63400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5944,7 +5944,7 @@
                             "x2": 67300.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -5963,7 +5963,7 @@
                             "x2": 58400.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6027,7 +6027,7 @@
                             "x2": 67300.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6046,7 +6046,7 @@
                             "x2": 58400.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6074,7 +6074,7 @@
                             "x2": 55000.0,
                             "y2": 57000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "PWRUP_N_1V8"
                         },
                         {
@@ -6129,7 +6129,7 @@
                             "x2": 16100.0,
                             "y2": 63400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6148,7 +6148,7 @@
                             "x2": 58400.0,
                             "y2": 63400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6212,7 +6212,7 @@
                             "x2": 67300.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6231,7 +6231,7 @@
                             "x2": 58400.0,
                             "y2": 103400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6295,7 +6295,7 @@
                             "x2": 67300.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6314,7 +6314,7 @@
                             "x2": 58400.0,
                             "y2": 223400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6342,7 +6342,7 @@
                             "x2": 55000.0,
                             "y2": 57000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "PWRUP_N_1V8"
                         }
                     ]
@@ -6411,7 +6411,7 @@
                             "x2": 150800.0,
                             "y2": 72700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6430,7 +6430,7 @@
                             "x2": 221600.0,
                             "y2": 75400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6494,7 +6494,7 @@
                             "x2": 150800.0,
                             "y2": 112700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6513,7 +6513,7 @@
                             "x2": 221600.0,
                             "y2": 115400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6577,7 +6577,7 @@
                             "x2": 214800.0,
                             "y2": 164700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6596,7 +6596,7 @@
                             "x2": 221600.0,
                             "y2": 167400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6660,7 +6660,7 @@
                             "x2": 214800.0,
                             "y2": 204700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6679,7 +6679,7 @@
                             "x2": 221600.0,
                             "y2": 207400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6743,7 +6743,7 @@
                             "x2": 214800.0,
                             "y2": 244700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6762,7 +6762,7 @@
                             "x2": 221600.0,
                             "y2": 247400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6790,7 +6790,7 @@
                             "x2": 218200.0,
                             "y2": 69000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VS",
                             "name": "VS"
                         },
                         {
@@ -6845,7 +6845,7 @@
                             "x2": 150800.0,
                             "y2": 72700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6864,7 +6864,7 @@
                             "x2": 221600.0,
                             "y2": 75400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -6928,7 +6928,7 @@
                             "x2": 150800.0,
                             "y2": 112700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -6947,7 +6947,7 @@
                             "x2": 221600.0,
                             "y2": 115400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7011,7 +7011,7 @@
                             "x2": 214800.0,
                             "y2": 164700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7030,7 +7030,7 @@
                             "x2": 221600.0,
                             "y2": 167400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7094,7 +7094,7 @@
                             "x2": 214800.0,
                             "y2": 204700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7113,7 +7113,7 @@
                             "x2": 221600.0,
                             "y2": 207400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7177,7 +7177,7 @@
                             "x2": 214800.0,
                             "y2": 244700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7196,7 +7196,7 @@
                             "x2": 221600.0,
                             "y2": 247400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VS",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7224,7 +7224,7 @@
                             "x2": 218200.0,
                             "y2": 69000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VS",
                             "name": "VS"
                         }
                     ]
@@ -7293,7 +7293,7 @@
                             "x2": 163600.0,
                             "y2": 84700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7312,7 +7312,7 @@
                             "x2": 109600.0,
                             "y2": 87400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7376,7 +7376,7 @@
                             "x2": 92400.0,
                             "y2": 164700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7395,7 +7395,7 @@
                             "x2": 109600.0,
                             "y2": 167400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7459,7 +7459,7 @@
                             "x2": 67300.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7478,7 +7478,7 @@
                             "x2": 109600.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7506,7 +7506,7 @@
                             "x2": 106200.0,
                             "y2": 81000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VO1",
                             "name": "VO1"
                         },
                         {
@@ -7561,7 +7561,7 @@
                             "x2": 163600.0,
                             "y2": 84700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7580,7 +7580,7 @@
                             "x2": 109600.0,
                             "y2": 87400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7644,7 +7644,7 @@
                             "x2": 92400.0,
                             "y2": 164700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7663,7 +7663,7 @@
                             "x2": 109600.0,
                             "y2": 167400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7727,7 +7727,7 @@
                             "x2": 67300.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7746,7 +7746,7 @@
                             "x2": 109600.0,
                             "y2": 263400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7774,7 +7774,7 @@
                             "x2": 106200.0,
                             "y2": 81000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VO1",
                             "name": "VO1"
                         }
                     ]
@@ -7843,7 +7843,7 @@
                             "x2": 214800.0,
                             "y2": 124700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7862,7 +7862,7 @@
                             "x2": 147200.0,
                             "y2": 127400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -7926,7 +7926,7 @@
                             "x2": 92400.0,
                             "y2": 204700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -7945,7 +7945,7 @@
                             "x2": 147200.0,
                             "y2": 207400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8009,7 +8009,7 @@
                             "x2": 92400.0,
                             "y2": 244700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8028,7 +8028,7 @@
                             "x2": 147200.0,
                             "y2": 247400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8056,7 +8056,7 @@
                             "x2": 143800.0,
                             "y2": 121000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VO",
                             "name": "VO"
                         },
                         {
@@ -8111,7 +8111,7 @@
                             "x2": 214800.0,
                             "y2": 124700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8130,7 +8130,7 @@
                             "x2": 147200.0,
                             "y2": 127400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8194,7 +8194,7 @@
                             "x2": 92400.0,
                             "y2": 204700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8213,7 +8213,7 @@
                             "x2": 147200.0,
                             "y2": 207400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8277,7 +8277,7 @@
                             "x2": 92400.0,
                             "y2": 244700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8296,7 +8296,7 @@
                             "x2": 147200.0,
                             "y2": 247400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8324,7 +8324,7 @@
                             "x2": 143800.0,
                             "y2": 121000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VO",
                             "name": "VO"
                         }
                     ]
@@ -8393,7 +8393,7 @@
                             "x2": 163600.0,
                             "y2": 44700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8412,7 +8412,7 @@
                             "x2": 97600.0,
                             "y2": 47400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8476,7 +8476,7 @@
                             "x2": 92400.0,
                             "y2": 84700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8495,7 +8495,7 @@
                             "x2": 97600.0,
                             "y2": 87400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8559,7 +8559,7 @@
                             "x2": 92400.0,
                             "y2": 124700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8578,7 +8578,7 @@
                             "x2": 97600.0,
                             "y2": 127400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8642,7 +8642,7 @@
                             "x2": 67300.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8661,7 +8661,7 @@
                             "x2": 97600.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8725,7 +8725,7 @@
                             "x2": 67300.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8744,7 +8744,7 @@
                             "x2": 97600.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8772,7 +8772,7 @@
                             "x2": 94200.0,
                             "y2": 41000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "VBN1"
                         },
                         {
@@ -8827,7 +8827,7 @@
                             "x2": 163600.0,
                             "y2": 44700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8846,7 +8846,7 @@
                             "x2": 97600.0,
                             "y2": 47400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8910,7 +8910,7 @@
                             "x2": 92400.0,
                             "y2": 84700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -8929,7 +8929,7 @@
                             "x2": 97600.0,
                             "y2": 87400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -8993,7 +8993,7 @@
                             "x2": 92400.0,
                             "y2": 124700.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -9012,7 +9012,7 @@
                             "x2": 97600.0,
                             "y2": 127400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9076,7 +9076,7 @@
                             "x2": 67300.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9095,7 +9095,7 @@
                             "x2": 97600.0,
                             "y2": 143400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9159,7 +9159,7 @@
                             "x2": 67300.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9178,7 +9178,7 @@
                             "x2": 97600.0,
                             "y2": 183400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "cut_M3M4_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9206,7 +9206,7 @@
                             "x2": 94200.0,
                             "y2": 41000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VBN1",
                             "name": "VBN1"
                         }
                     ]
@@ -9305,7 +9305,7 @@
                             "x2": 92400.0,
                             "y2": 204400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "VO",
                             "name": "cut_M2M4_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -9324,7 +9324,7 @@
                             "x2": 89500,
                             "y2": 328000.0,
                             "layer": "M4",
-                            "net": ""
+                            "net": "VO"
                         },
                         {
                             "class": "Text",
@@ -9333,7 +9333,7 @@
                             "x2": 83200.0,
                             "y2": 201000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VO",
                             "name": "VO"
                         }
                     ]
@@ -9366,7 +9366,7 @@
                             "x2": 40800.0,
                             "y2": 44400.0,
                             "layer": "",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "cut_M2M3_2x1",
                             "has_pr": false,
                             "ckt": {},
@@ -9385,7 +9385,7 @@
                             "x2": 36800.0,
                             "y2": 44000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "IBP_1U"
                         },
                         {
                             "class": "Rect",
@@ -9394,7 +9394,7 @@
                             "x2": 4800.0,
                             "y2": 44000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "IBP_1U"
                         },
                         {
                             "class": "Rect",
@@ -9403,7 +9403,7 @@
                             "x2": -3000.0,
                             "y2": 44000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "IBP_1U"
                         },
                         {
                             "class": "Text",
@@ -9412,7 +9412,7 @@
                             "x2": 32000.0,
                             "y2": 41000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "IBP_1U",
                             "name": "IBP_1U"
                         }
                     ]
@@ -9445,7 +9445,7 @@
                             "x2": 16200.0,
                             "y2": 65800.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9464,7 +9464,7 @@
                             "x2": 14400.0,
                             "y2": 60000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "PWRUP_N_1V8"
                         },
                         {
                             "class": "Rect",
@@ -9473,7 +9473,7 @@
                             "x2": -4400.0,
                             "y2": 60000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "PWRUP_N_1V8"
                         },
                         {
                             "class": "Rect",
@@ -9482,7 +9482,7 @@
                             "x2": -9000.0,
                             "y2": 60000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "PWRUP_N_1V8"
                         },
                         {
                             "class": "Text",
@@ -9491,7 +9491,7 @@
                             "x2": 12800.0,
                             "y2": 57000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "PWRUP_N_1V8",
                             "name": "PWRUP_N_1V8"
                         }
                     ]
@@ -9524,7 +9524,7 @@
                             "x2": 138300,
                             "y2": 59000.0,
                             "layer": "M2",
-                            "net": ""
+                            "net": "VIN"
                         },
                         {
                             "class": "Text",
@@ -9533,7 +9533,7 @@
                             "x2": 135200.0,
                             "y2": 57000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VIN",
                             "name": "VIN"
                         }
                     ]
@@ -9566,7 +9566,7 @@
                             "x2": 189600.0,
                             "y2": 105800.0,
                             "layer": "",
-                            "net": "",
+                            "net": "PWRUP_1V8",
                             "name": "cut_M2M3_1x2",
                             "has_pr": false,
                             "ckt": {},
@@ -9585,7 +9585,7 @@
                             "x2": 232600.0,
                             "y2": 100000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "PWRUP_1V8"
                         },
                         {
                             "class": "Rect",
@@ -9594,7 +9594,7 @@
                             "x2": 232600.0,
                             "y2": 100000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "PWRUP_1V8"
                         },
                         {
                             "class": "Rect",
@@ -9603,7 +9603,7 @@
                             "x2": 235600.0,
                             "y2": 100000.0,
                             "layer": "M3",
-                            "net": ""
+                            "net": "PWRUP_1V8"
                         },
                         {
                             "class": "Text",
@@ -9612,7 +9612,7 @@
                             "x2": 186400.0,
                             "y2": 97000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "PWRUP_1V8",
                             "name": "PWRUP_1V8"
                         }
                     ]
@@ -9645,7 +9645,7 @@
                             "x2": 136800.0,
                             "y2": 100000.0,
                             "layer": "M2",
-                            "net": ""
+                            "net": "VIP"
                         },
                         {
                             "class": "Rect",
@@ -9654,7 +9654,7 @@
                             "x2": 129200.0,
                             "y2": 3000,
                             "layer": "M2",
-                            "net": ""
+                            "net": "VIP"
                         },
                         {
                             "class": "Rect",
@@ -9663,7 +9663,7 @@
                             "x2": 132200.0,
                             "y2": 100000.0,
                             "layer": "M2",
-                            "net": ""
+                            "net": "VIP"
                         },
                         {
                             "class": "Text",
@@ -9672,7 +9672,7 @@
                             "x2": 135200.0,
                             "y2": 97000.0,
                             "layer": "TXT",
-                            "net": "",
+                            "net": "VIP",
                             "name": "VIP"
                         }
                     ]

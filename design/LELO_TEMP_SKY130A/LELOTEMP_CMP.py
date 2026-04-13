@@ -12,27 +12,38 @@ def beforePlace(layout):
 
 
 def beforeRoute(layout):
-    # VBP2: top-only M3 rail + M4 vertical stubs from each pin up to the rail.
-    # Using location="t" avoids vertical M3 edges that would short VS's M3 branches.
+    # Keep the OTA internal nets on dedicated corridors instead of routing them
+    # with broad cell-wide searches that can expose incidental access to parents.
     layout.addRouteRing("M3", "VBP2", "t", widthmult=2, spacemult=2)
     layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
     layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
     layout.addPowerConnection("VDD_1V8", "", "top")
     layout.addPowerConnection("VSS", "", "bottom")
     n_mirr_bias = layout._route_scopes["n_mirr_bias"]
-    n_mirr_load = layout._route_scopes["n_mirr_load"]
-    nmos = layout._route_scopes["nmos"]
     pmos = layout._route_scopes["pmos"]
-    # Stack-local and group-local routes first.
-    n_mirr_bias.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U$", "track0", 1, accessLayer="M2")
-    nmos.addOrthogonalConnectivityRoute("M4", "M3", "^PWRUP_N_1V8$", "onTopLeft,track6", 1, accessLayer="M2")
-    pmos.addOrthogonalConnectivityRoute("M4", "M3", "^VS$", "track0", 1, accessLayer="M1")
-    # Cross-group routes last.
 
+    # Stack-local route for the IBP mirror.
+    n_mirr_bias.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U$", "track0", 1, accessLayer="M2")
+
+    # PMOS-only shared source / tail-bias nets.
+    pmos.addOrthogonalConnectivityRoute(
+        "M4", "M3", "^VS$", "track0", 1, accessLayer="M1"
+    )
     layout.addRouteConnection("^VBP2$", "", "M4", "top", "")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO1$", "onTopLeft,track6", 1, "", "", accessLayer="M1")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO$", "onTopLeft,track8", 1, "", "", accessLayer="M1")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VBN1$", "onTopLeft,track4", 1, "", "", accessLayer="M1")
+
+    # Explicit OTA internal and external branches.
+    layout.addOrthogonalConnectivityRoute(
+        "M4", "M3", "^PWRUP_N_1V8$", "onTopLeft,track2", 1, "", "^(xn_mirr_load1|xn_mirr_load4|xn_mirr_bias0)$", accessLayer="M2"
+    )
+    layout.addOrthogonalConnectivityRoute(
+        "M4", "M3", "^VBN1$", "onTopLeft,track4", 1, "", "^(xn_mirr_load1|xn_mirr_load2|xn_mirr_load3|xp_diff1)$", accessLayer="M1"
+    )
+    layout.addOrthogonalConnectivityRoute(
+        "M4", "M3", "^VO1$", "onTopLeft,track5", 1, "", "^(xn_mirr_load3|xn_mirr_load5|xp_diff2)$", accessLayer="M1"
+    )
+    layout.addOrthogonalConnectivityRoute(
+        "M4", "M3", "^VO$", "onTopLeft,track8", 1, "", "^(xn_mirr_load4|xn_mirr_load5|xp_mirr_tail2)$", accessLayer="M1"
+    )
 
 def afterPorts(layout):
     layout.addPortOnEdge("M4","VO","top","||", "")
