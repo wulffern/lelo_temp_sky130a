@@ -58,11 +58,11 @@ def beforeRoute(layout):
 
     caps = layout._route_scopes["caps"]
     nmos = layout._route_scopes["nmos"]
+    nmos_stack = layout._route_scopes["nmos_stack"]
 
     caps.addConnectivityRoute("M5", "^IBP_1U<0>$", "||")
-    nmos.addConnectivityRoute("M2", "^IBP_1U<0>$", "||")
-    layout.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U<0>$", "track0", 1, "", "^(x1_cmp|xg1|xg4)$", accessLayer="M2")
-    layout.addOrthogonalConnectivityRoute("M2", "M3", "^PWRUP_N_1V8$", "onTopLeft,track0,left", 1, "", "^(x1_cmp|xg4)$")
+    nmos_stack.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U<0>$", "track0", 1, accessLayer="M2")
+    layout.addOrthogonalConnectivityRoute("M2", "M3", "^PWRUP_N_1V8$", "onTopLeft,track0,left", 1, "", "^(x1_cmp|xg4)$", accessLayer="M2")
 
 
 def afterPorts(layout):
@@ -82,11 +82,16 @@ def afterPorts(layout):
         if rects:
             layout.addPortFromRect(node, rects[0], routeLayer=layer)
 
-    cap_ring = layout.addRouteRingOnRect("M5", "ibp_cap_pickup", caps.getCopy(), "t", widthmult=1, spacemult=2)
+    cap_ring = layout.addRouteRingOnRect("M5", "ibp_cap_pickup", caps.getCopy(), "l", widthmult=1, spacemult=2)
 
     cap_rects = caps.representativeAccessRects("IBP_1U<0>", "M5")
-    branch_rects = cmp_group.representativeAccessRects("IBP_1U<0>", "M2")
+    branch_rects = layout.collectPhysicalRects("IBP_1U<0>", "M3")
     if cap_ring is not None and cap_rects and branch_rects:
-        layout.addRouteFromRects("IBP_1U<0>", "M5", cap_rects, [cap_ring.get("top")], "||", "nolabel")
-        layout.addOrthogonalRouteFromRects("IBP_1U<0>", "M4", "M5", [branch_rects[0], cap_ring.get("top")], "onTopTop,track2,nolabel", cuts=1)
-        layout.addPortFromRect("IBP_1U<0>", cap_ring.get("top"), routeLayer="M5")
+        layout.addOrthogonalRouteFromRects("IBP_1U<0>", "M4", "M5", [branch_rects[0], cap_ring.get("left")], "onTopTop,track2,branchtrack0,nolabel", cuts=1)
+        caps_x1 = caps.getCopy().x1
+        m5_all = layout.collectPhysicalRects("IBP_1U<0>", "M5")
+        m5_in_gap = [r for r in m5_all if r.centerX() < caps_x1]
+        if m5_in_gap:
+            rightmost = max(m5_in_gap, key=lambda r: r.centerX())
+            layout.addRouteFromRects("IBP_1U<0>", "M5", [rightmost], cap_rects, "-", "nolabel")
+        layout.addPortFromRect("IBP_1U<0>", cap_ring.get("left"), routeLayer="M5")
