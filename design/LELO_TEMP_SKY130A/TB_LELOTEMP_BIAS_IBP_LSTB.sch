@@ -90,9 +90,9 @@ C {devices/vsource.sym} 290 -60 0 0 {name=V2 value=0.5 savecurrent=false}
 C {devices/lab_wire.sym} 230 -120 0 1 {name=p1 sig_type=std_logic lab=LPI}
 C {devices/code_shown.sym} -299.3514969502943 -970 0 0 {name=s1 only_toplevel=false value="
 
-.lib "../../../tech/ngspice/corners.spi" Ktt
-.lib "../../../tech/ngspice/temperature.spi" Tt
-.lib "../../../tech/ngspice/supply.spi" Vt
+.lib "../../../tech/ngspice/corners.spi" Kfs
+.lib "../../../tech/ngspice/temperature.spi" Tl
+.lib "../../../tech/ngspice/supply.spi" Vh
 .include ../../../../cpdk/ngspice/tian_subckt.lib
 X999 LPI LPO loopgainprobe
 

@@ -38,7 +38,7 @@ N 370 -180 370 -130 {lab=VSS}
 N 340 -150 340 -130 {lab=VSS}
 N 340 -240 340 -210 {lab=VBN1}
 N 530 -500 530 -270 {lab=VBN1}
-N 690 -500 690 -270 {lab=VBN1}
+N 690 -500 690 -270 {lab=VO1}
 N 260 -760 320 -760 {lab=PWRUP_1V8}
 N 130 -760 260 -760 {lab=PWRUP_1V8}
 N 110 -450 290 -450 {lab=PWRUP_N_1V8}
@@ -89,7 +89,7 @@ N 530 -300 600 -300 {lab=VBN1}
 N 600 -300 600 -240 {lab=VBN1}
 N 340 -300 530 -300 {lab=VBN1}
 N 340 -300 340 -240 {lab=VBN1}
-N 690 -310 860 -310 {lab=VBN1}
+N 690 -310 860 -310 {lab=VO1}
 N 790 -450 790 -190 {lab=PWRUP_N_1V8}
 N 830 -380 830 -220 {lab=VO}
 N 830 -380 900 -380 {lab=VO}
@@ -141,7 +141,7 @@ C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 790 -190 0 0 {name=xn_mirr_load4}
 C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1140 -240 0 1 {name=xn_mirr_bias1}
 C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1230 -240 0 0 {name=xn_mirr_bias2[3:0]
 }
-C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1160 -180 0 0 {name=xn_mirr_bias0}
+C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 1160 -180 0 0 {name=xn_mirr_bias3}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 1230 -760 0 0 {name=xp_mirr_tail1}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 660 -760 0 1 {name=xp_mirr_tail3[2:0]}
 C {devices/lab_wire.sym} 620 -600 0 0 {name=p7 sig_type=std_logic lab=VS}

@@ -7,7 +7,7 @@ E {}
 N 260 -200 430 -200 {lab=IBP_1U[0]}
 N 430 -140 430 -110 {lab=VSS}
 N 260 -110 430 -110 {lab=VSS}
-N 260 -130 260 -110 {lab=VSS}
+N 310 -130 310 -110 {lab=VSS}
 N 390 -170 430 -170 {lab=VSS}
 N 390 -170 390 -110 {lab=VSS}
 N 320 -230 570 -230 {lab=IBP_1U[0]}
@@ -34,7 +34,7 @@ N 540 -190 540 -110 {lab=VSS}
 N 540 -310 540 -250 {lab=VDD_1V8}
 N 120 -310 540 -310 {lab=VDD_1V8}
 N 800 -220 950 -220 {lab=CMPO}
-C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 260 -190 2 1 {name=xd1[4:0]}
+C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 310 -140 0 1 {name=xd1[4:0]}
 C {JNW_ATR_SKY130A/JNWATR_NCH_2C5F0.sym} 470 -170 0 1 {name=xg1}
 C {devices/lab_wire.sym} 320 -215 0 0 {name=p14 sig_type=std_logic lab=IBP_1U[0]}
 C {devices/lab_wire.sym} 340 -110 0 0 {name=p16 sig_type=std_logic lab=VSS}

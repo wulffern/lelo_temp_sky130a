@@ -1,12 +1,18 @@
 
 
+UNAME_S := $(shell uname -s)
+VLNGGEN_ENV :=
+ifeq ($(UNAME_S),Darwin)
+VLNGGEN_ENV := CPPFLAGS='-DVL_TIME_CONTEXT'
+endif
+
 all: typical etc mc summary
 
 mynetlist: netlist
-	ngspice vlnggen ../../rtl/tempFsm.v
+	$(VLNGGEN_ENV) ngspice vlnggen ../../rtl/tempFsm.v
 	perl ../../tech/script/gensvinst ../../rtl/tempFsm.v tempFsm
 	mv svinst.spi svinst_tfsm.spi
-	ngspice vlnggen ../../rtl/tempCounter.v
+	$(VLNGGEN_ENV) ngspice vlnggen ../../rtl/tempCounter.v
 	perl ../../tech/script/gensvinst ../../rtl/tempCounter.v tempCounter
 	mv svinst.spi svinst_tc.spi
 
