@@ -15,7 +15,7 @@ def afterPlace(layout):
     p_ctrl = pmos.addStack("p_ctrl", _instances(layout, ["xp_d5", "xp_d4", "xp_d1", "xp_d2"]))
 
     nmos = layout.makeCellGroup("nmos")
-    n_vp = nmos.addStack("n_vp", _instances(layout, ["xn_a9", "xn_a10"]))
+    n_vp = nmos.addStack("n_vp", _instances(layout, ["xn_a11", "xn_a12", "xn_a9", "xn_a10"]))
     n_vbn = nmos.addStack(
         "n_vbn",
         _instances(
@@ -30,8 +30,6 @@ def afterPlace(layout):
                 "xn_a4",
                 "xn_a5",
                 "xn_a6",
-                "xn_a7",
-                "xn_a8",
             ],
         ),
     )
@@ -41,6 +39,7 @@ def afterPlace(layout):
     p_ladder_out.stack()
     p_ctrl.stack()
     n_vp.stack()
+    _stack_in_order(n_vp, _instances(layout, ["xn_a11", "xn_a12", "xn_a9", "xn_a10"]))
     n_vbn.stack()
 
     pmos.fillDummyTransistors()
@@ -81,6 +80,10 @@ def beforeRoute(layout):
     layout.addConnectivityRoute("M3","^SER","-|--","",2,"","")
     layout.addConnectivityRoute("M3","^MID","-|--","",2,"","")
     layout.addConnectivityRoute("M3","^TOP","-|--","",2,"","")
+    layout.addConnectivityRoute("M3","^VCP","--|-","onTopRight",2,"","")
+    layout.addConnectivityRoute("M3","^VO","--|-","onTopRight",2,"","xn_a10")
+
+    #layout.addConnectivityRoute("M3","^TOP","-|--","",2,"","")
 
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -92,37 +95,19 @@ def beforeRoute(layout):
         "",
         accessLayer="M2",
     )
-    layout.addConnectivityRoute("M2","^VBN","||","",2,"","^(xn_a2|xn_a1)")
+    layout.addConnectivityRoute("M2","^VBN","||","",2,"","^(xn_a1|xn_a2)")
 
 
-    layout.addOrthogonalConnectivityRoute(
-        "M2",
-        "M3",
-        "^VCP$",
-        "right,onTopRight,verticaltrack0,nolabel",
-        1,
-        "",
-        "^xn_a9$",
-        accessLayer="M2",
-    )
-    layout.addOrthogonalConnectivityRoute(
-        "M2",
-        "M3",
-        "^VO$",
-        "right,onTopRight,verticaltrack0,nolabel",
-        1,
-        "",
-        "^xn_a10$",
-        accessLayer="M2",
-    )
+
+
     layout.addOrthogonalConnectivityRoute(
         "M2",
         "M3",
         "^VP2$",
-        "right,onTopRight,verticaltrack2,nolabel",
+        "left,onTopRight,verticaltrack0,nolabel",
         1,
         "",
-        "^(xn_a10|xn_a8)$",
+        "^(xn_a10|xn_a12)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -132,7 +117,7 @@ def beforeRoute(layout):
         "left,onTopLeft,verticaltrack1,nolabel",
         1,
         "",
-        "^(xn_a9|xn_a7)$",
+        "^(xn_a9|xn_a11)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -152,7 +137,7 @@ def beforeRoute(layout):
         "left,onTopLeft,verticaltrack2,nolabel",
         1,
         "",
-        "^(xn_a6|xn_a7|xn_a8)$",
+        "^(xn_a6|xn_a11|xn_a12)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -189,3 +174,16 @@ def _instances(layout, names):
             raise ValueError(f"Missing instance {name}")
         instances.append(inst)
     return instances
+
+
+def _stack_in_order(stack, instances):
+    if not instances:
+        return stack
+    x = int(stack.left())
+    y = int(stack.bottom())
+    stack.instances = list(instances)
+    for inst in stack.instances:
+        inst.moveTo(x, y)
+        y = int(inst.y2)
+    stack.updateBoundingRect()
+    return stack
