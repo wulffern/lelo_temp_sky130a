@@ -9,104 +9,20 @@ def afterPlace(layout):
     device_type_gap = 2 * layout.um
 
     pmos = layout.makeCellGroup("pmos")
-    p_ladder_mid = pmos.addStack("p_ladder_mid", layout.getSortedInstancesByInstanceName("xp_b1"))
-    p_ladder_top = pmos.addStack("p_ladder_top", layout.getSortedInstancesByInstanceName("xp_c2"))
-    p_ladder_out = pmos.addStack("p_ladder_out", layout.getSortedInstancesByInstanceName("xp_f1"))
-    p_ctrl = pmos.addStack(
-        "p_ctrl",
-        _instances(
-            layout,
-            [
-                "xp_d1",
-                "xp_d2",
-                "xp_d4",
-                "xp_d5",
-                "xfill_pmos<0>",
-                "xfill_pmos<1>",
-                "xfill_pmos<2>",
-                "xfill_pmos<3>",
-                "xfill_pmos<4>",
-                "xfill_pmos<5>",
-            ],
-        ),
-    )
+    p_ladder_mid = pmos.addStackByGroup("xp_ladder_mid", name="p_ladder_mid")
+    p_ladder_top = pmos.addStackByGroup("xp_ladder_top", name="p_ladder_top")
+    p_ladder_out = pmos.addStackByGroup("xp_ladder_out", name="p_ladder_out")
+    p_ctrl = pmos.addStackByGroup("xp_ctrl", name="p_ctrl", fillGroup="xfill_xp_ctrl")
 
     nmos = layout.makeCellGroup("nmos")
-    n_vp = nmos.addStack(
-        "n_vp",
-        _instances(
-            layout,
-            [
-                "xn_a11",
-                "xn_a12",
-                "xn_a9",
-                "xn_a10",
-                "xfill_n<0>",
-                "xfill_n<1>",
-                "xfill_n<2>",
-                "xfill_n<3>",
-                "xfill_n<4>",
-            ],
-        ),
-    )
-    n_vbn = nmos.addStack(
-        "n_vbn",
-        _instances(
-            layout,
-            [
-                "xn_a1",
-                "xn_a2<0>",
-                "xn_a2<1>",
-                "xn_a2<2>",
-                "xn_a2<3>",
-                "xn_a3",
-                "xn_a4",
-                "xn_a5",
-                "xn_a6",
-            ],
-        ),
-    )
+    n_vp = nmos.addStackByGroup("xn_vp", name="n_vp", fillGroup="xfill_xn_vp")
+    n_vbn = nmos.addStackByGroup("xn_vbn", name="n_vbn")
 
     p_ladder_mid.stack()
     p_ladder_top.stack()
     p_ladder_out.stack()
     p_ctrl.stack()
-    _stack_in_order(
-        p_ctrl,
-        _instances(
-            layout,
-            [
-                "xp_d1",
-                "xp_d2",
-                "xp_d4",
-                "xp_d5",
-                "xfill_pmos<0>",
-                "xfill_pmos<1>",
-                "xfill_pmos<2>",
-                "xfill_pmos<3>",
-                "xfill_pmos<4>",
-                "xfill_pmos<5>",
-            ],
-        ),
-    )
     n_vp.stack()
-    _stack_in_order(
-        n_vp,
-        _instances(
-            layout,
-            [
-                "xn_a11",
-                "xn_a12",
-                "xn_a9",
-                "xn_a10",
-                "xfill_n<0>",
-                "xfill_n<1>",
-                "xfill_n<2>",
-                "xfill_n<3>",
-                "xfill_n<4>",
-            ],
-        ),
-    )
     n_vbn.stack()
 
     for stack in [p_ladder_mid, p_ladder_top, p_ladder_out, p_ctrl, n_vp, n_vbn]:
@@ -144,8 +60,8 @@ def beforeRoute(layout):
     layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
     layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
     layout.addRouteConnection("VSTART1", "xp", "M2", "bottom", "", excludeInstances="^xfill_")
-    layout.addRouteConnection("VCP", "xn_a9", "M3", "left", "", excludeInstances="^xfill_")
-    layout.addRouteConnection("VSTART3", "xp|xn_a11", "M4", "bottom", "", excludeInstances="^xfill_")
+    layout.addRouteConnection("VCP", "xn_vp3", "M3", "left", "", excludeInstances="^xfill_")
+    layout.addRouteConnection("VSTART3", "xp|xn_vp1", "M4", "bottom", "", excludeInstances="^xfill_")
     layout.addRouteConnection("VO", "", "M4", "top", "", excludeInstances="^xfill_")
     layout.addPowerConnection("VDD_1V8", "", "top", "^xfill_")
     layout.addPowerConnection("VSS", "", "bottom", "^xfill_")
@@ -164,11 +80,11 @@ def beforeRoute(layout):
         "^VBN$",
         "onTopLeft,verticaltrack6",  #"left,onTopLeft,verticaltrack6,horizontaltrack3,nolabel",
         1,
-        r"^(xn_a2)",
+        r"^(xn_vbn2)",
         "",
         accessLayer="M2",
     )
-    layout.addConnectivityRoute("M2","^VBN","||","",2,"^xfill_","^(xn_a1|xn_a2)")
+    layout.addConnectivityRoute("M2","^VBN","||","",2,"^xfill_","^(xn_vbn1|xn_vbn2)")
 
 
 
@@ -180,7 +96,7 @@ def beforeRoute(layout):
         "left,onTopRight,verticaltrack0,nolabel",
         1,
         "^xfill_",
-        "^(xn_a10|xn_a12)$",
+        "^(xn_vp4|xn_vp2)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -190,7 +106,7 @@ def beforeRoute(layout):
         "left,onTopLeft,verticaltrack1,nolabel",
         1,
         "^xfill_",
-        "^(xn_a9|xn_a11)$",
+        "^(xn_vp3|xn_vp1)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -210,7 +126,7 @@ def beforeRoute(layout):
         "left,onTopLeft,verticaltrack2,nolabel",
         1,
         "^xfill_",
-        "^(xn_a6|xn_a11|xn_a12)$",
+        "^(xn_vbn6|xn_vp1|xn_vp2)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -220,7 +136,7 @@ def beforeRoute(layout):
         "left,onTopLeft,verticaltrack0,nolabel",
         1,
         "^xfill_",
-        "^(xn_a3|xn_a4|xp_d5)$",
+        "^(xn_vbn3|xn_vbn4|xp_ctrl4)$",
         accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
@@ -240,7 +156,7 @@ def beforeRoute(layout):
         "right,onTopLeft,verticaltrack4,nolabel",
         1,
         "^xfill_",
-        "^(xn_a2<0>|xp_d)",
+        "^(xn_vbn2<0>|xp_ctrl)",
         accessLayer="M2",
     )
     #layout.addConnectivityRoute("M3","^VSTART1","-|--","leftdownleftup",2,"","^xp")
@@ -249,25 +165,3 @@ def beforeRoute(layout):
 def afterPorts(layout):
     pass
 
-
-def _instances(layout, names):
-    instances = []
-    for name in names:
-        inst = layout.getInstanceFromInstanceName(name)
-        if inst is None:
-            raise ValueError(f"Missing instance {name}")
-        instances.append(inst)
-    return instances
-
-
-def _stack_in_order(stack, instances):
-    if not instances:
-        return stack
-    x = int(stack.left())
-    y = int(stack.bottom())
-    stack.instances = list(instances)
-    for inst in stack.instances:
-        inst.moveTo(x, y)
-        y = int(inst.y2)
-    stack.updateBoundingRect()
-    return stack

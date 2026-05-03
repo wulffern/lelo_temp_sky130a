@@ -46,12 +46,12 @@ def afterPorts(layout):
 def afterPlace(layout):
     branch_gap = 2 * layout.um
     nmos = layout.makeCellGroup("nmos")
-    n_mirr_load = nmos.addStack("n_mirr_load",layout.getSortedInstancesByInstanceName("xn_mirr_load"))
-    n_mirr_bias = nmos.addStack("n_mirr_bias",layout.getSortedInstancesByInstanceName("xn_mirr_bias"))
+    n_mirr_load = nmos.addStackByGroup("xn_mirr_load", name="n_mirr_load")
+    n_mirr_bias = nmos.addStackByGroup("xn_mirr_bias", name="n_mirr_bias")
 
     pmos = layout.makeCellGroup("pmos")
-    p_mirr_tail = pmos.addStack("p_mirr_load",layout.getSortedInstancesByInstanceName("xp_mirr_tail"))
-    p_diff = pmos.addStack("p_diff",layout.getSortedInstancesByInstanceName("xp_diff"))
+    p_mirr_tail = pmos.addStackByGroup("xp_mirr_tail", name="p_mirr_tail")
+    p_diff = pmos.addStackByGroup("xp_diff", name="p_diff")
 
 
     pmos.abutRight(nmos, space=branch_gap)
