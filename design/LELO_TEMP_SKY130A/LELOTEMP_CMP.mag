@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1777586400
+timestamp 1777759200
 << checkpaint >>
 rect -720 0 4712 6600
 << metal2 >>
@@ -1196,10 +1196,10 @@ box 96 300 1120 780
 use JNWATR_NCH_2CTAPTOP xstack_n_mirr_bias_top ../JNW_ATR_SKY130A
 transform 1 0 96 0 1 5580
 box 96 5580 1120 6060
-use JNWATR_PCH_2CTAPBOT xstack_p_mirr_load_bot ../JNW_ATR_SKY130A
+use JNWATR_PCH_2CTAPBOT xstack_p_mirr_tail_bot ../JNW_ATR_SKY130A
 transform 1 0 3568 0 1 300
 box 3568 300 4592 780
-use JNWATR_PCH_2CTAPTOP xstack_p_mirr_load_top ../JNW_ATR_SKY130A
+use JNWATR_PCH_2CTAPTOP xstack_p_mirr_tail_top ../JNW_ATR_SKY130A
 transform 1 0 3568 0 1 5580
 box 3568 5580 4592 6060
 use JNWATR_PCH_2CTAPBOT xstack_p_diff_bot ../JNW_ATR_SKY130A

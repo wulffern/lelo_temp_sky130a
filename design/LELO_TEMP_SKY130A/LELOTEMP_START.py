@@ -69,16 +69,12 @@ def beforeRoute(layout):
     layout.addConnectivityRoute("M3","^SER","-|--","",2,"^xfill_","")
     layout.addConnectivityRoute("M3","^MID","-|--","",2,"^xfill_","")
     layout.addConnectivityRoute("M3","^TOP","-|--","",2,"^xfill_","")
-    #layout.addConnectivityRoute("M3","^VCP","--|-","onTopRight",2,"","")
-    #layout.addConnectivityRoute("M3","^VO","--|-","onTopRight",2,"","xn_a10")
-
-    #layout.addConnectivityRoute("M3","^TOP","-|--","",2,"","")
 
     layout.addOrthogonalConnectivityRoute(
         "M2",
         "M3",
         "^VBN$",
-        "onTopLeft,verticaltrack6",  #"left,onTopLeft,verticaltrack6,horizontaltrack3,nolabel",
+        "onTopLeft,verticaltrack6",
         1,
         r"^(xn_vbn2)",
         "",
@@ -159,7 +155,6 @@ def beforeRoute(layout):
         "^(xn_vbn2<0>|xp_ctrl)",
         accessLayer="M2",
     )
-    #layout.addConnectivityRoute("M3","^VSTART1","-|--","leftdownleftup",2,"","^xp")
 
 
 def afterPorts(layout):
