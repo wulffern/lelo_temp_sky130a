@@ -1,0 +1,179 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1777759200
+<< checkpaint >>
+rect 0 -480 7680 7072
+<< metal1 >>
+rect 4512 600 4704 680
+rect 4384 360 4448 440
+rect 160 3528 224 3608
+rect 2192 1640 2384 1720
+rect 6688 360 6752 440
+rect 6688 1160 6752 1240
+rect 1680 360 1744 440
+rect 672 40 864 120
+use LELOATR_PCH_4C5F0 xn_cap1<0> ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 0
+box 0 0 1520 1056
+use LELOATR_PCH_4C5F0 xn_cap1<1> ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 1056
+box 0 1056 1520 2112
+use LELOATR_PCH_4C5F0 xn_cap1<2> ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 2112
+box 0 2112 1520 3168
+use LELOATR_PCH_4C5F0 xn_cap2<0> ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 3168
+box 0 3168 1520 4224
+use LELOATR_PCH_4C5F0 xn_cap2<1> ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 4224
+box 0 4224 1520 5280
+use LELOATR_PCH_4C5F0 xn_cap2<2> ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 5280
+box 0 5280 1520 6336
+use JNWATR_NCH_4C5F0 xn_vbnt1 ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 0
+box 1520 0 2672 800
+use JNWATR_NCH_4C5F0 xn_vbnt2 ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 800
+box 1520 800 2672 1600
+use JNWATR_NCH_4C5F0 xn_vbnt3<0> ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 1600
+box 1520 1600 2672 2400
+use JNWATR_NCH_4C5F0 xn_vbnt3<1> ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 2400
+box 1520 2400 2672 3200
+use JNWATR_NCH_4C5F0 xn_vbnt4 ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 3200
+box 1520 3200 2672 4000
+use JNWATR_NCH_4C5F0 xn_vbnt6 ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 4000
+box 1520 4000 2672 4800
+use JNWATR_NCH_4C1F2 xn_vcn1<0> ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 0
+box 2672 0 3824 800
+use JNWATR_NCH_4C1F2 xn_vcn1<1> ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 800
+box 2672 800 3824 1600
+use JNWATR_NCH_4C1F2 xn_vcn1<2> ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 1600
+box 2672 1600 3824 2400
+use JNWATR_NCH_4C1F2 xn_vcn1<3> ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 2400
+box 2672 2400 3824 3200
+use JNWATR_NCH_4C1F2 xn_vcn1<4> ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 3200
+box 2672 3200 3824 4000
+use JNWATR_NCH_4C1F2 xn_vcn1<5> ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 4000
+box 2672 4000 3824 4800
+use JNWATR_PCH_4C5F0 xp_mirr1 ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 0
+box 4224 0 5376 800
+use JNWATR_PCH_4C5F0 xp_mirr2 ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 800
+box 4224 800 5376 1600
+use JNWATR_PCH_4C5F0 xp_mirr3<0> ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 1600
+box 4224 1600 5376 2400
+use JNWATR_PCH_4C5F0 xp_mirr3<1> ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 2400
+box 4224 2400 5376 3200
+use JNWATR_PCH_4C5F0 xp_mirr3<2> ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 3200
+box 4224 3200 5376 4000
+use JNWATR_PCH_4C5F0 xp_mirr3<3> ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 4000
+box 4224 4000 5376 4800
+use JNWATR_PCH_4C5F0 xp_src1 ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 0
+box 6528 0 7680 800
+use JNWATR_PCH_4C5F0 xp_src2 ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 800
+box 6528 800 7680 1600
+use JNWATR_PCH_4C5F0 xp_src3 ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 1600
+box 6528 1600 7680 2400
+use JNWATR_PCH_4C5F0 xp_src5<0> ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 2400
+box 6528 2400 7680 3200
+use JNWATR_PCH_4C5F0 xp_src5<1> ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 3200
+box 6528 3200 7680 4000
+use JNWATR_PCH_4C5F0 xp_src5<2> ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 4000
+box 6528 4000 7680 4800
+use JNWATR_PCH_4C1F2 xp_vcp1<0> ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 0
+box 5376 0 6528 800
+use JNWATR_PCH_4C1F2 xp_vcp1<1> ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 800
+box 5376 800 6528 1600
+use JNWATR_PCH_4C1F2 xp_vcp1<2> ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 1600
+box 5376 1600 6528 2400
+use JNWATR_PCH_4C1F2 xp_vcp1<3> ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 2400
+box 5376 2400 6528 3200
+use JNWATR_PCH_4C1F2 xp_vcp1<4> ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 3200
+box 5376 3200 6528 4000
+use JNWATR_PCH_4C1F2 xp_vcp1<5> ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 4000
+box 5376 4000 6528 4800
+use JNWATR_NCH_4CTAPBOT xstack_xn_vbnt_bot ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 -480
+box 1520 -480 2672 0
+use JNWATR_NCH_4CTAPTOP xstack_xn_vbnt_top ../JNW_ATR_SKY130A
+transform 1 0 1520 0 1 4800
+box 1520 4800 2672 5280
+use JNWATR_NCH_4CTAPBOT xstack_xn_vcn_bot ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 -480
+box 2672 -480 3824 0
+use JNWATR_NCH_4CTAPTOP xstack_xn_vcn_top ../JNW_ATR_SKY130A
+transform 1 0 2672 0 1 4800
+box 2672 4800 3824 5280
+use LELOATR_PCH_4CTAPBOT xstack_xn_cap_bot ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 -480
+box 0 -480 1520 256
+use LELOATR_PCH_4CTAPTOP xstack_xn_cap_top ../LELO_ATR_SKY130A
+transform 1 0 0 0 1 6336
+box 0 6336 1520 7072
+use JNWATR_PCH_4CTAPBOT xstack_xp_mirr_bot ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 -480
+box 4224 -480 5376 0
+use JNWATR_PCH_4CTAPTOP xstack_xp_mirr_top ../JNW_ATR_SKY130A
+transform 1 0 4224 0 1 4800
+box 4224 4800 5376 5280
+use JNWATR_PCH_4CTAPBOT xstack_xp_vcp_bot ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 -480
+box 5376 -480 6528 0
+use JNWATR_PCH_4CTAPTOP xstack_xp_vcp_top ../JNW_ATR_SKY130A
+transform 1 0 5376 0 1 4800
+box 5376 4800 6528 5280
+use JNWATR_PCH_4CTAPBOT xstack_xp_src_bot ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 -480
+box 6528 -480 7680 0
+use JNWATR_PCH_4CTAPTOP xstack_xp_src_top ../JNW_ATR_SKY130A
+transform 1 0 6528 0 1 4800
+box 6528 4800 7680 5280
+<< labels >>
+flabel metal1 s 4512 600 4704 680 0 FreeSans 400 0 0 0 VDD_1V8
+port 1 nsew power bidirectional
+flabel metal1 s 4384 360 4448 440 0 FreeSans 400 0 0 0 PWRUP_1V8
+port 2 nsew signal bidirectional
+flabel metal1 s 160 3528 224 3608 0 FreeSans 400 0 0 0 VCN
+port 3 nsew signal bidirectional
+flabel metal1 s 2192 1640 2384 1720 0 FreeSans 400 0 0 0 VCP
+port 4 nsew signal bidirectional
+flabel metal1 s 6688 360 6752 440 0 FreeSans 400 0 0 0 VBP1
+port 5 nsew signal bidirectional
+flabel metal1 s 6688 1160 6752 1240 0 FreeSans 400 0 0 0 VBP2
+port 6 nsew signal bidirectional
+flabel metal1 s 1680 360 1744 440 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+port 7 nsew signal bidirectional
+flabel metal1 s 672 40 864 120 0 FreeSans 400 0 0 0 VSS
+port 8 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 -480 7680 7072
+<< end >>
