@@ -11,6 +11,7 @@ def afterPlace(layout):
     pmos = layout.makeCellGroup("pmos")
     p_ladder_mid = pmos.addStack("p_ladder_mid", layout.getSortedInstancesByInstanceName("xp_b1"))
     p_ladder_top = pmos.addStack("p_ladder_top", layout.getSortedInstancesByInstanceName("xp_c2"))
+    p_ladder_out = pmos.addStack("p_ladder_out", layout.getSortedInstancesByInstanceName("xp_f1"))
     p_ctrl = pmos.addStack("p_ctrl", _instances(layout, ["xp_d5", "xp_d4", "xp_d1", "xp_d2"]))
 
     nmos = layout.makeCellGroup("nmos")
@@ -23,6 +24,8 @@ def afterPlace(layout):
                 "xn_a1",
                 "xn_a2<0>",
                 "xn_a2<1>",
+                "xn_a2<2>",
+                "xn_a2<3>",
                 "xn_a3",
                 "xn_a4",
                 "xn_a5",
@@ -35,6 +38,7 @@ def afterPlace(layout):
 
     p_ladder_mid.stack()
     p_ladder_top.stack()
+    p_ladder_out.stack()
     p_ctrl.stack()
     n_vp.stack()
     n_vbn.stack()
@@ -42,10 +46,11 @@ def afterPlace(layout):
     pmos.fillDummyTransistors()
     nmos.fillDummyTransistors()
 
-    for stack in [p_ladder_mid, p_ladder_top, p_ctrl, n_vp, n_vbn]:
+    for stack in [p_ladder_mid, p_ladder_top, p_ladder_out, p_ctrl, n_vp, n_vbn]:
         stack.addTaps()
 
-    p_ladder_top.abutRight(p_ctrl, space=0)
+    p_ladder_out.abutRight(p_ctrl, space=0)
+    p_ladder_top.abutRight(p_ladder_out, space=0)
     p_ladder_mid.abutRight(p_ladder_top, space=0)
 
     n_vbn.abutRight(n_vp, space=0)
@@ -59,6 +64,7 @@ def afterPlace(layout):
         "pmos": pmos,
         "p_ladder_top": p_ladder_top,
         "p_ladder_mid": p_ladder_mid,
+        "p_ladder_out": p_ladder_out,
         "p_ctrl": p_ctrl,
         "nmos": nmos,
         "n_vp": n_vp,
@@ -73,19 +79,8 @@ def beforeRoute(layout):
     layout.addPowerConnection("VSS", "", "bottom")
 
     layout.addConnectivityRoute("M3","^SER","-|--","",2,"","")
-    layout.addConnectivityRoute("M3","^MID","-|--","",2,"","")
-    layout.addConnectivityRoute("M3","^TOP","-|--","",2,"","")
+    #layout.addConnectivityRoute("M3","^MID","-|--","",2,"","")
 
-    layout.addOrthogonalConnectivityRoute(
-        "M2",
-        "M3",
-        "^VBN$",
-        "right,onTopRight,verticaltrack-3,nolabel",
-        1,
-        "",
-        "^(xn_a1|xn_a2<0>|xn_a2<1>|xn_a3|xp_d4)$",
-        accessLayer="M2",
-    )
     layout.addOrthogonalConnectivityRoute(
         "M2",
         "M3",
@@ -163,7 +158,7 @@ def beforeRoute(layout):
         "center,onTopTop,verticaltrack0,nolabel",
         1,
         "",
-        "^(xn_a2<0>|xn_a2<1>|xn_a4|xn_a5)$",
+        "^(xn_a2<0>|xn_a2<1>|xn_a2<2>|xn_a2<3>|xn_a4|xn_a5)$",
         accessLayer="M2",
     )
 
