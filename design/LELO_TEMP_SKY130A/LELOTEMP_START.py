@@ -79,7 +79,8 @@ def beforeRoute(layout):
     layout.addPowerConnection("VSS", "", "bottom")
 
     layout.addConnectivityRoute("M3","^SER","-|--","",2,"","")
-    #layout.addConnectivityRoute("M3","^MID","-|--","",2,"","")
+    layout.addConnectivityRoute("M3","^MID","-|--","",2,"","")
+    layout.addConnectivityRoute("M3","^TOP","-|--","",2,"","")
 
     layout.addOrthogonalConnectivityRoute(
         "M2",
