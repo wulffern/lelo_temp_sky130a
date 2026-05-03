@@ -85,6 +85,19 @@ def beforeRoute(layout):
     layout.addOrthogonalConnectivityRoute(
         "M2",
         "M3",
+        "^VBN$",
+        "onTopLeft,verticaltrack10",  #"left,onTopLeft,verticaltrack6,horizontaltrack3,nolabel",
+        1,
+        r"^xn_a2",
+        "",
+        accessLayer="M2",
+    )
+    layout.addConnectivityRoute("M2","^VBN","||","",2,"","^(xn_a2|xn_a1)")
+
+
+    layout.addOrthogonalConnectivityRoute(
+        "M2",
+        "M3",
         "^VCP$",
         "right,onTopRight,verticaltrack0,nolabel",
         1,
@@ -116,7 +129,7 @@ def beforeRoute(layout):
         "M2",
         "M3",
         "^VP1$",
-        "right,onTopRight,verticaltrack4,nolabel",
+        "left,onTopLeft,verticaltrack1,nolabel",
         1,
         "",
         "^(xn_a9|xn_a7)$",
