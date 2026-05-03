@@ -4,7 +4,7 @@ K {}
 V {}
 S {}
 E {}
-T {Startup Circuit} -300 -740 0 0 1 1 {}
+T {Startup Circuit} -180 -740 0 0 1 1 {}
 N 290 -140 320 -140 {lab=VSS}
 N 320 -140 320 -110 {lab=VSS}
 N 250 -200 250 -140 {lab=VBN}
@@ -122,6 +122,21 @@ N 290 -550 290 -520 {lab=SER1[8:0],MID1}
 N 330 -580 360 -580 {lab=VSS}
 N 240 -460 290 -460 {lab=VDD_1V8}
 N 240 -580 290 -580 {lab=VDD_1V8}
+N 1030 -190 1070 -190 {lab=VDD_1V8}
+N 1070 -220 1070 -190 {lab=VDD_1V8}
+N 1030 -220 1070 -220 {lab=VDD_1V8}
+N 1030 -160 1030 -150 {lab=VDD_1V8}
+N 990 -150 1030 -150 {lab=VDD_1V8}
+N 990 -190 990 -150 {lab=VDD_1V8}
+N 990 -220 990 -190 {lab=VDD_1V8}
+N 990 -220 1030 -220 {lab=VDD_1V8}
+N 990 -50 1040 -50 {lab=VSS}
+N 1040 -80 1040 -50 {lab=VSS}
+N 990 -80 1040 -80 {lab=VSS}
+N 1040 -110 1040 -80 {lab=VSS}
+N 990 -110 1040 -110 {lab=VSS}
+N 950 -110 950 -80 {lab=VSS}
+N 950 -110 990 -110 {lab=VSS}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 250 -140 0 0 {name=xn_a2[3:0]}
 C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 430 -210 0 0 {name=xn_a5}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C1F2.sym} 430 -310 0 0 {name=xp_d1}
@@ -170,3 +185,7 @@ C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 330 -580 0 1 {name=xp_f1[9:0]}
 C {devices/lab_wire.sym} 290 -620 0 1 {name=p15 sig_type=std_logic lab=TOP,SER1[8:0]}
 C {devices/lab_wire.sym} 290 -530 0 1 {name=p16 sig_type=std_logic lab=SER1[8:0],MID1}
 C {devices/lab_wire.sym} 360 -580 0 1 {name=p17 sig_type=std_logic lab=VSS}
+C {JNW_ATR_SKY130A/JNWATR_PCH_4C1F2.sym} 990 -190 0 0 {name=xfill_pmos[5:0]}
+C {devices/lab_wire.sym} 1030 -220 0 1 {name=p18 sig_type=std_logic lab=VDD_1V8}
+C {JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym} 950 -80 0 0 {name=xfill_n[4:0]}
+C {devices/lab_wire.sym} 1040 -110 0 1 {name=p19 sig_type=std_logic lab=VSS}

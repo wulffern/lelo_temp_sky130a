@@ -12,10 +12,43 @@ def afterPlace(layout):
     p_ladder_mid = pmos.addStack("p_ladder_mid", layout.getSortedInstancesByInstanceName("xp_b1"))
     p_ladder_top = pmos.addStack("p_ladder_top", layout.getSortedInstancesByInstanceName("xp_c2"))
     p_ladder_out = pmos.addStack("p_ladder_out", layout.getSortedInstancesByInstanceName("xp_f1"))
-    p_ctrl = pmos.addStack("p_ctrl", _instances(layout, ["xp_d5", "xp_d4", "xp_d1", "xp_d2"]))
+    p_ctrl = pmos.addStack(
+        "p_ctrl",
+        _instances(
+            layout,
+            [
+                "xp_d1",
+                "xp_d2",
+                "xp_d4",
+                "xp_d5",
+                "xfill_pmos<0>",
+                "xfill_pmos<1>",
+                "xfill_pmos<2>",
+                "xfill_pmos<3>",
+                "xfill_pmos<4>",
+                "xfill_pmos<5>",
+            ],
+        ),
+    )
 
     nmos = layout.makeCellGroup("nmos")
-    n_vp = nmos.addStack("n_vp", _instances(layout, ["xn_a11", "xn_a12", "xn_a9", "xn_a10"]))
+    n_vp = nmos.addStack(
+        "n_vp",
+        _instances(
+            layout,
+            [
+                "xn_a11",
+                "xn_a12",
+                "xn_a9",
+                "xn_a10",
+                "xfill_n<0>",
+                "xfill_n<1>",
+                "xfill_n<2>",
+                "xfill_n<3>",
+                "xfill_n<4>",
+            ],
+        ),
+    )
     n_vbn = nmos.addStack(
         "n_vbn",
         _instances(
@@ -38,12 +71,43 @@ def afterPlace(layout):
     p_ladder_top.stack()
     p_ladder_out.stack()
     p_ctrl.stack()
+    _stack_in_order(
+        p_ctrl,
+        _instances(
+            layout,
+            [
+                "xp_d1",
+                "xp_d2",
+                "xp_d4",
+                "xp_d5",
+                "xfill_pmos<0>",
+                "xfill_pmos<1>",
+                "xfill_pmos<2>",
+                "xfill_pmos<3>",
+                "xfill_pmos<4>",
+                "xfill_pmos<5>",
+            ],
+        ),
+    )
     n_vp.stack()
-    _stack_in_order(n_vp, _instances(layout, ["xn_a11", "xn_a12", "xn_a9", "xn_a10"]))
+    _stack_in_order(
+        n_vp,
+        _instances(
+            layout,
+            [
+                "xn_a11",
+                "xn_a12",
+                "xn_a9",
+                "xn_a10",
+                "xfill_n<0>",
+                "xfill_n<1>",
+                "xfill_n<2>",
+                "xfill_n<3>",
+                "xfill_n<4>",
+            ],
+        ),
+    )
     n_vbn.stack()
-
-    pmos.fillDummyTransistors()
-    nmos.fillDummyTransistors()
 
     for stack in [p_ladder_mid, p_ladder_top, p_ladder_out, p_ctrl, n_vp, n_vbn]:
         stack.addTaps()
@@ -75,20 +139,20 @@ def beforeRoute(layout):
 
     layout.addRouteRing("M3", "VSTART1", "b", widthmult=1, spacemult=2)
     layout.addRouteRing("M3", "VSTART3", "b", widthmult=1, spacemult=2)
-    layout.addRouteRing("M2", "VCP", "l", widthmult=1, spacemult=2)
+    layout.addRouteRing("M2", "VCP", "l", widthmult=1, spacemult=3)
     layout.addRouteRing("M3", "VO", "t", widthmult=1, spacemult=2)
     layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
     layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
-    layout.addRouteConnection("VSTART1","xp","M2","bottom","")
-    layout.addRouteConnection("VCP","xn_a9","M3","left","")
-    layout.addRouteConnection("VSTART3","xp|xn_a11","M4","bottom","")
-    layout.addRouteConnection("VO","","M4","top","")
-    layout.addPowerConnection("VDD_1V8", "", "top")
-    layout.addPowerConnection("VSS", "", "bottom")
+    layout.addRouteConnection("VSTART1", "xp", "M2", "bottom", "", excludeInstances="^xfill_")
+    layout.addRouteConnection("VCP", "xn_a9", "M3", "left", "", excludeInstances="^xfill_")
+    layout.addRouteConnection("VSTART3", "xp|xn_a11", "M4", "bottom", "", excludeInstances="^xfill_")
+    layout.addRouteConnection("VO", "", "M4", "top", "", excludeInstances="^xfill_")
+    layout.addPowerConnection("VDD_1V8", "", "top", "^xfill_")
+    layout.addPowerConnection("VSS", "", "bottom", "^xfill_")
 
-    layout.addConnectivityRoute("M3","^SER","-|--","",2,"","")
-    layout.addConnectivityRoute("M3","^MID","-|--","",2,"","")
-    layout.addConnectivityRoute("M3","^TOP","-|--","",2,"","")
+    layout.addConnectivityRoute("M3","^SER","-|--","",2,"^xfill_","")
+    layout.addConnectivityRoute("M3","^MID","-|--","",2,"^xfill_","")
+    layout.addConnectivityRoute("M3","^TOP","-|--","",2,"^xfill_","")
     #layout.addConnectivityRoute("M3","^VCP","--|-","onTopRight",2,"","")
     #layout.addConnectivityRoute("M3","^VO","--|-","onTopRight",2,"","xn_a10")
 
@@ -100,11 +164,11 @@ def beforeRoute(layout):
         "^VBN$",
         "onTopLeft,verticaltrack6",  #"left,onTopLeft,verticaltrack6,horizontaltrack3,nolabel",
         1,
-        r"^xn_a2",
+        r"^(xn_a2)",
         "",
         accessLayer="M2",
     )
-    layout.addConnectivityRoute("M2","^VBN","||","",2,"","^(xn_a1|xn_a2)")
+    layout.addConnectivityRoute("M2","^VBN","||","",2,"^xfill_","^(xn_a1|xn_a2)")
 
 
 
@@ -115,7 +179,7 @@ def beforeRoute(layout):
         "^VP2$",
         "left,onTopRight,verticaltrack0,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn_a10|xn_a12)$",
         accessLayer="M2",
     )
@@ -125,7 +189,7 @@ def beforeRoute(layout):
         "^VP1$",
         "left,onTopLeft,verticaltrack1,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn_a9|xn_a11)$",
         accessLayer="M2",
     )
@@ -135,7 +199,7 @@ def beforeRoute(layout):
         "^VSTART2$",
         "right,onTopLeft,verticaltrack8,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn|xp)",
         accessLayer="M2",
     )
@@ -145,7 +209,7 @@ def beforeRoute(layout):
         "^VSTART3$",
         "left,onTopLeft,verticaltrack2,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn_a6|xn_a11|xn_a12)$",
         accessLayer="M2",
     )
@@ -155,7 +219,7 @@ def beforeRoute(layout):
         "^PWRUP_N_1V8$",
         "left,onTopLeft,verticaltrack0,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn_a3|xn_a4|xp_d5)$",
         accessLayer="M2",
     )
@@ -165,7 +229,7 @@ def beforeRoute(layout):
         "^VSTART1$",
         "right,onTopLeft,verticaltrack2,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn)",
         accessLayer="M2",
     )
@@ -175,7 +239,7 @@ def beforeRoute(layout):
         "^VSTART1$",
         "right,onTopLeft,verticaltrack4,nolabel",
         1,
-        "",
+        "^xfill_",
         "^(xn_a2<0>|xp_d)",
         accessLayer="M2",
     )
