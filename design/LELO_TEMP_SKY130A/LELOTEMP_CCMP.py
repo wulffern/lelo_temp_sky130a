@@ -63,7 +63,7 @@ def beforeRoute(layout):
     caps.addConnectivityRoute("M5", "^IBP_1U<0>$", "||")
     #layout.addConnectivityRoute("M4", "^IBP_1U<0>$","-|--","track2,onTopLeft,noendcut", 2,"cmp","")
     layout.addOrthogonalConnectivityRoute("M2", "M4", "^IBP_1U", "onTopLeft,noendcut,track0", 1, "x1_cmp", "")
-    layout.addOrthogonalConnectivityRoute("M2", "M3", "^PWRUP_N_1V8$", "onTopLeft,track0,left", 1, "", "^(x1_cmp|xg4)$", accessLayer="M2")
+    layout.addOrthogonalConnectivityRoute("M2", "M3", "^PWRUP_N_1V8$", "onTopLeft,track0,left", 1, "", "^(x1_cmp|xg4)$")
 
 
 def afterPorts(layout):

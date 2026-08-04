@@ -55,7 +55,7 @@ def beforeRoute(layout):
 
     layout.addRouteRing("M3", "VSTART1", "b", widthmult=1, spacemult=2)
     layout.addRouteRing("M3", "VSTART3", "b", widthmult=1, spacemult=2)
-    layout.addRouteRing("M2", "VCP", "l", widthmult=1, spacemult=3)
+    layout.addRouteRing("M2", "VCP", "l", widthmult=1, spacemult=4)
     layout.addRouteRing("M3", "VO", "t", widthmult=1, spacemult=2)
     layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
     layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
@@ -78,7 +78,6 @@ def beforeRoute(layout):
         1,
         r"^(xn_vbn2)",
         "",
-        accessLayer="M2",
     )
     layout.addConnectivityRoute("M2","^VBN","||","",2,"^xfill_","^(xn_vbn1|xn_vbn2)")
 
@@ -93,7 +92,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn_vp4|xn_vp2)$",
-        accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -103,7 +101,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn_vp3|xn_vp1)$",
-        accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -113,7 +110,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn|xp)",
-        accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -123,7 +119,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn_vbn6|xn_vp1|xn_vp2)$",
-        accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -133,7 +128,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn_vbn3|xn_vbn4|xp_ctrl4)$",
-        accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -143,7 +137,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn)",
-        accessLayer="M2",
     )
     layout.addOrthogonalConnectivityRoute(
         "M2",
@@ -153,7 +146,6 @@ def beforeRoute(layout):
         1,
         "^xfill_",
         "^(xn_vbn2<0>|xp_ctrl)",
-        accessLayer="M2",
     )
 
 
