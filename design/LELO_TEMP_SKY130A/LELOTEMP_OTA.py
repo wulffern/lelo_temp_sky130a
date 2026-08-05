@@ -64,6 +64,11 @@ def afterPlace(layout):
     for s in (p_in_a, p_in_b, p_bias, p_sw, n_load_a, n_load_b, n_mirr, n_sw, r_deg):
         s.stack()
 
+    #- mirror the right half of each matched pair, the seam then carries
+    #- mirror symmetric edge geometry and the halves can abut
+    p_in_b.mirror()
+    n_load_b.mirror()
+
     #- fill the short columns with dummies of their own device so every
     #- column in a row reaches the height of the tallest, and the taps
     #- land above the dummies
@@ -89,7 +94,7 @@ def afterPlace(layout):
     #- the 0.17 um licon spacing between neighbouring diffusion contacts,
     #- and intermediate gaps of 0.3 to 1.5 um trip other tap and diffusion
     #- rules, 2 um is the smallest spacing found clean
-    n_load_b.abutRight(n_load_a, space=branch_gap)
+    n_load_b.abutRight(n_load_a)
     n_mirr.abutRight(n_load_b, space=branch_gap)
     n_sw.abutRight(n_mirr, space=branch_gap)
 
