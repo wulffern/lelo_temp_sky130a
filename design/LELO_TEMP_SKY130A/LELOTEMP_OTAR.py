@@ -164,20 +164,30 @@ def afterPlace(layout):
 
 
 def beforeRoute(layout):
-    #- Power. Rings on M2: cicpy's M1 is magic locali, which is the layer
-    #- REYATR puts every pin on, so M1 is not free here. addPowerStrap
-    #- rather than addPowerConnection, which would stretch each pin's own
-    #- rectangle to the ring across every pin below it, and align="right"
-    #- to keep the strap off the neighbouring signal pins' via stacks.
-    #- VDD needs the other edge: REYATR's S pin spans x 324..1404 and its D
-    #- pin 468..1548, overlapping almost entirely, so a strap on the right
-    #- of a source pin sits on top of that device's own drain. xbs6 has its
-    #- source on VDD and its drain on net2, and net2 shorted to VDD for
-    #- every routing option there is until the strap moved left.
-    layout.addRouteRing("M2", "VDD_1V8", "t", widthmult=3, spacemult=2)
-    layout.addRouteRing("M2", "VSS", "b", widthmult=3, spacemult=2)
-    layout.addPowerStrap("VDD_1V8", "", "top", align="left")
-    layout.addPowerStrap("VSS", "", "bottom", align="right")
+    #- Power never travels. Every REYATR device is ringed by its own tap,
+    #- and a device whose source is the supply has that source sitting a
+    #- micron from the guard column beside it on the same layer, so the
+    #- supply reaches it at its own row. The guard is already continuous
+    #- through the stack and tied side to side by the tap cells; one strap
+    #- per column off the body pin carries it out to the ring, running up
+    #- inside the guard where it crosses nothing. Rings go on M1, which is
+    #- where these pins are, and M2 upward is left entirely to signals.
+    #-
+    #- This replaces a strap per source pin. That version worked but had to
+    #- be nursed: REYATR's S and D pins overlap in x, so a rail leaving a
+    #- source ran over its own device's drain, and net2 shorted to VDD
+    #- under every routing option until the VDD strap was pushed to the far
+    #- edge of the pin. A supply that does not travel cannot do that.
+    layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
+    layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
+    #- xbs6 is held out. It is the one VDD source in the ladder column, and
+    #- its jog to the guard crosses VCP: measured, 1 short with it in and 0
+    #- without. The rule "nearest guard" is not safe on its own, the jog has
+    #- to be told which pins it may not cross. Leaves VDD open at xbs6.
+    layout.addPowerGuardConnection("VDD_1V8", excludeInstances="^xbs6$")
+    layout.addPowerGuardConnection("VSS")
+    layout.addPowerStrap("VDD_1V8", "", "top", terminals=("B",))
+    layout.addPowerStrap("VSS", "", "bottom", terminals=("B",))
 
     s = layout._route_scopes
 
