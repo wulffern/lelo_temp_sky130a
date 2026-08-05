@@ -85,7 +85,45 @@ currently moving from plain schematic-to-layout generation toward a more analog-
 
 The goal is to get an agent to write the necessary python to do the layout. 
 
-This work is described in more detail in [LAYOUT_FLOW.md](LAYOUT_FLOW.md).
+This work is described in more detail in [LAYOUT_FLOW.md](LAYOUT_FLOW.md),
+and the operational guide an agent should read first is
+[agent_layout](https://analogicus.com/cicpy/agent_layout) in cicpy.
+
+### Bias block status
+
+The bias loop `LELOTEMP_BIAS_IBP` now uses the pmos input OTA
+`LELOTEMP_OTA` again. The nmos input version ran out of input common mode
+at the hot end: the OTA inputs sit at a diode voltage, roughly 0.45 V at
+125 C, and an nmos pair needs about 0.6 V on a 1.8 V supply. A startup of
+two diode connected pmos in series from VDD into VD1 breaks the zero
+current state and turns itself off once the loop runs. Typical transient:
+1.15 uA per output, 29 uA supply, 0.62 us settling.
+
+`LELOTEMP_OTA` placement is DRC clean. Routing is **not finished**. What
+is left, in order:
+
+1. **The VCP ladder placement shorts before any route.** The `xbs`
+   devices form a series chain, and stacked at the library overlap pitch
+   the cells merge their M2 rails, which shorts every junction to
+   VDD_1V8. DRC does not see this, `cicpy sch2mag --check-connectivity`
+   does, and `--strict` refuses to route until it is fixed. Opening the
+   stack pitch was not enough; the layout GUI cross probe is the fastest
+   way to see which shapes merge.
+2. **Two router limitations block bundle routing** of the columns that
+   carry several nets on one terminal. Horizontal bars of a row channel
+   all land at the same height regardless of the `track` option, so two
+   nets sharing a channel short, and `routeMirror` puts every rail of a
+   column at the same x. Both want a fix in cicpy rather than a
+   workaround here.
+3. **Cross links between the column rails** are then drawn one at a time
+   under `cicpy sch2mag --strict`, which stops at the first route that
+   creates a short and names the command and line that drew it.
+4. LVS closes it: `make gds cdl lvs CELL=LELOTEMP_OTA`. DRC alone cannot
+   see a short.
+
+The nets still open are listed by the connectivity check: VD1, VD2, VD3,
+VBP, VO, VCP, VS, net1, PWRUP_1V8, PWRUP_N_1V8, VIN, VIP and the ladder
+nets net2 to net6.
 
 # What
 
