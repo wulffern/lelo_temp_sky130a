@@ -1,0 +1,194 @@
+import re
+
+data = {
+    "afterPaint": [
+        {"resetOrigins": [[1]]},
+    ]
+}
+
+#- Placement only. Routing waits until the placement is DRC clean, but the
+#- arrangement is chosen with the routing in mind: the input halves sit
+#- next to the nmos loads they drive, the powerdown devices at the outer
+#- edge where the PWRUP wiring will arrive, and the degeneration resistor
+#- in the notch next to the bias stack it feeds.
+#-
+#- The two ten device groups are folded into pairs of five device columns
+#- so the rows come out even and the cell approaches a square:
+#-   xbl  input pair and CM sense   -> two interleaved halves, one from
+#-        each bus so both columns carry both inputs
+#-   xnd  matched loads             -> VD1 side and VD2 side columns,
+#-        each diode with its own mirror output
+#- Groups hold one device width each, see the netlist.
+
+
+def _pick(insts, patterns):
+    out = []
+    for i in insts:
+        name = getattr(i, "instanceName", "")
+        if any(re.fullmatch(p, name) for p in patterns):
+            out.append(i)
+    return out
+
+
+def beforePlace(layout):
+    layout.noPowerRoute = True
+    layout.place_xspace = [0]
+    layout.place_yspace = [0]
+    layout.place_groupbreak = [6]
+
+
+def afterPlace(layout):
+    branch_gap = 2 * layout.um
+    #- the gap between the two rows is the routing channel, and it is the
+    #- only place a net may cross the cell. Seven nets have pins in both
+    #- rows, so the channel is opened to six micron: each of them gets its
+    #- own horizontal band and the bands have to clear each other
+    channel = 6 * layout.um
+
+    xbl = layout.getSortedInstancesByGroupName("xbl")
+    xnd = layout.getSortedInstancesByGroupName("xnd")
+
+    pmos = layout.makeCellGroup("pmos")
+    #- one input side per column: VD1 stays in the a lane, VD2 in the b
+    #- lane, so each drain net runs one vertical corridor to its loads
+    #- the common mode sense device of each half goes to the bottom of its
+    #- column, next to the routing channel. Its drain VD3 is the one net
+    #- that has to cross the whole cell, and a net can only cross in the
+    #- channel: a vertical drop through a column lands on the M2 access
+    #- pads another net's route already put on the pins in that column
+    p_in_a = pmos.addStack("p_in_a", _pick(xbl, [r"xbl4"]) + _pick(xbl, [r"xbl1<[0-3]>"]), preserveOrder=True)
+    p_in_b = pmos.addStack("p_in_b", _pick(xbl, [r"xbl5"]) + _pick(xbl, [r"xbl0<[0-3]>"]), preserveOrder=True)
+    p_bias = pmos.addStackByGroup("xba", name="p_bias")
+    #- the ladder is a series chain, stacked in chain order so every link
+    #- is between neighbours and no junction has to travel the column.
+    #- The chain runs VDD end at the top, VCP end at the bottom: the only
+    #- ladder device with a VDD source pin is xbs6, and addPowerConnection
+    #- straps such a pin straight up to the ring. From the bottom of the
+    #- column that strap crossed the source pin of every other ladder
+    #- device and shorted net2..net6 to VDD. At the top it is one cell long
+    xbs = layout.getSortedInstancesByGroupName("xbs")
+    chain = []
+    for nm in ("xbs8", "xbs7", "xbs4", "xbs2", "xbs1", "xbs6"):
+        chain += _pick(xbs, [nm])
+    p_sw = pmos.addStack("p_sw", chain, preserveOrder=True)
+
+    xns = layout.getSortedInstancesByGroupName("xns")
+    xnc = layout.getSortedInstancesByGroupName("xnc")
+
+    nmos = layout.makeCellGroup("nmos")
+    #- each powerdown pull lives in the column of the net it pulls, so no
+    #- net has to cross the row to reach its switch
+    n_load_a = nmos.addStack("n_load_a", _pick(xnd, [r"xnd1<[0-3]>", r"xnd3"]) + _pick(xns, [r"xns1"]), preserveOrder=True)
+    n_load_b = nmos.addStack("n_load_b", _pick(xnd, [r"xnd2<[0-3]>", r"xnd4"]) + _pick(xns, [r"xns2"]), preserveOrder=True)
+    n_mirr = nmos.addStack("n_mirr", xnc + _pick(xns, [r"xns4"]), preserveOrder=True)
+
+    res = layout.makeCellGroup("res")
+    r_deg = res.addStackByGroup("xd", name="r_deg")
+
+    #- pack every column. The split stacks inherit interleaved first pass
+    #- positions from their source groups, so without this each column has
+    #- holes where the other half's devices used to sit
+    for s in (p_in_a, p_in_b, p_bias, p_sw, n_load_a, n_load_b, n_mirr, r_deg):
+        s.stack()
+
+    #- No mirroring. LELOTEMP_OTA mirrors the left half of each matched
+    #- pair, and the reason it can is a JNWATR property: those cells carry
+    #- S left of centre and D right, so a mirrored half meets its partner
+    #- source against source. REYATR lays its pins out differently, S at
+    #- x 324..1404 and D at 468..1548, overlapping in x with G out at the
+    #- right edge and B on the left, so mirroring maps D onto where S was
+    #- and every device in the column shorts its own drain to the source
+    #- rail. Measured: 11 placement shorts with the two mirror calls, 0
+    #- without. Matched-pair symmetry has to come from somewhere else here.
+
+    #- fill the short columns with dummies of their own device so every
+    #- column in a row reaches the height of the tallest, and the taps
+    #- land above the dummies
+    pmos.fillDummyTransistors()
+    nmos.fillDummyTransistors()
+
+    p_in_a.addTaps()
+    p_in_b.addTaps()
+    p_bias.addTaps()
+    p_sw.addTaps()
+    n_load_a.addTaps()
+    n_load_b.addTaps()
+    n_mirr.addTaps()
+
+    #- rows of four columns each. The pmos stacks abut so the wells merge,
+    #- any small gap leaves two wells inside the nwell spacing minimum
+    p_in_b.abutRight(p_in_a)
+    p_bias.abutRight(p_in_b)
+    p_sw.abutRight(p_bias)
+
+    #- every nmos boundary gets the full branch gap. Abutted edges violate
+    #- the 0.17 um licon spacing between neighbouring diffusion contacts,
+    #- and intermediate gaps of 0.3 to 1.5 um trip other tap and diffusion
+    #- rules, 2 um is the smallest spacing found clean
+    n_load_b.abutRight(n_load_a)
+    n_mirr.abutRight(n_load_b, space=branch_gap)
+
+    pmos.updateBoundingRect()
+    nmos.updateBoundingRect()
+    res.updateBoundingRect()
+
+    #- pmos row above nmos row, and the resistor in the notch above the
+    #- short powerdown stack, under the pmos row
+    pmos.abutTop(nmos, space=channel)
+    #- both resistor terminals belong to the pmos row, so the resistor
+    #- wants to sit at the right end of that row rather than here. It stays
+    #- in the nmos row for now: moved against p_sw it widens the cell by
+    #- its own width plus two gaps and buys nothing until VS and net1 can
+    #- actually be routed. The branch gap keeps the poly resistor clear of
+    #- the 0.48 um poly.9 spacing to the tap diffusion next to it
+    r_deg.abutRight(n_mirr, space=branch_gap)
+
+    pmos.updateBoundingRect()
+    nmos.updateBoundingRect()
+    res.updateBoundingRect()
+    nmos.routeDummyDevices()
+    pmos.routeDummyDevices()
+
+    layout._route_scopes = {
+        "res": res,
+        "pmos": pmos,
+        "nmos": nmos,
+        "p_in_a": p_in_a,
+        "p_in_b": p_in_b,
+        "p_bias": p_bias,
+        "p_sw": p_sw,
+        "n_load_a": n_load_a,
+        "n_load_b": n_load_b,
+        "n_mirr": n_mirr,
+    }
+
+
+def beforeRoute(layout):
+    #- Power. Rings on M2: cicpy's M1 is magic locali, which is the layer
+    #- REYATR puts every pin on, so M1 is not free here. addPowerStrap
+    #- rather than addPowerConnection, which would stretch each pin's own
+    #- rectangle to the ring across every pin below it, and align="right"
+    #- to keep the strap off the neighbouring signal pins' via stacks.
+    #- VDD needs the other edge: REYATR's S pin spans x 324..1404 and its D
+    #- pin 468..1548, overlapping almost entirely, so a strap on the right
+    #- of a source pin sits on top of that device's own drain. xbs6 has its
+    #- source on VDD and its drain on net2, and net2 shorted to VDD for
+    #- every routing option there is until the strap moved left.
+    layout.addRouteRing("M2", "VDD_1V8", "t", widthmult=3, spacemult=2)
+    layout.addRouteRing("M2", "VSS", "b", widthmult=3, spacemult=2)
+    layout.addPowerStrap("VDD_1V8", "", "top", align="left")
+    layout.addPowerStrap("VSS", "", "bottom", align="right")
+
+    s = layout._route_scopes
+
+    #- Signals on M4 vertical, M3 horizontal: M1 is the pins' layer and M2
+    #- carries the power straps, so M3 and M4 are the free ones.
+    #-
+    #- The ladder is five separate nets sharing one column, so one regex
+    #- for all of them puts every trunk in the same place. Each gets its
+    #- own track, and they alternate sides so no net's horizontal bar has
+    #- to cross another's trunk to reach its own.
+    for i, net in enumerate(("net2", "net3", "net4", "net5", "net6")):
+        side = "onTopLeft" if i % 2 == 0 else "left"
+        s["p_sw"].addOrthogonalConnectivityRoute("M4", "M3", f"^{net}$", f"{side},track{i//2}", 1)
+

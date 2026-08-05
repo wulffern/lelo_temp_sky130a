@@ -22,6 +22,12 @@ lelo_atr_sky130a:
   remote: git@github.com:wulffern/lelo_atr_sky130a.git
   revision: main
 
+#- Analog transistor library built for autolayout: pins on the lowest
+#- layer, metal left free for the router. Same device sizes as jnw_atr.
+rey_atr_sky130a:
+  remote: git@github.com:wulffern/rey_atr_sky130a.git
+  revision: main
+
 #- Analog transistor library
 jnw_bias_sky130a:
   remote: git@github.com:wulffern/jnw_bias_sky130A.git
