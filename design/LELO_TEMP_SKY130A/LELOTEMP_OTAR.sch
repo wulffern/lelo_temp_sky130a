@@ -186,7 +186,7 @@ C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 210 -240 0 1 {name=xnd3}
 C {REY_ATR_SKY130A/REYATR_PCH_12C5F0.sym} 860 -760 0 0 {name=xba8}
 C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 860 -240 0 0 {name=xnd4}
 C {devices/lab_wire.sym} 690 -300 0 1 {name=p6 sig_type=std_logic lab=VD2}
-C {REY_ATR_SKY130A/REYATR_RPPO8_TOP.sym} 620 -600 3 0 {name=xd2 }
+C {REY_TR_SKY130A/REYTR_RPPO8.sym} 620 -600 3 0 {name=xd2 }
 C {devices/ipin.sym} 110 -450 2 1 {name=p9 lab=PWRUP_N_1V8}
 C {REY_ATR_SKY130A/REYATR_PCH_12C5F0.sym} 320 -760 0 0 {name=xba7}
 C {REY_ATR_SKY130A/REYATR_PCH_12C5F0.sym} 580 -760 0 0 {name=xba1}
