@@ -243,8 +243,4 @@ def beforeRoute(layout):
     layout.addRouteRing("M2", "VCP", "r", widthmult=1, spacemult=4)
     layout.addRouteConnection("VCP", "xnc", "M2", "right", "", excludeInstances="^xfill_")
 
-    #- REY_ATR leaves M2 free, so the nets that could not find a corridor
-    #- on M3 or M4 get one there. VO runs from the bias column to the
-    #- mirror drain below it
-    layout.addOrthogonalConnectivityRoute("M2", "M5", "^VO$", "track6", 1, "", "")
 
