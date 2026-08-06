@@ -124,6 +124,38 @@ itself from M4 to M2 does not help either, it just moves the collision.
 The ladder gates need either their own rail on the column's own side, or
 the ladder's tracks re-planned to leave a corridor.
 
+## A router, started 2026-08-06
+
+`cicpy addTrackRoute(net)` is a first attempt at searching for a
+corridor instead of naming one. cicpy b18c750. It is not used by any
+design yet.
+
+It borrows magic's `mzrouter` cost model: per layer hcost and vcost per
+unit distance, per contact cost, Manhattan estimate, A*. The house
+convention becomes a price rather than a rule, so a route can break it
+where it must. It does not borrow magic's windowed search or tile plane
+geometry; a coarse grid at the ROUTE pitch is enough here.
+
+What it can do: read the drawn geometry as obstacles, search, and
+validate the result before drawing. Pointed at VO it drew a short first
+time; once the checks were right it declined to draw anything and left
+the cell at its clean baseline, which is the behaviour to keep.
+
+What it cannot do yet: reach every pin. A cut is a cell, not a point,
+and its enclosure on the layer being left is taller than a 4 um pin, so
+insisting the enclosure clear every neighbouring pin left two of three
+VO pins with no legal exit at all. Checking only the layer being entered
+finds a path but is optimistic about the layer being left. Pin access in
+a dense field is the thing to solve next, and it is the same problem the
+hand routes hit from the other side.
+
+Also worth knowing before touching this: magic's own routers are in the
+binary but not usable here. `iroute` says "Need irouter style in
+mzrouter section of technology file", and sky130A ships `mzrouter` and
+`router` as empty stubs, at lines 4152 and 6196 of sky130A.tech. Turning
+them on is a tech file authoring job, layer set and via costs and
+spacing, not a switch.
+
 ## A trap worth knowing
 
 `addOrthogonalConnectivityRoute` takes `excludeInstances` and
