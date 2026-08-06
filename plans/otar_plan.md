@@ -84,6 +84,37 @@ cause; see the note in that pycell before treating it as placement.
 - the ladder is five separate nets in one column: one regex for all of
   them puts every trunk in the same place. One route each, own track.
 
+## Route rings, tried 2026-08-06
+
+The obvious answer to a full channel is to let the leftover nets go
+*around* rather than through, so `addRouteRing` plus `addRouteConnection`
+was tried on VCP, the worst of them. Three variants, none kept:
+
+- **Ring on M3.** The ring is a lap of M3 and the channel bars are M3, so
+  the lap merges every one of them: 12 nets in one component.
+- **Ring on M2, left side.** M2 is otherwise free here, and this closed
+  VCP, 6 opens to 5. But `addRouteConnection` with `location="left"`
+  routes each pin *horizontally* to the rail, and both VCP groups sit at
+  the right hand end of their rows, so every connection crossed the whole
+  cell. 2 shorts, DRC 69.
+- **Ring on M2, right side.** The right runs are short and the short that
+  remains is local to the ladder column, PWRUP_1V8 with VCP and net1,
+  net4, net6. Closest of the three, still 2 shorts.
+
+There is a mechanical problem underneath all of them. `addRouteRing` on
+the layout builds the ring from `self.getCopy()`, and during
+`beforeRoute` that rectangle is not the cell's final extent: the ring
+came out beside the cell rather than around it, and the cell's own
+bounding box grew from `0..460.7 um` to `500.9..976.8 um` to contain it.
+The connections then run hundreds of micron to reach a rail that should
+have been at the cell edge. The VDD and VSS rings in this cell do not
+show it because they are top and bottom, where the same error is hidden
+by the row pitch.
+
+So rings are still the right idea for the five nets that must cross, but
+`addRouteRing` needs to take the rectangle it should ring, the way
+`addRouteRingOnRect` does, before that idea can be tested properly.
+
 ## A trap worth knowing
 
 `addOrthogonalConnectivityRoute` takes `excludeInstances` and
