@@ -84,36 +84,45 @@ cause; see the note in that pycell before treating it as placement.
 - the ladder is five separate nets in one column: one regex for all of
   them puts every trunk in the same place. One route each, own track.
 
-## Route rings, tried 2026-08-06
+## Route rings, 2026-08-06
 
-The obvious answer to a full channel is to let the leftover nets go
-*around* rather than through, so `addRouteRing` plus `addRouteConnection`
-was tried on VCP, the worst of them. Three variants, none kept:
+Rings are the answer for a net whose pins span columns when the channel
+is full: it goes around instead of through. They work here. Three things
+had to be right first, and two of them were wrong the first time.
 
-- **Ring on M3.** The ring is a lap of M3 and the channel bars are M3, so
-  the lap merges every one of them: 12 nets in one component.
-- **Ring on M2, left side.** M2 is otherwise free here, and this closed
-  VCP, 6 opens to 5. But `addRouteConnection` with `location="left"`
-  routes each pin *horizontally* to the rail, and both VCP groups sit at
-  the right hand end of their rows, so every connection crossed the whole
-  cell. 2 shorts, DRC 69.
-- **Ring on M2, right side.** The right runs are short and the short that
-  remains is local to the ladder column, PWRUP_1V8 with VCP and net1,
-  net4, net6. Closest of the three, still 2 shorts.
+**`addRouteConnection` needs its instance filters.** Called with an empty
+`includeInstances` it gives *every* pin on the net its own run to the
+rail, dummy fill included, and a net whose groups sit at one end of the
+row then has runs crossing the whole cell. `LELOTEMP_START` gets this
+right and is the model:
 
-There is a mechanical problem underneath all of them. `addRouteRing` on
-the layout builds the ring from `self.getCopy()`, and during
-`beforeRoute` that rectangle is not the cell's final extent: the ring
-came out beside the cell rather than around it, and the cell's own
-bounding box grew from `0..460.7 um` to `500.9..976.8 um` to contain it.
-The connections then run hundreds of micron to reach a rail that should
-have been at the cell edge. The VDD and VSS rings in this cell do not
-show it because they are top and bottom, where the same error is hidden
-by the row pitch.
+```python
+layout.addRouteRing("M2", "VCP", "l", widthmult=1, spacemult=4)
+layout.addRouteConnection("VCP", "xn_vp3", "M3", "left", "",
+                          excludeInstances="^xfill_")
+```
 
-So rings are still the right idea for the five nets that must cross, but
-`addRouteRing` needs to take the rectangle it should ring, the way
-`addRouteRingOnRect` does, before that idea can be tested properly.
+**The rail belongs on the side the pins are already on.** VCP's groups
+end at the right of both rows, so a left rail meant crossing the cell;
+a right rail is short runs.
+
+**`ignoreBoundaryRouting` has to be set,** or the ring joins the cell's
+bounding box and drags it: measured 0..460.7 um before, 500.9..976.8 um
+after adding the ring. That flag turned out to be broken in cicpy, the
+predicate skipped instances instead of routing, and setting it emptied
+the box outright. Fixed in cicpy 6ba5ccc; with it the box stays
+0..474.2 um and the ring sits outside the edge.
+
+State with the VCP ring in: **0 shorts, 6 opens, 36 DRC**, and VCP down
+from eleven components to nine.
+
+What is left on VCP is the ladder column. Its own five nets own M3 and
+M4 there, so a run from a ladder gate out to the rail crosses them
+whichever track it takes. Layers tried for that run: M3 and M4 short
+against net4, M5 shorts and costs 130 DRC, M2 shorts. Moving the ladder
+itself from M4 to M2 does not help either, it just moves the collision.
+The ladder gates need either their own rail on the column's own side, or
+the ladder's tracks re-planned to leave a corridor.
 
 ## A trap worth knowing
 

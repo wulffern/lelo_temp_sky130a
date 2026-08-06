@@ -231,3 +231,15 @@ def beforeRoute(layout):
     #- channel crossing
     s["p_bias"].addConnectivityRoute("M4", "^PWRUP_1V8$", "||", "", 1)
 
+    #- VCP spans the ladder column, the bias column and the mirror column,
+    #- so it goes around rather than through: a rail down the right hand
+    #- edge, which is the side both its pmos groups end on, and each pin
+    #- reaches it from its own row. The fill devices are held out, they
+    #- carry the net too and would each ask for their own run
+    #- a ring is routing, not content: without this the cell's bounding
+    #- box grows to contain it and every later route measures from the
+    #- wrong edge
+    layout.ignoreBoundaryRouting = True
+    layout.addRouteRing("M2", "VCP", "r", widthmult=1, spacemult=4)
+    layout.addRouteConnection("VCP", "xnc", "M2", "right", "", excludeInstances="^xfill_")
+
