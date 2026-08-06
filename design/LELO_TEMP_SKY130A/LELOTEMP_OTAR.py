@@ -202,3 +202,24 @@ def beforeRoute(layout):
         side = "onTopLeft" if i % 2 == 0 else "left"
         s["p_sw"].addOrthogonalConnectivityRoute("M4", "M3", f"^{net}$", f"{side},track{i//2}", 1)
 
+    #- The two input gates. Every pin of each is inside its own column,
+    #- so each is a single vertical run and neither leaves its stack
+    s["p_in_a"].addConnectivityRoute("M4", "^VIN$", "||", "", 1)
+    s["p_in_b"].addConnectivityRoute("M4", "^VIP$", "||", "", 1)
+
+    #- VS is the tail node: the source of every input device in both
+    #- columns, plus the top of the degeneration resistor in the nmos
+    #- row. Run it across the pmos row first and see what it costs
+    s["p_in_a"].addConnectivityRoute("M4", "^VS$", "||", "", 1)
+    s["p_in_b"].addConnectivityRoute("M4", "^VS$", "||", "", 1)
+    #- and the bar that ties the two columns together and reaches the
+    #- resistor below. It crosses the channel, so it takes a track of
+    #- its own
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VS$", "track0", 1, "", "")
+
+    #- The two drain nets. Each stays in one column pair: VD1 runs the a
+    #- lane from the input devices down to its diode loads, VD2 the b
+    #- lane. Own track each so their channel bars clear
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VD1$", "track1,left", 1, "", "")
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VD2$", "track3", 1, "", "")
+
