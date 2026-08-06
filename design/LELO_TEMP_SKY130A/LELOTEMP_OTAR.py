@@ -223,3 +223,11 @@ def beforeRoute(layout):
     layout.addOrthogonalConnectivityRoute("M4", "M3", "^VD1$", "track1,left", 1, "", "")
     layout.addOrthogonalConnectivityRoute("M4", "M3", "^VD2$", "track3", 1, "", "")
 
+    #- net1 is two pins, the resistor bottom and the powerdown pull in
+    #- the bias column above it
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^net1$", "track5", 1, "", "")
+
+    #- PWRUP_1V8 is three gates, all in the bias column: one vertical, no
+    #- channel crossing
+    s["p_bias"].addConnectivityRoute("M4", "^PWRUP_1V8$", "||", "", 1)
+
