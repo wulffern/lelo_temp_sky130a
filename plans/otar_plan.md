@@ -6,16 +6,47 @@ It exists because the OTA could not be finished on the JNWATR cells —
 `VD3` has pins in both rows and three columns, and on those cells the only
 way across a column landed on another net's access pads.
 
-## State, 2026-08-05
+## State, 2026-08-06
 
 - placement: 0 shorts, 0 DRC
 - power: rings on M1, sources tied to their own guard, one strap per
   column off the body pin out to the ring
-- routed: the five ladder nets, each on its own track, alternating sides
-- **0 shorts, 13 opens, 4 met3.2 errors** between M3 bars
+- routed: the five ladder nets, plus VIN, VIP, VS, VD1, VD2, net1,
+  PWRUP_1V8
+- **0 shorts, 6 opens, 36 DRC** (met2.2 and met3.2 between bars)
 
-Open: `VD1 VD2 VD3 VBP VO VCP VS net1 PWRUP_1V8 PWRUP_N_1V8 VIN VIP`, plus
-VDD at `xbs6` (see below).
+Open: `VD3 VBP VCP VO PWRUP_N_1V8`, plus VDD at `xbs6` (see below).
+
+### What each of the seven cost
+
+Free, no DRC change: VIN and VIP (all pins inside one input column each,
+one vertical), net1 (two pins), PWRUP_1V8 (three gates in the bias
+column).
+
+VS wanted the two column verticals *and* one orthogonal M4/M3 across the
+channel; the verticals alone left three components.
+
+VD1 and VD2 are the expensive pair: they close, and DRC goes 4 -> 36.
+Four track and side combinations tried, two shorted, none beat 36.
+Splitting them into per column verticals plus a channel bar, the shape
+that worked for VS, gives 4 shorts and 112 errors, because the vertical
+in the input column runs the stack's length and meets VBP.
+
+### The four that were tried and taken back out
+
+- **VO** reaches from the bias column to the mirror drain below. On every
+  track and side tried its trunk lands on VIN's in the input column:
+  shorts VD2, VIN, VO.
+- **PWRUP_N_1V8** is one gate in bias, three along the nmos row. A
+  horizontal along that row shorts to VD2 and VSS, a vertical shorts too.
+  It needs the row bar to dodge VD2's channel crossing, which is a
+  placement question.
+- **VCP** is every ladder gate plus the mirror column. A vertical down the
+  switch column runs the ladder's own length and merges net2..net6 with
+  VCP and VDD.
+- The pattern in all three: a net whose pins span columns cannot take a
+  trunk through a column that already carries another net's trunk. The
+  channel is the only free crossing and it now has six bars in it.
 
 ## The three that need a decision, not just more routing
 
@@ -52,6 +83,15 @@ cause; see the note in that pycell before treating it as placement.
   them is met2.7.
 - the ladder is five separate nets in one column: one regex for all of
   them puts every trunk in the same place. One route each, own track.
+
+## A trap worth knowing
+
+`addOrthogonalConnectivityRoute` takes `excludeInstances` and
+`includeInstances` positionally on `layout`, and omitting them raises
+TypeError inside `beforeRoute`. sch2mag then exits *without* printing a
+connectivity report, so a check that counts OPEN warnings sees none and
+reads it as success. Check that the report exists, never that warnings
+are absent.
 
 ## Loop
 
