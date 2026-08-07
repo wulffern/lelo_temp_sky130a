@@ -56,8 +56,12 @@ def afterPlace(layout):
     #- that has to cross the whole cell, and a net can only cross in the
     #- channel: a vertical drop through a column lands on the M2 access
     #- pads another net's route already put on the pins in that column
-    p_in_a = pmos.addStack("p_in_a", _pick(xbl, [r"xbl4"]) + _pick(xbl, [r"xbl1<[0-3]>"]), preserveOrder=True)
-    p_in_b = pmos.addStack("p_in_b", _pick(xbl, [r"xbl5"]) + _pick(xbl, [r"xbl0<[0-3]>"]), preserveOrder=True)
+    #- bus widths come from the schematic, so match any index rather
+    #- than a range. The input pair has been 4 and is now 6 a side, and
+    #- a hard coded <[0-3]> silently dropped the devices past it into no
+    #- stack at all -- they still place, just nowhere anyone asked
+    p_in_a = pmos.addStack("p_in_a", _pick(xbl, [r"xbl4"]) + _pick(xbl, [r"xbl1<\d+>"]), preserveOrder=True)
+    p_in_b = pmos.addStack("p_in_b", _pick(xbl, [r"xbl5"]) + _pick(xbl, [r"xbl2<\d+>"]), preserveOrder=True)
     p_bias = pmos.addStackByGroup("xba", name="p_bias")
     #- the ladder is a series chain, stacked in chain order so every link
     #- is between neighbours and no junction has to travel the column.
@@ -78,8 +82,8 @@ def afterPlace(layout):
     nmos = layout.makeCellGroup("nmos")
     #- each powerdown pull lives in the column of the net it pulls, so no
     #- net has to cross the row to reach its switch
-    n_load_a = nmos.addStack("n_load_a", _pick(xnd, [r"xnd1<[0-3]>", r"xnd3"]) + _pick(xns, [r"xns1"]), preserveOrder=True)
-    n_load_b = nmos.addStack("n_load_b", _pick(xnd, [r"xnd2<[0-3]>", r"xnd4"]) + _pick(xns, [r"xns2"]), preserveOrder=True)
+    n_load_a = nmos.addStack("n_load_a", _pick(xnd, [r"xnd1<\d+>", r"xnd3"]) + _pick(xns, [r"xns1"]), preserveOrder=True)
+    n_load_b = nmos.addStack("n_load_b", _pick(xnd, [r"xnd2<\d+>", r"xnd4"]) + _pick(xns, [r"xns2"]), preserveOrder=True)
     n_mirr = nmos.addStack("n_mirr", xnc + _pick(xns, [r"xns4"]), preserveOrder=True)
 
     res = layout.makeCellGroup("res")
@@ -88,8 +92,20 @@ def afterPlace(layout):
     #- pack every column. The split stacks inherit interleaved first pass
     #- positions from their source groups, so without this each column has
     #- holes where the other half's devices used to sit
-    for s in (p_in_a, p_in_b, p_bias, p_sw, n_load_a, n_load_b, n_mirr, r_deg):
+    for s in (p_in_a, p_in_b, p_bias, p_sw, n_load_a, n_load_b, n_mirr):
         s.stack()
+    #- Overlapped by exactly one guard wall, so the rings coincide.
+    #-
+    #- RPPO4's ring runs 16..128 from the bottom of the cell and
+    #- 3072..3184 from it in a cell 3200 tall, so stacking flush leaves
+    #- the two rings 0.16 um apart -- just under the 0.17 um li.3
+    #- minimum, twice at each seam, which was all four DRC errors. A gap
+    #- big enough to clear the rule would leave the upper rings with no
+    #- path to the rail at all. Dropping each cell by 144 units puts one
+    #- ring exactly on the other: they merge into one shape, so there is
+    #- no spacing to violate and no abutment to object to, and B chains
+    #- up the column by itself
+    r_deg.stack(ygap=-144 * 50)
 
     #- Order the columns for the rails, before anything measures them.
     #- A rail down a column crosses every pin it passes, so a net whose
@@ -146,16 +162,26 @@ def afterPlace(layout):
     nmos.updateBoundingRect()
     res.updateBoundingRect()
 
-    #- pmos row above nmos row, and the resistor in the notch above the
-    #- short powerdown stack, under the pmos row
+    #- pmos row above nmos row
     pmos.abutTop(nmos, space=channel)
-    #- both resistor terminals belong to the pmos row, so the resistor
-    #- wants to sit at the right end of that row rather than here. It stays
-    #- in the nmos row for now: moved against p_sw it widens the cell by
-    #- its own width plus two gaps and buys nothing until VS and net1 can
-    #- actually be routed. The branch gap keeps the poly resistor clear of
-    #- the 0.48 um poly.9 spacing to the tap diffusion next to it
-    r_deg.abutRight(n_mirr, space=branch_gap)
+
+    #- The resistor gets a column of its own, right of both rows.
+    #-
+    #- It used to sit in the notch beside the mirror stack, which worked
+    #- while it was one cell. The schematic now asks for three RPPO4 in
+    #- series and the stack is 48 um tall against an nmos row of 24.8, so
+    #- the top one climbed out of the row and landed inside the bias
+    #- column: measured, x 217600 spanning y up to 495000 against a pmos
+    #- row starting at 323000. Every rpm.3, rpm.6 and rpm.7 in the cell
+    #- came from that one overlap, and DRC went from clean to 111.
+    #-
+    #- The notch beside the mirror is 10.5 um wide and 30.8 tall, so it
+    #- cannot take this column at any orientation: 11.2 will not fit in
+    #- 10.5, and three stacked will not fit in 30.8. Right of everything
+    #- costs width, and that is the honest price of tripling the
+    #- resistor rather than something placement can arrange away
+    r_deg.abutRight(pmos, space=branch_gap)
+    r_deg.translate(0, nmos.y1 - r_deg.y1)
 
     pmos.updateBoundingRect()
     nmos.updateBoundingRect()
@@ -212,7 +238,16 @@ def beforeRoute(layout):
     layout.addPowerGuardConnection("VDD_1V8", excludeInstances="^xbs6$")
     layout.addPowerGuardConnection("VSS")
     layout.addPowerStrap("VDD_1V8", "", "top", terminals=("B",))
-    layout.addPowerStrap("VSS", "", "bottom", terminals=("B",))
+    #- Only the bottom resistor is strapped to the ring. RPPO4 puts B as
+    #- a full width strip along the bottom of its guard and P and N near
+    #- the top, so a strap from an upper resistor's B down to the rail
+    #- runs the length of the column straight across the terminals of
+    #- every resistor below it -- and since a strap on the pin's own
+    #- layer takes the port's full width, it covers both pads. Measured:
+    #- R1<0>, R1<1> and VS all shorted to VSS. The rings touch each
+    #- other, so one strap at the bottom carries the whole column
+    layout.addPowerStrap("VSS", "", "bottom", terminals=("B",),
+                         excludeInstances=r"^xd2<[1-9]")
 
     s = layout._route_scopes
 
