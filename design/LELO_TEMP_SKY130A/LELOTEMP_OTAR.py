@@ -149,6 +149,17 @@ def afterPlace(layout):
     nmos.routeDummyDevices()
     pmos.routeDummyDevices()
 
+    #- The gap between the rows is the only place a net may cross, and
+    #- the placement is what decides where it is. Name it here, in the
+    #- units this technology produced, so routes can aim at it by track
+    #- index instead of carrying coordinates that a resize would break
+    layout.addRoutingChannel("mid", nmos.y2, pmos.y1)
+    #- and the columns, as vertical channels, so a trunk can be given a
+    #- track inside one without naming a coordinate
+    for nm, st in (("in_a", p_in_a), ("in_b", p_in_b),
+                   ("bias", p_bias), ("sw", p_sw)):
+        layout.addRoutingChannel(nm, st.x1, st.x2, horizontal=False)
+
     layout._route_scopes = {
         "res": res,
         "pmos": pmos,
@@ -226,6 +237,11 @@ def beforeRoute(layout):
     #- net1 is two pins, the resistor bottom and the powerdown pull in
     #- the bias column above it
     layout.addOrthogonalConnectivityRoute("M4", "M3", "^net1$", "track5", 1, "", "")
+
+    #- VO crosses the rows. cicpy tracks says the channel between them is
+    #- 21 M3 tracks wide and every one of them is empty, so send the bar
+    #- there rather than leaving it among the bars inside the rows
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO$", "hchannel=mid,htrack=5,vchannel=in_b,vtrack=8", 1, "", "")
 
     #- PWRUP_1V8 is three gates, all in the bias column: one vertical, no
     #- channel crossing
