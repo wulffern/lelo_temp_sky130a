@@ -163,8 +163,8 @@ N 1080 -370 1080 -310 {lab=VCP}
 N 300 -450 360 -450 {lab=PWRUP_N_1V8}
 N 300 -330 790 -330 {lab=PWRUP_N_1V8}
 N 790 -330 790 -180 {lab=PWRUP_N_1V8}
-N 600 -680 620 -680 {lab=VDS,R1[1:0]}
-N 600 -600 620 -600 {lab=R1[1:0],VS}
+N 600 -680 620 -680 {lab=VDS,R1[3],R1[2],R1[1],R1[0]}
+N 600 -600 620 -600 {lab=R1[3],R1[2],R1[1],R1[0],VS}
 N 600 -730 620 -730 {lab=VDS}
 N 210 -710 860 -710 {lab=VBP}
 N 900 -730 900 -700 {lab=VO}
@@ -192,7 +192,7 @@ C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 210 -240 0 1 {name=xnd3}
 C {REY_ATR_SKY130A/REYATR_PCH_11C5F0.sym} 860 -760 0 0 {name=xba8}
 C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 860 -240 0 0 {name=xnd4}
 C {devices/lab_wire.sym} 690 -300 0 1 {name=p6 sig_type=std_logic lab=VD2}
-C {REY_ATR_SKY130A/REYATR_RPPO4.sym} 620 -600 3 0 {name=xd2[2:0]}
+C {REY_ATR_SKY130A/REYATR_RES_36C2F0.sym} 620 -600 3 0 {name=xd2[4:0]}
 C {devices/ipin.sym} 110 -450 2 1 {name=p9 lab=PWRUP_N_1V8}
 C {REY_ATR_SKY130A/REYATR_PCH_11C5F0.sym} 320 -760 0 0 {name=xba7}
 C {REY_ATR_SKY130A/REYATR_PCH_11C5F0.sym} 580 -760 0 0 {name=xba1}
@@ -222,6 +222,6 @@ C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 1200 -540 0 0 {name=xbl4}
 C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 1470 -540 0 1 {name=xbl5}
 C {devices/lab_wire.sym} 250 -710 0 0 {name=p13 sig_type=std_logic lab=VBP}
 C {devices/lab_wire.sym} 1330 -350 0 1 {name=p17 sig_type=std_logic lab=VD3}
-C {devices/lab_wire.sym} 600 -680 2 1 {name=p18 sig_type=std_logic lab=VDS,R1[1:0]}
-C {devices/lab_wire.sym} 600 -600 2 1 {name=p19 sig_type=std_logic lab=R1[1:0],VS}
+C {devices/lab_wire.sym} 600 -680 2 1 {name=p18 sig_type=std_logic lab=VDS,R1[3],R1[2],R1[1],R1[0]}
+C {devices/lab_wire.sym} 600 -600 2 1 {name=p19 sig_type=std_logic lab=R1[3],R1[2],R1[1],R1[0],VS}
 C {devices/lab_wire.sym} 600 -730 2 1 {name=p20 sig_type=std_logic lab=VDS}

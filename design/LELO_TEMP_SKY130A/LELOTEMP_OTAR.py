@@ -94,18 +94,24 @@ def afterPlace(layout):
     #- holes where the other half's devices used to sit
     for s in (p_in_a, p_in_b, p_bias, p_sw, n_load_a, n_load_b, n_mirr):
         s.stack()
-    #- Overlapped by exactly one guard wall, so the rings coincide.
+    #- Flush. No ygap, and that is the RPPO2 frame paying off.
     #-
-    #- RPPO4's ring runs 16..128 from the bottom of the cell and
-    #- 3072..3184 from it in a cell 3200 tall, so stacking flush leaves
-    #- the two rings 0.16 um apart -- just under the 0.17 um li.3
-    #- minimum, twice at each seam, which was all four DRC errors. A gap
-    #- big enough to clear the rule would leave the upper rings with no
-    #- path to the rail at all. Dropping each cell by 144 units puts one
-    #- ring exactly on the other: they merge into one shape, so there is
-    #- no spacing to violate and no abutment to object to, and B chains
-    #- up the column by itself
-    r_deg.stack(ygap=-144 * 50)
+    #- RPPO4 needed one: its ring came from addGuard, which insets its
+    #- M1 0.08 from the box, so two stacked cells left their rings 0.16
+    #- apart -- under the 0.17 li.3 minimum, twice per seam -- and the
+    #- fix was to overlap them by exactly one wall (ygap=-144*50) so
+    #- the two rings coincided. REYATR_RPPO2 is built from the device's
+    #- own bulk section instead, so its ring reaches the box edge and
+    #- overhangs it the way a device column's does. Two of them abut
+    #- and merge with no help: measured on REYATR_RESABUTR, 0 DRC and
+    #- 0 shorts stacked flush, and B comes out one component.
+    r_deg.stack()
+    #- Cap the resistor column ONCE, the way a transistor stack is
+    #- capped. The rows carry only their side walls, so the taps belong
+    #- to the column, not to every row -- six framed tiles paid 4.800 of
+    #- tap six times over and put 55% of the stack's height into tap.
+    #- addTaps resolves RES_36CTAPBOT/TOP from the row's name.
+    r_deg.addTaps()
 
     #- Order the columns for the rails, before anything measures them.
     #- A rail down a column crosses every pin it passes, so a net whose
@@ -180,7 +186,19 @@ def afterPlace(layout):
     #- 10.5, and three stacked will not fit in 30.8. Right of everything
     #- costs width, and that is the honest price of tripling the
     #- resistor rather than something placement can arrange away
-    r_deg.abutRight(pmos, space=branch_gap)
+    #- Flush against the transistors, no branch_gap. The old resistor
+    #- needed one: its ring came from addGuard, which insets its M1 from
+    #- the box, so it could only ever stand NEXT to a device column. The
+    #- horizontal row is built from the device's own bulk section and
+    #- overhangs its box by 0.480 a side, exactly as a device column
+    #- does, so the two rings interpenetrate and merge -- the resistor
+    #- column abuts the pmos the same way two device columns abut.
+    #- against the NMOS, not the pmos. The column is translated to the
+    #- nmos row, so the pmos is not what it has a seam with -- abutting
+    #- the pmos left its ring 7.040 from the nearest nmos guard, a gap
+    #- dressed up as an abutment. Right of the nmos row the two rings
+    #- are at the same y and merge.
+    r_deg.abutRight(nmos)
     r_deg.translate(0, nmos.y1 - r_deg.y1)
 
     pmos.updateBoundingRect()
@@ -199,6 +217,11 @@ def afterPlace(layout):
     for nm, st in (("in_a", p_in_a), ("in_b", p_in_b),
                    ("bias", p_bias), ("sw", p_sw)):
         layout.addRoutingChannel(nm, st.x1, st.x2, horizontal=False)
+    #- the resistor column too. The links between stacked resistors are
+    #- two nets in one column, so track<n> cannot separate them -- it
+    #- counts from each net's own pins and both land on the same lane.
+    #- A named channel is absolute and can.
+    layout.addRoutingChannel("res", r_deg.x1, r_deg.x2, horizontal=False)
 
     layout._route_scopes = {
         "res": res,
@@ -319,3 +342,26 @@ def beforeRoute(layout):
 
     #- three gates in the bias column, one vertical, no crossing
     s["p_bias"].addConnectivityRoute("M2", "^PWRUP_1V8$", "||", "", 1)
+
+    #- R1<0> and R1<1>, the links between the stacked resistors, are
+    #- NOT the easy pair they look like. Both pins of a link sit near
+    #- the TOP of their own guard -- RPPO4 puts P and N there and B as
+    #- a full width strip at the bottom -- so the link from the P of
+    #- one tile to the N of the tile above it has to travel the whole
+    #- height of the upper tile and passes that tile's own P on the
+    #- way. A plain vertical in the column therefore lands on it:
+    #- measured, one component holding R1<0>, R1<1> and VDS.
+    #-
+    #- Two things were ruled out on the way and should not be retried:
+    #-   one regex for both      `^R1<\d+>$` puts both nets on one lane.
+    #-                           track<n> counts from each net's OWN
+    #-                           pins, so two nets in a column compute
+    #-                           the same lane and neither can tell.
+    #-   a named lane each       vchannel=res,vtrack=2 and 6 resolve
+    #-                           correctly (trunkx 712300 pre-reset,
+    #-                           329900 after resetOrigins) and still
+    #-                           short: the lane is not the problem,
+    #-                           the intervening pin is.
+    #- This is the same shape as the ladder below -- a link whose two
+    #- pins are separated by a pin of the net in between -- and it
+    #- wants the same answer, so it waits for it.
