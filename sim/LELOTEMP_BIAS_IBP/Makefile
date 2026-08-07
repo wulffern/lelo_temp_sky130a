@@ -34,6 +34,9 @@ slow: netlist
 fast: netlist
 	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_fast ${TB} ${OPT} ${VIEW} Gt Kff "Th,Tl" Vh
 
+fs: netlist
+	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_tfs ${TB} ${OPT} ${VIEW} Gt "Kss,Kff" "Th,Tl" "Vl,Vh"
+
 tfs: netlist
 	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_tfs ${TB} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt,Th,Tl" "Vt,Vl,Vh"
 

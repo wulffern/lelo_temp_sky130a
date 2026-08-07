@@ -12,7 +12,7 @@ Two diode connected pmos in series from VDD into VD1.
 With no current VD1 sits near VSS, the stack sees the
 full supply and injects current into the diode branch.
 Once the loop runs VD1 rises, VDD-VD1 falls below the
-two gate-source drops, and the stack turns itself off.} 300 -560 0 0 0.4 0.4 {}
+two gate-source drops, and the stack turns itself off.} 130 -670 0 0 0.2 0.2 {}
 N 890 -370 960 -370 {
 lab=VSS}
 N 310 -100 550 -100 {
@@ -139,6 +139,18 @@ N 710 -900 710 -760 {lab=VCP}
 N 680 -760 710 -760 {lab=VCP}
 N 680 -890 940 -890 {lab=LPI}
 N 830 -900 830 -890 {lab=LPI}
+N 490 -600 530 -600 {lab=VDD_1V8}
+N 530 -970 530 -600 {lab=VDD_1V8}
+N 490 -700 530 -700 {lab=VDD_1V8}
+N 490 -970 490 -730 {lab=VDD_1V8}
+N 450 -700 450 -640 {lab=VSU}
+N 450 -640 490 -640 {lab=VSU}
+N 490 -640 490 -630 {lab=VSU}
+N 490 -670 490 -630 {lab=VSU}
+N 450 -600 450 -570 {lab=VD1}
+N 450 -570 490 -570 {lab=VD1}
+N 490 -570 490 -550 {lab=VD1}
+N 490 -550 640 -550 {lab=VD1}
 C {devices/ipin.sym} 300 -970 0 0 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 313.9889709803555 -100 0 0 {name=p5 lab=VSS}
 C {devices/ipin.sym} 860 -810 2 0 {name=p7 lab=LPI}
@@ -177,12 +189,5 @@ C {devices/lab_pin.sym} 980 -840 0 0 {name=l20 sig_type=std_logic lab=VBD2}
 C {devices/lab_pin.sym} 680 -730 1 1 {name=l21 sig_type=std_logic lab=VCP}
 C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 710 -960 2 1 {name=xd2[2:0]}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 450 -700 0 0 {name=xsu1}
-C {devices/lab_pin.sym} 490 -730 0 0 {name=l30 sig_type=std_logic lab=VDD_1V8}
-C {devices/lab_pin.sym} 490 -700 0 0 {name=l31 sig_type=std_logic lab=VDD_1V8}
-C {devices/lab_pin.sym} 490 -670 0 0 {name=l32 sig_type=std_logic lab=VSU}
 C {devices/lab_pin.sym} 450 -700 0 0 {name=l33 sig_type=std_logic lab=VSU}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 450 -600 0 0 {name=xsu2}
-C {devices/lab_pin.sym} 490 -630 0 0 {name=l34 sig_type=std_logic lab=VSU}
-C {devices/lab_pin.sym} 490 -600 0 0 {name=l35 sig_type=std_logic lab=VDD_1V8}
-C {devices/lab_pin.sym} 490 -570 0 0 {name=l36 sig_type=std_logic lab=VD1}
-C {devices/lab_pin.sym} 450 -600 0 0 {name=l37 sig_type=std_logic lab=VD1}
