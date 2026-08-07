@@ -7,6 +7,12 @@ E {}
 T {dummy} 1240 -960 0 0 0.5 0.5 {}
 T {PTAT
 Current Source} 1100 -650 0 0 1 1 {}
+T {Startup
+Two diode connected pmos in series from VDD into VD1.
+With no current VD1 sits near VSS, the stack sees the
+full supply and injects current into the diode branch.
+Once the loop runs VD1 rises, VDD-VD1 falls below the
+two gate-source drops, and the stack turns itself off.} 300 -560 0 0 0.4 0.4 {}
 N 890 -370 960 -370 {
 lab=VSS}
 N 310 -100 550 -100 {
@@ -144,7 +150,7 @@ C {devices/lab_pin.sym} 980 -430 0 1 {name=l5 sig_type=std_logic lab=VR1}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 940 -890 0 0 {name=xca2}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 680 -890 0 1 {name=xca1[7:0]}
 C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 830 -960 2 1 {name=xd1[9:0]}
-C {LELO_TEMP_SKY130A/LELOTEMP_OTA.sym} 800 -710 1 1 {name=xad6}
+C {LELO_TEMP_SKY130A/LELOTEMP_OTAR.sym} 800 -710 1 1 {name=xad6}
 C {JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym} 1140 -890 0 0 {name=xca3[3:0]}
 C {JNW_TR_SKY130A/JNWTR_RPPO4.sym} 980 -310 1 0 {name=xrac2}
 C {cborder/border_xs.sym} 250 -40 0 0 {user="Carsten Wulff" company="Carsten Wulff Software"}
@@ -170,12 +176,6 @@ C {devices/lab_pin.sym} 640 -840 0 0 {name=l19 sig_type=std_logic lab=VBD1}
 C {devices/lab_pin.sym} 980 -840 0 0 {name=l20 sig_type=std_logic lab=VBD2}
 C {devices/lab_pin.sym} 680 -730 1 1 {name=l21 sig_type=std_logic lab=VCP}
 C {JNW_TR_SKY130A/JNWTR_CAPX1.sym} 710 -960 2 1 {name=xd2[2:0]}
-T {Startup
-Two diode connected pmos in series from VDD into VD1.
-With no current VD1 sits near VSS, the stack sees the
-full supply and injects current into the diode branch.
-Once the loop runs VD1 rises, VDD-VD1 falls below the
-two gate-source drops, and the stack turns itself off.} 300 -560 0 0 0.4 0.4 {}
 C {JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym} 450 -700 0 0 {name=xsu1}
 C {devices/lab_pin.sym} 490 -730 0 0 {name=l30 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_pin.sym} 490 -700 0 0 {name=l31 sig_type=std_logic lab=VDD_1V8}
