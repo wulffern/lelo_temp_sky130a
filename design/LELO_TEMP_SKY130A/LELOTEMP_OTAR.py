@@ -376,6 +376,21 @@ def beforeRoute(layout):
     #- for tracks on one.
     layout.addConnectivityRoute("M4", "^VS$", "-|", "", 1, "", "")
 
+    #- VO is NOT routed, and not for want of trying. xba8's drain
+    #- (16.480, 42.700) to xnd4's (8.480, 19.900) crosses the mid
+    #- channel in the same x band as VDS and VS, and every layer is
+    #- already spoken for there:
+    #-   M2   closes, 5 DRC -- met1.2 spacing and met1.7 hole area
+    #-        where the via drops its M1 landing pads
+    #-   M3   shorts to VDS
+    #-   M4   closes, shorts to the VS strap in p_in_a
+    #-   M5   closes, 8 DRC -- via3.1, the M1..M5 stack is too tall
+    #- Three nets cross the same gap in overlapping x and there are
+    #- three signal layers, so the layers are full. This wants the
+    #- crossings assigned tracks together, with the via pad footprint
+    #- priced in -- the same answer the ladder below is waiting for --
+    #- not a fifth guess at a layer.
+
     #- R1<0> and R1<1>, the links between the stacked resistors, are
     #- NOT the easy pair they look like. Both pins of a link sit near
     #- the TOP of their own guard -- RPPO4 puts P and N there and B as
