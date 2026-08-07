@@ -89,11 +89,11 @@ rect 2800 1620 3312 1700
 rect 4670 8980 4734 9148
 rect 4670 10580 4734 10748
 rect 4670 12180 4734 12348
-rect 3712 8900 4608 8980
 rect 3072 8180 3136 8260
+rect 3712 8900 4608 8980
 rect 1472 8180 1536 8260
-rect 4672 8180 4736 8260
 rect 4672 8980 4736 9060
+rect 4672 8180 4736 8260
 rect 3712 10500 4608 10580
 << viali >>
 rect 4676 8992 4728 9044
@@ -281,18 +281,18 @@ transform 1 0 4352 0 1 300
 box 4352 300 6592 3500
 << labels >>
 flabel locali s 96 13140 6592 13320 0 FreeSans 400 0 0 0 VDD_1V8
-port 4 nsew power bidirectional
+port 1 nsew power bidirectional
 flabel locali s 96 0 6592 180 0 FreeSans 400 0 0 0 VSS
 port 5 nsew ground bidirectional
-flabel locali s 3712 8900 4608 8980 0 FreeSans 400 0 0 0 VO
-port 1 nsew signal bidirectional
 flabel locali s 3072 8180 3136 8260 0 FreeSans 400 0 0 0 VIP
 port 2 nsew signal bidirectional
-flabel locali s 1472 8180 1536 8260 0 FreeSans 400 0 0 0 VIN
+flabel locali s 3712 8900 4608 8980 0 FreeSans 400 0 0 0 VO
 port 3 nsew signal bidirectional
-flabel locali s 4672 8180 4736 8260 0 FreeSans 400 0 0 0 PWRUP_N_1V8
-port 6 nsew signal bidirectional
+flabel locali s 1472 8180 1536 8260 0 FreeSans 400 0 0 0 VIN
+port 4 nsew signal bidirectional
 flabel locali s 4672 8980 4736 9060 0 FreeSans 400 0 0 0 PWRUP_1V8
+port 6 nsew signal bidirectional
+flabel locali s 4672 8180 4736 8260 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 7 nsew signal bidirectional
 flabel locali s 3712 10500 4608 10580 0 FreeSans 400 0 0 0 VCP
 port 8 nsew signal bidirectional
