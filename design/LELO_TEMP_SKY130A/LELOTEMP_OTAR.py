@@ -156,7 +156,7 @@ def afterPlace(layout):
     #- and intermediate gaps of 0.3 to 1.5 um trip other tap and diffusion
     #- rules, 2 um is the smallest spacing found clean
     n_load_b.abutRight(n_load_a)
-    n_mirr.abutRight(n_load_b, space=branch_gap)
+    n_mirr.abutRight(n_load_b)
 
     pmos.updateBoundingRect()
     nmos.updateBoundingRect()
