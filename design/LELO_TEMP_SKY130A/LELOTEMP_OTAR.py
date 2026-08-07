@@ -364,6 +364,18 @@ def beforeRoute(layout):
     #- turns the corner. M3 because it crosses the mid channel.
     layout.addConnectivityRoute("M3", "^VDS$", "-|", "", 1, "", "")
 
+    #- VS is the input pair's tail: the sources of xbl1<*> and xbl2<*>
+    #- plus the resistor's bottom, 15 components over two columns. Strap
+    #- each column first, then cross.
+    s["p_in_a"].addConnectivityRoute("M2", "^VS$", "||", "", 1)
+    s["p_in_b"].addConnectivityRoute("M2", "^VS$", "||", "", 1)
+    #- M4, not M3. VDS crosses the same region on M3 and the two bars
+    #- merged -- one component holding VDS and VS. They are the two ends
+    #- of the degeneration resistor, so they cross the same gap by
+    #- construction; giving them a layer each is cheaper than fighting
+    #- for tracks on one.
+    layout.addConnectivityRoute("M4", "^VS$", "-|", "", 1, "", "")
+
     #- R1<0> and R1<1>, the links between the stacked resistors, are
     #- NOT the easy pair they look like. Both pins of a link sit near
     #- the TOP of their own guard -- RPPO4 puts P and N there and B as
