@@ -343,6 +343,27 @@ def beforeRoute(layout):
     #- three gates in the bias column, one vertical, no crossing
     s["p_bias"].addConnectivityRoute("M2", "^PWRUP_1V8$", "||", "", 1)
 
+    #- R1<0>, the link between the two resistor rows, is now a plain
+    #- vertical -- which is the whole point of turning the resistor on
+    #- its side. The note below describes the OLD problem: with RPPO4
+    #- both pins of a link sat near the top of their own guard, so the
+    #- link had to travel the full height of the upper tile and passed
+    #- that tile's own P on the way. Horizontally the pins face each
+    #- other across the seam:
+    #-     xd2<0>.N  y 6.500..6.900
+    #-     xd2<1>.P  y 9.700..10.100     same x, 2.800 apart, nothing
+    #-                                   between them
+    #- so there is no intervening pin to dodge and no lane to allocate.
+    s["res"].addConnectivityRoute("M1", "^R1<0>$", "||", "", 1)
+
+    #- VDS: the resistor's top terminal to xba1's drain. The two are in
+    #- different rows AND different columns -- the resistor sits in the
+    #- nmos row at x 24.480 while xba1 is in the pmos bias column at
+    #- 16.480 -- so a single direction route cannot close it. "||" drew
+    #- the spine and left the net in two components; "-|" (U_RIGHT)
+    #- turns the corner. M3 because it crosses the mid channel.
+    layout.addConnectivityRoute("M3", "^VDS$", "-|", "", 1, "", "")
+
     #- R1<0> and R1<1>, the links between the stacked resistors, are
     #- NOT the easy pair they look like. Both pins of a link sit near
     #- the TOP of their own guard -- RPPO4 puts P and N there and B as

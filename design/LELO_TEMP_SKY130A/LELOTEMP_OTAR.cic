@@ -4,6 +4,83 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
+            "x2": 8800,
+            "y2": 3400,
+            "layer": "",
+            "net": "",
+            "name": "cut_M1M3_2x1",
+            "has_pr": false,
+            "ckt": {},
+            "children": [
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 8400,
+                    "y2": 3200,
+                    "layer": "M1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 600,
+                    "y1": 300,
+                    "x2": 3200,
+                    "y2": 2900,
+                    "layer": "VIA1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 5200,
+                    "y1": 300,
+                    "x2": 7800,
+                    "y2": 2900,
+                    "layer": "VIA1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 8800,
+                    "y2": 3400,
+                    "layer": "M2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 600,
+                    "y1": 300,
+                    "x2": 3400,
+                    "y2": 3100,
+                    "layer": "VIA2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 5400,
+                    "y1": 300,
+                    "x2": 8200,
+                    "y2": 3100,
+                    "layer": "VIA2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 8800,
+                    "y2": 3400,
+                    "layer": "M3",
+                    "net": ""
+                }
+            ]
+        },
+        {
+            "class": "Cut",
+            "x1": 0,
+            "y1": 0,
             "x2": 3400,
             "y2": 8800,
             "layer": "",
@@ -4813,6 +4890,128 @@
                             "layer": "TXT",
                             "net": "PWRUP_1V8",
                             "name": "PWRUP_1V8"
+                        }
+                    ]
+                },
+                {
+                    "class": "Route",
+                    "x1": 259200.0,
+                    "y1": 65000.0,
+                    "x2": 273500,
+                    "y2": 99000.0,
+                    "layer": "",
+                    "net": "R1<0>",
+                    "name": "R1<0>",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Rect",
+                            "x1": 270500,
+                            "y1": 67000.0,
+                            "x2": 273500,
+                            "y2": 99000.0,
+                            "layer": "M1",
+                            "net": "R1<0>"
+                        },
+                        {
+                            "class": "Text",
+                            "x1": 259200.0,
+                            "y1": 65000.0,
+                            "x2": 259200.0,
+                            "y2": 65000.0,
+                            "layer": "TXT",
+                            "net": "R1<0>",
+                            "name": "R1<0>"
+                        }
+                    ]
+                },
+                {
+                    "class": "Route",
+                    "x1": 203600.0,
+                    "y1": 105000.0,
+                    "x2": 284800.0,
+                    "y2": 368400.0,
+                    "layer": "",
+                    "net": "VDS",
+                    "name": "VDS",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 221600.0,
+                            "y1": 365000.0,
+                            "x2": 230400.0,
+                            "y2": 368400.0,
+                            "layer": "",
+                            "net": "VDS",
+                            "name": "cut_M1M3_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M3_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 276000.0,
+                            "y1": 105000.0,
+                            "x2": 284800.0,
+                            "y2": 108400.0,
+                            "layer": "",
+                            "net": "VDS",
+                            "name": "cut_M1M3_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M3_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 208000.0,
+                            "y1": 365000.0,
+                            "x2": 279400.0,
+                            "y2": 368000.0,
+                            "layer": "M3",
+                            "net": "VDS"
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 272000.0,
+                            "y1": 105000.0,
+                            "x2": 279400.0,
+                            "y2": 108000.0,
+                            "layer": "M3",
+                            "net": "VDS"
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 279400.0,
+                            "y1": 105000.0,
+                            "x2": 282400.0,
+                            "y2": 368000.0,
+                            "layer": "M3",
+                            "net": "VDS"
+                        },
+                        {
+                            "class": "Text",
+                            "x1": 203600.0,
+                            "y1": 365000.0,
+                            "x2": 203600.0,
+                            "y2": 365000.0,
+                            "layer": "TXT",
+                            "net": "VDS",
+                            "name": "VDS"
                         }
                     ]
                 },
