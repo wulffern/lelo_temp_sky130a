@@ -91,6 +91,20 @@ def afterPlace(layout):
     for s in (p_in_a, p_in_b, p_bias, p_sw, n_load_a, n_load_b, n_mirr, r_deg):
         s.stack()
 
+    #- Order the columns for the rails, before anything measures them.
+    #- A rail down a column crosses every pin it passes, so a net whose
+    #- pins are interleaved with another's cannot have one, and that is
+    #- placement's to fix: n_load_a came out VD1 VD1 VD1 VD1 VBP VD1,
+    #- and moving one device to the end of the column is the difference
+    #- between a rail and a trip up to M2 and back for five pins.
+    #-
+    #- p_sw is not in the list and must not be. It is the series ladder,
+    #- where the order is what makes each link a neighbour of the next,
+    #- and every device in it carries a different net on its drain
+    #- anyway, so there is no rail to win.
+    for st in (p_bias, n_load_a, n_load_b, n_mirr):
+        st.orderByTerminalNet("D")
+
     #- No mirroring. LELOTEMP_OTA mirrors the left half of each matched
     #- pair, and the reason it can is a JNWATR property: those cells carry
     #- S left of centre and D right, so a mirrored half meets its partner
@@ -202,61 +216,71 @@ def beforeRoute(layout):
 
     s = layout._route_scopes
 
-    #- Signals on M4 vertical, M3 horizontal: M1 is the pins' layer and M2
-    #- carries the power straps, so M3 and M4 are the free ones.
+    #- ---------------------------------------------------------------
+    #- Signal routing: torn up, and being rebuilt from the bottom layer
+    #- upward. What went before was every net on M3/M4 from the start,
+    #- which put the crossing nets and the column local ones in the same
+    #- two layers and left the cell at one short and six opens with a
+    #- guess costing a regeneration each.
     #-
-    #- The ladder is five separate nets sharing one column, so one regex
-    #- for all of them puts every trunk in the same place. Each gets its
-    #- own track, and they alternate sides so no net's horizontal bar has
-    #- to cross another's trunk to reach its own.
-    for i, net in enumerate(("net2", "net3", "net4", "net5", "net6")):
-        side = "onTopLeft" if i % 2 == 0 else "left"
-        s["p_sw"].addOrthogonalConnectivityRoute("M4", "M3", f"^{net}$", f"{side},track{i//2}", 1)
+    #- The order now is the order of reach:
+    #-   inside one device   -> the cell does it. REYATR carries a diode
+    #-                          connected twin tied with one column of
+    #-                          M1, and cicpy substitutes it when the
+    #-                          netlist puts one net on D and G
+    #-   inside one column   -> M1 rails, edge picked per terminal
+    #-   between columns     -> M2
+    #-   across the cell     -> M3 horizontal, M4 vertical, aimed at a
+    #-                          named channel
+    #-
+    #- Nothing below this line yet beyond the column rails. Each net
+    #- goes back one at a time, checked before the next.
+    #- ---------------------------------------------------------------
 
-    #- The two input gates. Every pin of each is inside its own column,
-    #- so each is a single vertical run and neither leaves its stack
-    s["p_in_a"].addConnectivityRoute("M4", "^VIN$", "||", "", 1)
-    s["p_in_b"].addConnectivityRoute("M4", "^VIP$", "||", "", 1)
+    #- Column rails on M1, one terminal at a time, each on its own edge
+    #- of the pin. REYATR's source rail covers pattern columns 10..16 and
+    #- its drain run 12..18, so they share five columns: a rail taking
+    #- the full pin width for both would short them. The drain takes the
+    #- right edge, the gate the left, and each is one routing width, so
+    #- the part of the pin the other needs is left alone.
+    for name in ("p_in_a", "p_in_b", "p_bias", "p_sw",
+                 "n_load_a", "n_load_b", "n_mirr"):
+        s[name].routeMirror("M1", terminals=("D",), align="right")
 
-    #- VS is the tail node: the source of every input device in both
-    #- columns, plus the top of the degeneration resistor in the nmos
-    #- row. Run it across the pmos row first and see what it costs
-    s["p_in_a"].addConnectivityRoute("M4", "^VS$", "||", "", 1)
-    s["p_in_b"].addConnectivityRoute("M4", "^VS$", "||", "", 1)
-    #- and the bar that ties the two columns together and reaches the
-    #- resistor below. It crosses the channel, so it takes a track of
-    #- its own
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VS$", "track0", 1, "", "")
+    #- and the gates, on the other edge. The gate tab sits at the far
+    #- right of the pattern, past the drain run, so the two rails are two
+    #- pattern columns apart and clear each other. Where a diode cell
+    #- tied D to G they are the same net anyway.
+    #-
+    #- The columns were ordered for the drain, so several are now
+    #- interleaved on the gate and decline; that is the trade the order
+    #- buys and the refusals name it. Two do not care: the ladder's gates
+    #- are all VCP and the mirror's are all VD3, so those close here and
+    #- need nothing above M1 at all.
+    for name in ("p_in_a", "p_in_b", "p_bias", "p_sw",
+                 "n_load_a", "n_load_b", "n_mirr"):
+        s[name].routeMirror("M1", terminals=("G",), align="left")
 
-    #- The two drain nets. Each stays in one column pair: VD1 runs the a
-    #- lane from the input devices down to its diode loads, VD2 the b
-    #- lane. Own track each so their channel bars clear
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VD1$", "track1,left", 1, "", "")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VD2$", "track3", 1, "", "")
+    #- M2, for what is inside one column but could not be a rail. The
+    #- ladder links are two pins each, the drain of one device and the
+    #- source of the device stacked on it, and the chain order put those
+    #- next to each other -- so each is a stub, not a run.
+    #- The ladder is left for last, on purpose. Each of net2..net6 is
+    #- the drain of one device and the source of the device stacked on
+    #- it, so the two pins are a few microns apart -- and unreachable
+    #- directly, because the source rail of the device in between sits
+    #- across the only columns they share. The link has to go out to a
+    #- spine and back, five times, in one column.
+    #-
+    #- Measured, giving each net its own lane of the column's channel:
+    #-   vtrack i    5 spines land clear, the M3 via pads at their ends
+    #-               overlap corner to corner        2 shorts, DRC 4
+    #-   vtrack 3i   1 short, DRC 8
+    #-   vtrack 4i   1 short, DRC 10
+    #- Spreading the lanes moves the collision without removing it: the
+    #- pads are 8800 across and the bars grow as the spine moves away,
+    #- so each step trades a pad clash for a bar clash. This wants the
+    #- pad footprint accounted for, not another guess at a track number.
 
-    #- net1 is two pins, the resistor bottom and the powerdown pull in
-    #- the bias column above it
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^net1$", "track5", 1, "", "")
-
-    #- VO crosses the rows. cicpy tracks says the channel between them is
-    #- 21 M3 tracks wide and every one of them is empty, so send the bar
-    #- there rather than leaving it among the bars inside the rows
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO$", "hchannel=mid,htrack=5,vchannel=in_b,vtrack=8", 1, "", "")
-
-    #- PWRUP_1V8 is three gates, all in the bias column: one vertical, no
-    #- channel crossing
-    s["p_bias"].addConnectivityRoute("M4", "^PWRUP_1V8$", "||", "", 1)
-
-    #- VCP spans the ladder column, the bias column and the mirror column,
-    #- so it goes around rather than through: a rail down the right hand
-    #- edge, which is the side both its pmos groups end on, and each pin
-    #- reaches it from its own row. The fill devices are held out, they
-    #- carry the net too and would each ask for their own run
-    #- a ring is routing, not content: without this the cell's bounding
-    #- box grows to contain it and every later route measures from the
-    #- wrong edge
-    layout.ignoreBoundaryRouting = True
-    layout.addRouteRing("M2", "VCP", "r", widthmult=1, spacemult=4)
-    layout.addRouteConnection("VCP", "xnc", "M2", "right", "", excludeInstances="^xfill_")
-
-
+    #- three gates in the bias column, one vertical, no crossing
+    s["p_bias"].addConnectivityRoute("M2", "^PWRUP_1V8$", "||", "", 1)
