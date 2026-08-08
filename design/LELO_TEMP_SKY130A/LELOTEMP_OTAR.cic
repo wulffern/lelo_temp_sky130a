@@ -4,6 +4,88 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
+            "x2": 4000,
+            "y2": 4000,
+            "layer": "",
+            "net": "",
+            "name": "cut_M2M3_1x1",
+            "has_pr": false,
+            "ckt": {},
+            "children": [
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 4000,
+                    "y2": 4000,
+                    "layer": "M2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 600,
+                    "y1": 600,
+                    "x2": 3400,
+                    "y2": 3400,
+                    "layer": "VIA2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 4000,
+                    "y2": 4000,
+                    "layer": "M3",
+                    "net": ""
+                }
+            ]
+        },
+        {
+            "class": "Cut",
+            "x1": 0,
+            "y1": 0,
+            "x2": 4000,
+            "y2": 4000,
+            "layer": "",
+            "net": "",
+            "name": "cut_M1M2_1x1",
+            "has_pr": false,
+            "ckt": {},
+            "children": [
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3800,
+                    "y2": 3800,
+                    "layer": "M1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 600,
+                    "y1": 600,
+                    "x2": 3200,
+                    "y2": 3200,
+                    "layer": "VIA1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 4000,
+                    "y2": 4000,
+                    "layer": "M2",
+                    "net": ""
+                }
+            ]
+        },
+        {
+            "class": "Cut",
+            "x1": 0,
+            "y1": 0,
             "x2": 8800,
             "y2": 3400,
             "layer": "",
@@ -5993,6 +6075,118 @@
                             "name": "VS"
                         }
                     ]
+                },
+                {
+                    "class": "Rect",
+                    "x1": 124500,
+                    "y1": 218500,
+                    "x2": 127500,
+                    "y2": 221500,
+                    "layer": "M1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 124500,
+                    "y1": 220000,
+                    "x2": 127500,
+                    "y2": 340000,
+                    "layer": "M2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 126000,
+                    "y1": 338500,
+                    "x2": 207000,
+                    "y2": 341500,
+                    "layer": "M3",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 205500,
+                    "y1": 340000,
+                    "x2": 208500,
+                    "y2": 408000,
+                    "layer": "M2",
+                    "net": ""
+                },
+                {
+                    "class": "InstanceCut",
+                    "x1": 124000.0,
+                    "y1": 218000.0,
+                    "x2": 128000.0,
+                    "y2": 222000.0,
+                    "layer": "",
+                    "net": "",
+                    "name": "cut_M1M2_1x1",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "",
+                    "angle": "",
+                    "cell": "cut_M1M2_1x1",
+                    "libpath": "",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "InstanceCut",
+                    "x1": 124000.0,
+                    "y1": 338000.0,
+                    "x2": 128000.0,
+                    "y2": 342000.0,
+                    "layer": "",
+                    "net": "",
+                    "name": "cut_M2M3_1x1",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "",
+                    "angle": "",
+                    "cell": "cut_M2M3_1x1",
+                    "libpath": "",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "InstanceCut",
+                    "x1": 205000.0,
+                    "y1": 338000.0,
+                    "x2": 209000.0,
+                    "y2": 342000.0,
+                    "layer": "",
+                    "net": "",
+                    "name": "cut_M2M3_1x1",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "",
+                    "angle": "",
+                    "cell": "cut_M2M3_1x1",
+                    "libpath": "",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "InstanceCut",
+                    "x1": 205000.0,
+                    "y1": 406000.0,
+                    "x2": 209000.0,
+                    "y2": 410000.0,
+                    "layer": "",
+                    "net": "",
+                    "name": "cut_M1M2_1x1",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "",
+                    "angle": "",
+                    "cell": "cut_M1M2_1x1",
+                    "libpath": "",
+                    "xcell": 0,
+                    "ycell": 0
                 },
                 {
                     "class": "Port",

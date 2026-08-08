@@ -436,3 +436,51 @@ def beforeRoute(layout):
     #- This is the same shape as the ladder below -- a link whose two
     #- pins are separated by a pin of the net in between -- and it
     #- wants the same answer, so it waits for it.
+
+
+def afterRoute(layout):
+    """VO, routed by the maze router rather than by hand.
+
+    Everything else in this cell is placed by route.py. VO is here
+    because route.py could not place it at all: it closes on M4 and M5
+    and fails DRC on M2, and every layer that closes shorts to VDS or to
+    the VS strap. Three nets cross between the rows in overlapping x and
+    there are three signal layers, so layer-per-net had run out.
+
+    The search does not have that problem, because it is not choosing a
+    layer -- it is choosing a path, and it knows where the pins are. The
+    route it finds goes up M2 out of the nmos row, ACROSS THE MID
+    CHANNEL on M3 at y 340000, and back up M2 to the pmos pin. That
+    channel held 27 free M3 tracks the whole time and nothing had ever
+    been sent there, because a plain route takes its bar height from the
+    net's own pins.
+    """
+    from cicpy.core.trackmap import TrackMap
+    from cicpy.core.mazerouter import MazeRouter, Blocked
+
+    tm = TrackMap(layout, block_pins=True).build()
+    r = MazeRouter(tm, "VO")
+
+    g = layout.nodeGraph.get("VO")
+    if g is None:
+        return
+    #- xnd4 in the nmos row is the disconnected one; xba2 and xba8 are
+    #- already one component in the bias column. Pick them by name
+    #- rather than by index, so a placement change cannot silently
+    #- reroute this to the wrong pair.
+    pins = {}
+    for port in g.ports:
+        inst = getattr(port, "parent", None)
+        name = getattr(inst, "instanceName", "") if inst else ""
+        rect = port.get("M1") if hasattr(port, "get") else None
+        if rect is not None:
+            pins[name] = rect
+    a, b = pins.get("xnd4"), pins.get("xba2")
+    if a is None or b is None:
+        layout.log.warning("VO: expected pins xnd4 and xba2, not routing")
+        return
+    try:
+        nrect, ncut = r.connect(layout, a, b)
+        layout.log.info(f"VO: maze routed, {nrect} rects {ncut} cuts")
+    except Blocked as e:
+        layout.log.warning(f"VO: {e}")
