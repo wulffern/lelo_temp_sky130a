@@ -8,6 +8,20 @@ because they were being solved at the top, against the whole cell.
     them, nothing above it can collide with them, and nothing above it
     has to reserve a track for them.
 
+It was also dead for two sessions, and the reason is worth keeping:
+cicpy ran stack pycells from `write_stack_cells` in **afterPaint**, so
+the routes below were created after `route()` had already drawn
+everything. They were never drawn, and the log said "routed by its own
+pycell" regardless. cicpy now calls stack pycells between afterPlace
+and beforeRoute -- see `run_stack_pycells` -- and the hook takes
+`(layout, entry)`.
+
+Measured against the built-in stack router on the same placement: both
+give 0 DRC, 0 shorts and a correctly extracted series chain, and this
+one does it on the pin layer in 30 fewer shapes because it needs no
+vias. `route_stack_level` will not touch a stack whose pycell has
+spoken.
+
 WHAT IT DOES NOT DO IS DRAW. An earlier version called
 MazeRouter.connect() and emitted rects and cut instances itself, and it
 looked exactly like what it was -- a hand stitched wire down the middle
@@ -36,12 +50,12 @@ def _pin_layer(layout):
     return TrackMap(layout).pin_layer
 
 
-def route(cell, layout, entry):
+def route(layout, entry):
     """Route what is internal to this stack, through route.py.
 
-    `cell` is the stack cell, `layout` the parent it was cut from, and
-    `entry` its plan. The parent is needed because the node graph lives
-    there: this cell holds the instances but not the netlist.
+    `layout` is the parent the stack was cut from and `entry` its plan.
+    The parent is needed because the node graph lives there: the stack
+    holds the instances but not the netlist.
     """
     import re
     from cicpy.core.mazerouter import stack_groups
