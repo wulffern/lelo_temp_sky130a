@@ -31,6 +31,27 @@ def _pick(insts, patterns):
 
 
 def beforePlace(layout):
+
+    #- The diode-connected variants stay ON, and this is the note that
+    #- says why, because turning them off looks tempting.
+    #-
+    #- The *D cells make the layout cell differ from the schematic cell,
+    #- which is invisible while LVS runs at the top and fatal per stack,
+    #- where the cell lands on both sides and must match itself. So it
+    #- was tried with layout.useDiodeVariant = False -- the switch is in
+    #- cicpy and still there.
+    #-
+    #- Measured: the top level layout stays 0 DRC, 0 shorts and 13
+    #- opens, so it LOOKS free, but LVS goes from "Netlists match
+    #- uniquely" to "Netlists do not match". The tie is not an
+    #- optimisation, it is the only thing connecting those gates to
+    #- their drains: VD1 goes from 3 components to 6, VD2 3 to 5, VD3 6
+    #- to 7, and those extra fragments ARE the missing ties.
+    #-
+    #- Doing without them needs the router to make each tie -- short,
+    #- intra-stack, gate to drain of one device -- and until it does,
+    #- turning this off trades a passing LVS for nothing.
+
     layout.noPowerRoute = True
     layout.place_xspace = [0]
     layout.place_yspace = [0]
