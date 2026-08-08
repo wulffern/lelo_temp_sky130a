@@ -1,0 +1,46 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786140000
+<< checkpaint >>
+rect 0 6460 1696 13020
+<< locali >>
+rect 512 8100 1408 8180
+rect 512 7300 1408 7380
+rect 0 8100 192 8180
+rect 384 7780 1280 7860
+use REYATR_LVT_PCH_11C5F0 xbl4 ../REY_ATR_SKY130A
+transform 1 0 96 0 1 6940
+box 96 6940 1696 7740
+use REYATR_LVT_PCH_11C5F0 xbl1<0> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 7740
+box 96 7740 1696 8540
+use REYATR_LVT_PCH_11C5F0 xbl1<1> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 8540
+box 96 8540 1696 9340
+use REYATR_LVT_PCH_11C5F0 xbl1<2> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 9340
+box 96 9340 1696 10140
+use REYATR_LVT_PCH_11C5F0 xbl1<3> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 10140
+box 96 10140 1696 10940
+use REYATR_LVT_PCH_11C5F0 xbl1<4> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 10940
+box 96 10940 1696 11740
+use REYATR_LVT_PCH_11C5F0 xbl1<5> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 11740
+box 96 11740 1696 12540
+use REYATR_PCH_11CTAPBOT xstack_p_in_a_bot ../REY_ATR_SKY130A
+transform 1 0 96 0 1 6460
+box 96 6460 1696 6940
+use REYATR_PCH_11CTAPTOP xstack_p_in_a_top ../REY_ATR_SKY130A
+transform 1 0 96 0 1 12540
+box 96 12540 1696 13020
+<< labels >>
+flabel locali s 512 8100 1408 8180 0 FreeSans 400 0 0 0 VD1
+flabel locali s 512 7300 1408 7380 0 FreeSans 400 0 0 0 VD3
+flabel locali s 0 8100 192 8180 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 384 7780 1280 7860 0 FreeSans 400 0 0 0 VS
+<< properties >>
+string FIXED_BBOX 0 6460 1696 13020
+<< end >>

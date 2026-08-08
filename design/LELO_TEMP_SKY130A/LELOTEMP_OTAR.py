@@ -504,3 +504,26 @@ def afterRoute(layout):
             layout.log.info(f"VO: maze routed, {nrect} rects {ncut} cuts")
         except Blocked as e:
             layout.log.warning(f"VO: {e}")
+
+
+def afterPaint(layout):
+    """Publish each stack as its own cell.
+
+    Every stack gets a .mag and a generated subckt of its own, so it can
+    be LVS'd ALONE -- which is the gate the hierarchy needs before the
+    group and top levels are routed on top of it. A stack that fails
+    stops the run where the evidence is nine instances rather than 1969
+    rects.
+
+    The parent is NOT restructured. It keeps its instances; the stacks
+    are published alongside. Making the parent reference them instead of
+    containing them is a separate change and should wait until these
+    pass LVS -- the difference between "generate and check" and
+    "generate, check, and rely on".
+
+    In afterPaint rather than afterRoute so the stacks are published
+    with the routing that was just drawn into them.
+    """
+    from cicpy.core.mazerouter import write_stack_cells
+    write_stack_cells(layout, log=layout.log)
+

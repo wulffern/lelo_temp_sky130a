@@ -1,0 +1,40 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786140000
+<< checkpaint >>
+rect 96 300 1696 5260
+<< locali >>
+rect 1216 3620 1280 3700
+rect 704 4340 1152 4420
+rect 704 1140 1280 1220
+rect 576 820 1024 900
+use REYATR_NCH_4C5F0D xnd1<0> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 780
+box 96 780 1696 1580
+use REYATR_NCH_4C5F0D xnd1<1> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 1580
+box 96 1580 1696 2380
+use REYATR_NCH_4C5F0D xnd1<2> ../REY_ATR_SKY130A
+transform 1 0 96 0 1 2380
+box 96 2380 1696 3180
+use REYATR_NCH_4C5F0 xnd3 ../REY_ATR_SKY130A
+transform 1 0 96 0 1 3980
+box 96 3980 1696 4780
+use REYATR_NCH_4C5F0 xns1 ../REY_ATR_SKY130A
+transform 1 0 96 0 1 3180
+box 96 3180 1696 3980
+use REYATR_NCH_4CTAPBOT xstack_n_load_a_bot ../REY_ATR_SKY130A
+transform 1 0 96 0 1 300
+box 96 300 1696 780
+use REYATR_NCH_4CTAPTOP xstack_n_load_a_top ../REY_ATR_SKY130A
+transform 1 0 96 0 1 4780
+box 96 4780 1696 5260
+<< labels >>
+flabel locali s 1216 3620 1280 3700 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel locali s 704 4340 1152 4420 0 FreeSans 400 0 0 0 VBP
+flabel locali s 704 1140 1280 1220 0 FreeSans 400 0 0 0 VD1
+flabel locali s 576 820 1024 900 0 FreeSans 400 0 0 0 VSS
+<< properties >>
+string FIXED_BBOX 96 300 1696 5260
+<< end >>
