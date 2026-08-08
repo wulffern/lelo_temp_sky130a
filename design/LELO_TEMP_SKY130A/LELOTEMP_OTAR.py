@@ -534,7 +534,7 @@ def _vo_stood_down(layout):
 #- Stacks brought up ONE AT A TIME. A stack is added here only once it
 #- routes clean, so anything dirty is the stack being worked on and the
 #- next one starts from a known good state.
-STACK_ROUTING = ("r_deg",)
+STACK_ROUTING = ("r_deg", "p_sw")
 
 
 def _route_stacks(layout):
