@@ -361,41 +361,23 @@ def beforeRoute(layout):
     #- so each step trades a pad clash for a bar clash. This wants the
     #- pad footprint accounted for, not another guess at a track number.
 
-    #- three gates in the bias column, one vertical, no crossing
-    s["p_bias"].addConnectivityRoute("M2", "^PWRUP_1V8$", "||", "", 1)
-
-    #- R1<0>, the link between the two resistor rows, is now a plain
-    #- vertical -- which is the whole point of turning the resistor on
-    #- its side. The note below describes the OLD problem: with RPPO4
-    #- both pins of a link sat near the top of their own guard, so the
-    #- link had to travel the full height of the upper tile and passed
-    #- that tile's own P on the way. Horizontally the pins face each
-    #- other across the seam:
-    #-     xd2<0>.N  y 6.500..6.900
-    #-     xd2<1>.P  y 9.700..10.100     same x, 2.800 apart, nothing
-    #-                                   between them
-    #- so there is no intervening pin to dodge and no lane to allocate.
-    s["res"].addConnectivityRoute("M1", "^R1<0>$", "||", "", 1)
-
-    #- VDS: the resistor's top terminal to xba1's drain. The two are in
-    #- different rows AND different columns -- the resistor sits in the
-    #- nmos row at x 24.480 while xba1 is in the pmos bias column at
-    #- 16.480 -- so a single direction route cannot close it. "||" drew
-    #- the spine and left the net in two components; "-|" (U_RIGHT)
-    #- turns the corner. M3 because it crosses the mid channel.
-    layout.addConnectivityRoute("M3", "^VDS$", "-|", "", 1, "", "")
-
-    #- VS is the input pair's tail: the sources of xbl1<*> and xbl2<*>
-    #- plus the resistor's bottom, 15 components over two columns. Strap
-    #- each column first, then cross.
-    s["p_in_a"].addConnectivityRoute("M2", "^VS$", "||", "", 1)
-    s["p_in_b"].addConnectivityRoute("M2", "^VS$", "||", "", 1)
-    #- M4, not M3. VDS crosses the same region on M3 and the two bars
-    #- merged -- one component holding VDS and VS. They are the two ends
-    #- of the degeneration resistor, so they cross the same gap by
-    #- construction; giving them a layer each is cheaper than fighting
-    #- for tracks on one.
-    layout.addConnectivityRoute("M4", "^VS$", "-|", "", 1, "", "")
+    #- NO SIGNAL ROUTING AT THE TOP.
+    #-
+    #- Everything that used to be here -- PWRUP_1V8, R1<0>, VDS, the VS
+    #- column straps and its crossing -- was drawn at the top against
+    #- the whole cell, and that is the arrangement the levels replace.
+    #- It is also what stack level routing kept colliding with: measured,
+    #- of 32 routed rects in this cell exactly ONE lay inside a stack, so
+    #- the top routing was almost entirely inter-stack and in the way of
+    #- everything below it.
+    #-
+    #- Power stays. Rings, straps and guard connections are not a search
+    #- problem and are deliberately out of scope for the router.
+    #-
+    #- The nets come back one level at a time: inside each stack first,
+    #- then between the stacks of a group, then here. What that costs
+    #- while it is empty is opens, which is the honest reading -- the
+    #- connections are not there rather than drawn badly.
 
     #- VO is NOT routed, and the channel router says why.
     #-
@@ -525,6 +507,20 @@ def afterRoute(layout):
             layout.log.info(f"VO: maze routed, {nrect} rects {ncut} cuts")
         except Blocked as e:
             layout.log.warning(f"VO: {e}")
+
+
+#- Stacks brought up ONE AT A TIME. A stack is added here only once it
+#- routes clean, so anything dirty is the stack being worked on and the
+#- next one starts from a known good state.
+STACK_ROUTING = ("r_deg",)
+
+
+def afterRoute(layout):
+    from cicpy.core.mazerouter import route_stack_level
+    routed, blocked = route_stack_level(layout, log=layout.log,
+                                        only=STACK_ROUTING)
+    layout.log.info(f"stack level {STACK_ROUTING}: "
+                    f"{len(routed)} routed, {len(blocked)} blocked")
 
 
 def afterPaint(layout):
