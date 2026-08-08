@@ -440,8 +440,15 @@ def beforeRoute(layout):
     #- pins are separated by a pin of the net in between -- and it
     #- wants the same answer, so it waits for it.
 
+    #- Stack-level routing goes HERE and not in afterRoute. A route added
+    #- after the routing phase is a Route object nobody ever calls
+    #- route() on: it lands in the cell, prints in the log exactly like a
+    #- route that worked, and draws nothing. R1<0> read as "1 routed" and
+    #- stayed open for it.
+    _route_stacks(layout)
 
-def afterRoute(layout):
+
+def _vo_stood_down(layout):
     """VO, routed by the maze router rather than by hand.
 
     Everything else in this cell is placed by route.py. VO is here
@@ -515,7 +522,7 @@ def afterRoute(layout):
 STACK_ROUTING = ("r_deg",)
 
 
-def afterRoute(layout):
+def _route_stacks(layout):
     from cicpy.core.mazerouter import route_stack_level
     routed, blocked = route_stack_level(layout, log=layout.log,
                                         only=STACK_ROUTING)
