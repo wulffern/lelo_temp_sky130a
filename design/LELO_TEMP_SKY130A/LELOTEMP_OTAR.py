@@ -535,12 +535,19 @@ def _vo_stood_down(layout):
 #- routes clean, so anything dirty is the stack being worked on and the
 #- next one starts from a known good state.
 STACK_ROUTING = ("r_deg", "p_sw")
+#- Route boundary nets inside the stack as well -- what a stack must do
+#- once it is a CELL rather than a region of this one. OFF: measured per
+#- stack, 3 of 8 come out clean (r_deg, p_in_a, p_in_b) and 5 short, all
+#- on the same cause -- a route or a via pad landing on a device's own
+#- unattributed metal. See cicpy/plans/stack_cells_plan.md.
+STACK_BOUNDARY = False
 
 
 def _route_stacks(layout):
     from cicpy.core.mazerouter import route_stack_level
     routed, blocked = route_stack_level(layout, log=layout.log,
-                                        only=STACK_ROUTING)
+                                        only=STACK_ROUTING,
+                                        boundary=STACK_BOUNDARY)
     layout.log.info(f"stack level {STACK_ROUTING}: "
                     f"{len(routed)} routed, {len(blocked)} blocked")
 
