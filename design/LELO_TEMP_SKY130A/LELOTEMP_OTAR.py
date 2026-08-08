@@ -376,20 +376,43 @@ def beforeRoute(layout):
     #- for tracks on one.
     layout.addConnectivityRoute("M4", "^VS$", "-|", "", 1, "", "")
 
-    #- VO is NOT routed, and not for want of trying. xba8's drain
-    #- (16.480, 42.700) to xnd4's (8.480, 19.900) crosses the mid
-    #- channel in the same x band as VDS and VS, and every layer is
-    #- already spoken for there:
-    #-   M2   closes, 5 DRC -- met1.2 spacing and met1.7 hole area
-    #-        where the via drops its M1 landing pads
-    #-   M3   shorts to VDS
-    #-   M4   closes, shorts to the VS strap in p_in_a
-    #-   M5   closes, 8 DRC -- via3.1, the M1..M5 stack is too tall
-    #- Three nets cross the same gap in overlapping x and there are
-    #- three signal layers, so the layers are full. This wants the
-    #- crossings assigned tracks together, with the via pad footprint
-    #- priced in -- the same answer the ladder below is waiting for --
-    #- not a fifth guess at a layer.
+    #- VO is NOT routed, and the channel router says why.
+    #-
+    #- First, the layer-per-net attempts, all of which are the wrong
+    #- question but worth not repeating: M2 closes with 5 DRC
+    #- (met1.2/met1.7 at the via's M1 pads), M3 shorts to VDS, M4 closes
+    #- and shorts to the VS strap, M5 closes with 8 DRC (via3.1, the
+    #- M1..M5 stack is too tall).
+    #-
+    #- addOrthogonalConnectivityRoute with hchannel/htrack fixes the
+    #- HORIZONTAL half completely. Measured with the tracks tool, a
+    #- plain route takes its bar height from the net's own pins, so
+    #- VDS's bar sat at y 365000 -- inside the pmos row -- while the mid
+    #- channel held 27 free M3 tracks over VO's span and nothing had
+    #- ever been sent there. Given a track each the three bars separate
+    #- cleanly: VDS at 269000/273000, VS at 285000/289000, VO at
+    #- 301000/305000, and all three nets CLOSE.
+    #-
+    #- What still collides is the VERTICAL half, and vtrack cannot fix
+    #- it because it is not a lane problem. Each pair fails the same
+    #- way -- two nets whose pins sit at the SAME x in one column, so
+    #- the lower net's trunk runs through the upper net's pin:
+    #-   VDS / VS   both drop into the resistor at x 265200..274200,
+    #-              because the row puts P and N at the same x
+    #-              (1.440..4.000 in cell coordinates, both on the left
+    #-              contact band). VS reaches y 57300 and passes VDS's
+    #-              pin at 105300.
+    #-   VDS / VO   both drop into the bias column: xba1 and xba8 are
+    #-              both at x 16.480. VO reaches 448700 through VDS's
+    #-              region 271300..368700.
+    #- This is the ladder's shape exactly, and it is a CELL problem, not
+    #- a routing one. The fix is to stop putting two terminals at one x:
+    #- give REYATR_RES_36C2F0 its P on the left contact band and its N
+    #- on the right, so the two ends of a resistor leave in opposite
+    #- directions and nothing has to cross anything. That needs an M1
+    #- jog across the cell, or an odd stripe count, which costs the
+    #- gradient cancellation -- so it is a real design decision, not a
+    #- track number.
 
     #- R1<0> and R1<1>, the links between the stacked resistors, are
     #- NOT the easy pair they look like. Both pins of a link sit near
