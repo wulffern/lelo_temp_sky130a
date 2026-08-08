@@ -32,9 +32,13 @@ transform 1 0 3296 0 1 4780
 box 3296 4780 4896 5260
 << labels >>
 flabel locali s 4416 2020 4480 2100 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+port 1 nsew signal bidirectional
 flabel locali s 3904 2740 4352 2820 0 FreeSans 400 0 0 0 VCP
+port 2 nsew signal bidirectional
 flabel locali s 3904 1140 4480 1220 0 FreeSans 400 0 0 0 VD3
+port 3 nsew signal bidirectional
 flabel locali s 3776 820 4224 900 0 FreeSans 400 0 0 0 VSS
+port 4 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 3296 300 4896 5260
 << end >>

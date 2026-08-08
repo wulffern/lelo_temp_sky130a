@@ -455,7 +455,47 @@
             "net": "",
             "name": "LELOTEMP_OTAR_R_DEG",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_R_DEG",
+                "nodes": [
+                    "VDS",
+                    "VS",
+                    "VSS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xd2<0>",
+                        "nodes": [
+                            "R1<0>",
+                            "VS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_RES_36C2F0",
+                        "groupName": "xd",
+                        "deviceName": "subckt",
+                        "groupTag": "2<0>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xd2<1>",
+                        "nodes": [
+                            "VDS",
+                            "R1<0>",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_RES_36C2F0",
+                        "groupName": "xd",
+                        "deviceName": "subckt",
+                        "groupTag": "2<1>"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -649,7 +689,108 @@
             "net": "",
             "name": "LELOTEMP_OTAR_P_SW",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_P_SW",
+                "nodes": [
+                    "VCP",
+                    "VDD_1V8"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xbs1",
+                        "nodes": [
+                            "net2",
+                            "VCP",
+                            "net1",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_4C1F2",
+                        "groupName": "xbs",
+                        "deviceName": "subckt",
+                        "groupTag": "1"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbs2",
+                        "nodes": [
+                            "net4",
+                            "VCP",
+                            "net2",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_4C1F2",
+                        "groupName": "xbs",
+                        "deviceName": "subckt",
+                        "groupTag": "2"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbs4",
+                        "nodes": [
+                            "net3",
+                            "VCP",
+                            "net4",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_4C1F2",
+                        "groupName": "xbs",
+                        "deviceName": "subckt",
+                        "groupTag": "4"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbs6",
+                        "nodes": [
+                            "net1",
+                            "VCP",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_4C1F2",
+                        "groupName": "xbs",
+                        "deviceName": "subckt",
+                        "groupTag": "6"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbs7",
+                        "nodes": [
+                            "net5",
+                            "VCP",
+                            "net3",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_4C1F2",
+                        "groupName": "xbs",
+                        "deviceName": "subckt",
+                        "groupTag": "7"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbs8",
+                        "nodes": [
+                            "VCP",
+                            "VCP",
+                            "net5",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_4C1F2D",
+                        "groupName": "xbs",
+                        "deviceName": "subckt",
+                        "groupTag": "8"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -1608,7 +1749,125 @@
             "net": "",
             "name": "LELOTEMP_OTAR_P_IN_B",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_P_IN_B",
+                "nodes": [
+                    "VD2",
+                    "VD3",
+                    "VDD_1V8",
+                    "VS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xbl2<0>",
+                        "nodes": [
+                            "VD2",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "2<0>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl2<1>",
+                        "nodes": [
+                            "VD2",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "2<1>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl2<2>",
+                        "nodes": [
+                            "VD2",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "2<2>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl2<3>",
+                        "nodes": [
+                            "VD2",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "2<3>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl2<4>",
+                        "nodes": [
+                            "VD2",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "2<4>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl2<5>",
+                        "nodes": [
+                            "VD2",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "2<5>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl5",
+                        "nodes": [
+                            "VD3",
+                            "VIP",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "5"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -2155,7 +2414,125 @@
             "net": "",
             "name": "LELOTEMP_OTAR_P_IN_A",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_P_IN_A",
+                "nodes": [
+                    "VD1",
+                    "VD3",
+                    "VDD_1V8",
+                    "VS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xbl1<0>",
+                        "nodes": [
+                            "VD1",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "1<0>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl1<1>",
+                        "nodes": [
+                            "VD1",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "1<1>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl1<2>",
+                        "nodes": [
+                            "VD1",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "1<2>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl1<3>",
+                        "nodes": [
+                            "VD1",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "1<3>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl1<4>",
+                        "nodes": [
+                            "VD1",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "1<4>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl1<5>",
+                        "nodes": [
+                            "VD1",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "1<5>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xbl4",
+                        "nodes": [
+                            "VD3",
+                            "VIN",
+                            "VS",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xbl",
+                        "deviceName": "subckt",
+                        "groupTag": "4"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -2702,7 +3079,112 @@
             "net": "",
             "name": "LELOTEMP_OTAR_P_BIAS",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_P_BIAS",
+                "nodes": [
+                    "PWRUP_N_1V8",
+                    "VBP",
+                    "VCP",
+                    "VDD_1V8",
+                    "VDS",
+                    "VO"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xba1",
+                        "nodes": [
+                            "VDS",
+                            "PWRUP_N_1V8",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_11C5F0",
+                        "groupName": "xba",
+                        "deviceName": "subckt",
+                        "groupTag": "1"
+                    },
+                    {
+                        "class": "",
+                        "name": "xba2",
+                        "nodes": [
+                            "VO",
+                            "PWRUP_1V8",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_11C5F0",
+                        "groupName": "xba",
+                        "deviceName": "subckt",
+                        "groupTag": "2"
+                    },
+                    {
+                        "class": "",
+                        "name": "xba3",
+                        "nodes": [
+                            "VCP",
+                            "PWRUP_1V8",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_11C5F0",
+                        "groupName": "xba",
+                        "deviceName": "subckt",
+                        "groupTag": "3"
+                    },
+                    {
+                        "class": "",
+                        "name": "xba6",
+                        "nodes": [
+                            "VBP",
+                            "VBP",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_11C5F0D",
+                        "groupName": "xba",
+                        "deviceName": "subckt",
+                        "groupTag": "6"
+                    },
+                    {
+                        "class": "",
+                        "name": "xba7",
+                        "nodes": [
+                            "VBP",
+                            "PWRUP_1V8",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_11C5F0",
+                        "groupName": "xba",
+                        "deviceName": "subckt",
+                        "groupTag": "7"
+                    },
+                    {
+                        "class": "",
+                        "name": "xba8",
+                        "nodes": [
+                            "VO",
+                            "VBP",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_PCH_11C5F0",
+                        "groupName": "xba",
+                        "deviceName": "subckt",
+                        "groupTag": "8"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -3226,7 +3708,95 @@
             "net": "",
             "name": "LELOTEMP_OTAR_N_MIRR",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_N_MIRR",
+                "nodes": [
+                    "PWRUP_N_1V8",
+                    "VCP",
+                    "VD3",
+                    "VSS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xnc0",
+                        "nodes": [
+                            "VD3",
+                            "VD3",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnc",
+                        "deviceName": "subckt",
+                        "groupTag": "0"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnc1<0>",
+                        "nodes": [
+                            "VCP",
+                            "VD3",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xnc",
+                        "deviceName": "subckt",
+                        "groupTag": "1<0>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnc1<1>",
+                        "nodes": [
+                            "VCP",
+                            "VD3",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xnc",
+                        "deviceName": "subckt",
+                        "groupTag": "1<1>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnc1<2>",
+                        "nodes": [
+                            "VCP",
+                            "VD3",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xnc",
+                        "deviceName": "subckt",
+                        "groupTag": "1<2>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xns4",
+                        "nodes": [
+                            "VD3",
+                            "PWRUP_N_1V8",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xns",
+                        "deviceName": "subckt",
+                        "groupTag": "4"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -3645,7 +4215,95 @@
             "net": "",
             "name": "LELOTEMP_OTAR_N_LOAD_B",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_N_LOAD_B",
+                "nodes": [
+                    "PWRUP_N_1V8",
+                    "VD2",
+                    "VO",
+                    "VSS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xnd2<0>",
+                        "nodes": [
+                            "VD2",
+                            "VD2",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "2<0>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnd2<1>",
+                        "nodes": [
+                            "VD2",
+                            "VD2",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "2<1>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnd2<2>",
+                        "nodes": [
+                            "VD2",
+                            "VD2",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "2<2>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnd4",
+                        "nodes": [
+                            "VO",
+                            "VD2",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "4"
+                    },
+                    {
+                        "class": "",
+                        "name": "xns2",
+                        "nodes": [
+                            "VD2",
+                            "PWRUP_N_1V8",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xns",
+                        "deviceName": "subckt",
+                        "groupTag": "2"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
@@ -4064,7 +4722,95 @@
             "net": "",
             "name": "LELOTEMP_OTAR_N_LOAD_A",
             "has_pr": false,
-            "ckt": {},
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_N_LOAD_A",
+                "nodes": [
+                    "PWRUP_N_1V8",
+                    "VBP",
+                    "VD1",
+                    "VSS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xnd1<0>",
+                        "nodes": [
+                            "VD1",
+                            "VD1",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "1<0>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnd1<1>",
+                        "nodes": [
+                            "VD1",
+                            "VD1",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "1<1>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnd1<2>",
+                        "nodes": [
+                            "VD1",
+                            "VD1",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "1<2>"
+                    },
+                    {
+                        "class": "",
+                        "name": "xnd3",
+                        "nodes": [
+                            "VBP",
+                            "VD1",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xnd",
+                        "deviceName": "subckt",
+                        "groupTag": "3"
+                    },
+                    {
+                        "class": "",
+                        "name": "xns1",
+                        "nodes": [
+                            "VD1",
+                            "PWRUP_N_1V8",
+                            "VSS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_NCH_4C5F0",
+                        "groupName": "xns",
+                        "deviceName": "subckt",
+                        "groupTag": "1"
+                    }
+                ]
+            },
             "children": [
                 {
                     "class": "Instance",
