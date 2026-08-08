@@ -1,0 +1,303 @@
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_OTAN.sch
+**.subckt LELOTEMP_OTAN VDD_1V8 VIP VO VIN VSS PWRUP_1V8 PWRUP_N_1V8 VCP
+*.ipin VDD_1V8
+*.ipin VSS
+*.ipin PWRUP_N_1V8
+*.ipin PWRUP_1V8
+*.opin VO
+*.ipin VIP
+*.ipin VIN
+x1 VDD_1V8 PWRUP_1V8 VCP VO VCN PWRUP_N_1V8 VIN VIP VSS VBP1 VBP2 LELOTEMP_OTACMN
+x2 VDD_1V8 PWRUP_1V8 VCN VCP VBP1 VBP2 PWRUP_N_1V8 VSS LELOTEMP_CASCBIAS
+x3 VDD_1V8 VO VCP PWRUP_1V8 PWRUP_N_1V8 VSS LELOTEMP_START
+**.ends
+
+* expanding   symbol:  LELO_TEMP_SKY130A/LELOTEMP_OTACMN.sym # of pins=11
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_OTACMN.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_OTACMN.sch
+.subckt LELOTEMP_OTACMN VDD_1V8 PWRUP_1V8 VCP VO VCN PWRUP_N_1V8 VIN VIP VSS VBP1 VBP2
+*.ipin VDD_1V8
+*.ipin VSS
+*.ipin PWRUP_N_1V8
+*.ipin PWRUP_1V8
+*.opin VO
+*.ipin VIP
+*.ipin VIN
+*.ipin VCP
+*.ipin VCN
+*.ipin VBP2
+*.ipin VBP1
+xca3 VDN2 VBN VSS VSS JNWATR_NCH_4C5F0
+xbb1<7> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<6> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<5> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<4> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<3> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<2> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<1> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb1<0> VBP2 VIN VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<7> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<6> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<5> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<4> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<3> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<2> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<1> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xbb2<0> VBP1 VIP VS VSS LELOATR_LVT_NCH_4C5F0
+xba2<3> net3<3> VBP2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba2<2> net3<2> VBP2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba2<1> net3<1> VBP2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba2<0> net3<0> VBP2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba14<3> net1<3> VBP1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba14<2> net1<2> VBP1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba14<1> net1<1> VBP1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba14<0> net1<0> VBP1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba5 net2 VBP1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba8 VDN1 VBP2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca4 net4 VBN VSS VSS JNWATR_NCH_4C5F0
+xba6 VBP2 PWRUP_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba11 VBP1 PWRUP_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca6 VBN PWRUP_N_1V8 VSS VSS JNWATR_NCH_4C5F0
+xba10 VO PWRUP_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca1<3> net5 PWRUP_1V8 VSS VSS JNWATR_NCH_4C5F0
+xca1<2> net5 PWRUP_1V8 VSS VSS JNWATR_NCH_4C5F0
+xca1<1> net5 PWRUP_1V8 VSS VSS JNWATR_NCH_4C5F0
+xca1<0> net5 PWRUP_1V8 VSS VSS JNWATR_NCH_4C5F0
+xba7 VBN VCP VDN1 VDD_1V8 JNWATR_PCH_4C1F2
+xca1 VBN VCN VDN2 VSS JNWATR_NCH_4C1F2
+xca2 VO VCN net4 VSS JNWATR_NCH_4C1F2
+xba9<3> VBP2 VCP net3<3> VDD_1V8 JNWATR_PCH_4C1F2
+xba9<2> VBP2 VCP net3<2> VDD_1V8 JNWATR_PCH_4C1F2
+xba9<1> VBP2 VCP net3<1> VDD_1V8 JNWATR_PCH_4C1F2
+xba9<0> VBP2 VCP net3<0> VDD_1V8 JNWATR_PCH_4C1F2
+xba12<3> VBP1 VCP net1<3> VDD_1V8 JNWATR_PCH_4C1F2
+xba12<2> VBP1 VCP net1<2> VDD_1V8 JNWATR_PCH_4C1F2
+xba12<1> VBP1 VCP net1<1> VDD_1V8 JNWATR_PCH_4C1F2
+xba12<0> VBP1 VCP net1<0> VDD_1V8 JNWATR_PCH_4C1F2
+xba13 VO VCP net2 VDD_1V8 JNWATR_PCH_4C1F2
+x1 VS net5 VSS JNWTR_RPPO4
+.ends
+
+
+* expanding   symbol:  LELO_TEMP_SKY130A/LELOTEMP_CASCBIAS.sym # of pins=8
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_CASCBIAS.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_CASCBIAS.sch
+.subckt LELOTEMP_CASCBIAS VDD_1V8 PWRUP_1V8 VCN VCP VBP1 VBP2 PWRUP_N_1V8 VSS
+*.opin VCP
+*.ipin VDD_1V8
+*.ipin VSS
+*.ipin PWRUP_N_1V8
+*.ipin PWRUP_1V8
+*.opin VCN
+*.ipin VBP1
+*.ipin VBP2
+xbb3<5> VC_SER<4> VCP VDD_1V8 VDD_1V8 JNWATR_PCH_4C1F2
+xbb3<4> VC_SER<3> VCP VC_SER<4> VDD_1V8 JNWATR_PCH_4C1F2
+xbb3<3> VC_SER<2> VCP VC_SER<3> VDD_1V8 JNWATR_PCH_4C1F2
+xbb3<2> VC_SER<1> VCP VC_SER<2> VDD_1V8 JNWATR_PCH_4C1F2
+xbb3<1> VC_SER<0> VCP VC_SER<1> VDD_1V8 JNWATR_PCH_4C1F2
+xbb3<0> VCP VCP VC_SER<0> VDD_1V8 JNWATR_PCH_4C1F2
+xca7<5> VCN VCN VC_NSR<4> VSS JNWATR_NCH_4C1F2
+xca7<4> VC_NSR<4> VCN VC_NSR<3> VSS JNWATR_NCH_4C1F2
+xca7<3> VC_NSR<3> VCN VC_NSR<2> VSS JNWATR_NCH_4C1F2
+xca7<2> VC_NSR<2> VCN VC_NSR<1> VSS JNWATR_NCH_4C1F2
+xca7<1> VC_NSR<1> VCN VC_NSR<0> VSS JNWATR_NCH_4C1F2
+xca7<0> VC_NSR<0> VCN VSS VSS JNWATR_NCH_4C1F2
+xca8 VBNT PWRUP_N_1V8 VSS VSS JNWATR_NCH_4C5F0
+xba1 VBNT VBP1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca7 VBNT VBNT VSS VSS JNWATR_NCH_4C5F0
+xba5<3> VCN net1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba5<2> VCN net1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba5<1> VCN net1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba5<0> VCN net1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca15<1> VCP VBNT VSS VSS JNWATR_NCH_4C5F0
+xca15<0> VCP VBNT VSS VSS JNWATR_NCH_4C5F0
+xba2 VBNT VBP2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xba9 net1 net1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca5 net1 VBNT VSS VSS JNWATR_NCH_4C5F0
+xba15 net1 PWRUP_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_12C5F0
+xba16 VCP PWRUP_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca19 VCN PWRUP_N_1V8 VSS VSS JNWATR_NCH_4C5F0
+xbb4 VDD_1V8 VCP VDD_1V8 VDD_1V8 JNWATR_PCH_12C5F0
+x2 VSS VCN VSS VSS LELOATR_PCH_12C5F0
+x3 VSS VBNT VSS VSS LELOATR_PCH_12C5F0
+.ends
+
+
+* expanding   symbol:  LELO_TEMP_SKY130A/LELOTEMP_START.sym # of pins=6
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_START.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_TEMP_SKY130A/LELOTEMP_START.sch
+.subckt LELOTEMP_START VDD_1V8 VO VCP PWRUP_1V8 PWRUP_N_1V8 VSS
+*.ipin VDD_1V8
+*.ipin VSS
+*.ipin PWRUP_N_1V8
+*.ipin PWRUP_1V8
+*.opin VO
+*.opin VCP
+xca9<1> VSTART1 net2 VSS net1 JNWATR_NCH_4C5F0
+xca9<0> VSTART1 net2 VSS net1 JNWATR_NCH_4C5F0
+xca10 VSTART2 VSTART1 net1 net1 JNWATR_NCH_4C5F0
+xba3 VSTART2 VSTART1 VDD_1V8 VDD_1V8 JNWATR_PCH_4C1F2
+xca11 VSTART3 VSTART2 net1 net1 JNWATR_NCH_4C1F2
+xba4 VSTART3 VSTART2 VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca13 net4 VSTART3 net1 net1 JNWATR_NCH_4C5F0
+xba14 net2 VO VDD_1V8 VDD_1V8 JNWATR_PCH_4C5F0
+xca12 net2 net2 VSS VSS JNWATR_NCH_4C5F0
+xca14 net3 VSTART3 net1 net1 JNWATR_NCH_4C5F0
+xca15 net2 PWRUP_N_1V8 net1 VSS JNWATR_NCH_4C5F0
+xba12 TOP PWRUP_N_1V8 VDD_1V8 VDD_1V8 JNWATR_PCH_4C1F2
+xca16 VSTART1 PWRUP_N_1V8 net1 net1 JNWATR_NCH_4C5F0
+xca17 VCP VCP net3 net1 JNWATR_NCH_4C5F0
+xca18 VO VO net4 net1 JNWATR_NCH_4C5F0
+xbig<19> SER<18> VSS TOP VDD_1V8 JNWATR_PCH_2C5F0
+xbig<18> SER<17> VSS SER<18> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<17> SER<16> VSS SER<17> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<16> SER<15> VSS SER<16> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<15> SER<14> VSS SER<15> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<14> SER<13> VSS SER<14> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<13> SER<12> VSS SER<13> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<12> SER<11> VSS SER<12> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<11> SER<10> VSS SER<11> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<10> SER<9> VSS SER<10> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<9> SER<8> VSS SER<9> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<8> SER<7> VSS SER<8> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<7> SER<6> VSS SER<7> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<6> SER<5> VSS SER<6> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<5> SER<4> VSS SER<5> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<4> SER<3> VSS SER<4> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<3> SER<2> VSS SER<3> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<2> SER<1> VSS SER<2> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<1> SER<0> VSS SER<1> VDD_1V8 JNWATR_PCH_2C5F0
+xbig<0> VSTART1 VSS SER<0> VDD_1V8 JNWATR_PCH_2C5F0
+.ends
+
+
+* expanding   symbol:  JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_NCH_4C5F0.sch
+.subckt JNWATR_NCH_4C5F0 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__nfet_01v8 L=0.94 W=3.2 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_ATR_SKY130A/LELOATR_LVT_NCH_4C5F0.sch
+.subckt LELOATR_LVT_NCH_4C5F0 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__nfet_01v8_lvt L=0.94 W=3.2 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_4C5F0.sch
+.subckt JNWATR_PCH_4C5F0 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__pfet_01v8 L=0.94 W=3.2 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  JNW_ATR_SKY130A/JNWATR_PCH_4C1F2.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_4C1F2.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_4C1F2.sch
+.subckt JNWATR_PCH_4C1F2 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__pfet_01v8 L=0.22 W=3.2 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  JNW_ATR_SKY130A/JNWATR_NCH_4C1F2.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_NCH_4C1F2.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_NCH_4C1F2.sch
+.subckt JNWATR_NCH_4C1F2 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__nfet_01v8 L=0.22 W=3.2 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  JNW_TR_SKY130A/JNWTR_RPPO4.sym # of pins=3
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_TR_SKY130A/JNWTR_RPPO4.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_TR_SKY130A/JNWTR_RPPO4.sch
+.subckt JNWTR_RPPO4 N P B
+*.iopin P
+*.iopin N
+*.iopin B
+XXA1 N P B JNWTR_RES4
+.ends
+
+
+* expanding   symbol:  JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_12C5F0.sch
+.subckt JNWATR_PCH_12C5F0 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__pfet_01v8 L=0.94 W=8.32 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  LELO_ATR_SKY130A/LELOATR_PCH_12C5F0.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_ATR_SKY130A/LELOATR_PCH_12C5F0.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/LELO_ATR_SKY130A/LELOATR_PCH_12C5F0.sch
+.subckt LELOATR_PCH_12C5F0 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__pfet_01v8 L=0.94 W=8.32 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym # of pins=4
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_ATR_SKY130A/JNWATR_PCH_2C5F0.sch
+.subckt JNWATR_PCH_2C5F0 D G S B
+*.iopin D
+*.iopin G
+*.iopin S
+*.iopin B
+XM1 D G S B sky130_fd_pr__pfet_01v8 L=0.94 W=1.92 nf=2 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)'
++ ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  JNW_TR_SKY130A/JNWTR_RES4.sym # of pins=3
+** sym_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_TR_SKY130A/JNWTR_RES4.sym
+** sch_path: /Users/wulff/data/2023/aicex/ip/lelo_temp_sky130a/design/JNW_TR_SKY130A/JNWTR_RES4.sch
+.subckt JNWTR_RES4 N P B
+*.iopin N
+*.iopin P
+*.iopin B
+XR1_0 INT_0 N B sky130_fd_pr__res_high_po W=0.36 L=7.36 mult=1 m=1
+XR1_1 INT_1 INT_0 B sky130_fd_pr__res_high_po W=0.36 L=7.36 mult=1 m=1
+XR1_2 INT_2 INT_1 B sky130_fd_pr__res_high_po W=0.36 L=7.36 mult=1 m=1
+XR1_3 P INT_2 B sky130_fd_pr__res_high_po W=0.36 L=7.36 mult=1 m=1
+.ends
+
+.end

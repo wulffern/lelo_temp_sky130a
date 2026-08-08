@@ -1,0 +1,13 @@
+cell: LELOTEMP_CMP
+groups:
+- name: loads
+  visible: false
+  member_regex:
+  - ^xn_mirr_load
+- name: n_mirr_load
+  visible: false
+  member_regex:
+  - ^xn_mirr_load
+  placement:
+    stack: true
+    parent: nmos

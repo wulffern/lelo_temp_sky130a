@@ -802,7 +802,7 @@
                             "VDD_1V8"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_PCH_4C1F2D",
+                        "subcktName": "REYATR_PCH_4C1F2",
                         "groupName": "xbs",
                         "deviceName": "subckt",
                         "groupTag": "8"
@@ -3184,7 +3184,7 @@
                             "VDD_1V8"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_PCH_11C5F0D",
+                        "subcktName": "REYATR_PCH_11C5F0",
                         "groupName": "xba",
                         "deviceName": "subckt",
                         "groupTag": "6"
@@ -3829,7 +3829,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnc",
                         "deviceName": "subckt",
                         "groupTag": "0"
@@ -4381,7 +4381,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnd",
                         "deviceName": "subckt",
                         "groupTag": "2<0>"
@@ -4396,7 +4396,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnd",
                         "deviceName": "subckt",
                         "groupTag": "2<1>"
@@ -4411,7 +4411,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnd",
                         "deviceName": "subckt",
                         "groupTag": "2<2>"
@@ -4933,7 +4933,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnd",
                         "deviceName": "subckt",
                         "groupTag": "1<0>"
@@ -4948,7 +4948,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnd",
                         "deviceName": "subckt",
                         "groupTag": "1<1>"
@@ -4963,7 +4963,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "REYATR_NCH_4C5F0D",
+                        "subcktName": "REYATR_NCH_4C5F0",
                         "groupName": "xnd",
                         "deviceName": "subckt",
                         "groupTag": "1<2>"

@@ -1,0 +1,36 @@
+cell: LELOTEMP_OTAN
+groups:
+- name: diff
+  visible: false
+  members:
+  - xbb1[7:0]
+  - xbb2[7:0]
+- name: mirr_nmos
+  visible: false
+  members:
+  - xca1
+  - xca3
+  - xca4
+  - xca2
+- name: mirr_pmos_a
+  visible: false
+  members:
+  - xba7
+  - xba8
+  - xba9[3:0]
+  - xba2[3:0]
+  - xba6
+- name: mirr_pmos_b
+  visible: false
+  members:
+  - xba12[3:0]
+  - xba14[3:0]
+  - xba11
+  - xba13
+  - xba5
+  - xba10
+- name: nmos_pd
+  visible: true
+  members:
+  - xca1[3:0]
+  - xca6

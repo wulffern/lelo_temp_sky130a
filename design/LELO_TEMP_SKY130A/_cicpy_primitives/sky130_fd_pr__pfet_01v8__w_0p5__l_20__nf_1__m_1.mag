@@ -1,0 +1,11 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1776115317
+<< checkpaint >>
+rect -1313 -1313 5599 1745
+use sky130_fd_pr__pfet_01v8_BECTL3  sky130_fd_pr__pfet_01v8__w_0p5__l_20__nf_1__m_1
+timestamp 0
+transform 1 0 2143 0 1 216
+box -2196 -269 2196 269
+<< end >>
