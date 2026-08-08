@@ -84,16 +84,31 @@ def afterPlace(layout):
     p_in_a = pmos.addStack("p_in_a", _pick(xbl, [r"xbl4"]) + _pick(xbl, [r"xbl1<\d+>"]), preserveOrder=True)
     p_in_b = pmos.addStack("p_in_b", _pick(xbl, [r"xbl5"]) + _pick(xbl, [r"xbl2<\d+>"]), preserveOrder=True)
     p_bias = pmos.addStackByGroup("xba", name="p_bias")
-    #- the ladder is a series chain, stacked in chain order so every link
-    #- is between neighbours and no junction has to travel the column.
-    #- The chain runs VDD end at the top, VCP end at the bottom: the only
-    #- ladder device with a VDD source pin is xbs6, and addPowerConnection
-    #- straps such a pin straight up to the ring. From the bottom of the
-    #- column that strap crossed the source pin of every other ladder
-    #- device and shorted net2..net6 to VDD. At the top it is one cell long
+    #- the ladder is a series chain, and the ORDER IS THE ROUTING. Every
+    #- REYATR device here puts S at the bottom and D at the top, so a
+    #- link is short only when the device below offers its D to the
+    #- device above offering its S. Read off the netlist that is
+    #-   xbs6 xbs1 xbs2 xbs4 xbs7 xbs8
+    #- bottom to top: VDD -xbs6- net1 -xbs1- net2 -xbs2- net4 -xbs4-
+    #- net3 -xbs7- net5 -xbs8- VCP.
+    #-
+    #- It ran in the exact reverse for a while, to put xbs6's VDD source
+    #- at the top where addPowerConnection's strap to the ring is one
+    #- cell long. That is a real cost and it buys nothing now -- xbs6 is
+    #- excluded from addPowerGuardConnection anyway, so the strap is not
+    #- drawn. What the reverse cost was measurable: with the chain
+    #- upside down each net's two pins land 48000 apart with TWO other
+    #- ladder nets' pins between them, and the pins are 22400 wide with
+    #- only 16000 of clear column, so no vertical exists at all. Right
+    #- way up the same five nets are abutting pairs 28000 apart with
+    #- nothing in between. Measured with the `blockers` tool, not
+    #- guessed.
+    #-
+    #- VDD at xbs6 is now the bottom of the column and still needs a way
+    #- to the ring; that is the open this leaves.
     xbs = layout.getSortedInstancesByGroupName("xbs")
     chain = []
-    for nm in ("xbs8", "xbs7", "xbs4", "xbs2", "xbs1", "xbs6"):
+    for nm in ("xbs6", "xbs1", "xbs2", "xbs4", "xbs7", "xbs8"):
         chain += _pick(xbs, [nm])
     p_sw = pmos.addStack("p_sw", chain, preserveOrder=True)
 
