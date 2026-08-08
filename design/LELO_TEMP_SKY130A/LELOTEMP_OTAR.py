@@ -479,8 +479,28 @@ def afterRoute(layout):
     if a is None or b is None:
         layout.log.warning("VO: expected pins xnd4 and xba2, not routing")
         return
-    try:
-        nrect, ncut = r.connect(layout, a, b)
-        layout.log.info(f"VO: maze routed, {nrect} rects {ncut} cuts")
-    except Blocked as e:
-        layout.log.warning(f"VO: {e}")
+    #- STOOD DOWN, 2026-08-08, and the reason is worth keeping.
+    #-
+    #- This route was committed working: 0 shorts, 0 DRC, one fewer open.
+    #- It was found by a router whose obstacle model was wrong in two
+    #- ways -- an 8800 via pad where the real cut is 4000, and a via
+    #- treated as claiming every layer in the column rather than only
+    #- the two it connects. Both were over-strict, so the path it chose
+    #- was needlessly conservative, and it happened to miss VS.
+    #-
+    #- With the model corrected the search finds a shorter path, and that
+    #- path overlaps the VS strap in p_in_a. So the old result was luck
+    #- wearing the clothes of a result, and re-enabling it now trades a
+    #- closed net for a short. It stays off until the wire check catches
+    #- what this path hits.
+    #-
+    #- findroute still reports the path, so nothing is lost but the
+    #- drawing:
+    #-   cicpy findroute ... --net VO --start 126400,219000,M1 \
+    #-                       --stop 208000,407000,M1
+    if False:
+        try:
+            nrect, ncut = r.connect(layout, a, b)
+            layout.log.info(f"VO: maze routed, {nrect} rects {ncut} cuts")
+        except Blocked as e:
+            layout.log.warning(f"VO: {e}")
