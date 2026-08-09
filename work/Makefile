@@ -34,5 +34,14 @@ mag:
 #- with a generated one and the next mag died on "Missing group xbl".
 #- cicpy takes the list from the subcell plan by name, so there is no
 #- regex to get wrong, and it never writes the parent.
+#- SUBCELL=<name> narrows what is WRITTEN, never what is built: the cell
+#- is placed and routed exactly as always, so a subcell taken on its own
+#- is the same subcell a full run produces. On a design this size it
+#- saves no time -- everything here is under two seconds -- but only the
+#- artefact being worked on moves, so a diff shows what the edit did and
+#- nothing else.
+#-
+#-   make subcells CELL=X                 all of them
+#-   make subcells CELL=X SUBCELL=p_sw    just that one, and its .py
 subcells:
-	cicpy sch2subcells ${LIB} ${CELL}
+	cicpy sch2subcells ${LIB} ${CELL} $(if ${SUBCELL},--subcell ${SUBCELL},)
