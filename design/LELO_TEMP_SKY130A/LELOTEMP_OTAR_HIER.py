@@ -80,43 +80,35 @@ def beforeRoute(layout):
     conn = layout.addConnectivityRoute
     ortho = layout.addOrthogonalConnectivityRoute
 
-    #- Pins that face each other across the channel: plain verticals,
-    #- each pinned to its column's channel so the wire sits on the
-    #- narrow bottom pin, not the wide top pin's center.
-    conn("M2", "^VD1$", "||", "vchannel=in_a,vtrack=19", 1, "", "^(xn_load_a|xp_in_a)$")
-    #- VD2 sits right of its pin center: VD3's 8800-wide via pads at
-    #- the in_b pin center reach within 100 of a centered wire.
-    conn("M2", "^VD2$", "||", "vchannel=in_b,vtrack=19", 1, "", "^(xn_load_b|xp_in_b)$")
-    #- noendcut: the mirr end lands on the pad of VCP's own M4 access
-    #- stack below. Its own cut there interleaved two cut arrays 1500
-    #- apart on one pin, which mcon spacing does not allow.
-    conn("M2", "^VCP$", "||", "vchannel=bias,vtrack=11", 1, "", "^(xn_mirr|xp_bias)$")
-
-    #- Channel crossings, one M3 band each, 3 tracks (12000) apart so
-    #- an 8800 via pad on one band clears the next band's bar. The
-    #- bias column's three wide pins share one centerX, so their
-    #- verticals split by layer: VDS keeps M2 (lowest pin), VO takes
-    #- M4. VBP and VS take M4 and the two highest bands so their
-    #- verticals clear PWRUP_N's and each other's at shared columns.
-    ortho("M2", "M3", "^VDS$", "hchannel=mid,htrack=0,vchannel=res,vtrack=13", 1, "", "")
-    ortho("M4", "M3", "^VO$", "hchannel=mid,htrack=6,left", 1, "", "")
-    #- VCP's switch leg rides M4 with its band below VO's, so neither
-    #- crosses the other's pads on M4 at the shared bias column.
-    ortho("M4", "M3", "^VCP$", "hchannel=mid,htrack=3,vchannel=sw,vtrack=24", 1, "", "^(xn_mirr|xp_sw)$")
-    ortho("M2", "M3", "^VD3$", "hchannel=mid,htrack=9,vchannel=bias,vtrack=19", 1, "", "")
-    ortho("M4", "M3", "^VBP$", "hchannel=mid,htrack=12,vchannel=sw,vtrack=0", 1, "", "")
-    ortho("M4", "M3", "^VS$", "hchannel=mid,htrack=15,vchannel=res,vtrack=13", 1, "", "")
-
-    #- The powerdown rail: every N-row pin sits directly below another
-    #- net's pin in the same column, so it cannot cross the channel at
-    #- a pin. The N-row route branches at its own pin levels to a
-    #- trunk right of the mirr pin; the bias leg drops on an M3 bar
-    #- inside the N row (horizontaltrack13 off the mirr pin) to a
-    #- trunk on the SAME bias-channel track, so the two trunks merge.
-    ortho("M2", "M3", "^PWRUP_N_1V8$", "vchannel=bias,vtrack=22",
-          1, "", "^(xn_load_a|xn_load_b|xn_mirr)$")
-    ortho("M2", "M3", "^PWRUP_N_1V8$", "horizontaltrack16,vchannel=bias,vtrack=22",
-          1, "", "^(xp_bias|xn_mirr)$")
+    #- Every nmos<->pmos net rides a ChannelRoute: one full-width
+    #- bar per net on its own mid-channel track, pins dropped onto it
+    #- with addRouteConnection, the bar trimmed back to its outermost
+    #- drop afterwards. Tracks two apart (8000): the drops' 1x1 via
+    #- pads clear the neighbouring bars. Where pins share a column
+    #- the drops split by layer (the bias column: VDS M2, VO M4) or
+    #- by align (left/center/right on the pin).
+    chan = [
+        #  net            trk  n-side drops           p-side drops
+        ("VDS",           0, [("xr_deg",  "M2", "center")], [("xp_bias", "M2", "center")]),
+        ("VD1",           2, [("xn_load_a","M2", "center")], [("xp_in_a", "M2", "right")]),
+        ("VO",            4, [("xn_load_b","M2", "center")], [("xp_bias", "M4", "left")]),
+        ("VCP",           6, [("xn_mirr", "M2", "left")],    [("xp_bias", "M2", "right"),
+                                                             ("xp_sw",   "M2", "center")]),
+        ("VD3",           8, [("xn_mirr", "M2", "right")],   [("xp_in_a", "M2", "left"),
+                                                             ("xp_in_b", "M2", "left")]),
+        ("VD2",          10, [("xn_load_b","M2", "right")],  [("xp_in_b", "M2", "right")]),
+        ("VBP",          12, [("xn_load_a","M2", "left")],   [("xp_bias", "M4", "center")]),
+        ("VS",           14, [("xr_deg",  "M4", "center")],  [("xp_in_a", "M4", "center"),
+                                                             ("xp_in_b", "M4", "center")]),
+        ("PWRUP_N_1V8",  16, [("xn_load_a","M4", "left"),
+                              ("xn_load_b","M4", "left"),
+                              ("xn_mirr", "M4", "left")],    [("xp_bias", "M4", "right")]),
+    ]
+    for net, trk, ndrops, pdrops in chan:
+        layout.addChannelRoute("M3", net, "mid", trk)
+        for inst, lay, al in ndrops + pdrops:
+            layout.addRouteConnection(net, f"^{inst}$", "t", lay, align=al)
+        layout.trimChannelRoute(net)
 
     #- Supplies as the flat design does them: a VDD ring on top, a
     #- VSS ring on the bottom, each subcell reached by stretching its
