@@ -16,3 +16,6 @@ work/lvs
 work/gds
 work/drc
 work/xsch
+*.raw
+*.out
+simulation/
