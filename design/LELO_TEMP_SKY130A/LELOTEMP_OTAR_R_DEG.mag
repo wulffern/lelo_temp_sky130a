@@ -4,9 +4,8 @@ magscale 1 2
 timestamp 1786226400
 << checkpaint >>
 rect 4800 300 8096 2860
-<< metal1 >>
-rect 5410 1340 5470 1980
 << locali >>
+rect 5410 1340 5470 1980
 rect 5184 2100 5696 2180
 rect 5184 1140 5696 1220
 rect 4800 1380 4992 1460
