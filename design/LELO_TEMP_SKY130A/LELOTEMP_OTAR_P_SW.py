@@ -58,7 +58,7 @@ def route(layout, entry):
     holds the instances but not the netlist.
     """
     import re
-    from cicpy.core.mazerouter import stack_groups
+    from cicpy.core.subcell import stack_groups
 
     internal = list(entry["internal"])
     if not internal:
