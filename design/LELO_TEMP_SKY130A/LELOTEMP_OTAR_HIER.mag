@@ -1,0 +1,59 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786226400
+<< checkpaint >>
+rect 0 0 8192 12720
+<< locali >>
+rect 3392 9400 3584 9480
+rect 3168 7880 3232 7960
+rect 2208 4040 2656 4120
+rect 1472 7880 1536 7960
+rect 480 2120 928 2200
+rect 4864 7880 4928 7960
+rect 1120 3320 1184 3400
+rect 3904 4040 4352 4120
+use LELOTEMP_OTAR_N_LOAD_A xn_load_a ../LELO_TEMP_SKY130A
+transform 1 0 0 0 1 0
+box 0 0 1600 4960
+use LELOTEMP_OTAR_N_LOAD_B xn_load_b ../LELO_TEMP_SKY130A
+transform 1 0 1600 0 1 0
+box 1600 0 3200 4960
+use LELOTEMP_OTAR_N_MIRR xn_mirr ../LELO_TEMP_SKY130A
+transform 1 0 3200 0 1 0
+box 3200 0 4896 4960
+use LELOTEMP_OTAR_P_BIAS xp_bias ../LELO_TEMP_SKY130A
+transform 1 0 3392 0 1 6160
+box 3392 6160 5088 12720
+use LELOTEMP_OTAR_P_IN_A xp_in_a ../LELO_TEMP_SKY130A
+transform 1 0 0 0 1 6160
+box 0 6160 1696 12720
+use LELOTEMP_OTAR_P_IN_B xp_in_b ../LELO_TEMP_SKY130A
+transform 1 0 1696 0 1 6160
+box 1696 6160 3392 12720
+use LELOTEMP_OTAR_P_SW xp_sw ../LELO_TEMP_SKY130A
+transform 1 0 5088 0 1 6160
+box 5088 6160 6784 12720
+use LELOTEMP_OTAR_R_DEG xr_deg ../LELO_TEMP_SKY130A
+transform 1 0 4896 0 1 0
+box 4896 0 8192 2560
+<< labels >>
+flabel locali s 3392 9400 3584 9480 0 FreeSans 400 0 0 0 VDD_1V8
+port 1 nsew power bidirectional
+flabel locali s 3168 7880 3232 7960 0 FreeSans 400 0 0 0 VIP
+port 2 nsew signal bidirectional
+flabel locali s 2208 4040 2656 4120 0 FreeSans 400 0 0 0 VO
+port 3 nsew signal bidirectional
+flabel locali s 1472 7880 1536 7960 0 FreeSans 400 0 0 0 VIN
+port 4 nsew signal bidirectional
+flabel locali s 480 2120 928 2200 0 FreeSans 400 0 0 0 VSS
+port 5 nsew ground bidirectional
+flabel locali s 4864 7880 4928 7960 0 FreeSans 400 0 0 0 PWRUP_1V8
+port 6 nsew signal bidirectional
+flabel locali s 1120 3320 1184 3400 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+port 7 nsew signal bidirectional
+flabel locali s 3904 4040 4352 4120 0 FreeSans 400 0 0 0 VCP
+port 8 nsew signal bidirectional
+<< properties >>
+string FIXED_BBOX 0 0 8192 12720
+<< end >>

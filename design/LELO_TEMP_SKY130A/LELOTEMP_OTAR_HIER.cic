@@ -1,0 +1,782 @@
+{
+    "cells": [
+        {
+            "class": "LayoutCell",
+            "x1": 0,
+            "y1": 0,
+            "x2": 409600.0,
+            "y2": 636000.0,
+            "layer": "",
+            "net": "",
+            "name": "LELOTEMP_OTAR_HIER",
+            "has_pr": false,
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_OTAR_HIER",
+                "nodes": [
+                    "VDD_1V8",
+                    "VIP",
+                    "VO",
+                    "VIN",
+                    "VSS",
+                    "PWRUP_1V8",
+                    "PWRUP_N_1V8",
+                    "VCP"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "xn_load_a",
+                        "nodes": [
+                            "PWRUP_N_1V8",
+                            "VBP",
+                            "VD1",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_N_LOAD_A",
+                        "groupName": "xn_load_a",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xn_load_b",
+                        "nodes": [
+                            "PWRUP_N_1V8",
+                            "VD2",
+                            "VO",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_N_LOAD_B",
+                        "groupName": "xn_load_b",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xn_mirr",
+                        "nodes": [
+                            "PWRUP_N_1V8",
+                            "VCP",
+                            "VD3",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_N_MIRR",
+                        "groupName": "xn_mirr",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xp_bias",
+                        "nodes": [
+                            "PWRUP_1V8",
+                            "PWRUP_N_1V8",
+                            "VBP",
+                            "VCP",
+                            "VDD_1V8",
+                            "VDS",
+                            "VO"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_P_BIAS",
+                        "groupName": "xp_bias",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xp_in_a",
+                        "nodes": [
+                            "VD1",
+                            "VD3",
+                            "VDD_1V8",
+                            "VIN",
+                            "VS"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_P_IN_A",
+                        "groupName": "xp_in_a",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xp_in_b",
+                        "nodes": [
+                            "VD2",
+                            "VD3",
+                            "VDD_1V8",
+                            "VIP",
+                            "VS"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_P_IN_B",
+                        "groupName": "xp_in_b",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xp_sw",
+                        "nodes": [
+                            "VCP",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_P_SW",
+                        "groupName": "xp_sw",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xr_deg",
+                        "nodes": [
+                            "VDS",
+                            "VS",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_OTAR_R_DEG",
+                        "groupName": "xr_deg",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 80000.0,
+                    "y2": 248000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_N_LOAD_A",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 56000.0,
+                            "y1": 166000.0,
+                            "x2": 59200.0,
+                            "y2": 170000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_N_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 30400.0,
+                            "y1": 202000.0,
+                            "x2": 52800.0,
+                            "y2": 206000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VBP",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 56000.0,
+                            "y1": 206000.0,
+                            "x2": 59200.0,
+                            "y2": 210000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD1",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 24000.0,
+                            "y1": 106000.0,
+                            "x2": 46400.0,
+                            "y2": 110000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xn_load_a",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_N_LOAD_A",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 80000,
+                    "y1": 0,
+                    "x2": 160000.0,
+                    "y2": 248000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_N_LOAD_B",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 136000.0,
+                            "y1": 166000.0,
+                            "x2": 139200.0,
+                            "y2": 170000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_N_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 136000.0,
+                            "y1": 206000.0,
+                            "x2": 139200.0,
+                            "y2": 210000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD2",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 110400.0,
+                            "y1": 202000.0,
+                            "x2": 132800.0,
+                            "y2": 206000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VO",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 104000.0,
+                            "y1": 106000.0,
+                            "x2": 126400.0,
+                            "y2": 110000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xn_load_b",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_N_LOAD_B",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 160000,
+                    "y1": 0,
+                    "x2": 244800.0,
+                    "y2": 248000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_N_MIRR",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 220800.0,
+                            "y1": 86000.0,
+                            "x2": 224000.0,
+                            "y2": 90000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_N_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 195200.0,
+                            "y1": 202000.0,
+                            "x2": 217600.0,
+                            "y2": 206000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VCP",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 220800.0,
+                            "y1": 206000.0,
+                            "x2": 224000.0,
+                            "y2": 210000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD3",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 160000.0,
+                            "y1": 122000.0,
+                            "x2": 169600.0,
+                            "y2": 126000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xn_mirr",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_N_MIRR",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 169600,
+                    "y1": 308000,
+                    "x2": 254400.0,
+                    "y2": 636000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_P_BIAS",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 243200.0,
+                            "y1": 394000.0,
+                            "x2": 246400.0,
+                            "y2": 398000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 243200.0,
+                            "y1": 354000.0,
+                            "x2": 246400.0,
+                            "y2": 358000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_N_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 243200.0,
+                            "y1": 434000.0,
+                            "x2": 246400.0,
+                            "y2": 438000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VBP",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 195200.0,
+                            "y1": 470000.0,
+                            "x2": 240000.0,
+                            "y2": 474000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VCP",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 169600.0,
+                            "y1": 470000.0,
+                            "x2": 179200.0,
+                            "y2": 474000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDD_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 195200.0,
+                            "y1": 350000.0,
+                            "x2": 240000.0,
+                            "y2": 354000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDS",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 195200.0,
+                            "y1": 390000.0,
+                            "x2": 240000.0,
+                            "y2": 394000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VO",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xp_bias",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_P_BIAS",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 308000,
+                    "x2": 84800.0,
+                    "y2": 636000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_P_IN_A",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 25600.0,
+                            "y1": 390000.0,
+                            "x2": 70400.0,
+                            "y2": 394000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD1",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 25600.0,
+                            "y1": 350000.0,
+                            "x2": 70400.0,
+                            "y2": 354000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD3",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 0.0,
+                            "y1": 430000.0,
+                            "x2": 9600.0,
+                            "y2": 434000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDD_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 73600.0,
+                            "y1": 394000.0,
+                            "x2": 76800.0,
+                            "y2": 398000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VIN",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 19200.0,
+                            "y1": 414000.0,
+                            "x2": 64000.0,
+                            "y2": 418000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xp_in_a",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_P_IN_A",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 84800,
+                    "y1": 308000,
+                    "x2": 169600.0,
+                    "y2": 636000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_P_IN_B",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 110400.0,
+                            "y1": 390000.0,
+                            "x2": 155200.0,
+                            "y2": 394000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD2",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 110400.0,
+                            "y1": 350000.0,
+                            "x2": 155200.0,
+                            "y2": 354000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VD3",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 84800.0,
+                            "y1": 430000.0,
+                            "x2": 94400.0,
+                            "y2": 434000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDD_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 158400.0,
+                            "y1": 394000.0,
+                            "x2": 161600.0,
+                            "y2": 398000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VIP",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 104000.0,
+                            "y1": 414000.0,
+                            "x2": 148800.0,
+                            "y2": 418000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xp_in_b",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_P_IN_B",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 254400,
+                    "y1": 308000,
+                    "x2": 339200.0,
+                    "y2": 636000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_P_SW",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 315200.0,
+                            "y1": 354000.0,
+                            "x2": 318400.0,
+                            "y2": 358000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VCP",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 254400.0,
+                            "y1": 470000.0,
+                            "x2": 264000.0,
+                            "y2": 474000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDD_1V8",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xp_sw",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_P_SW",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 244800,
+                    "y1": 0,
+                    "x2": 409600.0,
+                    "y2": 128000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_OTAR_R_DEG",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 264000.0,
+                            "y1": 90000.0,
+                            "x2": 289600.0,
+                            "y2": 94000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDS",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 264000.0,
+                            "y1": 42000.0,
+                            "x2": 289600.0,
+                            "y2": 46000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VS",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 244800.0,
+                            "y1": 94000.0,
+                            "x2": 254400.0,
+                            "y2": 98000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xr_deg",
+                    "angle": "",
+                    "cell": "LELOTEMP_OTAR_R_DEG",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Port",
+                    "x1": 169600.0,
+                    "y1": 470000.0,
+                    "x2": 179200.0,
+                    "y2": 474000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VDD_1V8",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 158400.0,
+                    "y1": 394000.0,
+                    "x2": 161600.0,
+                    "y2": 398000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VIP",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 110400.0,
+                    "y1": 202000.0,
+                    "x2": 132800.0,
+                    "y2": 206000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VO",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 73600.0,
+                    "y1": 394000.0,
+                    "x2": 76800.0,
+                    "y2": 398000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VIN",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 24000.0,
+                    "y1": 106000.0,
+                    "x2": 46400.0,
+                    "y2": 110000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VSS",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 243200.0,
+                    "y1": 394000.0,
+                    "x2": 246400.0,
+                    "y2": 398000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "PWRUP_1V8",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 56000.0,
+                    "y1": 166000.0,
+                    "x2": 59200.0,
+                    "y2": 170000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "PWRUP_N_1V8",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 195200.0,
+                    "y1": 202000.0,
+                    "x2": 217600.0,
+                    "y2": 206000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VCP",
+                    "spicePort": true
+                }
+            ],
+            "useHalfHeight": false,
+            "alternateGroup": false,
+            "noPowerRoute": true
+        }
+    ]
+}
