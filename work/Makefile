@@ -46,8 +46,10 @@ mag:
 subcells:
 	cicpy sch2subcells ${LIB} ${CELL} $(if ${SUBCELL},--subcell ${SUBCELL},)
 
-#- The top as eight instances instead of seventy devices. Needs the
-#- subcells generated first, and leaves the flat form as the default
-#- until every subcell passes LVS standalone.
+#- The top as eight instances instead of seventy devices: place the
+#- generated hierarchical netlist with the <CELL>_HIER hooks and
+#- publish the result as <CELL> itself. Every subcell passes LVS
+#- standalone, so this IS the cell -- gds/cdl/lvs run on it as
+#- LELOTEMP_OTAR like any other.
 hier:
-	cicpy sch2mag ${LIB} ${CELL} --hier ${OPT}
+	cicpy spi2mag ../design/${LIB}/${CELL}_HIER.spice ${LIB} ${CELL}_HIER --outcell ${CELL} ${OPT}
