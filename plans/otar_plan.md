@@ -177,3 +177,17 @@ cicpy svg ../design/LELO_TEMP_SKY130A/LELOTEMP_OTAR.cic ../tech/cic/sky130A.tech
 
 Add one route, check, keep it or change it. Do not add a second on top of
 a short.
+
+---
+
+**STATUS 2026-08-09: DONE.** LELOTEMP_OTAR is DRC OK and LVS
+"Circuits match uniquely" — the top and all eight subcells, each
+verified standalone. The method that finished it is not the flat flow
+this plan describes but the sidecar flow: `LELOTEMP_OTAR.yaml` holds
+subcells/rows/supplies/hier, `make subcells CELL=LELOTEMP_OTAR` then
+`make hier CELL=LELOTEMP_OTAR` builds everything, and the only python
+left is the p_sw ladder's stack pycell. The current method is
+documented in cicpy `docs/agent_layout.md` ("The sidecar flow").
+Verify with `make drc` / `make gds cdl lvs` and read the LVS
+`Final result:` line only — "match uniquely with port errors" is a
+failure that greps as success.
