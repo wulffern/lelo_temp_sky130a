@@ -3,7 +3,7 @@ tech sky130A
 magscale 1 2
 timestamp 1786226400
 << checkpaint >>
-rect 3200 6460 4896 13020
+rect 3296 6460 4896 13020
 << locali >>
 rect 3296 6980 4032 7060
 rect 3296 7780 4032 7860
@@ -18,24 +18,28 @@ rect 4674 9020 4734 9740
 rect 4664 8180 4740 8256
 rect 4664 11380 4740 11456
 rect 4664 10580 4740 10656
+rect 4800 7300 4968 7364
 rect 4548 8140 4608 8940
 rect 4672 8180 4736 8260
 rect 4672 7380 4736 7460
 rect 4672 8980 4736 9060
 rect 3712 11300 4608 11380
-rect 3200 9700 3392 9780
+rect 3296 11300 3392 11380
 rect 3712 7300 4608 7380
 rect 3712 8100 4608 8180
 << viali >>
 rect 4676 8192 4728 8244
 rect 4676 11392 4728 11444
 rect 4676 10592 4728 10644
+rect 4812 7306 4864 7358
+rect 4904 7306 4956 7358
 << metal1 >>
 rect 4664 8180 4744 8260
 rect 4664 11380 4744 11460
 rect 4664 10580 4744 10660
 rect 4674 8220 4734 11420
 rect 4674 8220 4734 10620
+rect 4800 7300 4976 7368
 use REYATR_PCH_11C5F0 xba1 ../REY_ATR_SKY130A
 transform 1 0 3296 0 1 6940
 box 3296 6940 4896 7740
@@ -72,12 +76,12 @@ flabel locali s 4672 8980 4736 9060 0 FreeSans 400 0 0 0 VBP
 port 3 nsew signal bidirectional
 flabel locali s 3712 11300 4608 11380 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
-flabel locali s 3200 9700 3392 9780 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 3296 11300 3392 11380 0 FreeSans 400 0 0 0 VDD_1V8
 port 5 nsew power bidirectional
 flabel locali s 3712 7300 4608 7380 0 FreeSans 400 0 0 0 VDS
 port 6 nsew signal bidirectional
 flabel locali s 3712 8100 4608 8180 0 FreeSans 400 0 0 0 VO
 port 7 nsew signal bidirectional
 << properties >>
-string FIXED_BBOX 3200 6460 4896 13020
+string FIXED_BBOX 3296 6460 4896 13020
 << end >>

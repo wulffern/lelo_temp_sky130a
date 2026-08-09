@@ -90,22 +90,10 @@ def route(layout, entry):
     #- strap is banned here: measured, its li path merges the whole
     #- cell into one net. A metal hop from the S strap to xbs6's own
     #- VDD edge pin, cuts filling both accesses, stays out of the li.
+    #- The ladder bottom's source is VDD: an L on the layer above the
+    #- pins, from the source strap to xbs6's own VDD edge pin.
     layout.addConnectivityRoute("M2", "^VDD_1V8$", "-|--", "",
                                 1, "", r"^xbs6$")
-    #- The L lands its cut on the source strap but never on the edge
-    #- pin (route.py places cuts on one rect of a multi-rect net), so
-    #- the one missing via goes in by hand: a real InstanceCut on the
-    #- edge pin, inside the metal the L already drew.
-    from cicpy.core.cut import Cut
-    i6 = layout.getInstanceFromInstanceName("xbs6")
-    vdd = i6.findRectanglesByNode("^VDD_1V8$", None)
-    strap = max(vdd, key=lambda r: r.x2 - r.x1)
-    #- the edge pin: left of the strap, one routing row above it
-    edge = min((r for r in vdd if r.x1 < strap.x1),
-               key=lambda r: abs(r.centerY() - strap.centerY() - 8000))
-    c = Cut.getInstance("M2", "M1", 2, 1)
-    c.moveTo(int(edge.x1) + 4800, int(edge.y1) + 700)
-    layout.add(c)
 
     i = layout.getInstanceFromInstanceName("xbs6")
     #- rightmost narrow rect: duplicate subports put a false tab 6000

@@ -90,7 +90,7 @@ def beforeRoute(layout):
     #- noendcut: the mirr end lands on the pad of VCP's own M4 access
     #- stack below. Its own cut there interleaved two cut arrays 1500
     #- apart on one pin, which mcon spacing does not allow.
-    conn("M2", "^VCP$", "||", "vchannel=bias,vtrack=12,noendcut", 1, "", "^(xn_mirr|xp_bias)$")
+    conn("M2", "^VCP$", "||", "vchannel=bias,vtrack=11", 1, "", "^(xn_mirr|xp_bias)$")
 
     #- Channel crossings, one M3 band each, 3 tracks (12000) apart so
     #- an 8800 via pad on one band clears the next band's bar. The
@@ -118,15 +118,13 @@ def beforeRoute(layout):
     ortho("M2", "M3", "^PWRUP_N_1V8$", "horizontaltrack16,vchannel=bias,vtrack=22",
           1, "", "^(xp_bias|xn_mirr)$")
 
-    #- Supplies, row local. The abutted guard rings do NOT merge the
-    #- supplies at extraction level (netgen pin matching failed on
-    #- exactly VDD/VSS), so each row's supply pins are tied by hand:
-    #- straight bars where pins share a y, L's where they do not.
-    #- The mirr-to-res leg and the bias-to-sw leg ride M3 over other
-    #- nets' M2 verticals.
-    conn("M2", "^VSS$", "-", "", 1, "", "^(xn_load_a|xn_load_b)$")
-    conn("M2", "^VSS$", "--|-", "", 1, "", "^(xn_load_b|xn_mirr)$")
-    conn("M3", "^VSS$", "--|-", "", 1, "", "^(xn_mirr|xr_deg)$")
-    conn("M2", "^VDD_1V8$", "-", "nostartcut,noendcut", 1, "", "^(xp_in_a|xp_in_b)$")
-    conn("M2", "^VDD_1V8$", "--|-", "nostartcut,noendcut", 1, "", "^(xp_in_b|xp_bias)$")
-    conn("M3", "^VDD_1V8$", "-", "1cuts,startLayer=M2,stopLayer=M2", 1, "", "^(xp_bias|xp_sw)$")
+    #- Supplies as the flat design does them: a VDD ring on top, a
+    #- VSS ring on the bottom, each subcell reached by stretching its
+    #- supply port straight to the ring. The ports sit on the BULK
+    #- geometry at the row boundary (sch2subcells places them there),
+    #- so the stretch runs through pure guard column and the pin
+    #- layer over the stacks stays free.
+    layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3, spacemult=2)
+    layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=2)
+    layout.addPowerConnection("VDD_1V8", "", "top")
+    layout.addPowerConnection("VSS", "", "bottom")
