@@ -1,0 +1,29 @@
+#- The cell's declarations. `subcells:` names every unit that is
+#- published as a cell of its own -- match is a regex over instance
+#- names, type picks the router (stack | diffpair | mirror). When this
+#- file exists it is the whole truth: nothing else becomes a subcell.
+subcells:
+  - name: p_in_a
+    match: '^(xbl4|xbl1<\d+>|xstack_p_in_a_(top|bot)|xfill_p_in_a_\d+)$'
+    type: stack
+  - name: p_in_b
+    match: '^(xbl5|xbl2<\d+>|xstack_p_in_b_(top|bot)|xfill_p_in_b_\d+)$'
+    type: stack
+  - name: p_bias
+    match: '^(xba\d+|xstack_p_bias_(top|bot)|xfill_p_bias_\d+)$'
+    type: stack
+  - name: p_sw
+    match: '^(xbs\d+|xstack_p_sw_(top|bot)|xfill_p_sw_\d+)$'
+    type: stack
+  - name: n_load_a
+    match: '^(xnd1<\d+>|xnd3|xns1|xstack_n_load_a_(top|bot)|xfill_n_load_a_\d+)$'
+    type: stack
+  - name: n_load_b
+    match: '^(xnd2<\d+>|xnd4|xns2|xstack_n_load_b_(top|bot)|xfill_n_load_b_\d+)$'
+    type: stack
+  - name: n_mirr
+    match: '^(xnc0|xnc1<\d+>|xns4|xstack_n_mirr_(top|bot)|xfill_n_mirr_\d+)$'
+    type: mirror
+  - name: r_deg
+    match: '^(xd2<\d+>|xstack_r_deg_(top|bot)|xfill_r_deg_\d+)$'
+    type: stack
