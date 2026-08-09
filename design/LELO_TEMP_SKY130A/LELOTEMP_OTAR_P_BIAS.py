@@ -61,8 +61,10 @@ def beforeRoute(layout, entry):
     conn = layout.addConnectivityRoute
     conn("M1", "^VBP$", "||", f"trunkx={_bar_x(layout, 'xba7', 'VBP')},nostartcut,noendcut",
          1, "", r"^(xba6|xba7)$")
-    conn("M1", "^VBP$", "||", f"trunkx={_tab_x(layout, 'xba8', 'VBP')}",
-         1, "", r"^(xba8|xba6)$")
+    #- xba8's gate joins its drain pair on M4: the vertical rides the
+    #- tab lane below the PWRUP_1V8 rail's span, and the far cut
+    #- lands under the wire on xba7's bar, out in the window.
+    conn("M4", "^VBP$", "-|--", "", 1, "", r"^(xba8|xba7)$")
     conn("M2", "^PWRUP_1V8$", "||", f"trunkx={_tab_x(layout, 'xba2', 'PWRUP_1V8')},1cuts",
          1, "", r"^(xba2|xba3|xba7)$")
     return None

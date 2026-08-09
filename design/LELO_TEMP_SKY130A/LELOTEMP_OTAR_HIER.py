@@ -97,17 +97,20 @@ def beforeRoute(layout):
         ("VD3",           8, [("xn_mirr", "M2", "right")],   [("xp_in_a", "M2", "left"),
                                                              ("xp_in_b", "M2", "left")]),
         ("VD2",          10, [("xn_load_b","M2", "right")],  [("xp_in_b", "M2", "right")]),
-        ("VBP",          12, [("xn_load_a","M2", "left")],   [("xp_bias", "M4", "center")]),
+        ("VBP",          12, [("xn_load_a","M2", "left")],   [("xp_bias", "M4", "center", False)]),
         ("VS",           14, [("xr_deg",  "M4", "left")],  [("xp_in_a", "M4", "center"),
                                                              ("xp_in_b", "M4", "center")]),
         ("PWRUP_N_1V8",  16, [("xn_load_a","M4", "left"),
                               ("xn_load_b","M4", "left"),
-                              ("xn_mirr", "M4", "left")],    [("xp_bias", "M4", "right")]),
+                              ("xn_mirr", "M4", "left")],    [("xp_bias", "M2", "right")]),
     ]
     for net, trk, ndrops, pdrops in chan:
         layout.addChannelRoute("M3", net, "mid", trk)
-        for inst, lay, al in ndrops + pdrops:
-            layout.addRouteConnection(net, f"^{inst}$", "t", lay, align=al)
+        for d in ndrops + pdrops:
+            inst, lay, al = d[0], d[1], d[2]
+            pc = d[3] if len(d) > 3 else True
+            layout.addRouteConnection(net, f"^{inst}$", "t", lay,
+                                      align=al, pin_cut=pc)
         layout.trimChannelRoute(net)
 
     #- Supplies as the flat design does them: a VDD ring on top, a

@@ -46,12 +46,14 @@ def afterPlace(layout):
     #- the PWRUP_1V8 and VBP gate tabs alternating down the one tab
     #- lane, where no pair of rails can coexist (measured: every
     #- layer assignment shorts through a via stack's middle pad).
-    #- This order keeps VO's and VBP's drains adjacent AND gathers
-    #- the PWRUP_1V8 tabs outside VBP's tab span.
+    #- xba8 sits SECOND: its gate tab then lies below every
+    #- PWRUP_1V8 tab, so a parent via stack down to it passes under
+    #- their lane rail; VO's drains (xba8,xba2) and VBP's (xba6,xba7)
+    #- both stay adjacent.
     xba = layout.getSortedInstancesByGroupName("xba")
     p_bias = pmos.addStack(
         "p_bias",
-        _pick(xba, [r"xba1"]) + _pick(xba, [r"xba2"]) + _pick(xba, [r"xba8"])
+        _pick(xba, [r"xba1"]) + _pick(xba, [r"xba8"]) + _pick(xba, [r"xba2"])
         + _pick(xba, [r"xba6"]) + _pick(xba, [r"xba7"]) + _pick(xba, [r"xba3"]),
         preserveOrder=True)
     xbs = layout.getSortedInstancesByGroupName("xbs")
