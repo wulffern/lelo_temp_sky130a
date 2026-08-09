@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786140000
+timestamp 1786226400
 << checkpaint >>
 rect 3296 6460 4896 13020
 << locali >>
@@ -11,6 +11,7 @@ rect 3296 9380 4032 9460
 rect 3296 10180 4032 10260
 rect 3296 10980 4032 11060
 rect 3296 8580 4032 8660
+rect 4672 8180 4736 8260
 rect 4672 7380 4736 7460
 rect 3712 10500 4736 10580
 rect 3712 9700 4608 9780
@@ -45,18 +46,20 @@ use REYATR_PCH_11CTAPTOP xstack_p_bias_top ../REY_ATR_SKY130A
 transform 1 0 3296 0 1 12540
 box 3296 12540 4896 13020
 << labels >>
-flabel locali s 4672 7380 4736 7460 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel locali s 4672 8180 4736 8260 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 1 nsew signal bidirectional
-flabel locali s 3712 10500 4736 10580 0 FreeSans 400 0 0 0 VBP
+flabel locali s 4672 7380 4736 7460 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 2 nsew signal bidirectional
-flabel locali s 3712 9700 4608 9780 0 FreeSans 400 0 0 0 VCP
+flabel locali s 3712 10500 4736 10580 0 FreeSans 400 0 0 0 VBP
 port 3 nsew signal bidirectional
+flabel locali s 3712 9700 4608 9780 0 FreeSans 400 0 0 0 VCP
+port 4 nsew signal bidirectional
 flabel locali s 3584 6980 4480 7060 0 FreeSans 400 0 0 0 VDD_1V8
-port 4 nsew power bidirectional
+port 5 nsew power bidirectional
 flabel locali s 3712 7300 4608 7380 0 FreeSans 400 0 0 0 VDS
-port 5 nsew signal bidirectional
-flabel locali s 3712 8100 4608 8180 0 FreeSans 400 0 0 0 VO
 port 6 nsew signal bidirectional
+flabel locali s 3712 8100 4608 8180 0 FreeSans 400 0 0 0 VO
+port 7 nsew signal bidirectional
 << properties >>
 string FIXED_BBOX 3296 6460 4896 13020
 << end >>

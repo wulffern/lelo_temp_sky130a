@@ -1284,6 +1284,7 @@
                     "VD2",
                     "VD3",
                     "VDD_1V8",
+                    "VIP",
                     "VS"
                 ],
                 "properties": {},
@@ -1918,6 +1919,17 @@
                 },
                 {
                     "class": "Port",
+                    "x1": 153600.0,
+                    "y1": 409000.0,
+                    "x2": 156800.0,
+                    "y2": 413000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VIP",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
                     "x1": 99200.0,
                     "y1": 389000.0,
                     "x2": 144000.0,
@@ -1949,6 +1961,7 @@
                     "VD1",
                     "VD3",
                     "VDD_1V8",
+                    "VIN",
                     "VS"
                 ],
                 "properties": {},
@@ -2583,6 +2596,17 @@
                 },
                 {
                     "class": "Port",
+                    "x1": 73600.0,
+                    "y1": 409000.0,
+                    "x2": 76800.0,
+                    "y2": 413000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VIN",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
                     "x1": 19200.0,
                     "y1": 389000.0,
                     "x2": 64000.0,
@@ -2611,6 +2635,7 @@
                 "class": "",
                 "name": "LELOTEMP_OTAR_P_BIAS",
                 "nodes": [
+                    "PWRUP_1V8",
                     "PWRUP_N_1V8",
                     "VBP",
                     "VCP",
@@ -3208,6 +3233,17 @@
                     "y2": 433000,
                     "layer": "M1",
                     "net": "VDD_1V8"
+                },
+                {
+                    "class": "Port",
+                    "x1": 233600.0,
+                    "y1": 409000.0,
+                    "x2": 236800.0,
+                    "y2": 413000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "PWRUP_1V8",
+                    "spicePort": true
                 },
                 {
                     "class": "Port",

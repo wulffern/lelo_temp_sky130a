@@ -1,13 +1,14 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786140000
+timestamp 1786226400
 << checkpaint >>
 rect 0 6460 1696 13020
 << locali >>
 rect 512 8100 1408 8180
 rect 512 7300 1408 7380
 rect 0 8100 192 8180
+rect 1472 8180 1536 8260
 rect 384 7780 1280 7860
 use REYATR_LVT_PCH_11C5F0 xbl4 ../REY_ATR_SKY130A
 transform 1 0 96 0 1 6940
@@ -43,8 +44,10 @@ flabel locali s 512 7300 1408 7380 0 FreeSans 400 0 0 0 VD3
 port 2 nsew signal bidirectional
 flabel locali s 0 8100 192 8180 0 FreeSans 400 0 0 0 VDD_1V8
 port 3 nsew power bidirectional
-flabel locali s 384 7780 1280 7860 0 FreeSans 400 0 0 0 VS
+flabel locali s 1472 8180 1536 8260 0 FreeSans 400 0 0 0 VIN
 port 4 nsew signal bidirectional
+flabel locali s 384 7780 1280 7860 0 FreeSans 400 0 0 0 VS
+port 5 nsew signal bidirectional
 << properties >>
 string FIXED_BBOX 0 6460 1696 13020
 << end >>

@@ -22,27 +22,17 @@ ota:
 	cicpy sch2mag  --techlib sky130 ${LIB} LELOTEMP_OTA
 mag:
 	cicpy sch2mag ${LIB} ${CELL} ${OPT}
-
-#- Schematics for the generated stack cells, so each stack can be
-#- netlisted and LVS'd on its own.
+#- Two steps, and the order is the point: every subcell is generated and
+#- verified before the parent that will hold them is built.
 #-
-#- A separate target, run AFTER mag and from the design directory, and
-#- both of those matter. Chained onto mag it re-enters the pycell, whose
-#- afterPlace wants schematic groups a .cic does not carry
-#- ("Missing group xbl"). And the stack cells only exist in the .cic
-#- once mag has written it.
+#-   make subcells CELL=X   -> a .mag/.cic/.sch/.sym per subcell of X
+#-   make mag      CELL=X   -> X itself
 #-
-#- Not done from inside the flow either: driving XschemPrinter by hand
-#- there emits every symbol and silently omits every wire, because
-#- symbolAndWrite returns quietly when a referenced cell is not in
-#- printer.cells and at that point design.cells holds only the top cell.
-#- --exclude is not optional. transpile writes a schematic for EVERY
-#- cell in the .cic, and that includes ${CELL} itself: without this it
-#- overwrites the hand-drawn source schematic with a generated one that
-#- has no groups, and the next mag fails with "Missing group xbl". The
-#- regex keeps everything whose name is not ${CELL}_<stack>.
-stacksch:
-	cd ../design && cicpy transpile ${LIB}/${CELL}.cic \
-		../../tech_sky130A/cic/sky130.tech ${LIB} --xschem \
-		--exclude '^(?!${CELL}_).*' \
-		--I ../../rey_atr_sky130a/design/REY_ATR_SKY130A.cic
+#- This replaces a second `transpile --xschem` with a negative lookahead
+#- over the cell name, which had to be described as "not optional"
+#- because getting it wrong overwrote the hand-drawn source schematic
+#- with a generated one and the next mag died on "Missing group xbl".
+#- cicpy takes the list from the subcell plan by name, so there is no
+#- regex to get wrong, and it never writes the parent.
+subcells:
+	cicpy sch2subcells ${LIB} ${CELL}
