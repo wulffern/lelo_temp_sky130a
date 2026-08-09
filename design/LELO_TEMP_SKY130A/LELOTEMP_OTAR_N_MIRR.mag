@@ -21,7 +21,7 @@ rect 4292 1180 4352 1980
 rect 4416 1220 4480 1300
 rect 3904 4340 4352 4420
 rect 4416 4420 4480 4500
-rect 3776 820 4224 900
+rect 3296 1140 3392 1220
 use REYATR_NCH_4C5F0 xns4 ../REY_ATR_SKY130A
 transform 1 0 3296 0 1 780
 box 3296 780 4896 1580
@@ -50,7 +50,7 @@ flabel locali s 3904 4340 4352 4420 0 FreeSans 400 0 0 0 VCP
 port 2 nsew signal bidirectional
 flabel locali s 4416 4420 4480 4500 0 FreeSans 400 0 0 0 VD3
 port 3 nsew signal bidirectional
-flabel locali s 3776 820 4224 900 0 FreeSans 400 0 0 0 VSS
+flabel locali s 3296 1140 3392 1220 0 FreeSans 400 0 0 0 VSS
 port 4 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 3296 300 4896 5260

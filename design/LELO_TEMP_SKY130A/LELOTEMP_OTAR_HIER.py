@@ -89,7 +89,7 @@ def beforeRoute(layout):
     #- by align (left/center/right on the pin).
     chan = [
         #  net            trk  n-side drops           p-side drops
-        ("VDS",           0, [("xr_deg",  "M2", "center")], [("xp_bias", "M2", "center")]),
+        ("VDS",           0, [("xr_deg",  "M2", "left")], [("xp_bias", "M2", "center")]),
         ("VD1",           2, [("xn_load_a","M2", "center")], [("xp_in_a", "M2", "right")]),
         ("VO",            4, [("xn_load_b","M2", "center")], [("xp_bias", "M4", "left")]),
         ("VCP",           6, [("xn_mirr", "M2", "left")],    [("xp_bias", "M2", "right"),
@@ -98,7 +98,7 @@ def beforeRoute(layout):
                                                              ("xp_in_b", "M2", "left")]),
         ("VD2",          10, [("xn_load_b","M2", "right")],  [("xp_in_b", "M2", "right")]),
         ("VBP",          12, [("xn_load_a","M2", "left")],   [("xp_bias", "M4", "center")]),
-        ("VS",           14, [("xr_deg",  "M4", "center")],  [("xp_in_a", "M4", "center"),
+        ("VS",           14, [("xr_deg",  "M4", "left")],  [("xp_in_a", "M4", "center"),
                                                              ("xp_in_b", "M4", "center")]),
         ("PWRUP_N_1V8",  16, [("xn_load_a","M4", "left"),
                               ("xn_load_b","M4", "left"),
