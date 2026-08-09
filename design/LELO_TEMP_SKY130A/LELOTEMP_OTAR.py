@@ -331,50 +331,13 @@ def beforeRoute(layout):
     #- goes back one at a time, checked before the next.
     #- ---------------------------------------------------------------
 
-    #- Column rails on M1, one terminal at a time, each on its own edge
-    #- of the pin. REYATR's source rail covers pattern columns 10..16 and
-    #- its drain run 12..18, so they share five columns: a rail taking
-    #- the full pin width for both would short them. The drain takes the
-    #- right edge, the gate the left, and each is one routing width, so
-    #- the part of the pin the other needs is left alone.
-    for name in ("p_in_a", "p_in_b", "p_bias", "p_sw",
-                 "n_load_a", "n_load_b", "n_mirr"):
-        s[name].routeMirror("M1", terminals=("D",), align="right")
-
-    #- and the gates, on the other edge. The gate tab sits at the far
-    #- right of the pattern, past the drain run, so the two rails are two
-    #- pattern columns apart and clear each other. Where a diode cell
-    #- tied D to G they are the same net anyway.
-    #-
-    #- The columns were ordered for the drain, so several are now
-    #- interleaved on the gate and decline; that is the trade the order
-    #- buys and the refusals name it. Two do not care: the ladder's gates
-    #- are all VCP and the mirror's are all VD3, so those close here and
-    #- need nothing above M1 at all.
-    for name in ("p_in_a", "p_in_b", "p_bias", "p_sw",
-                 "n_load_a", "n_load_b", "n_mirr"):
-        s[name].routeMirror("M1", terminals=("G",), align="left")
-
-    #- M2, for what is inside one column but could not be a rail. The
-    #- ladder links are two pins each, the drain of one device and the
-    #- source of the device stacked on it, and the chain order put those
-    #- next to each other -- so each is a stub, not a run.
-    #- The ladder is left for last, on purpose. Each of net2..net6 is
-    #- the drain of one device and the source of the device stacked on
-    #- it, so the two pins are a few microns apart -- and unreachable
-    #- directly, because the source rail of the device in between sits
-    #- across the only columns they share. The link has to go out to a
-    #- spine and back, five times, in one column.
-    #-
-    #- Measured, giving each net its own lane of the column's channel:
-    #-   vtrack i    5 spines land clear, the M3 via pads at their ends
-    #-               overlap corner to corner        2 shorts, DRC 4
-    #-   vtrack 3i   1 short, DRC 8
-    #-   vtrack 4i   1 short, DRC 10
-    #- Spreading the lanes moves the collision without removing it: the
-    #- pads are 8800 across and the bars grow as the spine moves away,
-    #- so each step trades a pad clash for a bar clash. This wants the
-    #- pad footprint accounted for, not another guess at a track number.
+    #- NO COLUMN RAILS AT THE TOP EITHER. The D-right/G-left rails that
+    #- used to be drawn here are the subcells' own business now: the
+    #- stack router assigns the same lanes by terminal (source left,
+    #- drain right, on M1) and draws them inside each subcell, where
+    #- they are verified by that subcell's own DRC and LVS. Two
+    #- authorities wiring the same column is how a clean rail and a
+    #- clean trunk still managed to meet.
 
     #- NO SIGNAL ROUTING AT THE TOP.
     #-
@@ -534,13 +497,18 @@ def _vo_stood_down(layout):
 #- Stacks brought up ONE AT A TIME. A stack is added here only once it
 #- routes clean, so anything dirty is the stack being worked on and the
 #- next one starts from a known good state.
-STACK_ROUTING = ("r_deg", "p_sw")
+STACK_ROUTING = ("r_deg", "p_sw", "p_bias", "p_in_a", "p_in_b")
+#- n_load_a, n_load_b and n_mirr are OUT until route.py can place a
+#- pad away from a neighbour. The loads' VD1/VD2 pads overhang the
+#- diagonal gate tab outright (a short); the mirror's VCP pads land
+#- 0.14 from theirs (6 li spacing errors). One mechanism, two
+#- severities. Their nets stay open, which is truthful.
 #- Route boundary nets inside the stack as well -- what a stack must do
 #- once it is a CELL rather than a region of this one. OFF: measured per
 #- stack, 3 of 8 come out clean (r_deg, p_in_a, p_in_b) and 5 short, all
 #- on the same cause -- a route or a via pad landing on a device's own
 #- unattributed metal. See cicpy/plans/stack_cells_plan.md.
-STACK_BOUNDARY = False
+STACK_BOUNDARY = True
 
 
 def _route_stacks(layout):
