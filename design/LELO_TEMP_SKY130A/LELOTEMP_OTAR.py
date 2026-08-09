@@ -42,7 +42,18 @@ def afterPlace(layout):
     pmos = layout.makeCellGroup("pmos")
     p_in_a = pmos.addStack("p_in_a", _pick(xbl, [r"xbl4"]) + _pick(xbl, [r"xbl1<\d+>"]), preserveOrder=True)
     p_in_b = pmos.addStack("p_in_b", _pick(xbl, [r"xbl5"]) + _pick(xbl, [r"xbl2<\d+>"]), preserveOrder=True)
-    p_bias = pmos.addStackByGroup("xba", name="p_bias")
+    #- Explicit order, not orderByTerminalNet("D"): the D grouping put
+    #- the PWRUP_1V8 and VBP gate tabs alternating down the one tab
+    #- lane, where no pair of rails can coexist (measured: every
+    #- layer assignment shorts through a via stack's middle pad).
+    #- This order keeps VO's and VBP's drains adjacent AND gathers
+    #- the PWRUP_1V8 tabs outside VBP's tab span.
+    xba = layout.getSortedInstancesByGroupName("xba")
+    p_bias = pmos.addStack(
+        "p_bias",
+        _pick(xba, [r"xba1"]) + _pick(xba, [r"xba2"]) + _pick(xba, [r"xba8"])
+        + _pick(xba, [r"xba6"]) + _pick(xba, [r"xba7"]) + _pick(xba, [r"xba3"]),
+        preserveOrder=True)
     xbs = layout.getSortedInstancesByGroupName("xbs")
     chain = []
     for nm in ("xbs6", "xbs1", "xbs2", "xbs4", "xbs7", "xbs8"):
@@ -53,9 +64,15 @@ def afterPlace(layout):
     xnc = layout.getSortedInstancesByGroupName("xnc")
 
     nmos = layout.makeCellGroup("nmos")
-    n_load_a = nmos.addStack("n_load_a", _pick(xnd, [r"xnd1<\d+>", r"xnd3"]) + _pick(xns, [r"xns1"]), preserveOrder=True)
-    n_load_b = nmos.addStack("n_load_b", _pick(xnd, [r"xnd2<\d+>", r"xnd4"]) + _pick(xns, [r"xns2"]), preserveOrder=True)
-    n_mirr = nmos.addStack("n_mirr", xnc + _pick(xns, [r"xns4"]), preserveOrder=True)
+    #- The xns gate device goes at the BOTTOM of each N stack: its
+    #- gate tab is the parent's PWRUP_N attachment, and the subcell's
+    #- own tab-lane rail (diode tabs up to the top device's gate)
+    #- then spans the rows ABOVE it, leaving the tab free for the
+    #- parent's via stack. Mid-stack, the rail covered it and no via
+    #- column could land (measured at n_load_a, n_load_b and n_mirr).
+    n_load_a = nmos.addStack("n_load_a", _pick(xns, [r"xns1"]) + _pick(xnd, [r"xnd1<\d+>", r"xnd3"]), preserveOrder=True)
+    n_load_b = nmos.addStack("n_load_b", _pick(xns, [r"xns2"]) + _pick(xnd, [r"xnd2<\d+>", r"xnd4"]), preserveOrder=True)
+    n_mirr = nmos.addStack("n_mirr", _pick(xns, [r"xns4"]) + xnc, preserveOrder=True)
 
     res = layout.makeCellGroup("res")
     r_deg = res.addStackByGroup("xd", name="r_deg")
@@ -65,8 +82,8 @@ def afterPlace(layout):
     r_deg.stack()
     r_deg.addTaps()
 
-    for st in (p_bias, n_load_a, n_load_b, n_mirr):
-        st.orderByTerminalNet("D")
+    #- no orderByTerminalNet here: it would regroup by drain net and
+    #- pull the xns device back into the middle of the column
 
 
     pmos.fillDummyTransistors()

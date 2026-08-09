@@ -70,7 +70,7 @@ N 940.0 50.0 940.0 30.0 {lab=xfill_p_bias_0_f0}
 C {devices/lab_pin.sym} 940.0 50.0 1 0 {name=l24 sig_type=std_logic lab=xfill_p_bias_0_f0 }
 N 880.0 0.0 900.0 0.0 {lab=xfill_p_bias_0_f1}
 C {devices/lab_pin.sym} 880.0 0.0 0 0 {name=l25 sig_type=std_logic lab=xfill_p_bias_0_f1 }
-N 940.0 -50.0 940.0 -30.0 {lab=VDD_1V8}
-C {devices/lab_pin.sym} 940.0 -50.0 3 0 {name=l26 sig_type=std_logic lab=VDD_1V8 }
-N 960.0 0.0 940.0 0.0 {lab=xfill_p_bias_0_f3}
-C {devices/lab_pin.sym} 960.0 0.0 2 0 {name=l27 sig_type=std_logic lab=xfill_p_bias_0_f3 }
+N 940.0 -50.0 940.0 -30.0 {lab=xfill_p_bias_0_f2}
+C {devices/lab_pin.sym} 940.0 -50.0 3 0 {name=l26 sig_type=std_logic lab=xfill_p_bias_0_f2 }
+N 960.0 0.0 940.0 0.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 960.0 0.0 2 0 {name=l27 sig_type=std_logic lab=VDD_1V8 }

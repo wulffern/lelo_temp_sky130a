@@ -11,14 +11,58 @@ with `layout` the parent LayoutCell and `entry` this subcell's plan:
 """
 
 
+def _rects(layout, inst, net):
+    i = layout.getInstanceFromInstanceName(inst)
+    return i.findRectanglesByNode(f"^{net}$", None) if i else []
+
+
+def _bar_x(layout, inst, net):
+    """Trunk x for a drain rail: RIGHT-ALIGNED on the bar, the
+    library's lane convention (sources left, drains right). The
+    source straps end 6400 left of the bar end, so even flush the
+    wire clears them by 3400. Read from the LIVE pin rect: the
+    pycell runs before resetOrigins, so published coordinates are
+    the wrong frame here."""
+    r = max(_rects(layout, inst, net), key=lambda r: r.x2 - r.x1)
+    return int(r.x2) - 1500
+
+
+def _tab_x(layout, inst, net):
+    """Trunk x centered on the 3200 gate-tab lane. The RIGHTMOST
+    narrow rect: an instance can carry duplicate subports and the
+    narrowest pick landed a rail 6000 left, on the neighbouring
+    bars (measured in p_sw: VCP tied every ladder net to VDD)."""
+    rs = [r for r in _rects(layout, inst, net) if r.x2 - r.x1 <= 4000]
+    r = max(rs or _rects(layout, inst, net), key=lambda r: r.x1)
+    return int(r.x1) + 1600
+
+
 def beforePlace(layout, entry):
     """Adjust this subcell's placement before anything routes."""
 
 
 def beforeRoute(layout, entry):
-    """Route this subcell's internal nets.
+    """Route VBP and PWRUP_1V8, which the stack router declines.
 
-    Return True to claim the subcell as ROUTED -- the built-in stack
-    router will then leave it alone. Return None to let the built-in
-    router handle it, which is the right default.
+    VO it routes itself once the rows are adjacent.
+
+    Depends on the row order the parent pycell sets for this stack
+    (xba1, xba2, xba8, xba6, xba7, xba3 bottom to top): VO's two
+    drains are then adjacent, VBP's two drains are adjacent, and the
+    gate-tab lane interleaving that made VBP and PWRUP_1V8 mutually
+    unroutable is gone -- VBP's tab span (xba8 to xba6) holds no
+    PWRUP_1V8 tab, so VBP takes the lane on M2 and PWRUP_1V8 crosses
+    it on M3, its via stacks' M2 pads all clear of VBP's wire.
+
+    Drain rails sit in the bar window right of the VDD source straps
+    (straps end 230000; 233200 keeps the 1700 gap; the shorter bars
+    run to 236400). The tab lane is 239600..242800.
     """
+    conn = layout.addConnectivityRoute
+    conn("M1", "^VBP$", "||", f"trunkx={_bar_x(layout, 'xba7', 'VBP')},nostartcut,noendcut",
+         1, "", r"^(xba6|xba7)$")
+    conn("M1", "^VBP$", "||", f"trunkx={_tab_x(layout, 'xba8', 'VBP')}",
+         1, "", r"^(xba8|xba6)$")
+    conn("M2", "^PWRUP_1V8$", "||", f"trunkx={_tab_x(layout, 'xba2', 'PWRUP_1V8')},1cuts",
+         1, "", r"^(xba2|xba3|xba7)$")
+    return None
