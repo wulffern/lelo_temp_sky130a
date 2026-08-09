@@ -497,7 +497,11 @@ def _vo_stood_down(layout):
 #- Stacks brought up ONE AT A TIME. A stack is added here only once it
 #- routes clean, so anything dirty is the stack being worked on and the
 #- next one starts from a known good state.
-STACK_ROUTING = ("r_deg", "p_sw", "p_bias", "p_in_a", "p_in_b")
+STACK_ROUTING = ("r_deg", "p_sw", "p_bias", "p_in_a", "p_in_b",
+                 "n_load_a", "n_load_b")
+#- n_mirr is OUT: its VCP is diode-connected onto 3200 gate tabs, the
+#- smallest M1M2 pad is 4000, and the route that slips through costs
+#- six li spacing errors. Every other stack routes or declines clean.
 #- n_load_a, n_load_b and n_mirr are OUT until route.py can place a
 #- pad away from a neighbour. The loads' VD1/VD2 pads overhang the
 #- diagonal gate tab outright (a short); the mirror's VCP pads land
