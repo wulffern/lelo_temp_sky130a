@@ -11,32 +11,6 @@ with `layout` the parent LayoutCell and `entry` this subcell's plan:
 """
 
 
-def _rects(layout, inst, net):
-    i = layout.getInstanceFromInstanceName(inst)
-    return i.findRectanglesByNode(f"^{net}$", None) if i else []
-
-
-def _bar_x(layout, inst, net):
-    """Trunk x for a drain rail: RIGHT-ALIGNED on the bar, the
-    library's lane convention (sources left, drains right). The
-    source straps end 6400 left of the bar end, so even flush the
-    wire clears them by 3400. Read from the LIVE pin rect: the
-    pycell runs before resetOrigins, so published coordinates are
-    the wrong frame here."""
-    r = max(_rects(layout, inst, net), key=lambda r: r.x2 - r.x1)
-    return int(r.x2) - 1500
-
-
-def _tab_x(layout, inst, net):
-    """Trunk x centered on the 3200 gate-tab lane. The RIGHTMOST
-    narrow rect: an instance can carry duplicate subports and the
-    narrowest pick landed a rail 6000 left, on the neighbouring
-    bars (measured in p_sw: VCP tied every ladder net to VDD)."""
-    rs = [r for r in _rects(layout, inst, net) if r.x2 - r.x1 <= 4000]
-    r = max(rs or _rects(layout, inst, net), key=lambda r: r.x1)
-    return int(r.x1) + 1600
-
-
 def beforePlace(layout, entry):
     """Adjust this subcell's placement before anything routes."""
 
@@ -59,13 +33,13 @@ def beforeRoute(layout, entry):
     built-in still handles anything else it will take.
     """
     conn = layout.addConnectivityRoute
-    conn("M1", "^VCP$", "||", f"trunkx={_bar_x(layout, 'xnc1<0>', 'VCP')},nostartcut,noendcut",
+    conn("M1", "^VCP$", "||", "trunkright,nostartcut,noendcut",
          1, "", r"^xnc1<\d+>$")
     #- onTopR: keep the TAB cut of the diode, not its bar cut, so
     #- the rail's bottom stays above xns4's PWRUP_N tab -- the parent
     #- lands its powerdown via stack there.
-    conn("M1", "^VD3$", "||", f"trunkx={_tab_x(layout, 'xnc1<0>', 'VD3')},onTopR",
+    conn("M1", "^VD3$", "||", "trunktab,onTopR",
          1, "", r"^(xnc0|xnc1<\d+>)$")
-    conn("M1", "^VD3$", "||", f"trunkx={_bar_x(layout, 'xns4', 'VD3')},nostartcut,noendcut",
+    conn("M1", "^VD3$", "||", "trunkright,nostartcut,noendcut",
          1, "", r"^(xnc0|xns4)$")
     return None

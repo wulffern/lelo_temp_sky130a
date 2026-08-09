@@ -11,32 +11,6 @@ with `layout` the parent LayoutCell and `entry` this subcell's plan:
 """
 
 
-def _rects(layout, inst, net):
-    i = layout.getInstanceFromInstanceName(inst)
-    return i.findRectanglesByNode(f"^{net}$", None) if i else []
-
-
-def _bar_x(layout, inst, net):
-    """Trunk x for a drain rail: RIGHT-ALIGNED on the bar, the
-    library's lane convention (sources left, drains right). The
-    source straps end 6400 left of the bar end, so even flush the
-    wire clears them by 3400. Read from the LIVE pin rect: the
-    pycell runs before resetOrigins, so published coordinates are
-    the wrong frame here."""
-    r = max(_rects(layout, inst, net), key=lambda r: r.x2 - r.x1)
-    return int(r.x2) - 1500
-
-
-def _tab_x(layout, inst, net):
-    """Trunk x centered on the 3200 gate-tab lane. The RIGHTMOST
-    narrow rect: an instance can carry duplicate subports and the
-    narrowest pick landed a rail 6000 left, on the neighbouring
-    bars (measured in p_sw: VCP tied every ladder net to VDD)."""
-    rs = [r for r in _rects(layout, inst, net) if r.x2 - r.x1 <= 4000]
-    r = max(rs or _rects(layout, inst, net), key=lambda r: r.x1)
-    return int(r.x1) + 1600
-
-
 def beforePlace(layout, entry):
     """Adjust this subcell's placement before anything routes."""
 
@@ -59,12 +33,12 @@ def beforeRoute(layout, entry):
     run to 236400). The tab lane is 239600..242800.
     """
     conn = layout.addConnectivityRoute
-    conn("M1", "^VBP$", "||", f"trunkx={_bar_x(layout, 'xba7', 'VBP')},nostartcut,noendcut",
+    conn("M1", "^VBP$", "||", "trunkright,nostartcut,noendcut",
          1, "", r"^(xba6|xba7)$")
     #- xba8's gate joins its drain pair on M4: the vertical rides the
     #- tab lane below the PWRUP_1V8 rail's span, and the far cut
     #- lands under the wire on xba7's bar, out in the window.
     conn("M4", "^VBP$", "-|--", "", 1, "", r"^(xba8|xba7)$")
-    conn("M2", "^PWRUP_1V8$", "||", f"trunkx={_tab_x(layout, 'xba2', 'PWRUP_1V8')},1cuts",
+    conn("M2", "^PWRUP_1V8$", "||", "trunktab,1cuts",
          1, "", r"^(xba2|xba3|xba7)$")
     return None

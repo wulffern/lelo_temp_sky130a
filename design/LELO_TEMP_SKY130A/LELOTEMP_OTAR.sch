@@ -177,21 +177,21 @@ N 290 -710 290 -590 {lab=VBP}
 N 170 -590 290 -590 {lab=VBP}
 N 900 -700 900 -640 {lab=VO}
 N 170 -680 170 -620 {lab=VBP}
-N 1530 -300 1530 -280 {lab=fill_pb_f0}
-N 1470 -330 1490 -330 {lab=fill_pb_f1}
-N 1530 -380 1530 -360 {lab=fill_pb_f2}
+N 1530 -300 1530 -280 {lab=VDD_1V8}
+N 1470 -330 1490 -330 {lab=VDD_1V8}
+N 1530 -380 1530 -360 {lab=VDD_1V8}
 N 1530 -330 1550 -330 {lab=VDD_1V8}
-N 1530 -100 1530 -80 {lab=fill_ps_f0}
-N 1470 -130 1490 -130 {lab=fill_ps_f1}
-N 1530 -180 1530 -160 {lab=fill_ps_f2}
+N 1530 -100 1530 -80 {lab=VDD_1V8}
+N 1470 -130 1490 -130 {lab=VDD_1V8}
+N 1530 -180 1530 -160 {lab=VDD_1V8}
 N 1530 -130 1550 -130 {lab=VDD_1V8}
 C {devices/opin.sym} 930 -380 0 0 {name=p1 lab=VO}
 C {devices/ipin.sym} 750 -530 2 0 {name=p2 lab=VIP}
 C {devices/ipin.sym} 470 -530 2 1 {name=p3 lab=VIN}
 C {devices/ipin.sym} 130 -810 2 1 {name=p4 lab=VDD_1V8}
 C {devices/ipin.sym} 90 -130 2 1 {name=p5 lab=VSS}
-C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 490 -240 0 0 {name=xnd1[2:0]}
-C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 730 -240 0 1 {name=xnd2[2:0]}
+C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 490 -240 0 0 {name=xnd1[3:0]}
+C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 730 -240 0 1 {name=xnd2[3:0]}
 C {cborder/border_xs.sym} 0 0 0 0 {user="Carsten Wulff" company="Carsten Wulff Software"}
 C {devices/lab_wire.sym} 530 -580 0 0 {name=p7 sig_type=std_logic lab=VS}
 C {devices/lab_wire.sym} 530 -300 0 0 {name=p8 sig_type=std_logic lab=VD1}
@@ -224,8 +224,8 @@ C {REY_ATR_SKY130A/REYATR_PCH_11C5F0.sym} 1260 -760 0 1 {name=xba3}
 C {devices/lab_wire.sym} 660 -640 0 1 {name=p15 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 1280 -760 0 1 {name=p16 sig_type=std_logic lab=PWRUP_1V8}
 C {REY_ATR_SKY130A/REYATR_PCH_4C1F2.sym} 1080 -370 0 1 {name=xbs8}
-C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 490 -530 0 0 {name=xbl1[5:0]}
-C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 730 -530 0 1 {name=xbl2[5:0]}
+C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 490 -530 0 0 {name=xbl1[3:0]}
+C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 730 -530 0 1 {name=xbl2[3:0]}
 C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 1200 -540 0 0 {name=xbl4}
 C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 1470 -540 0 1 {name=xbl5}
 C {devices/lab_wire.sym} 250 -710 0 0 {name=p13 sig_type=std_logic lab=VBP}
@@ -233,13 +233,22 @@ C {devices/lab_wire.sym} 1330 -350 0 1 {name=p17 sig_type=std_logic lab=VD3}
 C {devices/lab_wire.sym} 600 -680 2 1 {name=p18 sig_type=std_logic lab=VDS,R1[0]}
 C {devices/lab_wire.sym} 600 -600 2 1 {name=p19 sig_type=std_logic lab=R1[0],VS}
 C {devices/lab_wire.sym} 600 -730 2 1 {name=p20 sig_type=std_logic lab=VDS}
-C {REY_ATR_SKY130A/REYATR_PCH_11C5F0.sym} 1490 -330 0 0 {name=xfill_p_bias_0}
-C {devices/lab_pin.sym} 1530 -280 1 0 {name=lfb0 sig_type=std_logic lab=fill_pb_f0 }
-C {devices/lab_pin.sym} 1470 -330 0 0 {name=lfb1 sig_type=std_logic lab=fill_pb_f1 }
-C {devices/lab_pin.sym} 1530 -380 3 0 {name=lfb2 sig_type=std_logic lab=fill_pb_f2 }
+C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 1490 -330 0 0 {name=xfill_p_in_a_0}
 C {devices/lab_pin.sym} 1550 -330 2 0 {name=lfb3 sig_type=std_logic lab=VDD_1V8 }
-C {REY_ATR_SKY130A/REYATR_PCH_4C1F2.sym} 1490 -130 0 0 {name=xfill_p_sw_0}
-C {devices/lab_pin.sym} 1530 -80 1 0 {name=lfs0 sig_type=std_logic lab=fill_ps_f0 }
-C {devices/lab_pin.sym} 1470 -130 0 0 {name=lfs1 sig_type=std_logic lab=fill_ps_f1 }
-C {devices/lab_pin.sym} 1530 -180 3 0 {name=lfs2 sig_type=std_logic lab=fill_ps_f2 }
+C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 1490 -130 0 0 {name=xfill_p_in_b_0}
 C {devices/lab_pin.sym} 1550 -130 2 0 {name=lfs3 sig_type=std_logic lab=VDD_1V8 }
+C {devices/lab_pin.sym} 1530 -380 2 0 {name=lfb1 sig_type=std_logic lab=VDD_1V8 }
+C {devices/lab_pin.sym} 1530 -280 2 0 {name=lfb2 sig_type=std_logic lab=VDD_1V8 }
+C {devices/lab_pin.sym} 1530 -180 2 0 {name=lfb4 sig_type=std_logic lab=VDD_1V8 }
+C {devices/lab_pin.sym} 1530 -80 2 0 {name=lfb5 sig_type=std_logic lab=VDD_1V8 }
+C {devices/lab_pin.sym} 1470 -130 2 1 {name=lfb6 sig_type=std_logic lab=VDD_1V8 }
+C {devices/lab_pin.sym} 1470 -330 2 1 {name=lfb7 sig_type=std_logic lab=VDD_1V8 }
+N 1530 100 1530 120 {lab=VSS}
+N 1470 70 1490 70 {lab=VSS}
+N 1530 20 1530 40 {lab=VSS}
+N 1530 70 1550 70 {lab=VSS}
+C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 1490 70 0 0 {name=xfill_n_mirr_0}
+C {devices/lab_pin.sym} 1530 20 2 0 {name=lfn1 sig_type=std_logic lab=VSS }
+C {devices/lab_pin.sym} 1530 120 2 0 {name=lfn2 sig_type=std_logic lab=VSS }
+C {devices/lab_pin.sym} 1470 70 2 1 {name=lfn3 sig_type=std_logic lab=VSS }
+C {devices/lab_pin.sym} 1550 70 2 0 {name=lfn4 sig_type=std_logic lab=VSS }

@@ -60,12 +60,3 @@ N 440.0 800.0 440.0 820.0 {lab=net5}
 C {devices/lab_pin.sym} 440.0 800.0 3 0 {name=l22 sig_type=std_logic lab=net5 }
 N 460.0 850.0 440.0 850.0 {lab=VDD_1V8}
 C {devices/lab_pin.sym} 460.0 850.0 2 0 {name=l23 sig_type=std_logic lab=VDD_1V8 }
-C {REY_ATR_SKY130A/REYATR_PCH_4C1F2.sym} 900 0 0 0 {name=Xxfill_p_sw_0}
-N 940.0 50.0 940.0 30.0 {lab=xfill_p_sw_0_f0}
-C {devices/lab_pin.sym} 940.0 50.0 1 0 {name=l24 sig_type=std_logic lab=xfill_p_sw_0_f0 }
-N 880.0 0.0 900.0 0.0 {lab=xfill_p_sw_0_f1}
-C {devices/lab_pin.sym} 880.0 0.0 0 0 {name=l25 sig_type=std_logic lab=xfill_p_sw_0_f1 }
-N 940.0 -50.0 940.0 -30.0 {lab=xfill_p_sw_0_f2}
-C {devices/lab_pin.sym} 940.0 -50.0 3 0 {name=l26 sig_type=std_logic lab=xfill_p_sw_0_f2 }
-N 960.0 0.0 940.0 0.0 {lab=VDD_1V8}
-C {devices/lab_pin.sym} 960.0 0.0 2 0 {name=l27 sig_type=std_logic lab=VDD_1V8 }

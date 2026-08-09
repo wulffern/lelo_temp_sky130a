@@ -45,30 +45,21 @@ N 440.0 460.0 440.0 480.0 {lab=VS}
 C {devices/lab_pin.sym} 440.0 460.0 3 0 {name=l14 sig_type=std_logic lab=VS }
 N 460.0 510.0 440.0 510.0 {lab=VDD_1V8}
 C {devices/lab_pin.sym} 460.0 510.0 2 0 {name=l15 sig_type=std_logic lab=VDD_1V8 }
-C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 400 680.0 0 0 {name=Xxbl1<4>}
-N 440.0 730.0 440.0 710.0 {lab=VD1}
-C {devices/lab_pin.sym} 440.0 730.0 1 0 {name=l16 sig_type=std_logic lab=VD1 }
+C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 400 680.0 0 0 {name=Xxbl4}
+N 440.0 730.0 440.0 710.0 {lab=VD3}
+C {devices/lab_pin.sym} 440.0 730.0 1 0 {name=l16 sig_type=std_logic lab=VD3 }
 N 380.0 680.0 400.0 680.0 {lab=VIN}
 C {devices/lab_pin.sym} 380.0 680.0 0 0 {name=l17 sig_type=std_logic lab=VIN }
 N 440.0 630.0 440.0 650.0 {lab=VS}
 C {devices/lab_pin.sym} 440.0 630.0 3 0 {name=l18 sig_type=std_logic lab=VS }
 N 460.0 680.0 440.0 680.0 {lab=VDD_1V8}
 C {devices/lab_pin.sym} 460.0 680.0 2 0 {name=l19 sig_type=std_logic lab=VDD_1V8 }
-C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 400 850.0 0 0 {name=Xxbl1<5>}
-N 440.0 900.0 440.0 880.0 {lab=VD1}
-C {devices/lab_pin.sym} 440.0 900.0 1 0 {name=l20 sig_type=std_logic lab=VD1 }
-N 380.0 850.0 400.0 850.0 {lab=VIN}
-C {devices/lab_pin.sym} 380.0 850.0 0 0 {name=l21 sig_type=std_logic lab=VIN }
-N 440.0 800.0 440.0 820.0 {lab=VS}
-C {devices/lab_pin.sym} 440.0 800.0 3 0 {name=l22 sig_type=std_logic lab=VS }
+C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 400 850.0 0 0 {name=Xxfill_p_in_a_0}
+N 440.0 900.0 440.0 880.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 440.0 900.0 1 0 {name=l20 sig_type=std_logic lab=VDD_1V8 }
+N 380.0 850.0 400.0 850.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 380.0 850.0 0 0 {name=l21 sig_type=std_logic lab=VDD_1V8 }
+N 440.0 800.0 440.0 820.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 440.0 800.0 3 0 {name=l22 sig_type=std_logic lab=VDD_1V8 }
 N 460.0 850.0 440.0 850.0 {lab=VDD_1V8}
 C {devices/lab_pin.sym} 460.0 850.0 2 0 {name=l23 sig_type=std_logic lab=VDD_1V8 }
-C {REY_ATR_SKY130A/REYATR_LVT_PCH_11C5F0.sym} 900 0 0 0 {name=Xxbl4}
-N 940.0 50.0 940.0 30.0 {lab=VD3}
-C {devices/lab_pin.sym} 940.0 50.0 1 0 {name=l24 sig_type=std_logic lab=VD3 }
-N 880.0 0.0 900.0 0.0 {lab=VIN}
-C {devices/lab_pin.sym} 880.0 0.0 0 0 {name=l25 sig_type=std_logic lab=VIN }
-N 940.0 -50.0 940.0 -30.0 {lab=VS}
-C {devices/lab_pin.sym} 940.0 -50.0 3 0 {name=l26 sig_type=std_logic lab=VS }
-N 960.0 0.0 940.0 0.0 {lab=VDD_1V8}
-C {devices/lab_pin.sym} 960.0 0.0 2 0 {name=l27 sig_type=std_logic lab=VDD_1V8 }

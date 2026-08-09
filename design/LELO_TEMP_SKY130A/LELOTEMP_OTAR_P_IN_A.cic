@@ -552,7 +552,7 @@
         {
             "class": "LayoutCell",
             "x1": 4800,
-            "y1": 323000,
+            "y1": 363000,
             "x2": 84800.0,
             "y2": 651000.0,
             "layer": "",
@@ -634,36 +634,6 @@
                     },
                     {
                         "class": "",
-                        "name": "xbl1<4>",
-                        "nodes": [
-                            "VD1",
-                            "VIN",
-                            "VS",
-                            "VDD_1V8"
-                        ],
-                        "properties": {},
-                        "subcktName": "REYATR_LVT_PCH_11C5F0",
-                        "groupName": "xbl",
-                        "deviceName": "subckt",
-                        "groupTag": "1<4>"
-                    },
-                    {
-                        "class": "",
-                        "name": "xbl1<5>",
-                        "nodes": [
-                            "VD1",
-                            "VIN",
-                            "VS",
-                            "VDD_1V8"
-                        ],
-                        "properties": {},
-                        "subcktName": "REYATR_LVT_PCH_11C5F0",
-                        "groupName": "xbl",
-                        "deviceName": "subckt",
-                        "groupTag": "1<5>"
-                    },
-                    {
-                        "class": "",
                         "name": "xbl4",
                         "nodes": [
                             "VD3",
@@ -676,138 +646,25 @@
                         "groupName": "xbl",
                         "deviceName": "subckt",
                         "groupTag": "4"
+                    },
+                    {
+                        "class": "",
+                        "name": "xfill_p_in_a_0",
+                        "nodes": [
+                            "VDD_1V8",
+                            "VDD_1V8",
+                            "VDD_1V8",
+                            "VDD_1V8"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYATR_LVT_PCH_11C5F0",
+                        "groupName": "xfill_p_in_a_",
+                        "deviceName": "subckt",
+                        "groupTag": "0"
                     }
                 ]
             },
             "children": [
-                {
-                    "class": "Instance",
-                    "x1": 4800,
-                    "y1": 347000,
-                    "x2": 84800.0,
-                    "y2": 387000.0,
-                    "layer": "PR",
-                    "net": "",
-                    "name": "REYATR_LVT_PCH_11C5F0",
-                    "has_pr": false,
-                    "ckt": {},
-                    "children": [
-                        {
-                            "class": "Port",
-                            "x1": 25600.0,
-                            "y1": 365000.0,
-                            "x2": 70400.0,
-                            "y2": 369000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VD3",
-                            "spicePort": true
-                        },
-                        {
-                            "class": "Port",
-                            "x1": 73600.0,
-                            "y1": 369000.0,
-                            "x2": 76800.0,
-                            "y2": 373000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VIN",
-                            "spicePort": true
-                        },
-                        {
-                            "class": "Port",
-                            "x1": 19200.0,
-                            "y1": 349000.0,
-                            "x2": 64000.0,
-                            "y2": 353000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VS",
-                            "spicePort": true
-                        },
-                        {
-                            "class": "Port",
-                            "x1": 0.0,
-                            "y1": 365000.0,
-                            "x2": 9600.0,
-                            "y2": 369000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VDD_1V8",
-                            "spicePort": true
-                        }
-                    ],
-                    "instanceName": "xbl4",
-                    "angle": "",
-                    "cell": "REYATR_LVT_PCH_11C5F0",
-                    "libpath": "REY_ATR_SKY130A",
-                    "xcell": 0,
-                    "ycell": 0
-                },
-                {
-                    "class": "Instance",
-                    "x1": 4800,
-                    "y1": 387000,
-                    "x2": 84800.0,
-                    "y2": 427000.0,
-                    "layer": "PR",
-                    "net": "",
-                    "name": "REYATR_LVT_PCH_11C5F0",
-                    "has_pr": false,
-                    "ckt": {},
-                    "children": [
-                        {
-                            "class": "Port",
-                            "x1": 25600.0,
-                            "y1": 405000.0,
-                            "x2": 70400.0,
-                            "y2": 409000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VD1",
-                            "spicePort": true
-                        },
-                        {
-                            "class": "Port",
-                            "x1": 73600.0,
-                            "y1": 409000.0,
-                            "x2": 76800.0,
-                            "y2": 413000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VIN",
-                            "spicePort": true
-                        },
-                        {
-                            "class": "Port",
-                            "x1": 19200.0,
-                            "y1": 389000.0,
-                            "x2": 64000.0,
-                            "y2": 393000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VS",
-                            "spicePort": true
-                        },
-                        {
-                            "class": "Port",
-                            "x1": 0.0,
-                            "y1": 405000.0,
-                            "x2": 9600.0,
-                            "y2": 409000.0,
-                            "layer": "M1",
-                            "net": "",
-                            "name": "VDD_1V8",
-                            "spicePort": true
-                        }
-                    ],
-                    "instanceName": "xbl1<0>",
-                    "angle": "",
-                    "cell": "REYATR_LVT_PCH_11C5F0",
-                    "libpath": "REY_ATR_SKY130A",
-                    "xcell": 0,
-                    "ycell": 0
-                },
                 {
                     "class": "Instance",
                     "x1": 4800,
@@ -828,7 +685,7 @@
                             "y2": 449000.0,
                             "layer": "M1",
                             "net": "",
-                            "name": "VD1",
+                            "name": "VD3",
                             "spicePort": true
                         },
                         {
@@ -865,7 +722,7 @@
                             "spicePort": true
                         }
                     ],
-                    "instanceName": "xbl1<1>",
+                    "instanceName": "xbl4",
                     "angle": "",
                     "cell": "REYATR_LVT_PCH_11C5F0",
                     "libpath": "REY_ATR_SKY130A",
@@ -929,7 +786,7 @@
                             "spicePort": true
                         }
                     ],
-                    "instanceName": "xbl1<2>",
+                    "instanceName": "xbl1<0>",
                     "angle": "",
                     "cell": "REYATR_LVT_PCH_11C5F0",
                     "libpath": "REY_ATR_SKY130A",
@@ -993,7 +850,7 @@
                             "spicePort": true
                         }
                     ],
-                    "instanceName": "xbl1<3>",
+                    "instanceName": "xbl1<1>",
                     "angle": "",
                     "cell": "REYATR_LVT_PCH_11C5F0",
                     "libpath": "REY_ATR_SKY130A",
@@ -1057,7 +914,7 @@
                             "spicePort": true
                         }
                     ],
-                    "instanceName": "xbl1<4>",
+                    "instanceName": "xbl1<2>",
                     "angle": "",
                     "cell": "REYATR_LVT_PCH_11C5F0",
                     "libpath": "REY_ATR_SKY130A",
@@ -1121,7 +978,7 @@
                             "spicePort": true
                         }
                     ],
-                    "instanceName": "xbl1<5>",
+                    "instanceName": "xbl1<3>",
                     "angle": "",
                     "cell": "REYATR_LVT_PCH_11C5F0",
                     "libpath": "REY_ATR_SKY130A",
@@ -1131,9 +988,28 @@
                 {
                     "class": "Instance",
                     "x1": 4800,
-                    "y1": 323000,
+                    "y1": 387000,
                     "x2": 84800.0,
-                    "y2": 347000.0,
+                    "y2": 427000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYATR_LVT_PCH_11C5F0",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "xfill_p_in_a_0",
+                    "angle": "",
+                    "cell": "REYATR_LVT_PCH_11C5F0",
+                    "libpath": "REY_ATR_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 4800,
+                    "y1": 363000,
+                    "x2": 84800.0,
+                    "y2": 387000.0,
                     "layer": "PR",
                     "net": "",
                     "name": "REYATR_PCH_11CTAPBOT",
@@ -1168,125 +1044,71 @@
                 },
                 {
                     "class": "Rect",
-                    "x1": 0.0,
-                    "y1": 367000.0,
-                    "x2": 6300.0,
-                    "y2": 607000.0,
-                    "layer": "",
-                    "net": "VDD_1V8"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 25600.0,
-                    "y1": 405000.0,
-                    "x2": 70400.0,
-                    "y2": 607000.0,
-                    "layer": "",
-                    "net": "VD1"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 73600.0,
-                    "y1": 371000.0,
-                    "x2": 76700.0,
-                    "y2": 611000.0,
-                    "layer": "",
-                    "net": "VIN"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 19200,
-                    "y1": 351000.0,
-                    "x2": 22200,
-                    "y2": 591000.0,
-                    "layer": "",
-                    "net": "VS"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 3300,
-                    "y1": 407000.0,
-                    "x2": 6300,
-                    "y2": 447000.0,
+                    "x1": 4800,
+                    "y1": 405500,
+                    "x2": 84800,
+                    "y2": 408500,
                     "layer": "M1",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 3300,
-                    "y1": 407000.0,
-                    "x2": 6300,
-                    "y2": 487000.0,
+                    "x1": 43300,
+                    "y1": 375000,
+                    "x2": 46300,
+                    "y2": 407000,
                     "layer": "M1",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 3300,
-                    "y1": 407000.0,
-                    "x2": 6300,
+                    "x1": 2500,
+                    "y1": 487000.0,
+                    "x2": 5500,
                     "y2": 527000.0,
                     "layer": "M1",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 3300,
-                    "y1": 407000.0,
-                    "x2": 6300,
+                    "x1": 2500,
+                    "y1": 487000.0,
+                    "x2": 5500,
                     "y2": 567000.0,
                     "layer": "M1",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 3300,
-                    "y1": 407000.0,
-                    "x2": 6300,
+                    "x1": 2500,
+                    "y1": 487000.0,
+                    "x2": 5500,
                     "y2": 607000.0,
                     "layer": "M1",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 3300,
-                    "y1": 367000.0,
-                    "x2": 6300,
-                    "y2": 407000.0,
+                    "x1": 2500,
+                    "y1": 447000.0,
+                    "x2": 5500,
+                    "y2": 487000.0,
                     "layer": "M1",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
                     "x1": 0.0,
-                    "y1": 405000.0,
+                    "y1": 485000.0,
                     "x2": 0.0,
-                    "y2": 405000.0,
+                    "y2": 485000.0,
                     "layer": "TXT",
                     "net": "VDD_1V8"
                 },
                 {
                     "class": "Rect",
                     "x1": 67400,
-                    "y1": 407000.0,
-                    "x2": 70400,
-                    "y2": 447000.0,
-                    "layer": "M1",
-                    "net": "VD1"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 67400,
-                    "y1": 407000.0,
-                    "x2": 70400,
-                    "y2": 487000.0,
-                    "layer": "M1",
-                    "net": "VD1"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 67400,
-                    "y1": 407000.0,
+                    "y1": 487000.0,
                     "x2": 70400,
                     "y2": 527000.0,
                     "layer": "M1",
@@ -1295,7 +1117,7 @@
                 {
                     "class": "Rect",
                     "x1": 67400,
-                    "y1": 407000.0,
+                    "y1": 487000.0,
                     "x2": 70400,
                     "y2": 567000.0,
                     "layer": "M1",
@@ -1304,7 +1126,7 @@
                 {
                     "class": "Rect",
                     "x1": 67400,
-                    "y1": 407000.0,
+                    "y1": 487000.0,
                     "x2": 70400,
                     "y2": 607000.0,
                     "layer": "M1",
@@ -1313,34 +1135,16 @@
                 {
                     "class": "Rect",
                     "x1": 25600.0,
-                    "y1": 405000.0,
+                    "y1": 485000.0,
                     "x2": 25600.0,
-                    "y2": 405000.0,
+                    "y2": 485000.0,
                     "layer": "TXT",
                     "net": "VD1"
                 },
                 {
                     "class": "Rect",
                     "x1": 73700,
-                    "y1": 411000.0,
-                    "x2": 76700,
-                    "y2": 451000.0,
-                    "layer": "M1",
-                    "net": "VIN"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 73700,
-                    "y1": 411000.0,
-                    "x2": 76700,
-                    "y2": 491000.0,
-                    "layer": "M1",
-                    "net": "VIN"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 73700,
-                    "y1": 411000.0,
+                    "y1": 491000.0,
                     "x2": 76700,
                     "y2": 531000.0,
                     "layer": "M1",
@@ -1349,7 +1153,7 @@
                 {
                     "class": "Rect",
                     "x1": 73700,
-                    "y1": 411000.0,
+                    "y1": 491000.0,
                     "x2": 76700,
                     "y2": 571000.0,
                     "layer": "M1",
@@ -1358,7 +1162,7 @@
                 {
                     "class": "Rect",
                     "x1": 73700,
-                    "y1": 411000.0,
+                    "y1": 491000.0,
                     "x2": 76700,
                     "y2": 611000.0,
                     "layer": "M1",
@@ -1367,43 +1171,25 @@
                 {
                     "class": "Rect",
                     "x1": 73700,
-                    "y1": 371000.0,
+                    "y1": 451000.0,
                     "x2": 76700,
-                    "y2": 411000.0,
+                    "y2": 491000.0,
                     "layer": "M1",
                     "net": "VIN"
                 },
                 {
                     "class": "Rect",
                     "x1": 73600.0,
-                    "y1": 409000.0,
+                    "y1": 489000.0,
                     "x2": 73600.0,
-                    "y2": 409000.0,
+                    "y2": 489000.0,
                     "layer": "TXT",
                     "net": "VIN"
                 },
                 {
                     "class": "Rect",
                     "x1": 19200,
-                    "y1": 391000.0,
-                    "x2": 22200,
-                    "y2": 431000.0,
-                    "layer": "M1",
-                    "net": "VS"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 19200,
-                    "y1": 391000.0,
-                    "x2": 22200,
-                    "y2": 471000.0,
-                    "layer": "M1",
-                    "net": "VS"
-                },
-                {
-                    "class": "Rect",
-                    "x1": 19200,
-                    "y1": 391000.0,
+                    "y1": 471000.0,
                     "x2": 22200,
                     "y2": 511000.0,
                     "layer": "M1",
@@ -1412,7 +1198,7 @@
                 {
                     "class": "Rect",
                     "x1": 19200,
-                    "y1": 391000.0,
+                    "y1": 471000.0,
                     "x2": 22200,
                     "y2": 551000.0,
                     "layer": "M1",
@@ -1421,7 +1207,7 @@
                 {
                     "class": "Rect",
                     "x1": 19200,
-                    "y1": 391000.0,
+                    "y1": 471000.0,
                     "x2": 22200,
                     "y2": 591000.0,
                     "layer": "M1",
@@ -1430,27 +1216,27 @@
                 {
                     "class": "Rect",
                     "x1": 19200,
-                    "y1": 351000.0,
+                    "y1": 431000.0,
                     "x2": 22200,
-                    "y2": 391000.0,
+                    "y2": 471000.0,
                     "layer": "M1",
                     "net": "VS"
                 },
                 {
                     "class": "Rect",
                     "x1": 19200.0,
-                    "y1": 389000.0,
+                    "y1": 469000.0,
                     "x2": 19200.0,
-                    "y2": 389000.0,
+                    "y2": 469000.0,
                     "layer": "TXT",
                     "net": "VS"
                 },
                 {
                     "class": "Port",
                     "x1": 25600.0,
-                    "y1": 405000.0,
+                    "y1": 485000.0,
                     "x2": 70400.0,
-                    "y2": 409000.0,
+                    "y2": 489000.0,
                     "layer": "M1",
                     "net": "",
                     "name": "VD1",
@@ -1459,9 +1245,9 @@
                 {
                     "class": "Port",
                     "x1": 25600.0,
-                    "y1": 365000.0,
+                    "y1": 445000.0,
                     "x2": 70400.0,
-                    "y2": 369000.0,
+                    "y2": 449000.0,
                     "layer": "M1",
                     "net": "",
                     "name": "VD3",
@@ -1481,9 +1267,9 @@
                 {
                     "class": "Port",
                     "x1": 73600.0,
-                    "y1": 409000.0,
+                    "y1": 489000.0,
                     "x2": 76800.0,
-                    "y2": 413000.0,
+                    "y2": 493000.0,
                     "layer": "M1",
                     "net": "",
                     "name": "VIN",
