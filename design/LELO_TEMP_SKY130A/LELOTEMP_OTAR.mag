@@ -11,12 +11,12 @@ rect 4024 4960 4104 5040
 rect 1052 5130 1382 5190
 rect 1112 5120 1192 5200
 rect 1242 5120 1322 5200
-rect 0 5290 8000 5350
+rect 2332 5290 3746 5350
 rect 2332 5290 3746 5350
 rect 2392 5280 2472 5360
 rect 3606 8200 3686 8280
 rect 3606 5280 3686 5360
-rect 0 5450 8000 5510
+rect 3738 5450 6052 5510
 rect 3738 5450 6052 5510
 rect 3798 5440 3878 5520
 rect 4442 5440 4522 5520
@@ -38,7 +38,7 @@ rect 696 8680 776 8760
 rect 696 6080 776 6160
 rect 2296 8680 2376 8760
 rect 2296 6080 2376 6160
-rect 0 6250 8000 6310
+rect 1050 6250 4710 6310
 rect 1050 6250 4710 6310
 rect 1110 920 1190 1000
 rect 1110 6240 1190 6320
@@ -249,11 +249,11 @@ use LELOTEMP_OTAR_R_DEG xr_deg ../LELO_TEMP_SKY130A
 transform 1 0 -96 0 1 -300
 box -96 -300 3104 2260
 << labels >>
-flabel metal2 s 0 5290 8000 5350 0 FreeSans 400 0 0 0 VO
+flabel metal2 s 2332 5290 3746 5350 0 FreeSans 400 0 0 0 VO
 port 3 nsew signal bidirectional
-flabel metal2 s 0 5450 8000 5510 0 FreeSans 400 0 0 0 VCP
+flabel metal2 s 3738 5450 6052 5510 0 FreeSans 400 0 0 0 VCP
 port 8 nsew signal bidirectional
-flabel metal2 s 0 6250 8000 6310 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal2 s 1050 6250 4710 6310 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 7 nsew signal bidirectional
 flabel locali s 0 13240 8000 13420 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
