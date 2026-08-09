@@ -45,3 +45,9 @@ mag:
 #-   make subcells CELL=X SUBCELL=p_sw    just that one, and its .py
 subcells:
 	cicpy sch2subcells ${LIB} ${CELL} $(if ${SUBCELL},--subcell ${SUBCELL},)
+
+#- The top as eight instances instead of seventy devices. Needs the
+#- subcells generated first, and leaves the flat form as the default
+#- until every subcell passes LVS standalone.
+hier:
+	cicpy sch2mag ${LIB} ${CELL} --hier ${OPT}
