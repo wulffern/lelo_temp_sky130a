@@ -19,3 +19,11 @@ work/xsch
 *.raw
 *.out
 simulation/
+docs/
+*.html
+/*_svg/
+/*.svg
+/cdl/
+*.vcd
+results/
+*_obj_dir/
