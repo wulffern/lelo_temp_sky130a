@@ -225,3 +225,22 @@ C {devices/lab_wire.sym} 1330 -350 0 1 {name=p17 sig_type=std_logic lab=VD3}
 C {devices/lab_wire.sym} 600 -680 2 1 {name=p18 sig_type=std_logic lab=VDS,R1[0]}
 C {devices/lab_wire.sym} 600 -600 2 1 {name=p19 sig_type=std_logic lab=R1[0],VS}
 C {devices/lab_wire.sym} 600 -730 2 1 {name=p20 sig_type=std_logic lab=VDS}
+
+C {REY_ATR_SKY130A/REYATR_PCH_11C5F0.sym} 2200 -200 0 0 {name=Xxfill_p_bias_0}
+N 2240.0 -150.0 2240.0 -170.0 {lab=fill_pb_f0}
+C {devices/lab_pin.sym} 2240.0 -150.0 1 0 {name=lfb0 sig_type=std_logic lab=fill_pb_f0 }
+N 2180.0 -200.0 2200.0 -200.0 {lab=fill_pb_f1}
+C {devices/lab_pin.sym} 2180.0 -200.0 0 0 {name=lfb1 sig_type=std_logic lab=fill_pb_f1 }
+N 2240.0 -250.0 2240.0 -230.0 {lab=fill_pb_f2}
+C {devices/lab_pin.sym} 2240.0 -250.0 3 0 {name=lfb2 sig_type=std_logic lab=fill_pb_f2 }
+N 2260.0 -200.0 2240.0 -200.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 2260.0 -200.0 2 0 {name=lfb3 sig_type=std_logic lab=VDD_1V8 }
+C {REY_ATR_SKY130A/REYATR_PCH_4C1F2.sym} 2200 0 0 0 {name=Xxfill_p_sw_0}
+N 2240.0 50.0 2240.0 30.0 {lab=fill_ps_f0}
+C {devices/lab_pin.sym} 2240.0 50.0 1 0 {name=lfs0 sig_type=std_logic lab=fill_ps_f0 }
+N 2180.0 0.0 2200.0 0.0 {lab=fill_ps_f1}
+C {devices/lab_pin.sym} 2180.0 0.0 0 0 {name=lfs1 sig_type=std_logic lab=fill_ps_f1 }
+N 2240.0 -50.0 2240.0 -30.0 {lab=fill_ps_f2}
+C {devices/lab_pin.sym} 2240.0 -50.0 3 0 {name=lfs2 sig_type=std_logic lab=fill_ps_f2 }
+N 2260.0 0.0 2240.0 0.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 2260.0 0.0 2 0 {name=lfs3 sig_type=std_logic lab=VDD_1V8 }
