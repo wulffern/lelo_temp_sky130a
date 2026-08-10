@@ -1,0 +1,13 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786312800
+<< checkpaint >>
+rect 20434 300 23634 780
+use REYATR_RES_36CTAPBOT xstack_r_lad_bot ../REY_ATR_SKY130A
+transform 1 0 20434 0 1 300
+box 20434 300 23634 780
+<< labels >>
+<< properties >>
+string FIXED_BBOX 20434 300 23634 780
+<< end >>

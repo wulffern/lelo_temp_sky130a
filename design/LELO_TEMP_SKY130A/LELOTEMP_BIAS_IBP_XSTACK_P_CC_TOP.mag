@@ -1,0 +1,13 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786312800
+<< checkpaint >>
+rect 12800 18140 14400 18620
+use REYATR_PCH_4CTAPTOP xstack_p_cc_top ../REY_ATR_SKY130A
+transform 1 0 12800 0 1 18140
+box 12800 18140 14400 18620
+<< labels >>
+<< properties >>
+string FIXED_BBOX 12800 18140 14400 18620
+<< end >>

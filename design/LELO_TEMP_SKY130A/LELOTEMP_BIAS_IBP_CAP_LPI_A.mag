@@ -1,0 +1,35 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786312800
+<< checkpaint >>
+rect 6496 7260 8096 15260
+<< metal3 >>
+rect 7206 7360 7386 15160
+rect 6576 12060 8016 12160
+<< metal4 >>
+rect 7206 7360 7386 15160
+rect 6576 13660 8016 13760
+use REYATR_CAPX1 xd1<0> ../REY_ATR_SKY130A
+transform 1 0 6496 0 1 7260
+box 6496 7260 8096 8860
+use REYATR_CAPX1 xd1<1> ../REY_ATR_SKY130A
+transform 1 0 6496 0 1 8860
+box 6496 8860 8096 10460
+use REYATR_CAPX1 xd1<2> ../REY_ATR_SKY130A
+transform 1 0 6496 0 1 10460
+box 6496 10460 8096 12060
+use REYATR_CAPX1 xd1<3> ../REY_ATR_SKY130A
+transform 1 0 6496 0 1 12060
+box 6496 12060 8096 13660
+use REYATR_CAPX1 xd1<4> ../REY_ATR_SKY130A
+transform 1 0 6496 0 1 13660
+box 6496 13660 8096 15260
+<< labels >>
+flabel metal3 s 6576 12060 8016 12160 0 FreeSans 400 0 0 0 LPI
+port 1 nsew signal bidirectional
+flabel metal4 s 6576 13660 8016 13760 0 FreeSans 400 0 0 0 VDD_1V8
+port 2 nsew power bidirectional
+<< properties >>
+string FIXED_BBOX 6496 7260 8096 15260
+<< end >>
