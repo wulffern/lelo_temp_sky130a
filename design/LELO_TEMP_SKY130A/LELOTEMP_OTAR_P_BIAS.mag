@@ -84,9 +84,9 @@ transform 1 0 3296 0 1 12540
 box 3296 12540 4896 13020
 << labels >>
 flabel locali s 4672 9780 4736 9860 0 FreeSans 400 0 0 0 PWRUP_1V8
-port 1 nsew signal bidirectional
+port 1 nsew power bidirectional
 flabel locali s 4672 8180 4736 8260 0 FreeSans 400 0 0 0 PWRUP_N_1V8
-port 2 nsew signal bidirectional
+port 2 nsew power bidirectional
 flabel locali s 4672 8980 4736 9060 0 FreeSans 400 0 0 0 VBP
 port 3 nsew signal bidirectional
 flabel locali s 3712 12100 4608 12180 0 FreeSans 400 0 0 0 VCP

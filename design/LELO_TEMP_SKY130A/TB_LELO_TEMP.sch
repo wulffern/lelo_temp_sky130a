@@ -1,5 +1,4 @@
-v {xschem version=3.4.5 file_version=1.2
-}
+v {xschem version=3.4.7 file_version=1.2}
 G {}
 K {}
 V {}
@@ -41,8 +40,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=8e-06
+x1=1.2e-06
+x2=9.2e-06
 
 divx=5
 subdivx=4
@@ -67,8 +66,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=8e-06
+x1=1.2e-06
+x2=9.2e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -92,8 +91,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=8e-06
+x1=1.2e-06
+x2=9.2e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -116,8 +115,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=8e-06
+x1=1.2e-06
+x2=9.2e-06
 divx=5
 subdivx=4
 xlabmag=1.0
@@ -173,7 +172,7 @@ exit
 .endc
 
 "}
-C {devices/launcher.sym} -170 100 0 0 {name=h5
+C {devices/launcher.sym} -180 100 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/TB_LELO_TEMP_tran.raw tran"
 }

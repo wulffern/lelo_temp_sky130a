@@ -276,7 +276,7 @@ port 3 nsew signal bidirectional
 flabel metal2 s 3738 6250 6052 6310 0 FreeSans 400 0 0 0 VCP
 port 8 nsew signal bidirectional
 flabel metal2 s 1050 7050 4714 7110 0 FreeSans 400 0 0 0 PWRUP_N_1V8
-port 7 nsew signal bidirectional
+port 7 nsew power bidirectional
 flabel locali s 0 13240 8000 13420 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
 flabel locali s 0 -300 8000 -120 0 FreeSans 400 0 0 0 VSS
@@ -286,7 +286,7 @@ port 2 nsew signal bidirectional
 flabel locali s 1376 9880 1440 9960 0 FreeSans 400 0 0 0 VIN
 port 4 nsew signal bidirectional
 flabel locali s 4576 9880 4640 9960 0 FreeSans 400 0 0 0 PWRUP_1V8
-port 6 nsew signal bidirectional
+port 6 nsew power bidirectional
 << properties >>
 string FIXED_BBOX 0 -300 8000 13420
 << end >>

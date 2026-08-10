@@ -5,6 +5,7 @@
 #ifdef Lay
 .include ../../../work/lpe/LELOTEMP_BIAS_IBP_lpe.spi
 #else
+.include ../../../work/lpe/LELOTEMP_OTAR_lpe.spi
 .include ../../../work/xsch/LELOTEMP_BIAS_IBP.spice
 #endif
 

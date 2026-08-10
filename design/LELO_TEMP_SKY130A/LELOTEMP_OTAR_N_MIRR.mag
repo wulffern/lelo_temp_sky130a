@@ -50,7 +50,7 @@ transform 1 0 11296 0 1 5580
 box 11296 5580 12896 6060
 << labels >>
 flabel locali s 12416 2020 12480 2100 0 FreeSans 400 0 0 0 PWRUP_N_1V8
-port 1 nsew signal bidirectional
+port 1 nsew power bidirectional
 flabel locali s 11904 5140 12352 5220 0 FreeSans 400 0 0 0 VCP
 port 2 nsew signal bidirectional
 flabel locali s 12416 5220 12480 5300 0 FreeSans 400 0 0 0 VD3

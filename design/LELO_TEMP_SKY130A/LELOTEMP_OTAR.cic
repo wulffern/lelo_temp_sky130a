@@ -709,7 +709,7 @@
             ]
         },
         {
-            "class": "LayoutCell",
+            "class": "HierLayoutCell",
             "x1": 0,
             "y1": -15000,
             "x2": 400000.0,
