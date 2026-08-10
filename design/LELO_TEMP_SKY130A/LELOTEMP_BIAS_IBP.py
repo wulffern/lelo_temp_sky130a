@@ -112,6 +112,20 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         channel = "res"
         fill = False
         order = [r'xd3<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VSS', 'blocked', "no path for VSS from (1040900, 1098000, 'M1') to (1040900, 1138000, 'M1'); closest approach (1040900, 1098000, 'M1') (40000 away)"),
+            ('R1<0>', 'M1', '||', 'trunkx=1067900'),
+            ('R1<1>', 'M1', '||', 'trunkx=1067900'),
+            ('R1<2>', 'M1', '||', 'trunkx=1067900'),
+            ('R1<3>', 'M1', '||', 'trunkx=1067900'),
+            ('R1<4>', 'M1', '||', 'trunkx=1067900'),
+        ]
+        wires_key = "c4c8e0fbeb4c"
 
     class n_g(Stack):
         """xg1: nmos diode VR1 -> VD2."""
@@ -119,6 +133,15 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "nmos"
         xspace = 2
         order = ['xg1']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VR1', 'blocked', "VR1: trunk 1005900 lies outside the pins' common overlap 1017700..1020900"),
+        ]
+        wires_key = "392d5122c2b4"
 
     #- row 1 -----------------------------------------------------
 
@@ -137,6 +160,17 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "src"
         order = ['xca2', r'xca3<\d+>', r'xca1<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'M2', '-|--', 'trunkx=399200'),
+            ('LPI', 'M1', '||', 'trunkx=457600'),
+            ('VBD1', 'blocked', "path for VBD1 is not a shape route.py can draw (13 nodes, layers ['M1', 'M2'])"),
+        ]
+        wires_key = "1951880410d0"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -153,6 +187,18 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "cas"
         order = ['xca4', r'xca2<\d+>', r'xca5<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (479200, 1470000, 'M1') to (479200, 1510000, 'M1'); closest approach (479200, 1470000, 'M1') (40000 away)"),
+            ('VBD1', 'M1', '||', 'trunkx=505500'),
+            ('VCP', 'M1', '||', 'trunkx=537600'),
+            ('VD1', 'blocked', "path for VD1 is not a shape route.py can draw (15 nodes, layers ['M1', 'M2'])"),
+        ]
+        wires_key = "ffb95d71ef78"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -170,6 +216,17 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "su"
         order = ['xsu1', 'xsu2']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (595200, 1854000, 'M1') to (559200, 1870000, 'M1'); closest approach (559200, 1870000, 'M3') (0 away)"),
+            ('VD1', 'blocked', "VD1: trunk 604200 lies outside the pins' common overlap 612800..616000"),
+            ('VSU', 'blocked', 'VSU: pins share only -9600 of column, a straight vertical cannot land'),
+        ]
+        wires_key = "2a177a571eb6"
 
         def beforeRoute(self, entry):
             #- VSU: xsu1's tied bar to xsu2's source, adjacent rows;
@@ -187,6 +244,15 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "cc"
         order = [r'xcc<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (675200, 1734000, 'M1') to (639200, 1750000, 'M1'); closest approach (639200, 1750000, 'M3') (0 away)"),
+        ]
+        wires_key = "b9ed78827dbc"
 
         def beforeRoute(self, entry):
             #- the decaps are netlist-real supply devices: exactly
@@ -199,6 +265,16 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "cap"
         fill = False
         order = [r'xd1<[0-4]>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (761000, 1392000, 'M5') to (761000, 1472000, 'M5'); closest approach (761000, 1392000, 'M5') (80000 away)"),
+            ('LPI', 'M4', '||', 'trunkx=760000.0'),
+        ]
+        wires_key = "6014588b88b6"
 
         def beforeRoute(self, entry):
             #- cicpy layers sit one above the magic names: M4 is
@@ -213,6 +289,16 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "cap"
         fill = False
         order = [r'xd1<[5-9]>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (841000, 1392000, 'M5') to (841000, 1472000, 'M5'); closest approach (841000, 1392000, 'M5') (80000 away)"),
+            ('LPI', 'M4', '||', 'trunkx=840000.0'),
+        ]
+        wires_key = "cd1c98b13714"
 
         def beforeRoute(self, entry):
             #- cicpy layers sit one above the magic names: M4 is
@@ -227,6 +313,16 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "cap"
         fill = False
         order = [r'xd2<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (921000, 1392000, 'M5') to (921000, 1472000, 'M5'); closest approach (921000, 1392000, 'M5') (80000 away)"),
+            ('VCP', 'M4', '||', 'trunkx=920000.0'),
+        ]
+        wires_key = "de5a12e224b1"
 
         def beforeRoute(self, entry):
             #- cicpy layers sit one above the magic names: M4 is

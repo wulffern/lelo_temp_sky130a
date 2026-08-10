@@ -45,12 +45,36 @@ class LELOTEMP_OTAR(SidecarCell):
         group = "pmos"
         channel = "in_a"
         order = ['xbl4', r'xbl1<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'M1', '||', 'trunkx=79200'),
+            ('VD1', 'M1', '||', 'trunkx=144100'),
+            ('VIN', 'M1', '||', 'trunkx=150400'),
+            ('VS', 'M1', '||', 'trunkx=95900'),
+        ]
+        wires_key = "5e9dae4e1d29"
 
     class p_in_b(Stack):
         match = r'^(xbl5|xbl2<\d+>|xstack_p_in_b_(top|bot)|xfill_p_in_b_\d+)$'
         group = "pmos"
         channel = "in_b"
         order = ['xbl5', r'xbl2<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (159200, 446000, 'M1') to (159200, 486000, 'M1'); closest approach (159200, 446000, 'M1') (40000 away)"),
+            ('VD2', 'M1', '||', 'trunkx=224100'),
+            ('VIP', 'M1', '||', 'trunkx=230400'),
+            ('VS', 'M1', '||', 'trunkx=175900'),
+        ]
+        wires_key = "aa2455a6a24e"
 
     class p_bias(Stack):
         """Route VBP and PWRUP_1V8, which the stack router declines.
@@ -74,6 +98,18 @@ class LELOTEMP_OTAR(SidecarCell):
         group = "pmos"
         channel = "bias"
         order = ['xba1', 'xba8', 'xba2', 'xba6', 'xba7', 'xba3']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (278200, 350000, 'M1') to (239200, 366000, 'M1'); closest approach (239200, 366000, 'M3') (0 away)"),
+            ('PWRUP_1V8', 'blocked', "path for PWRUP_1V8 is not a shape route.py can draw (47 nodes, layers ['M1', 'M2', 'M3'])"),
+            ('VBP', 'blocked', "path for VBP is not a shape route.py can draw (15 nodes, layers ['M1', 'M2', 'M3'])"),
+            ('VO', 'M1', '||', 'trunkx=304100'),
+        ]
+        wires_key = "6485b44f0f02"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -93,6 +129,16 @@ class LELOTEMP_OTAR(SidecarCell):
         group = "pmos"
         channel = "sw"
         order = ['xbs6', 'xbs1', 'xbs2', 'xbs4', 'xbs7', 'xbs8']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (319200, 406000, 'M1') to (319200, 446000, 'M1'); closest approach (319200, 406000, 'M1') (40000 away)"),
+            ('VCP', 'blocked', "path for VCP is not a shape route.py can draw (11 nodes, layers ['M1'])"),
+        ]
+        wires_key = "6b36e69797ce"
 
         def beforeRoute(self, entry):
             """Route this stack's internal nets through route.py.
@@ -150,6 +196,16 @@ class LELOTEMP_OTAR(SidecarCell):
         match = r'^(xnd1<\d+>|xnd3|xns1|xstack_n_load_a_(top|bot)|xfill_n_load_a_\d+)$'
         group = "nmos"
         order = ['xns1', r'xnd1<\d+>', 'xnd3']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VSS', 'M2', '-|--', 'trunkx=479200'),
+            ('VD1', 'blocked', 'VD1: pins share only -3200 of column, a straight vertical cannot land'),
+        ]
+        wires_key = "d45af74d3125"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -170,6 +226,16 @@ class LELOTEMP_OTAR(SidecarCell):
         match = r'^(xnd2<\d+>|xnd4|xns2|xstack_n_load_b_(top|bot)|xfill_n_load_b_\d+)$'
         group = "nmos"
         order = ['xns2', r'xnd2<\d+>', 'xnd4']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VSS', 'blocked', "no path for VSS from (595200, 42000, 'M1') to (559200, 58000, 'M1'); closest approach (559200, 58000, 'M3') (0 away)"),
+            ('VD2', 'blocked', 'VD2: pins share only -3200 of column, a straight vertical cannot land'),
+        ]
+        wires_key = "d9c6d8ebf9c3"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -220,6 +286,16 @@ class LELOTEMP_OTAR(SidecarCell):
         channel = "res"
         fill = False
         order = [r'xd2<\d+>']
+        #- ROUTER-GENERATED (pasted from the build's
+        #- .routes.py): ordinary addConnectivityRoute
+        #- arguments, edit freely; a stale wires_key
+        #- falls back to the search and prints a fresh
+        #- block
+        wires = [
+            ('VSS', 'blocked', "no path for VSS from (719200, 34000, 'M1') to (719200, 74000, 'M1'); closest approach (719200, 34000, 'M1') (40000 away)"),
+            ('R1<0>', 'M1', '||', 'trunkx=746200'),
+        ]
+        wires_key = "8c039ee4ea52"
 
     rows = [
         [n_load_a, n_load_b, n_mirr, r_deg],

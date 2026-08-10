@@ -27,3 +27,4 @@ docs/
 *.vcd
 results/
 *_obj_dir/
+*.routes.py
