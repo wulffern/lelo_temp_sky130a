@@ -102,8 +102,10 @@ class LELOTEMP_CCMP(SidecarCell):
         if None not in (pw, gpin):
             w4 = _Rules.getInstance().get("M5", "width")
             yb2 = int(pw.centerY())
-            bar2 = _Rect("M5", int(pw.x1), int(yb2 - w4),
-                         int(gpin.x2 - pw.x1), int(w4 * 2))
+            #- from the LEFT EDGE: the parent reaches PWRUP_N here,
+            #- and the interior pin is unreachable from outside
+            bar2 = _Rect("M5", 0, int(yb2 - w4),
+                         int(gpin.x2), int(w4 * 2))
             bar2.setNet("PWRUP_N_1V8")
             layout.add(bar2)
             ct = (_Cut.getInstance(pw.layer, "M5", 1, 1)
@@ -195,6 +197,23 @@ class LELOTEMP_CCMP(SidecarCell):
                               int(rb.centerY()))
                 layout.add(ct)
         super().beforeRoute(layout)
+
+        #- PWRUP_B to the BOTTOM edge: the pin sits at the core's
+        #- right edge, so a stub on its own layer steps into the
+        #- core-to-nmos gap and drops straight down -- no crossing of
+        #- the PWRUP_N M5 bar that shares the pin row
+        pb = i_cmp.instancePorts["PWRUP_B_1V8"].get()
+        if pb is not None:
+            w3 = _Rules.getInstance().get(pb.layer, "width")
+            xg = int(pb.x2) + 12000
+            hst = _Rect(pb.layer, int(pb.x1), int(pb.centerY() - w3),
+                        xg - int(pb.x1) + 2 * w3, int(2 * w3))
+            hst.setNet("PWRUP_B_1V8")
+            layout.add(hst)
+            vpb = _Rect(pb.layer, xg, 0, int(2 * w3),
+                        int(pb.centerY() + w3))
+            vpb.setNet("PWRUP_B_1V8")
+            layout.add(vpb)
 
     def afterPorts(self, layout):
         layout.addPortOnEdge("M2", "RST", "bottom", "--|-",
