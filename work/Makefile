@@ -53,3 +53,11 @@ subcells:
 #- LELOTEMP_OTAR like any other.
 hier:
 	cicpy spi2mag ../design/${LIB}/${CELL}_HIER.spice ${LIB} ${CELL}_HIER --outcell ${CELL} ${OPT}
+
+#- the hand schematics netlist buses as [] while the layout labels
+#- carry <> everywhere; netgen breaks symmetric-net ties by NAME, so
+#- the CDL must use the same delimiters (measured: four topologically
+#- identical IBP_1U outputs paired arbitrarily)
+cdl:
+	@test -d cdl || mkdir cdl
+	-xschem -q -x -b -s --tcl "set lvs_netlist 1; set netlist_dir $(PWD)/cdl/; set bus_replacement_char {<>};" -n ../design/$(LIB)/$(PRCELL).sch

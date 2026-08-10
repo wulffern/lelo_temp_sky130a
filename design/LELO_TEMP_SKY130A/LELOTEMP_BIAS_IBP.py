@@ -38,11 +38,24 @@ class BiasHier(HierLayoutCell):
     """
 
     def route(self):
-        for net in ("VBD2", "IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>"):
-            self.addConnectivityRoute("M4", f"^{net}$", "-", "", 1, "", "")
-        #- the two VBD1 rails span several rows each; the L-shape
-        #- takes whatever height offset the ports ended up with
-        self.addConnectivityRoute("M4", "^VBD1$", "-|--", "", 1, "", "")
+        #- L-shapes, not straights: a D pin and an S pin sit at
+        #- different heights WITHIN the cell (0.8 um here), and a
+        #- straight wire at the start pin's y puts the far cut just
+        #- off the far pin, onto whatever li lies between the rows
+        #- (measured: five nets merged through exactly that)
+        for net in ("IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>", "VBD1"):
+            self.addConnectivityRoute("M4", f"^{net}$", "-|--", "",
+                                      1, "", "")
+        #- cutalignright: the default cut pad grazed the cell's own
+        #- mcon at the far pin (met1.2/mcon.2 slivers, measured)
+        self.addConnectivityRoute("M4", "^VBD2$", "-|--",
+                                  "cutalignright", 1, "", "")
+        #- VD1 enters p_cas by a seam hop from p_su, NOT by a channel
+        #- drop: the drop's vertical would run the drain window and
+        #- clip the IBP pin stacks (its discovered drop is skipped)
+        self.addConnectivityRoute("M4", "^VD1$", "-|--",
+                                  "cutalignright", 1, "",
+                                  r"^(xp_cas|xp_su)$")
         super().route()
 
 
@@ -104,6 +117,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         """xg1: nmos diode VR1 -> VD2."""
         match = r'^(xg1|xstack_n_g_(top|bot)|xfill_n_g_\d+)$'
         group = "nmos"
+        xspace = 2
         order = ['xg1']
 
     #- row 1 -----------------------------------------------------
@@ -122,7 +136,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         match = r'^(xca1<\d+>|xca2|xca3<\d+>|xstack_p_src_(top|bot)|xfill_p_src_\d+)$'
         group = "pmos"
         channel = "src"
-        order = [r'xca3<\d+>', 'xca2', r'xca1<\d+>']
+        order = ['xca2', r'xca3<\d+>', r'xca1<\d+>']
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -138,7 +152,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         match = r'^(xca2<\d+>|xca4|xca5<\d+>|xstack_p_cas_(top|bot)|xfill_p_cas_\d+)$'
         group = "pmos"
         channel = "cas"
-        order = [r'xca2<\d+>', 'xca4', r'xca5<\d+>']
+        order = ['xca4', r'xca2<\d+>', r'xca5<\d+>']
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -253,7 +267,8 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         {"net": "VD2", "track": 0, "drops": [[bip, "M2", "right"],
                                              [r_lad, "M2", "left"]]},
         {"net": "VR1", "track": 2, "drops": [[r_lad, "M4", "right"]]},
-        {"net": "VD1", "track": 4, "drops": [[bip, "M2", "left"]]},
+        {"net": "VD1", "track": 4, "drops": [[bip, "M4", "left"],
+                                             {"inst": p_cas, "skip": True}]},
         {"net": "VCP", "track": 6},
         {"net": "LPI", "track": 8},
         {"net": "IBP_1U<0>", "channel": "su", "track": 6,
