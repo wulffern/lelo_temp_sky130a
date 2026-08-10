@@ -305,8 +305,8 @@ rect 2336 12204 2512 12272
 rect 7104 22000 7280 22176
 rect 8704 22000 8880 22176
 rect 10304 22000 10480 22176
-rect 13484 14550 15052 14610
-rect 12250 15510 15914 15570
+rect 13484 14550 15068 14610
+rect 12246 15510 15914 15570
 << via2 >>
 rect 748 9806 804 9862
 rect 844 9806 900 9862
@@ -514,11 +514,11 @@ flabel locali s 0 22000 19200 22180 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
 flabel locali s 0 -300 19200 -120 0 FreeSans 400 0 0 0 VSS
 port 10 nsew ground bidirectional
-flabel metal2 s 13484 14550 15052 14610 0 FreeSans 400 0 0 0 LPO
+flabel metal2 s 13484 14550 15068 14610 0 FreeSans 400 0 0 0 LPO
 port 7 nsew signal bidirectional
 flabel locali s 15776 18340 15840 18420 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 9 nsew power bidirectional
-flabel metal2 s 12250 15510 15914 15570 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal2 s 12246 15510 15914 15570 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 11 nsew power bidirectional
 << properties >>
 string FIXED_BBOX 0 -300 19200 22192
