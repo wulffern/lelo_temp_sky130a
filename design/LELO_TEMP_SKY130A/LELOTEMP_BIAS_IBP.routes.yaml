@@ -1,0 +1,323 @@
+format: 1
+fingerprint: 497feb5e8b583a00540293673fb12d0da1da97a5
+routes:
+- stack: cap_lpi_a
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (761000, 1392000, 'M5') to (761000, 1472000, 'M5');
+    closest approach (761000, 1392000, 'M5') (80000 away)
+- stack: cap_lpi_a
+  net: LPI
+  kind: route
+  layer: M4
+  rtype: '||'
+  opts: trunkx=760000.0
+  cuts: 1
+  claims:
+  - - 760000
+    - 1384000
+    - 1397000
+    - 38000
+  - - 760000
+    - 1464000
+    - 1477000
+    - 38000
+  - - 760000
+    - 1544000
+    - 1557000
+    - 38000
+  - - 760000
+    - 1624000
+    - 1637000
+    - 38000
+  - - 760000
+    - 1704000
+    - 1717000
+    - 38000
+- stack: cap_lpi_b
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (841000, 1392000, 'M5') to (841000, 1472000, 'M5');
+    closest approach (841000, 1392000, 'M5') (80000 away)
+- stack: cap_lpi_b
+  net: LPI
+  kind: route
+  layer: M4
+  rtype: '||'
+  opts: trunkx=840000.0
+  cuts: 1
+  claims:
+  - - 840000
+    - 1384000
+    - 1397000
+    - 38000
+  - - 840000
+    - 1464000
+    - 1477000
+    - 38000
+  - - 840000
+    - 1544000
+    - 1557000
+    - 38000
+  - - 840000
+    - 1624000
+    - 1637000
+    - 38000
+  - - 840000
+    - 1704000
+    - 1717000
+    - 38000
+- stack: cap_vcp
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (921000, 1392000, 'M5') to (921000, 1472000, 'M5');
+    closest approach (921000, 1392000, 'M5') (80000 away)
+- stack: cap_vcp
+  net: VCP
+  kind: route
+  layer: M4
+  rtype: '||'
+  opts: trunkx=920000.0
+  cuts: 1
+  claims:
+  - - 920000
+    - 1384000
+    - 1397000
+    - 38000
+  - - 920000
+    - 1464000
+    - 1477000
+    - 38000
+  - - 920000
+    - 1544000
+    - 1557000
+    - 38000
+- stack: n_g
+  net: VR1
+  kind: blocked
+  reason: 'VR1: trunk 1005900 lies outside the pins'' common overlap 1017700..1020900'
+- stack: p_cas
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (479200, 1470000, 'M1') to (479200, 1510000, 'M1');
+    closest approach (479200, 1470000, 'M1') (40000 away)
+- stack: p_cas
+  net: VBD1
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=505500
+  cuts: 1
+  claims:
+  - - 505500
+    - 1622000
+    - 1906000
+- stack: p_cas
+  net: VCP
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=537600
+  cuts: 1
+  claims:
+  - - 537600
+    - 1434000
+    - 1918000
+- stack: p_cas
+  net: VD1
+  kind: blocked
+  reason: path for VD1 is not a shape route.py can draw (15 nodes, layers ['M1', 'M2'])
+- stack: p_cc
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (675200, 1734000, 'M1') to (639200, 1750000, 'M1');
+    closest approach (639200, 1750000, 'M3') (0 away)
+- stack: p_src
+  net: VDD_1V8
+  kind: route
+  layer: M2
+  rtype: -|--
+  opts: trunkx=399200
+  cuts: 1
+  claims:
+  - - 399200
+    - 1614000
+    - 1630000
+  - - 435200
+    - 1610000
+    - 1622000
+    - 13200
+  - - 400000
+    - 1626000
+    - 1638000
+    - 6800
+  - - 435200
+    - 1650000
+    - 1662000
+    - 13200
+  - - 400000
+    - 1666000
+    - 1678000
+    - 6800
+  - - 435200
+    - 1690000
+    - 1702000
+    - 13200
+  - - 400000
+    - 1706000
+    - 1718000
+    - 6800
+  - - 435200
+    - 1730000
+    - 1742000
+    - 13200
+  - - 400000
+    - 1746000
+    - 1758000
+    - 6800
+  - - 435200
+    - 1770000
+    - 1782000
+    - 13200
+  - - 400000
+    - 1786000
+    - 1798000
+    - 6800
+  - - 435200
+    - 1810000
+    - 1822000
+    - 13200
+  - - 400000
+    - 1826000
+    - 1838000
+    - 6800
+  - - 435200
+    - 1850000
+    - 1862000
+    - 13200
+  - - 400000
+    - 1866000
+    - 1878000
+    - 6800
+  - - 435200
+    - 1890000
+    - 1902000
+    - 13200
+  - - 400000
+    - 1906000
+    - 1918000
+    - 6800
+  - - 435200
+    - 1410000
+    - 1422000
+    - 13200
+  - - 400000
+    - 1426000
+    - 1438000
+    - 6800
+  - - 435200
+    - 1450000
+    - 1462000
+    - 13200
+  - - 400000
+    - 1466000
+    - 1478000
+    - 6800
+  - - 435200
+    - 1490000
+    - 1502000
+    - 13200
+  - - 400000
+    - 1506000
+    - 1518000
+    - 6800
+  - - 435200
+    - 1530000
+    - 1542000
+    - 13200
+  - - 400000
+    - 1546000
+    - 1558000
+    - 6800
+  - - 435200
+    - 1570000
+    - 1582000
+    - 13200
+  - - 400000
+    - 1586000
+    - 1598000
+    - 6800
+- stack: p_src
+  net: LPI
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=457600
+  cuts: 1
+  claims:
+  - - 457600
+    - 1434000
+    - 1918000
+- stack: p_src
+  net: VBD1
+  kind: blocked
+  reason: path for VBD1 is not a shape route.py can draw (13 nodes, layers ['M1',
+    'M2'])
+- stack: p_su
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (595200, 1854000, 'M1') to (559200, 1870000, 'M1');
+    closest approach (559200, 1870000, 'M3') (0 away)
+- stack: p_su
+  net: VD1
+  kind: blocked
+  reason: 'VD1: trunk 604200 lies outside the pins'' common overlap 612800..616000'
+- stack: p_su
+  net: VSU
+  kind: blocked
+  reason: 'VSU: pins share only -9600 of column, a straight vertical cannot land'
+- stack: r_lad
+  net: VSS
+  kind: blocked
+  reason: no path for VSS from (1040900, 1098000, 'M1') to (1040900, 1138000, 'M1');
+    closest approach (1040900, 1098000, 'M1') (40000 away)
+- stack: r_lad
+  net: R1<0>
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=1067900
+  cuts: 1
+  claims: []
+- stack: r_lad
+  net: R1<1>
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=1067900
+  cuts: 1
+  claims: []
+- stack: r_lad
+  net: R1<2>
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=1067900
+  cuts: 1
+  claims: []
+- stack: r_lad
+  net: R1<3>
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=1067900
+  cuts: 1
+  claims: []
+- stack: r_lad
+  net: R1<4>
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=1067900
+  cuts: 1
+  claims: []

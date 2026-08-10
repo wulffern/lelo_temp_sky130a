@@ -1,0 +1,202 @@
+format: 1
+fingerprint: 521007d3c40fa961c2e560e1581727930db560ee
+routes:
+- stack: n_load_a
+  net: VSS
+  kind: route
+  layer: M2
+  rtype: -|--
+  opts: trunkx=479200
+  cuts: 1
+  claims:
+  - - 479200
+    - 42000
+    - 58000
+  - - 515200
+    - 38000
+    - 50000
+    - 13200
+  - - 480000
+    - 54000
+    - 66000
+    - 6800
+  - - 515200
+    - 78000
+    - 90000
+    - 13200
+  - - 480000
+    - 94000
+    - 106000
+    - 6800
+  - - 515200
+    - 118000
+    - 130000
+    - 13200
+  - - 480000
+    - 134000
+    - 146000
+    - 6800
+  - - 515200
+    - 158000
+    - 170000
+    - 13200
+  - - 480000
+    - 174000
+    - 186000
+    - 6800
+  - - 515200
+    - 198000
+    - 210000
+    - 13200
+  - - 480000
+    - 214000
+    - 226000
+    - 6800
+  - - 515200
+    - -2000
+    - 10000
+    - 13200
+  - - 480000
+    - 14000
+    - 26000
+    - 6800
+- stack: n_load_a
+  net: VD1
+  kind: blocked
+  reason: 'VD1: pins share only -3200 of column, a straight vertical cannot land'
+- stack: n_load_b
+  net: VSS
+  kind: blocked
+  reason: no path for VSS from (595200, 42000, 'M1') to (559200, 58000, 'M1'); closest
+    approach (559200, 58000, 'M3') (0 away)
+- stack: n_load_b
+  net: VD2
+  kind: blocked
+  reason: 'VD2: pins share only -3200 of column, a straight vertical cannot land'
+- stack: p_bias
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (278200, 350000, 'M1') to (239200, 366000, 'M1');
+    closest approach (239200, 366000, 'M3') (0 away)
+- stack: p_bias
+  net: PWRUP_1V8
+  kind: blocked
+  reason: path for PWRUP_1V8 is not a shape route.py can draw (47 nodes, layers ['M1',
+    'M2', 'M3'])
+- stack: p_bias
+  net: VBP
+  kind: blocked
+  reason: path for VBP is not a shape route.py can draw (15 nodes, layers ['M1', 'M2',
+    'M3'])
+- stack: p_bias
+  net: VO
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=304100
+  cuts: 1
+  claims:
+  - - 304100
+    - 406000
+    - 450000
+- stack: p_in_a
+  net: VDD_1V8
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=79200
+  cuts: 1
+  claims: []
+- stack: p_in_a
+  net: VD1
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=144100
+  cuts: 1
+  claims:
+  - - 144100
+    - 446000
+    - 570000
+- stack: p_in_a
+  net: VIN
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=150400
+  cuts: 1
+  claims:
+  - - 150400
+    - 410000
+    - 574000
+- stack: p_in_a
+  net: VS
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=95900
+  cuts: 1
+  claims:
+  - - 95900
+    - 390000
+    - 554000
+- stack: p_in_b
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (159200, 446000, 'M1') to (159200, 486000, 'M1');
+    closest approach (159200, 446000, 'M1') (40000 away)
+- stack: p_in_b
+  net: VD2
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=224100
+  cuts: 1
+  claims:
+  - - 224100
+    - 446000
+    - 570000
+- stack: p_in_b
+  net: VIP
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=230400
+  cuts: 1
+  claims:
+  - - 230400
+    - 410000
+    - 574000
+- stack: p_in_b
+  net: VS
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=175900
+  cuts: 1
+  claims:
+  - - 175900
+    - 390000
+    - 554000
+- stack: p_sw
+  net: VDD_1V8
+  kind: blocked
+  reason: no path for VDD_1V8 from (319200, 406000, 'M1') to (319200, 446000, 'M1');
+    closest approach (319200, 406000, 'M1') (40000 away)
+- stack: p_sw
+  net: VCP
+  kind: blocked
+  reason: path for VCP is not a shape route.py can draw (11 nodes, layers ['M1'])
+- stack: r_deg
+  net: VSS
+  kind: blocked
+  reason: no path for VSS from (719200, 34000, 'M1') to (719200, 74000, 'M1'); closest
+    approach (719200, 34000, 'M1') (40000 away)
+- stack: r_deg
+  net: R1<0>
+  kind: route
+  layer: M1
+  rtype: '||'
+  opts: trunkx=746200
+  cuts: 1
+  claims: []
