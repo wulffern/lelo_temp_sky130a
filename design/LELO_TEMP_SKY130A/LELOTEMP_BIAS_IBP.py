@@ -324,50 +324,12 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
                                   "cutaligncenter,endStopLayerM2", 1, "",
                                   r"^(xp_cas|xp_su)$")
         #- the powerdown pins live deep in the OTA; the parent needs
-        #- them at an edge. M5 verticals from each pin straight up to
-        #- the top edge -- nothing above the OTA carries M5.
-        from cicpy.core.rect import Rect as _Rect
-        from cicpy.core.cut import Cut as _Cut
-        from cicpy.core.rules import Rules as _Rules
-        ota = self.getInstanceFromInstanceName("xota")
-        top = int(self.y2)
-        w5 = _Rules.getInstance().get("M5", "width")
+        #- them at an edge. M5 risers from each pin straight up to the
+        #- top -- nothing above the OTA carries M5. Every number in
+        #- this (the cut, the intermediate pads, how far in from the
+        #- bar's end to attach) comes from the technology; it used to
+        #- be twenty lines of Rect and Cut with 2400, 5000 and a 1x1
+        #- via typed into them.
         for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
-            pt = ota.instancePorts.get(net)
-            r = pt.get() if pt is not None else None
-            if r is None:
-                continue
-            #- attach near a WIDE bar's right end: mid-bar, the cut
-            #- pad's overhang lands 0.1 um from the neighbouring
-            #- track's bar (met3.2, measured); a small pad is its own
-            #- only landing
-            if r.x2 - r.x1 > 20000:
-                cx = int(r.x1) + 2400
-            else:
-                cx = int(r.centerX())
-            cy = int(r.centerY())
-            v = _Rect("M5", cx - w5, cy - w5, 2 * w5, top - cy + w5)
-            v.setNet(net)
-            self.add(v)
-            if r.layer == "M1":
-                #- magic refuses PARTIAL overlap of top-level li on a
-                #- subcell's li: cover the pad exactly
-                cov = _Rect("M1", int(r.x1), int(r.y1),
-                            int(r.x2 - r.x1), int(r.y2 - r.y1))
-                cov.setNet(net)
-                self.add(cov)
-            ct = (_Cut.getInstance(r.layer, "M5", 1, 1)
-                  or _Cut.getInstance("M5", r.layer, 1, 1))
-            if ct is not None:
-                ct.moveCenter(cx, cy)
-                self.add(ct)
-            #- the stack's mid-level M4 pad alone is under the metal3
-            #- minimum area
-            pad = _Rect("M4", cx - 2500, cy - 2500, 5000, 5000)
-            pad.setNet(net)
-            self.add(pad)
-            #- the EDGE is the pin the parent reaches
-            pin = _Rect("M5", cx - w5, top - 4000, 2 * w5, 4000)
-            pin.setNet(net)
-            self.updatePort(net, pin)
+            self.promoteInstancePort(net, r"^xota$", "top", "M5")
         super().route()
