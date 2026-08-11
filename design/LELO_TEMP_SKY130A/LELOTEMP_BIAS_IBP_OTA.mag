@@ -7,13 +7,14 @@ rect 11296 7260 19296 20980
 << metal2 >>
 rect 13580 13650 15164 13710
 rect 12290 14610 16106 14670
-rect 14986 13810 17396 13870
+rect 14986 14130 17396 14190
 << locali >>
 rect 15872 17440 15936 17520
-rect 12672 17440 12736 17520
 rect 11296 20800 19296 20980
-rect 14272 17440 14336 17520
 rect 11296 7260 19296 7440
+<< metal1 >>
+rect 12732 7260 12796 7340
+rect 14332 7260 14396 7340
 use LELOTEMP_OTAR xad6 ../LELO_TEMP_SKY130A
 transform 1 0 11296 0 1 7560
 box 11296 7560 19296 21280
@@ -24,13 +25,13 @@ flabel locali s 15872 17440 15936 17520 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 2 nsew power bidirectional
 flabel metal2 s 12290 14610 16106 14670 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 3 nsew power bidirectional
-flabel metal2 s 14986 13810 17396 13870 0 FreeSans 400 0 0 0 VCP
+flabel metal2 s 14986 14130 17396 14190 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
-flabel locali s 12672 17440 12736 17520 0 FreeSans 400 0 0 0 VD1
+flabel metal1 s 12732 7260 12796 7340 0 FreeSans 400 0 0 0 VD1
 port 5 nsew signal bidirectional
 flabel locali s 11296 20800 19296 20980 0 FreeSans 400 0 0 0 VDD_1V8
 port 6 nsew power bidirectional
-flabel locali s 14272 17440 14336 17520 0 FreeSans 400 0 0 0 VR1
+flabel metal1 s 14332 7260 14396 7340 0 FreeSans 400 0 0 0 VR1
 port 7 nsew signal bidirectional
 flabel locali s 11296 7260 19296 7440 0 FreeSans 400 0 0 0 VSS
 port 8 nsew ground bidirectional

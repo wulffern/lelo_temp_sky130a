@@ -509,7 +509,7 @@
             ]
         },
         {
-            "class": "HierLayoutCell",
+            "class": "LELOTEMP_OTAR",
             "x1": 0,
             "y1": -15000,
             "x2": 400000.0,
@@ -720,7 +720,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_N_LOAD_A",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -404800,
+                    "xcell": -480000,
                     "ycell": -15000
                 },
                 {
@@ -784,7 +784,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_N_LOAD_B",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -484800,
+                    "xcell": -560000,
                     "ycell": -15000
                 },
                 {
@@ -848,7 +848,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_N_MIRR",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -564800,
+                    "xcell": -640000,
                     "ycell": -15000
                 },
                 {
@@ -945,7 +945,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_P_BIAS",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -164800,
+                    "xcell": -240000,
                     "ycell": -363000
                 },
                 {
@@ -1020,7 +1020,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_P_IN_A",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -4800,
+                    "xcell": -80000,
                     "ycell": -363000
                 },
                 {
@@ -1095,7 +1095,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_P_IN_B",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -84800,
+                    "xcell": -160000,
                     "ycell": -363000
                 },
                 {
@@ -1137,7 +1137,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_P_SW",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -244800,
+                    "xcell": -320000,
                     "ycell": -363000
                 },
                 {
@@ -1190,7 +1190,7 @@
                     "angle": "",
                     "cell": "LELOTEMP_OTAR_R_DEG",
                     "libpath": "LELO_TEMP_SKY130A",
-                    "xcell": -644800,
+                    "xcell": -720000,
                     "ycell": -15000
                 },
                 {
@@ -2637,22 +2637,22 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 148800.0,
-                    "y1": 494000.0,
-                    "x2": 152000.0,
-                    "y2": 498000.0,
-                    "layer": "M1",
+                    "x1": 151800.0,
+                    "y1": -15000,
+                    "x2": 155000.0,
+                    "y2": -11000.0,
+                    "layer": "M2",
                     "net": "",
                     "name": "VIP",
                     "spicePort": true
                 },
                 {
                     "class": "Port",
-                    "x1": 68800.0,
-                    "y1": 494000.0,
-                    "x2": 72000.0,
-                    "y2": 498000.0,
-                    "layer": "M1",
+                    "x1": 71800.0,
+                    "y1": -15000,
+                    "x2": 75000.0,
+                    "y2": -11000.0,
+                    "layer": "M2",
                     "net": "",
                     "name": "VIN",
                     "spicePort": true
@@ -2667,6 +2667,128 @@
                     "net": "",
                     "name": "PWRUP_1V8",
                     "spicePort": true
+                },
+                {
+                    "class": "Rect",
+                    "x1": 71800.0,
+                    "y1": -15000,
+                    "x2": 75000.0,
+                    "y2": -11000.0,
+                    "layer": "M2",
+                    "net": "VIN"
+                },
+                {
+                    "class": "Route",
+                    "x1": 68800.0,
+                    "y1": -13000.0,
+                    "x2": 73700.0,
+                    "y2": 502800.0,
+                    "layer": "",
+                    "net": "VIN",
+                    "name": "VIN",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 70300.0,
+                            "y1": 494000.0,
+                            "x2": 73700.0,
+                            "y2": 502800.0,
+                            "layer": "",
+                            "net": "VIN",
+                            "name": "cut_M1M2_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 70500,
+                            "y1": -13000.0,
+                            "x2": 73500,
+                            "y2": 496000.0,
+                            "layer": "M2",
+                            "net": "VIN"
+                        },
+                        {
+                            "class": "Text",
+                            "x1": 68800.0,
+                            "y1": 494000.0,
+                            "x2": 68800.0,
+                            "y2": 494000.0,
+                            "layer": "TXT",
+                            "net": "VIN",
+                            "name": "VIN"
+                        }
+                    ]
+                },
+                {
+                    "class": "Rect",
+                    "x1": 151800.0,
+                    "y1": -15000,
+                    "x2": 155000.0,
+                    "y2": -11000.0,
+                    "layer": "M2",
+                    "net": "VIP"
+                },
+                {
+                    "class": "Route",
+                    "x1": 148800.0,
+                    "y1": -13000.0,
+                    "x2": 153700.0,
+                    "y2": 502800.0,
+                    "layer": "",
+                    "net": "VIP",
+                    "name": "VIP",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 150300.0,
+                            "y1": 494000.0,
+                            "x2": 153700.0,
+                            "y2": 502800.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M1M2_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 150500,
+                            "y1": -13000.0,
+                            "x2": 153500,
+                            "y2": 496000.0,
+                            "layer": "M2",
+                            "net": "VIP"
+                        },
+                        {
+                            "class": "Text",
+                            "x1": 148800.0,
+                            "y1": 494000.0,
+                            "x2": 148800.0,
+                            "y2": 494000.0,
+                            "layer": "TXT",
+                            "net": "VIP",
+                            "name": "VIP"
+                        }
+                    ]
                 }
             ],
             "useHalfHeight": false,

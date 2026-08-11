@@ -1504,7 +1504,7 @@
             "noPowerRoute": false
         },
         {
-            "class": "LayoutCell",
+            "class": "LELOTEMP_CCMP",
             "x1": 0,
             "y1": 0,
             "x2": 409800.0,

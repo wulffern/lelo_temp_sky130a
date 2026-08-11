@@ -100,6 +100,14 @@ rect 4320 1664 4388 1840
 rect 4580 7080 4640 8320
 rect 4572 8232 4640 8408
 rect 4574 7046 4750 7114
+rect 3036 -300 3100 -220
+rect 1436 -300 1500 -220
+rect 1436 -300 1500 -220
+rect 1406 9880 1474 10056
+rect 1410 -260 1470 9920
+rect 3036 -300 3100 -220
+rect 3006 9880 3074 10056
+rect 3010 -260 3070 9920
 << locali >>
 rect 3976 8206 4144 8270
 rect 5088 1806 5256 1870
@@ -135,9 +143,9 @@ rect 0 -300 96 920
 rect 1600 -300 1696 920
 rect 3200 -300 3296 1720
 rect 4800 -300 4896 1160
-rect 2976 9880 3040 9960
-rect 1376 9880 1440 9960
 rect 4576 9880 4640 9960
+rect 1406 9880 1470 10048
+rect 3006 9880 3070 10048
 << viali >>
 rect 3988 8212 4040 8264
 rect 4080 8212 4132 8264
@@ -183,6 +191,10 @@ rect 4326 1676 4378 1728
 rect 4326 1768 4378 1820
 rect 4578 8244 4630 8296
 rect 4578 8336 4630 8388
+rect 1412 9892 1464 9944
+rect 1412 9984 1464 10036
+rect 3012 9892 3064 9944
+rect 3012 9984 3064 10036
 << via1 >>
 rect 3988 5772 4044 5828
 rect 4084 5772 4140 5828
@@ -284,29 +296,29 @@ rect 4326 1772 4382 1828
 rect 4266 7048 4322 7104
 rect 4362 7048 4418 7104
 use LELOTEMP_OTAR_N_LOAD_A xn_load_a ../LELO_TEMP_SKY130A
-transform 1 0 -8096 0 1 -300
-box -8096 -300 -6496 5460
+transform 1 0 -9600 0 1 -300
+box -9600 -300 -8000 5460
 use LELOTEMP_OTAR_N_LOAD_B xn_load_b ../LELO_TEMP_SKY130A
-transform 1 0 -8096 0 1 -300
-box -8096 -300 -6496 5460
+transform 1 0 -9600 0 1 -300
+box -9600 -300 -8000 5460
 use LELOTEMP_OTAR_N_MIRR xn_mirr ../LELO_TEMP_SKY130A
-transform 1 0 -8096 0 1 -300
-box -8096 -300 -6496 5460
+transform 1 0 -9600 0 1 -300
+box -9600 -300 -8000 5460
 use LELOTEMP_OTAR_P_BIAS xp_bias ../LELO_TEMP_SKY130A
-transform 1 0 -96 0 1 100
-box -96 100 1504 5860
+transform 1 0 -1600 0 1 100
+box -1600 100 0 5860
 use LELOTEMP_OTAR_P_IN_A xp_in_a ../LELO_TEMP_SKY130A
-transform 1 0 -96 0 1 100
-box -96 100 1504 5860
+transform 1 0 -1600 0 1 100
+box -1600 100 0 5860
 use LELOTEMP_OTAR_P_IN_B xp_in_b ../LELO_TEMP_SKY130A
-transform 1 0 -96 0 1 100
-box -96 100 1504 5860
+transform 1 0 -1600 0 1 100
+box -1600 100 0 5860
 use LELOTEMP_OTAR_P_SW xp_sw ../LELO_TEMP_SKY130A
-transform 1 0 -96 0 1 100
-box -96 100 1504 5860
+transform 1 0 -1600 0 1 100
+box -1600 100 0 5860
 use LELOTEMP_OTAR_R_DEG xr_deg ../LELO_TEMP_SKY130A
-transform 1 0 -8096 0 1 -300
-box -8096 -300 -4896 2260
+transform 1 0 -9600 0 1 -300
+box -9600 -300 -6400 2260
 << labels >>
 flabel metal2 s 2284 6090 3868 6150 0 FreeSans 400 0 0 0 VO
 port 3 nsew signal bidirectional
@@ -318,9 +330,9 @@ flabel locali s 0 13240 8000 13420 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
 flabel locali s 0 -300 8000 -120 0 FreeSans 400 0 0 0 VSS
 port 5 nsew ground bidirectional
-flabel locali s 2976 9880 3040 9960 0 FreeSans 400 0 0 0 VIP
+flabel metal1 s 3036 -300 3100 -220 0 FreeSans 400 0 0 0 VIP
 port 2 nsew signal bidirectional
-flabel locali s 1376 9880 1440 9960 0 FreeSans 400 0 0 0 VIN
+flabel metal1 s 1436 -300 1500 -220 0 FreeSans 400 0 0 0 VIN
 port 4 nsew signal bidirectional
 flabel locali s 4576 9880 4640 9960 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 6 nsew power bidirectional
