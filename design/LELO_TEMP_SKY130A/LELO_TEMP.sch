@@ -75,6 +75,9 @@ C {devices/lab_wire.sym} 840 -320 0 1 {name=p10 sig_type=std_logic lab=IBP_1U[3:
 C {devices/lab_wire.sym} 480 -320 0 0 {name=p5 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_wire.sym} 480 -260 0 0 {name=p6 sig_type=std_logic lab=VSS}
 C {JNW_TR_SKY130A/JNWTR_IVX1_CV.sym} 110 -300 0 0 {name=x6 }
+C {JNW_TR_SKY130A/JNWTR_TAPCELLB_CV.sym} 110 -160 0 0 {name=xtap_dig_0 }
+C {devices/lab_pin.sym} 110 -180 0 1 {name=l40 sig_type=std_logic lab=VDD_1V8}
+C {devices/lab_pin.sym} 110 -140 0 1 {name=l41 sig_type=std_logic lab=VSS}
 C {devices/lab_pin.sym} 150 -250 0 1 {name=l13 sig_type=std_logic lab=VSS}
 C {devices/lab_pin.sym} 150 -350 0 1 {name=l14 sig_type=std_logic lab=VDD_1V8}
 C {JNW_TR_SKY130A/JNWTR_IVX1_CV.sym} 210 -300 0 0 {name=x2 }
