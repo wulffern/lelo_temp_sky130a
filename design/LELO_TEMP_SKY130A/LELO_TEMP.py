@@ -50,29 +50,19 @@ class LELO_TEMP(SidecarCell):
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
         pair, the two buffers, the powerdown inverter chain."""
-        match = r'^x[1-7]$'
+        match = r'^(x[1-7]|xtap_dig_0)$'
         group = "dig"
         fill = False
         xspace = 4
-        order = ['x7', 'x3', 'x4', 'x1', 'x5', 'x2', 'x6']
+        order = ['xtap_dig_0', 'x7', 'x3', 'x4', 'x1', 'x5', 'x2',
+                 'x6']
 
-        def beforePlace(self, entry):
-            #- the CV logic family carries no taps of its own. ONE
-            #- JNWTR_TAPCELLB_CV abuts the strip's BOTTOM edge (its
-            #- designed position; it is 16000 tall). A top tap does
-            #- not work: unmirrored, its psub overhang lands in x6's
-            #- nwell; mirrored, its 28000 cover-the-cell-above
-            #- overhang plunges through x6 and x2 (measured, both
-            #- ways, as AVDD-AVSS merges). The strip's wells are
-            #- continuous columns, so the bottom tap contacts them
-            #- all.
-            lay = self.layout
-            x = int(min(i.x1 for i in self.instances))
-            lo = lay.addPhysicalInstance("JNWTR_TAPCELLB_CV",
-                                         "xtap_dig_0", x,
-                                         int(self.bottom()) - 16000)
-            if lo is not None:
-                self.addInstance(lo)
+        #- The tapcell is in the schematic now (the CV logic family
+        #- carries no taps of its own, and netgen counts the two
+        #- tie-off devices), so the stack places it like any other
+        #- instance -- first, at the strip's base. It used to be an
+        #- addPhysicalInstance here, which became a duplicate the
+        #- moment the schematic gained one.
 
         def beforeRoute(self, entry):
             #- every net is hand-routed at the top; the built-in
@@ -264,7 +254,7 @@ class LELO_TEMP(SidecarCell):
         #- CMPO_A, CMPO_B, RST_A and PWRUP_B). The two M1 stubs that
         #- feed the lanes cross each other's lane at their own rows,
         #- where the other net has only M4.
-        _xv, _xg = int(ca.x2) + 8000, int(ca.x2) + 20000
+        _xv, _xg = int(ca.x2) + 16000, int(ca.x2) + 28000
 
         def _stack1n(net, top_layer, cx, cy):
             ct = (_C.getInstance("M1", top_layer, 1, 1)
@@ -351,7 +341,25 @@ class LELO_TEMP(SidecarCell):
                 return
             ct.moveCenter(int(x), int(y))
             layout.add(ct)
-            #- a stack occupies every layer between its two ends
+            #- A stack's pad on a layer it only passes through is the
+            #- cut's own, 0.44 x 0.44 um = 0.19 um^2, under the 0.24
+            #- that met3.6/met4.4a want. Patch the pass-through metal
+            #- layers to 0.5 um square.
+            names = ["M1", "M2", "M3", "M4", "M5"]
+            try:
+                _lo, _hi = sorted((names.index(la), names.index(lb)))
+            except ValueError:
+                _lo = _hi = -1
+            for _k in range(_lo + 1, _hi):
+                if names[_k] not in ("M4", "M5"):
+                    continue
+                #- 0.3 x 0.85 um, not a 0.5 um square: the square is
+                #- wider than the 3 um lanes and ate the spacing to
+                #- the neighbouring lane on both sides
+                pt = Rect(names[_k], int(x) - 1500, int(y) - 4250,
+                          3000, 8500)
+                pt.setNet(net)
+                layout.add(pt)
             names = ["M1", "M2", "M3", "M4", "M5"]
             try:
                 lo, hi = sorted((names.index(la), names.index(lb)))
@@ -384,12 +392,35 @@ class LELO_TEMP(SidecarCell):
         w = 3000
         bias = layout.getInstanceFromInstanceName("x1_ibp")
         GAP = int(bias.x2)                       # 960000
-        L = lambda i: GAP + 2500 + (i - 1) * 6000
-        S = lambda j: int(bias.y2) + 1900 + (j - 1) * 6000
-        B = lambda j: 1500 + (j - 1) * 4500
+        #- L: 1 um off the bias edge, not 2.5 -- L(8) sat 2.5 um from
+        #- the comparator's own M5 edge bar, and met4.2 wants 3.
+        L = lambda i: GAP + 1000 + (i - 1) * 6000
+        #- S: the IBP bars leave the bias on M5 and turn east over its
+        #- top. The lanes must clear the bars' own tops (they cross
+        #- every bar on the way) and stay under the top ring -- and
+        #- under the TinyTapeout ceiling, which the old rows at
+        #- bias.y2+1900 and up overshot by 2 um. 7.5 um pitch: the
+        #- M4-M5 cut pads are 4.8 um, wider than the 3 um lane, so a
+        #- 6 um pitch leaves 1.2 um between pads.
+        #- clear of the block's OWN M5, which reaches 1.5 um higher
+        #- than the IBP pins do -- the wide source bars in the middle
+        #- of the block. Basing the rows on the pin tops ran S(1) and
+        #- S(2) straight through them (measured: IBP<3:2> on VDD).
+        #- ABOVE the block, not in its top strip: the strip carries
+        #- the block's own straps and the two lowest lanes shorted
+        #- IBP<3:2> onto VDD there (measured). 7 um pitch -- these are
+        #- long runs, and met4.5a/b ask 0.4 um of a long M4/M5 shape,
+        #- not the 0.3 um of met4.2.
+        S = lambda j: int(bias.y2) + 1900 + (j - 1) * 7000
+        #- The B and MY bands carry lanes on THREE layers, and only
+        #- same-layer lanes need the 3 um metal pitch: M3 and M4 lanes
+        #- share row 1 with the M5 lanes stacked above them at 6 um.
+        #- At the old 4.5 um pitch every neighbour pair was 1.5 um
+        #- apart and met3.2/met4.2 fired right down the band.
+        B = lambda j: 1500 + (j - 1) * 6000
         ca = layout.getInstanceFromInstanceName("x2_ccmp")
         cb = layout.getInstanceFromInstanceName("x3_ccmp")
-        MY = lambda j: int(ca.y2) + 1500 + (j - 1) * 4500
+        MY = lambda j: int(ca.y2) + 1500 + (j - 1) * 6000
         D = lambda i: int(ca.x2) + 3200 + (i - 1) * 6000
 
         import os
@@ -414,23 +445,26 @@ class LELO_TEMP(SidecarCell):
         #- supply ties (M4/M5 verticals) or with each other.
         dig0 = layout.getInstanceFromInstanceName("x7")
         DIG_X1 = int(dig0.x1)
-        #- The strip's own occupancy, in cell-local units off DIG_X1:
-        #-   13500..22500   A pins (li)
-        #-   31500..40500   Y pins (li) AND the AVSS column, which is
-        #-                  an M1-M4 cut stack in every cell -- an M2
-        #-                  column here ties every Y pin to AVSS
-        #-   58500..67300   the AVDD column, same stack
-        #- which leaves three clear bands. Each net gets a 3 um column
-        #- with at least 1 um to the band edge.
+        #- The strip's own occupancy, in cell-local units off DIG_X1.
+        #- The li pins do not block M2 -- only these do:
+        #-   31500..40300   AVSS column: an M1-M4 cut stack in every
+        #-                  cell, so an M2 column here ties every Y
+        #-                  pin to AVSS (measured)
+        #-   58500..67300   AVDD column, same stack
+        #-   16300..19700   the M2 pad this file lands on each A pin
+        #-   34300..37700   the same on each Y pin
+        #- Columns run at a 6 um pitch: the M2-M3 cut pad is 4.4 um,
+        #- wider than the 3 um column, and a tighter pitch leaves the
+        #- pads 1.1 um apart where met1.2 wants 1.4.
         COL = {
-            "CMPO_A":      DIG_X1 + 1500,
-            "CMPO_B":      DIG_X1 + 5500,
-            "RST_B":       DIG_X1 + 9500,
-            "RST_A":       DIG_X1 + 23500,
-            "PWRUP_N_1V8": DIG_X1 + 27500,
-            "PWRUP_B_1V8": DIG_X1 + 42000,
-            "net1":        DIG_X1 + 46500,
-            "net2":        DIG_X1 + 51000,
+            "CMPO_A":      DIG_X1 + 1000,
+            "CMPO_B":      DIG_X1 + 7000,
+            "RST_B":       DIG_X1 + 23500,
+            "RST_A":       DIG_X1 + 42000,
+            "PWRUP_N_1V8": DIG_X1 + 48000,
+            "PWRUP_B_1V8": DIG_X1 + 54000,
+            "net1":        DIG_X1 + 68000,
+            "net2":        DIG_X1 + 74000,
         }
 
         def link_logic(net, pins, ylane=None, x_from=None):
@@ -449,10 +483,15 @@ class LELO_TEMP(SidecarCell):
                 r = P(inst, pinname)
                 ry = int(r.centerY())
                 #- M3 across: an M2 stub would cross the other nets'
-                #- columns on its own layer
+                #- columns on its own layer. At MINIMUM width: the
+                #- cells' pin rows are 4 um apart, and 3 um stubs on
+                #- neighbouring rows leave 1 um where met2.2 wants
+                #- 1.4. The cut pads are wider than that, but two
+                #- neighbouring rows belong to different nets on
+                #- different columns, so their pads never meet.
                 stk(net, "M2", "M3", col + 1500, ry)
-                wire(net, "M3", col, ry - 1500,
-                     int(r.centerX()) + 1700, ry + 1500)
+                wire(net, "M3", col, ry - 700,
+                     int(r.centerX()) + 1700, ry + 700)
                 stk(net, "M3", "M2", int(r.centerX()), ry)
                 pad(net, r)
 
@@ -500,21 +539,26 @@ class LELO_TEMP(SidecarCell):
             ibp = []
             for k in range(4):
                 ibp.append(P("x1_ibp", f"IBP_1U<{k}>"))
-            keys = ["IBP_1U<2>", "IBP_1U<3>", "IBP_1U<0>", "IBP_1U<1>"]
-            tgts = [P("x2_ccmp", "IBP_1U<2>"), P("x2_ccmp", "IBP_1U<3>"),
-                    P("x3_ccmp", "IBP_1U<0>"), P("x3_ccmp", "IBP_1U<1>")]
-            bars = [ibp[2], ibp[3], ibp[0], ibp[1]]
-            hows = ["B2", "M3stub", "MY2", "M3stub"]
+            #- RIGHT to LEFT: each bar climbs to its lane on its OWN
+            #- M5, which is the only layer that crosses the block's
+            #- top strip cleanly -- an M4 riser met the block's own
+            #- straps there (measured: IBP<3:2> on VDD). A riser can
+            #- only stay on M5 if no LOWER lane passes over it, and
+            #- the lanes run east, so the rightmost bar takes the
+            #- lowest lane.
+            keys = ["IBP_1U<3>", "IBP_1U<2>", "IBP_1U<1>", "IBP_1U<0>"]
+            tgts = [P("x2_ccmp", "IBP_1U<3>"), P("x2_ccmp", "IBP_1U<2>"),
+                    P("x3_ccmp", "IBP_1U<1>"), P("x3_ccmp", "IBP_1U<0>")]
+            bars = [ibp[3], ibp[2], ibp[1], ibp[0]]
+            hows = ["M3stub", "B2", "M3stub", "MY2"]
             _ib = os.environ.get("IB", "0123")
             for _k, (net, bar, sj, li_, tgt, how) in enumerate(zip(
                     keys, bars, (1, 2, 3, 4), (3, 4, 5, 6), tgts, hows)):
                 if str(_k) not in _ib:
                     continue
                 bx = int(bar.centerX())
-                stk(net, "M5", "M4", bx, int(bar.y2) - 1500)
-                wire(net, "M4", bx - 1500, int(bar.y2) - 3000,
+                wire(net, "M5", bx - 1500, int(bar.y2) - 3000,
                      bx + 1500, S(sj) + w)
-                stk(net, "M4", "M5", bx, S(sj) + 1500)
                 wire(net, "M5", bx - 1500, S(sj), L(li_) + w, S(sj) + w)
                 stk(net, "M5", "M4", L(li_) + 1500, S(sj) + 1500)
                 if how == "B2":
@@ -553,7 +597,19 @@ class LELO_TEMP(SidecarCell):
             yn = int(pn.y1) - 300000
             wire("PWRUP_N_1V8", "M5", pnx - 1500, yn - 1500,
                  L(7) + w, yn + 1500)
-            wire("PWRUP_N_1V8", "M5", L(7), B(4), L(7) + w, yn + 1500)
+            #- the crossing row: above ccmp_b, where the corridor
+            #- carries nothing. The B band under ccmp_a is 24 um tall
+            #- and holds four lanes at the 6 um metal pitch, which VC,
+            #- IBP, RST_B and PWRUP_B already fill.
+            ytn = int(cb.y2) + 8500
+            #- the L7 riser has to cover EVERY attach row: the bias
+            #- stub, both comparator bars and the crossing row. When
+            #- the crossing moved above the pair it stopped reaching
+            #- down to the bars and ccmp_b's PWRUP_N went open.
+            _bys = [int(P(cc, "PWRUP_N_1V8").centerY())
+                    for cc in ("x2_ccmp", "x3_ccmp")]
+            wire("PWRUP_N_1V8", "M5", L(7), min(_bys + [yn]) - 1500,
+                 L(7) + w, max(_bys + [ytn + w, yn + 1500]))
             for cc in ("x2_ccmp", "x3_ccmp"):
                 #- the stub crosses the PWRUP_B L8 vertical: hop it on
                 #- M4, with the vias on the L7 vertical and on the
@@ -568,12 +624,12 @@ class LELO_TEMP(SidecarCell):
             #- L(8) is PWRUP_B's M5 riser spanning the whole height:
             #- crossing it on M5 shorted the two (measured). Hop over
             #- on M4, then carry on east.
-            wire("PWRUP_N_1V8", "M5", L(7), B(4), L(7) + 4500, B(4) + w)
-            stk("PWRUP_N_1V8", "M5", "M4", L(7) + 3000, B(4) + 1500)
-            wire("PWRUP_N_1V8", "M4", L(7) + 3000, B(4),
-                 L(8) + 7500, B(4) + w)
-            stk("PWRUP_N_1V8", "M4", "M5", L(8) + 6000, B(4) + 1500)
-            to_logic("PWRUP_N_1V8", L(8) + 4500, B(4),
+            wire("PWRUP_N_1V8", "M5", L(7), ytn, L(7) + 4500, ytn + w)
+            stk("PWRUP_N_1V8", "M5", "M4", L(7) + 3000, ytn + 1500)
+            wire("PWRUP_N_1V8", "M4", L(7) + 3000, ytn,
+                 L(8) + 7500, ytn + w)
+            stk("PWRUP_N_1V8", "M4", "M5", L(8) + 6000, ytn + 1500)
+            to_logic("PWRUP_N_1V8", L(8) + 4500, ytn,
                      [("x2", "PWRUP_N_1V8"), ("x7", "PWRUP_N_1V8"),
                       ("x6", "PWRUP_N_1V8")])
 
@@ -585,10 +641,10 @@ class LELO_TEMP(SidecarCell):
             yb = int(pb.y1) - 124000
             wire("PWRUP_B_1V8", "M5", pbx - 1500, yb - 1500,
                  L(8) + w, yb + 1500)
-            wire("PWRUP_B_1V8", "M5", L(8), B(3), L(8) + w, yb + 1500)
+            wire("PWRUP_B_1V8", "M5", L(8), B(4), L(8) + w, yb + 1500)
             #- B(5)/MY(4): a riser must sit on the HIGHEST lane of its
             #- band, or it climbs through the ones above it
-            for cc, yl in (("x2_ccmp", B(5)), ("x3_ccmp", MY(4))):
+            for cc, yl in (("x2_ccmp", B(4)), ("x3_ccmp", MY(5))):
                 drop = P(cc, "PWRUP_B_1V8")
                 #- the ccmp's own drop column stands 12000 east of the
                 #- interior pin and STOPS at the top of the cell's own
@@ -622,7 +678,7 @@ class LELO_TEMP(SidecarCell):
                      dx + 6000, ylo + 4000)
             #- cross at MY(4), the lane its ccmp_b drop already uses:
             #- RST_B owns B(3), and two nets on one M5 lane is a short
-            to_logic("PWRUP_B_1V8", L(8), MY(4),
+            to_logic("PWRUP_B_1V8", L(8), MY(5),
                      [("x2", "PWRUP_B_1V8")])
 
         if on("cmpoa"):
@@ -631,9 +687,9 @@ class LELO_TEMP(SidecarCell):
             cma = P("x2_ccmp", "CMPO_A")
             cx = int(cma.centerX())
             wire("CMPO_A", "M2", cx - 1500, int(cma.y1), cx + 1500,
-                 MY(5) + w)
-            stk("CMPO_A", "M2", "M5", cx, MY(5) + 1500)
-            to_logic("CMPO_A", cx - 1500, MY(5), [("x1", "CMPO_A")])
+                 MY(4) + w)
+            stk("CMPO_A", "M2", "M5", cx, MY(4) + 1500)
+            to_logic("CMPO_A", cx - 1500, MY(4), [("x1", "CMPO_A")])
 
         if on("cmpob"):
             #- CMPO_B: comparator B's output over its own top, then east
