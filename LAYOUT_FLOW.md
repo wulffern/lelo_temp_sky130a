@@ -41,6 +41,93 @@ If broader analysis is needed, `sch2mag` also supports a slower full connectivit
 
 That mode is useful for split nets and opens, but it is not the default path for routing iteration.
 
+## The Sidecar Flow
+
+`<CELL>.py` is a declaration, not a script. A cell describes its stacks
+as classes and lets the recipe build them:
+
+```python
+class LELO_TEMP(SidecarCell):
+    place = {"groupbreak": 2, "channel": 6}
+
+    class bias(Stack):
+        match = r'^x1_ibp$'
+        group = "bias"
+        order = ['x1_ibp']
+
+    rows = [[bias, ccmp_a, dig]]
+```
+
+A subcell class may carry `beforePlace(self, entry)` and
+`beforeRoute(self, entry)` hooks where `self` IS the built group;
+returning `True` from `beforeRoute` claims the stack **entirely**, so
+the built-in router leaves its boundary nets alone too. The cell itself
+overrides `afterPlace` / `beforeRoute` / `beforePaint` and calls
+`super()` -- the escape hatch is ordinary inheritance.
+
+Searched routes are captured as `wires` declarations in the subcell
+classes so a rebuild replays them instead of re-running the maze
+router. `CICPY_NO_ROUTEPLAN=1` forces a fresh search.
+
+## Integrating Blocks At The Top
+
+A top level that places finished blocks obeys different rules than a
+cell full of transistors. What this repository learned building
+`LELO_TEMP`:
+
+**Do not call `addPowerConnection` at a block-integration top.** It
+stretches *every* published supply rectangle to the ring, mid-cell tap
+bars included, and each stretched copy slices through the core it came
+from. Tie each block's own edge bar instead.
+
+**`addRouteRing` wraps the layout bounding box, which does not count
+physical-only instances.** Build a rectangle spanning every instance
+and use `addRouteRingOnRect`, or the ring lands inside the content.
+
+**Attach to rings in `beforePaint`, not `beforeRoute`.** The rings
+re-lay as routes grow the bounding box, so a cut placed at the
+`beforeRoute` position ends up off by the difference.
+
+**Route over the standard cells, not beside them.** The JNWTR logic
+cells carry li, poly and their two M4 supply columns and nothing else,
+so M2, M3 and M5 are free the full height of a strip. A corridor beside
+the strip has a handful of lanes; the strip itself has as many columns
+as you need. Two traps go with it: the Y-pin column *is* the AVSS
+column, an M1-M4 cut stack in every cell, so a vertical there ties
+every output to AVSS; and the pin rows are 4 um apart, so the stubs
+reaching them must run at minimum width.
+
+**Give every riser the highest lane in its band.** A riser that climbs
+from its lane into a block passes through every lane above it.
+
+**Order parallel risers so no lane crosses another riser.** Lanes that
+run east must be assigned right to left.
+
+### Spacing the lanes
+
+The pitches are set by rules that are easy to guess wrong:
+
+| Rule | What it actually asks |
+|:-----|:----------------------|
+| met4.5a/b | a long M4/M5 run is *large metal*: 0.4 um to its neighbours, not the 0.3 um of met4.2 |
+| met3.6, met4.4a | a via stack's pass-through pad is 0.19 um^2, under the 0.24 minimum; patch it long and narrow, never as a square wider than the lane |
+| met1.2 | the M2-M3 cut pad is 4.4 um, wider than a 3 um column |
+| capm.11 | a MiM cap claims 1.34 um from unrelated M4, including from outside its own cell |
+
+### The collision report
+
+`_signal_routes` in `LELO_TEMP.py` records every wire and via stack it
+draws and reports colliding nets by name, layer and coordinate at build
+time:
+
+```
+ERROR: ROUTE SHORT PWRUP_N_1V8 x PWRUP_B_1V8 on M5 at (1260600,19500)..(1266600,22500)
+```
+
+It sees shorts, not opens. An open still needs the netlist -- when the
+device counts match but the layout has one net *more* than the
+schematic, something is split, not shorted.
+
 ## What Is New In The Flow
 
 The current work is moving `cicpy` from plain name-based row placement toward analog-aware grouping:

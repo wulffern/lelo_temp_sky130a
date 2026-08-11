@@ -1,5 +1,10 @@
 # LELOTEMP_OTAR, what is left
 
+> **DONE, 2026-08-09.** Kept for the measurements and the
+> traps, which still hold. The state described below is the
+> flat flow it was stuck in; see the footer for what actually
+> finished it.
+
 `LELOTEMP_OTAR` is `LELOTEMP_OTA` on the REY_ATR_SKY130A transistors. Same
 netlist: same instances, same nets, same connectivity, same device sizes.
 It exists because the OTA could not be finished on the JNWATR cells —
@@ -183,10 +188,10 @@ a short.
 **STATUS 2026-08-09: DONE.** LELOTEMP_OTAR is DRC OK and LVS
 "Circuits match uniquely" — the top and all eight subcells, each
 verified standalone. The method that finished it is not the flat flow
-this plan describes but the sidecar flow: `LELOTEMP_OTAR.yaml` holds
-subcells/rows/supplies/hier, `make subcells CELL=LELOTEMP_OTAR` then
-`make hier CELL=LELOTEMP_OTAR` builds everything, and the only python
-left is the p_sw ladder's stack pycell. The current method is
+this plan describes but the sidecar flow. (The yaml sidecar it used
+at the time has since been replaced by the declarative Python one:
+`LELOTEMP_OTAR.py` holds a `SidecarCell` subclass whose nested `Stack`
+classes carry the subcells, rows, supplies and their hooks.) The current method is
 documented in cicpy `docs/agent_layout.md` ("The sidecar flow").
 Verify with `make drc` / `make gds cdl lvs` and read the LVS
 `Final result:` line only — "match uniquely with port errors" is a

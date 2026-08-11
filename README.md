@@ -78,6 +78,79 @@ of the curve needs to be compensated for. See the python model for details.
 
 <sub>Figure 3: Simulation of the verilog model of the oscillator</sub>
 
+## Layout status
+
+The whole sensor is placed and routed into a TinyTapeout 1x1 tile:
+**156.18 x 111.50 um** of content in the 161.00 x 111.52 um budget.
+
+![](design/LELO_TEMP_SKY130A/LELO_TEMP_layout.png)
+
+<sub> Figure 7: LELO_TEMP top level. The bias loop fills the left
+96 um, the two comparators stack in the middle column, and the
+oscillator's logic sits in the strip on the right. </sub>
+
+| Block | Placement | DRC | LVS |
+|:------|:----------|:----|:----|
+| `LELOTEMP_BIAS_IBP` | 96 x 106.5 um | 8 slivers | Circuits match uniquely |
+| `LELOTEMP_CCMP`     | 41 x 37.4 um  | clean     | Circuits match uniquely |
+| `LELO_TEMP` (top)   | 156.2 x 111.5 um | 93    | 30/30 devices, one artefact |
+
+The top level's one remaining LVS line is not a routing error: magic's
+hierarchical extraction promotes the OTA's `VR1` label to a twelfth
+port on the bias block, and it appears with zero top-level paint
+present. Every block-to-block net -- LPI, IBP_1U<3:0>, VC, both
+comparator outputs, both resets, PWRUP_N, PWRUP_B, VDD_1V8 and VSS --
+connects correctly.
+
+### How the top level is routed
+
+![](design/LELO_TEMP_SKY130A/LELO_TEMP_routing.png)
+
+<sub> Figure 8: The same cell with the placed blocks greyed out, so
+only the top level's own wires show. </sub>
+
+Two ideas carry the routing, and both came out of failures worth
+recording.
+
+**Supplies attach at the blocks' own edges.** `addPowerConnection`
+stretches *every* published supply rectangle to the ring, mid-cell tap
+bars included, and each stretched copy slices through the core it came
+from. The first top-level extraction came back as a single VSS blob
+because of it. Each block now ties its own edge bar, and the rings sit
+on an explicit rectangle spanning every instance -- the default wraps
+the layout bounding box, which does not count the physical-only
+tapcell, so the bottom ring landed 2 um inside the content and shorted
+the logic strip's AVDD to AVSS.
+
+**Fan-out verticals run over the logic, not beside it.** Eight nets
+wanted a vertical lane in the 40 um corridor between the comparators
+and the logic strip, which holds six. But the JNWTR logic cells carry
+li, poly and their two M4 supply columns and nothing else, so M2, M3
+and M5 are free the full height of the strip. Each net crosses the
+corridor once on M5 at its own row and turns down its own M2 column
+*over* the cells, with a minimum-width M3 stub to each pin. The
+corridor is left carrying horizontals only.
+
+The lane pitches are set by rules that are easy to guess wrong:
+
+- a long M4/M5 run counts as large metal and asks **0.4 um** of its
+  neighbours (met4.5a/b), not the 0.3 um of met4.2
+- a via stack's pad on a layer it only *passes through* is
+  0.44 um square = 0.19 um^2, under the 0.24 um^2 minimum area; the
+  patch has to be long and narrow, because a square wider than the
+  lane eats the spacing on both sides
+- the M2-M3 cut pad is 4.4 um, wider than a 3 um column
+- the strip's pin rows are 4 um apart, so the stubs reaching them run
+  at minimum width
+
+`_signal_routes` in
+[LELO_TEMP.py](design/LELO_TEMP_SKY130A/LELO_TEMP.py) records every
+wire and via stack it draws and reports colliding nets by name, layer
+and coordinate at build time. Finding one crossing by bisecting builds
+against the extract took most of a day; the report finds them all in
+the build that made them. It sees shorts, not opens -- an open still
+needs the netlist.
+
 ## Layout direction
 
 The layout flow in this repository is 
@@ -88,42 +161,6 @@ The goal is to get an agent to write the necessary python to do the layout.
 This work is described in more detail in [LAYOUT_FLOW.md](LAYOUT_FLOW.md),
 and the operational guide an agent should read first is
 [agent_layout](https://analogicus.com/cicpy/agent_layout) in cicpy.
-
-### Bias block status
-
-The bias loop `LELOTEMP_BIAS_IBP` now uses the pmos input OTA
-`LELOTEMP_OTA` again. The nmos input version ran out of input common mode
-at the hot end: the OTA inputs sit at a diode voltage, roughly 0.45 V at
-125 C, and an nmos pair needs about 0.6 V on a 1.8 V supply. A startup of
-two diode connected pmos in series from VDD into VD1 breaks the zero
-current state and turns itself off once the loop runs. Typical transient:
-1.15 uA per output, 29 uA supply, 0.62 us settling.
-
-`LELOTEMP_OTA` placement is DRC clean. Routing is **not finished**. What
-is left, in order:
-
-1. **The VCP ladder placement shorts before any route.** The `xbs`
-   devices form a series chain, and stacked at the library overlap pitch
-   the cells merge their M2 rails, which shorts every junction to
-   VDD_1V8. DRC does not see this, `cicpy sch2mag --check-connectivity`
-   does, and `--strict` refuses to route until it is fixed. Opening the
-   stack pitch was not enough; the layout GUI cross probe is the fastest
-   way to see which shapes merge.
-2. **Two router limitations block bundle routing** of the columns that
-   carry several nets on one terminal. Horizontal bars of a row channel
-   all land at the same height regardless of the `track` option, so two
-   nets sharing a channel short, and `routeMirror` puts every rail of a
-   column at the same x. Both want a fix in cicpy rather than a
-   workaround here.
-3. **Cross links between the column rails** are then drawn one at a time
-   under `cicpy sch2mag --strict`, which stops at the first route that
-   creates a short and names the command and line that drew it.
-4. LVS closes it: `make gds cdl lvs CELL=LELOTEMP_OTA`. DRC alone cannot
-   see a short.
-
-The nets still open are listed by the connectivity check: VD1, VD2, VD3,
-VBP, VO, VCP, VS, net1, PWRUP_1V8, PWRUP_N_1V8, VIN, VIP and the ladder
-nets net2 to net6.
 
 # What
 

@@ -27,6 +27,9 @@ See work/Makefile for commands
 - Use `CTAPBOT` and `CTAPTOP` physical cells as end-caps around vertical transistor stacks when needed. They are physical-only, so warnings about missing SPICE subckts are expected when generating layout.
 - Put startup or enable devices under the branch they assist if that shortens a critical branch net. Put output pull-up/pull-down devices in a column that keeps the `VO` route short and direct.
 - In custom `cicpy` Python placers, disable the default `AVDD/AVSS` paint step with `layout.noPowerRoute = True` when the cell instead uses `VDD_1V8`/`VSS`.
+- `<CELL>.py` is a **declarative sidecar**: a `SidecarCell` subclass whose nested `Stack` classes describe the stacks and whose `rows` list the floorplan. A subcell hook's `self` IS the built group; returning `True` from its `beforeRoute` claims that stack entirely, boundary nets included. The cell overrides `afterPlace`/`beforeRoute`/`beforePaint` by ordinary inheritance and calls `super()`.
+- Searched routes are captured as `wires` declarations in the subcell classes and replayed on rebuild; `CICPY_NO_ROUTEPLAN=1` forces a fresh maze search.
+- A hand-routed cell should record what it draws and check itself. `_signal_routes` in `LELO_TEMP.py` logs every wire and via stack and reports colliding nets by name, layer and coordinate at build time. It finds shorts, not opens.
 - When debugging routing, prefer the fast route-short report from `cicpy sch2mag`. It now runs automatically and is intended to point back to the Python route statement that caused the short.
 - Use full connectivity checking only when needed. `cicpy sch2mag --check-connectivity <LIB> <CELL>` is slower and better suited for broader open/split-net analysis than day-to-day route debugging.
 - `sch2mag` writes a top-cell `.cic` plus generated cut cells. Child library cells are not embedded in that file. When rendering or inspecting such a cell outside Magic, include dependent library `.cic` files explicitly.
@@ -50,6 +53,25 @@ See work/Makefile for commands
 - When a cap bank participates in a bias net, route the cap stack internally first on the cap’s native top metal, then connect that stack to the rest of the circuit. Do not drop vias through the MIM body to reach lower metals.
 - If a hierarchical route keeps collapsing to one discovered access, treat that as a port-exposure problem first. Fix the child edge port or primitive port visibility before adding custom parent routing logic.
 - For analog parent cells, reserve distinct corridors for unrelated control/bias nets early. In this block, `IBP_1U<0>` and `PWRUP_N_1V8` should not be forced through the same side corridor near `x1_cmp`.
+
+## Top-level integration
+These only show up when a cell places finished blocks rather than transistors. All measured on `LELO_TEMP`.
+- **Never call `addPowerConnection` at a block-integration top.** It stretches *every* published supply rect to the ring, mid-cell tap bars included, and each stretched copy slices through the core it came from. The first top extraction came back as one VSS blob. Tie each block's own edge bar instead.
+- **`addRouteRing` wraps the layout bounding box, which does not count physical-only instances.** Build a rect spanning every instance and use `addRouteRingOnRect`. The default put the bottom ring 2 um inside the content, where its 9 um li bar shorted the logic strip's AVDD to AVSS.
+- **Attach to rings in `beforePaint`, not `beforeRoute`.** The rings re-lay as routes grow the bbox; a cut placed at the `beforeRoute` position lands off by the difference.
+- **Route fan-out verticals OVER a standard-cell strip, not beside it.** JNWTR cells carry li, poly and their two M4 supply columns and nothing else, so M2/M3/M5 are free the strip's full height. A corridor beside the strip has a handful of lanes; the strip has as many columns as needed.
+- **The Y-pin column IS the AVSS column.** Every JNWTR cell puts an M1-M4 cut stack there, so an M2 vertical down that column ties every output to AVSS. Same for the AVDD column.
+- **Pin rows in the strip are 4 um apart**, so the stubs reaching them run at minimum width; 3 um stubs on neighbouring rows leave 1 um where met2.2 wants 1.4.
+- **A riser takes the highest lane in its band.** Climbing from a lower lane means passing through every lane above it.
+- **Order parallel risers so no lane crosses another riser.** Lanes running east must be assigned right to left.
+- **Base a lane on the block's real metal extent, not on its pins.** Basing the IBP rows on the pin tops ran two of them through the block's own source bars, 1.5 um higher.
+- A riser or lane that must reach several attach rows has to span all of them — when the device counts match but the layout has one net **more** than the schematic, something is open, not shorted.
+
+## Spacing rules that are easy to guess wrong
+- A long M4/M5 run is **large metal**: met4.5a/b ask 0.4 um to its neighbours, not the 0.3 um of met4.2. Parallel lanes need a 7 um pitch, not 6.
+- A via stack's pad on a layer it only *passes through* is 0.44 um square = 0.19 um^2, under the 0.24 um^2 of met3.6/met4.4a. Patch it **long and narrow** (0.3 x 0.85 um); a 0.5 um square is wider than the lane and eats the spacing on both sides.
+- The M2-M3 cut pad is 4.4 um, wider than a 3 um column — columns need a 6 um pitch even though the metal is 3.
+- A MiM cap claims 1.34 um from unrelated M4 (capm.11), including from metal outside its own cell.
 
 ## Layout rules
 - Always connect diode connected transistor gate/drain in lowest possible metal layer
