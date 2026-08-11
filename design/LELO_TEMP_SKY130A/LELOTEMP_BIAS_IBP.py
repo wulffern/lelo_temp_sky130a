@@ -61,11 +61,11 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         order = [r'xd3<\d+>']
         wires = [
             ('VSS', 'blocked', "no path for VSS from (1040900, 1098000, 'M1') to (1040900, 1138000, 'M1'); closest approach (1040900, 1098000, 'M1') (40000 away)"),
-            ('R1<0>', 'M1', '||', 'trunkx=26200'),
-            ('R1<1>', 'M1', '||', 'trunkx=26200'),
-            ('R1<2>', 'M1', '||', 'trunkx=26200'),
-            ('R1<3>', 'M1', '||', 'trunkx=26200'),
-            ('R1<4>', 'M1', '||', 'trunkx=26200'),
+            ('R1<0>', 'M1', '||', 'trunktab'),
+            ('R1<1>', 'M1', '||', 'trunktab'),
+            ('R1<2>', 'M1', '||', 'trunktab'),
+            ('R1<3>', 'M1', '||', 'trunktab'),
+            ('R1<4>', 'M1', '||', 'trunktab'),
         ]
         wires_key = "6dad32574c7a"
 
@@ -98,8 +98,8 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         channel = "src"
         order = ['xca2', r'xca3<\d+>', r'xca1<\d+>']
         wires = [
-            ('VDD_1V8', 'M2', '-|--', 'trunkx=-800'),
-            ('LPI', 'M1', '||', 'trunkx=57600'),
+            ('VDD_1V8', 'M2', '-|--', 'trunktab'),
+            ('LPI', 'M1', '||', 'trunktab'),
             ('VBD1', 'blocked', "path for VBD1 is not a shape route.py can draw (13 nodes, layers ['M1', 'M2'])"),
         ]
         wires_key = "a295e31e2fcc"
@@ -121,8 +121,8 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         order = ['xca4', r'xca2<\d+>', r'xca5<\d+>']
         wires = [
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (479200, 1470000, 'M1') to (479200, 1510000, 'M1'); closest approach (479200, 1470000, 'M1') (40000 away)"),
-            ('VBD1', 'M1', '||', 'trunkx=25500'),
-            ('VCP', 'M1', '||', 'trunkx=57600'),
+            ('VBD1', 'M1', '||', 'trunkleft'),
+            ('VCP', 'M1', '||', 'trunktab'),
             ('VD1', 'blocked', "path for VD1 is not a shape route.py can draw (15 nodes, layers ['M1', 'M2'])"),
         ]
         wires_key = "caa71805a52e"

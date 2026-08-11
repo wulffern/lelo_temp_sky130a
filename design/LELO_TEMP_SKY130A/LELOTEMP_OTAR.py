@@ -51,10 +51,10 @@ class LELOTEMP_OTAR(SidecarCell):
         #- falls back to the search and prints a fresh
         #- block
         wires = [
-            ('VDD_1V8', 'M1', '||', 'trunkx=-800'),
-            ('VD1', 'M1', '||', 'trunkx=64100'),
-            ('VIN', 'M1', '||', 'trunkx=70400'),
-            ('VS', 'M1', '||', 'trunkx=15900'),
+            ('VDD_1V8', 'M1', '||', 'trunktab'),
+            ('VD1', 'M1', '||', 'trunkright'),
+            ('VIN', 'M1', '||', 'trunktab'),
+            ('VS', 'M1', '||', 'trunkleft'),
         ]
         wires_key = "4f9492b9c6c6"
 
@@ -70,9 +70,9 @@ class LELOTEMP_OTAR(SidecarCell):
         #- block
         wires = [
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (159200, 446000, 'M1') to (159200, 486000, 'M1'); closest approach (159200, 446000, 'M1') (40000 away)"),
-            ('VD2', 'M1', '||', 'trunkx=64100'),
-            ('VIP', 'M1', '||', 'trunkx=70400'),
-            ('VS', 'M1', '||', 'trunkx=15900'),
+            ('VD2', 'M1', '||', 'trunkright'),
+            ('VIP', 'M1', '||', 'trunktab'),
+            ('VS', 'M1', '||', 'trunkleft'),
         ]
         wires_key = "81f6802f0dd3"
 
@@ -107,7 +107,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (278200, 350000, 'M1') to (239200, 366000, 'M1'); closest approach (239200, 366000, 'M3') (0 away)"),
             ('PWRUP_1V8', 'blocked', "path for PWRUP_1V8 is not a shape route.py can draw (47 nodes, layers ['M1', 'M2', 'M3'])"),
             ('VBP', 'blocked', "path for VBP is not a shape route.py can draw (15 nodes, layers ['M1', 'M2', 'M3'])"),
-            ('VO', 'M1', '||', 'trunkx=64100'),
+            ('VO', 'M1', '||', 'trunkright'),
         ]
         wires_key = "bb829ffad027"
 
@@ -204,7 +204,7 @@ class LELOTEMP_OTAR(SidecarCell):
         #- falls back to the search and prints a fresh
         #- block
         wires = [
-            ('VSS', 'M2', '-|--', 'trunkx=-800'),
+            ('VSS', 'M2', '-|--', 'trunktab'),
             ('VD1', 'blocked', 'VD1: pins share only -3200 of column, a straight vertical cannot land'),
         ]
         wires_key = "31185f64694d"
@@ -301,7 +301,7 @@ class LELOTEMP_OTAR(SidecarCell):
         #- block
         wires = [
             ('VSS', 'blocked', "no path for VSS from (719200, 34000, 'M1') to (719200, 74000, 'M1'); closest approach (719200, 34000, 'M1') (40000 away)"),
-            ('R1<0>', 'M1', '||', 'trunkx=26200'),
+            ('R1<0>', 'M1', '||', 'trunktab'),
         ]
         wires_key = "ca19e31a456f"
 
