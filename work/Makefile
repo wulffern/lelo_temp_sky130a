@@ -18,10 +18,13 @@ CELLS = LELO_TEMP
 
 include ../tech/make/core.make
 
-ota:
-	cicpy sch2mag  --techlib sky130 ${LIB} LELOTEMP_OTA
+#- ONE command for every cell: sch2mag reads <CELL>.py and picks the
+#- flow. A sidecar that names a hier_cell gets the two-pass build
+#- (subcells, then the parent assembled from them); everything else is
+#- placed and routed in one pass. SUBCELL=<name> writes just that
+#- subcell and leaves the parent alone.
 mag:
-	cicpy sch2mag ${LIB} ${CELL} ${OPT}
+	cicpy sch2mag ${LIB} ${CELL} $(if ${SUBCELL},--subcell ${SUBCELL},) ${OPT}
 #- Two steps, and the order is the point: every subcell is generated and
 #- verified before the parent that will hold them is built.
 #-
