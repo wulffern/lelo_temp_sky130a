@@ -107,9 +107,9 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
             conn("M1", "^VBD1$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^xca1<\d+>$")
+                 2, "", r"^xca1<\d+>$")
             conn("M2", "^LPI$", "||", "trunktab",
-                 1, "", r"^(xca1<\d+>|xca2|xca3<\d+>)$")
+                 2, "", r"^(xca1<\d+>|xca2|xca3<\d+>)$")
             return None
 
     class p_cas(Stack):
@@ -130,11 +130,11 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
             conn("M1", "^VD1$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^xca5<\d+>$")
+                 2, "", r"^xca5<\d+>$")
             conn("M1", "^VBD1$", "||", "trunkleft,nostartcut,noendcut",
-                 1, "", r"^xca5<\d+>$")
+                 2, "", r"^xca5<\d+>$")
             conn("M2", "^VCP$", "||", "trunktab",
-                 1, "", r"^(xca2<\d+>|xca4|xca5<\d+>)$")
+                 2, "", r"^(xca2<\d+>|xca4|xca5<\d+>)$")
             return None
 
     class p_su(Stack):
@@ -282,7 +282,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         #- drop: the drop's vertical would run the drain window and
         #- clip the IBP pin stacks (its discovered drop is skipped)
         #self.addConnectivityRoute("M4", "^VD1$", "-|--",
-        #                          "cutaligncenter,endStopLayerM2", 1, "",
+        #                          "cutaligncenter,endStopLayerM2", 2, "",
         #                          r"^(xp_cas|xp_su)$")
 
 
@@ -308,7 +308,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         #- (measured: five nets merged through exactly that)
         for net in ("IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>", "VBD1"):
             self.addConnectivityRoute("M4", f"^{net}$", "-|--", "",
-                                      1, "", "")
+                                      2, "", "")
         #- LEFT-aligned, which is the default: the pin is 22.4 um of
         #- li and the cut lands at its left end, 6.5 um clear of VR1's
         #- trunk. cutalignright puts it at the RIGHT end, on top of
@@ -316,12 +316,12 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         #- recentred whatever the alignment said, so the option was
         #- picked for a side effect it no longer has.
         self.addConnectivityRoute("M4", "^VBD2$", "-|--",
-                                  "", 1, "", "")
+                                  "", 2, "", "")
         #- VD1 enters p_cas by a seam hop from p_su, NOT by a channel
         #- drop: the drop's vertical would run the drain window and
         #- clip the IBP pin stacks (its discovered drop is skipped)
         self.addConnectivityRoute("M4", "^VD1$", "-|--",
-                                  "cutaligncenter,endStopLayerM2", 1, "",
+                                  "cutaligncenter,endStopLayerM2", 2, "",
                                   r"^(xp_cas|xp_su)$")
         #- the powerdown pins live deep in the OTA; the parent needs
         #- them at an edge. M5 risers from each pin straight up to the

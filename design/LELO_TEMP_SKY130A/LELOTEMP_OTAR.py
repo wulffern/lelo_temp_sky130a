@@ -114,12 +114,14 @@ class LELOTEMP_OTAR(SidecarCell):
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
             conn("M1", "^VBP$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^(xba6|xba7)$")
+                 2, "", r"^(xba6|xba7)$")
             #- xba8's gate joins its drain pair on M4: the vertical
             #- rides the tab lane below the PWRUP_1V8 rail's span,
             #- and the far cut lands under the wire on xba7's bar,
             #- out in the window.
-            conn("M4", "^VBP$", "-|--", "", 1, "", r"^(xba8|xba7)$")
+            conn("M4", "^VBP$", "-|--", "", 2, "", r"^(xba8|xba7)$")
+            #- ONE cut, said twice and meant: a 2x1 pad does not
+            #- fit beside the guard ring here
             conn("M2", "^PWRUP_1V8$", "||", "trunktab,1cuts",
                  1, "", r"^(xba2|xba3|xba7)$")
             return None
@@ -172,9 +174,9 @@ class LELOTEMP_OTAR(SidecarCell):
 
             self.layout.addConnectivityRoute(
                 "M1", "^VDD_1V8$", "-|--", "offsetlowend",
-                1, "", r"^xbs6$")
+                2, "", r"^xbs6$")
             self.layout.addConnectivityRoute(
-                "M1", "^VCP$", "||", "", 1, "", r"^xbs\d+$")
+                "M1", "^VCP$", "||", "", 2, "", r"^xbs\d+$")
             return True
 
     class n_load_a(Stack):
@@ -246,9 +248,9 @@ class LELOTEMP_OTAR(SidecarCell):
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
             conn("M1", "^VD2$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^(xnd2<\d+>|xns2)$")
+                 2, "", r"^(xnd2<\d+>|xns2)$")
             conn("M1", "^VD2$", "||", "trunktab",
-                 1, "", r"^(xnd2<\d+>|xnd4)$")
+                 2, "", r"^(xnd2<\d+>|xnd4)$")
             return None
 
     class n_mirr(Mirror):
@@ -276,14 +278,14 @@ class LELOTEMP_OTAR(SidecarCell):
             """
             conn = self.layout.addConnectivityRoute
             conn("M1", "^VCP$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^xnc1<\d+>$")
+                 2, "", r"^xnc1<\d+>$")
             #- onTopR: keep the TAB cut of the diode, not its bar
             #- cut, so the rail's bottom stays above xns4's PWRUP_N
             #- tab -- the parent lands its powerdown via stack there.
             conn("M1", "^VD3$", "||", "trunktab,onTopR",
-                 1, "", r"^(xnc0|xnc1<\d+>)$")
+                 2, "", r"^(xnc0|xnc1<\d+>)$")
             conn("M1", "^VD3$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^(xnc0|xns4)$")
+                 2, "", r"^(xnc0|xns4)$")
             return None
 
     class r_deg(Stack):
