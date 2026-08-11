@@ -3,67 +3,61 @@ tech sky130A
 magscale 1 2
 timestamp 1786399200
 << checkpaint >>
-rect 3200 7260 4800 13020
+rect 0 0 1600 5760
 << locali >>
-rect 3200 8110 4800 8170
-rect 3970 7500 4030 8140
-rect 4452 9740 4512 10540
-rect 4452 9740 4512 11340
-rect 4452 9740 4512 12140
-rect 4578 9820 4638 10620
-rect 4578 9820 4638 11420
-rect 4578 9820 4638 12220
-rect 4578 9020 4638 9820
-rect 3488 9420 3548 10220
-rect 3488 9420 3548 11020
-rect 3488 9420 3548 11820
-rect 3488 8620 3548 9420
-rect 4606 8980 4670 9148
-rect 3616 9700 4512 9780
-rect 3616 8900 4512 8980
-rect 3200 12100 3296 12180
-rect 4576 9780 4640 9860
-rect 3488 8580 4384 8660
-<< viali >>
-rect 4612 8992 4664 9044
-rect 4612 9084 4664 9136
-<< metal1 >>
-rect 4606 8980 4674 9156
+rect 0 850 1600 910
+rect 770 240 830 880
+rect 1252 2480 1312 3280
+rect 1252 2480 1312 4080
+rect 1252 2480 1312 4880
+rect 1378 2560 1438 3360
+rect 1378 2560 1438 4160
+rect 1378 2560 1438 4960
+rect 1378 1760 1438 2560
+rect 288 2160 348 2960
+rect 288 2160 348 3760
+rect 288 2160 348 4560
+rect 288 1360 348 2160
+rect 416 2440 1312 2520
+rect 416 1640 1312 1720
+rect 0 4840 96 4920
+rect 1376 1720 1440 1800
+rect 288 1320 1184 1400
 use REYATR_LVT_PCH_11C5F0 xbl5 ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 8540
-box 3200 8540 4800 9340
+transform 1 0 0 0 1 1280
+box 0 1280 1600 2080
 use REYATR_LVT_PCH_11C5F0 xbl2<0> ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 9340
-box 3200 9340 4800 10140
+transform 1 0 0 0 1 2080
+box 0 2080 1600 2880
 use REYATR_LVT_PCH_11C5F0 xbl2<1> ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 10140
-box 3200 10140 4800 10940
+transform 1 0 0 0 1 2880
+box 0 2880 1600 3680
 use REYATR_LVT_PCH_11C5F0 xbl2<2> ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 10940
-box 3200 10940 4800 11740
+transform 1 0 0 0 1 3680
+box 0 3680 1600 4480
 use REYATR_LVT_PCH_11C5F0 xbl2<3> ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 11740
-box 3200 11740 4800 12540
+transform 1 0 0 0 1 4480
+box 0 4480 1600 5280
 use REYATR_LVT_PCH_11C5F0 xfill_p_in_b_0 ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 7740
-box 3200 7740 4800 8540
+transform 1 0 0 0 1 480
+box 0 480 1600 1280
 use REYATR_PCH_11CTAPBOT xstack_p_in_b_bot ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 7260
-box 3200 7260 4800 7740
+transform 1 0 0 0 1 0
+box 0 0 1600 480
 use REYATR_PCH_11CTAPTOP xstack_p_in_b_top ../REY_ATR_SKY130A
-transform 1 0 3200 0 1 12540
-box 3200 12540 4800 13020
+transform 1 0 0 0 1 5280
+box 0 5280 1600 5760
 << labels >>
-flabel locali s 3616 9700 4512 9780 0 FreeSans 400 0 0 0 VD2
+flabel locali s 416 2440 1312 2520 0 FreeSans 400 0 0 0 VD2
 port 1 nsew signal bidirectional
-flabel locali s 3616 8900 4512 8980 0 FreeSans 400 0 0 0 VD3
+flabel locali s 416 1640 1312 1720 0 FreeSans 400 0 0 0 VD3
 port 2 nsew signal bidirectional
-flabel locali s 3200 12100 3296 12180 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
 port 3 nsew power bidirectional
-flabel locali s 4576 9780 4640 9860 0 FreeSans 400 0 0 0 VIP
+flabel locali s 1376 1720 1440 1800 0 FreeSans 400 0 0 0 VIP
 port 4 nsew signal bidirectional
-flabel locali s 3488 8580 4384 8660 0 FreeSans 400 0 0 0 VS
+flabel locali s 288 1320 1184 1400 0 FreeSans 400 0 0 0 VS
 port 5 nsew signal bidirectional
 << properties >>
-string FIXED_BBOX 3200 7260 4800 13020
+string FIXED_BBOX 0 0 1600 5760
 << end >>

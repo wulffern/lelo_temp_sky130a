@@ -3,33 +3,33 @@ tech sky130A
 magscale 1 2
 timestamp 1786399200
 << checkpaint >>
-rect 8096 7260 9696 15260
+rect 0 0 1600 8000
 << metal3 >>
-rect 8806 7360 8986 15160
-rect 8176 12060 9616 12160
+rect 710 100 890 7900
+rect 80 0 1520 100
 << metal4 >>
-rect 8806 7360 8986 15160
-rect 8176 13660 9616 13760
+rect 710 100 890 7900
+rect 80 6400 1520 6500
 use REYATR_CAPX1 xd1<5> ../REY_ATR_SKY130A
-transform 1 0 8096 0 1 7260
-box 8096 7260 9696 8860
+transform 1 0 0 0 1 0
+box 0 0 1600 1600
 use REYATR_CAPX1 xd1<6> ../REY_ATR_SKY130A
-transform 1 0 8096 0 1 8860
-box 8096 8860 9696 10460
+transform 1 0 0 0 1 1600
+box 0 1600 1600 3200
 use REYATR_CAPX1 xd1<7> ../REY_ATR_SKY130A
-transform 1 0 8096 0 1 10460
-box 8096 10460 9696 12060
+transform 1 0 0 0 1 3200
+box 0 3200 1600 4800
 use REYATR_CAPX1 xd1<8> ../REY_ATR_SKY130A
-transform 1 0 8096 0 1 12060
-box 8096 12060 9696 13660
+transform 1 0 0 0 1 4800
+box 0 4800 1600 6400
 use REYATR_CAPX1 xd1<9> ../REY_ATR_SKY130A
-transform 1 0 8096 0 1 13660
-box 8096 13660 9696 15260
+transform 1 0 0 0 1 6400
+box 0 6400 1600 8000
 << labels >>
-flabel metal3 s 8176 12060 9616 12160 0 FreeSans 400 0 0 0 LPI
+flabel metal3 s 80 0 1520 100 0 FreeSans 400 0 0 0 LPI
 port 1 nsew signal bidirectional
-flabel metal4 s 8176 13660 9616 13760 0 FreeSans 400 0 0 0 VDD_1V8
+flabel metal4 s 80 6400 1520 6500 0 FreeSans 400 0 0 0 VDD_1V8
 port 2 nsew power bidirectional
 << properties >>
-string FIXED_BBOX 8096 7260 9696 15260
+string FIXED_BBOX 0 0 1600 8000
 << end >>

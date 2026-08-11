@@ -3,31 +3,31 @@ tech sky130A
 magscale 1 2
 timestamp 1786399200
 << checkpaint >>
-rect 14400 300 17600 2860
+rect 0 0 3200 2560
 << locali >>
-rect 14894 1340 14954 1980
-rect 14688 2100 15200 2180
-rect 14688 1140 15200 1220
-rect 14400 1380 14496 1460
+rect 494 1040 554 1680
+rect 288 1800 800 1880
+rect 288 840 800 920
+rect 0 1080 96 1160
 use REYATR_RES_36C2F0 xd2<0> ../REY_ATR_SKY130A
-transform 1 0 14400 0 1 780
-box 14400 780 17600 1580
+transform 1 0 0 0 1 480
+box 0 480 3200 1280
 use REYATR_RES_36C2F0 xd2<1> ../REY_ATR_SKY130A
-transform 1 0 14400 0 1 1580
-box 14400 1580 17600 2380
+transform 1 0 0 0 1 1280
+box 0 1280 3200 2080
 use REYATR_RES_36CTAPBOT xstack_r_deg_bot ../REY_ATR_SKY130A
-transform 1 0 14400 0 1 300
-box 14400 300 17600 780
+transform 1 0 0 0 1 0
+box 0 0 3200 480
 use REYATR_RES_36CTAPTOP xstack_r_deg_top ../REY_ATR_SKY130A
-transform 1 0 14400 0 1 2380
-box 14400 2380 17600 2860
+transform 1 0 0 0 1 2080
+box 0 2080 3200 2560
 << labels >>
-flabel locali s 14688 2100 15200 2180 0 FreeSans 400 0 0 0 VDS
+flabel locali s 288 1800 800 1880 0 FreeSans 400 0 0 0 VDS
 port 1 nsew signal bidirectional
-flabel locali s 14688 1140 15200 1220 0 FreeSans 400 0 0 0 VS
+flabel locali s 288 840 800 920 0 FreeSans 400 0 0 0 VS
 port 2 nsew signal bidirectional
-flabel locali s 14400 1380 14496 1460 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 1080 96 1160 0 FreeSans 400 0 0 0 VSS
 port 3 nsew ground bidirectional
 << properties >>
-string FIXED_BBOX 14400 300 17600 2860
+string FIXED_BBOX 0 0 3200 2560
 << end >>

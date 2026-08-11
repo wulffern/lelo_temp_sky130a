@@ -61,11 +61,11 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         order = [r'xd3<\d+>']
         wires = [
             ('VSS', 'blocked', "no path for VSS from (1040900, 1098000, 'M1') to (1040900, 1138000, 'M1'); closest approach (1040900, 1098000, 'M1') (40000 away)"),
-            ('R1<0>', 'M1', '||', 'trunkx=1067900'),
-            ('R1<1>', 'M1', '||', 'trunkx=1067900'),
-            ('R1<2>', 'M1', '||', 'trunkx=1067900'),
-            ('R1<3>', 'M1', '||', 'trunkx=1067900'),
-            ('R1<4>', 'M1', '||', 'trunkx=1067900'),
+            ('R1<0>', 'M1', '||', 'trunkx=26200'),
+            ('R1<1>', 'M1', '||', 'trunkx=26200'),
+            ('R1<2>', 'M1', '||', 'trunkx=26200'),
+            ('R1<3>', 'M1', '||', 'trunkx=26200'),
+            ('R1<4>', 'M1', '||', 'trunkx=26200'),
         ]
         wires_key = "6dad32574c7a"
 
@@ -98,8 +98,8 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         channel = "src"
         order = ['xca2', r'xca3<\d+>', r'xca1<\d+>']
         wires = [
-            ('VDD_1V8', 'M2', '-|--', 'trunkx=399200'),
-            ('LPI', 'M1', '||', 'trunkx=457600'),
+            ('VDD_1V8', 'M2', '-|--', 'trunkx=-800'),
+            ('LPI', 'M1', '||', 'trunkx=57600'),
             ('VBD1', 'blocked', "path for VBD1 is not a shape route.py can draw (13 nodes, layers ['M1', 'M2'])"),
         ]
         wires_key = "a295e31e2fcc"
@@ -121,8 +121,8 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         order = ['xca4', r'xca2<\d+>', r'xca5<\d+>']
         wires = [
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (479200, 1470000, 'M1') to (479200, 1510000, 'M1'); closest approach (479200, 1470000, 'M1') (40000 away)"),
-            ('VBD1', 'M1', '||', 'trunkx=505500'),
-            ('VCP', 'M1', '||', 'trunkx=537600'),
+            ('VBD1', 'M1', '||', 'trunkx=25500'),
+            ('VCP', 'M1', '||', 'trunkx=57600'),
             ('VD1', 'blocked', "path for VD1 is not a shape route.py can draw (15 nodes, layers ['M1', 'M2'])"),
         ]
         wires_key = "caa71805a52e"
@@ -296,17 +296,10 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         stacked all six verticals on one column x and shorted
         (measured).
 
-        These run BEFORE super() but only in the assembly pass: the
-        access rects addConnectivityRoute matches on are the ones the
-        assembly recipe lays, and asked for any earlier it finds
-        nothing ("Could not find rectangles on VD1", measured), while
-        in the flat pass there is no assembly to read at all -- these
-        nets are inside the columns there, and drawing them would put
-        wires into the subcells about to be published.
+        These run BEFORE super(), which is the only ordering there is
+        now: the subcells are built by hierarchy() long before this,
+        and what these nets read is the assembly's own access rects.
         """
-        if not self.assembled:
-            super().route()
-            return
         #- L-shapes, not straights: a D pin and an S pin sit at
         #- different heights WITHIN the cell (0.8 um here), and a
         #- straight wire at the start pin's y puts the far cut just

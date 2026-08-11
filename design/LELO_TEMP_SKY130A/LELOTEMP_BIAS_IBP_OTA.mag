@@ -3,38 +3,38 @@ tech sky130A
 magscale 1 2
 timestamp 1786399200
 << checkpaint >>
-rect 11296 7260 19296 20980
+rect 0 0 8000 13720
 << metal2 >>
-rect 13580 13650 15164 13710
-rect 12290 14610 16106 14670
-rect 14986 14130 17396 14190
+rect 2284 6390 3868 6450
+rect 994 7350 4810 7410
+rect 3690 6870 6100 6930
 << locali >>
-rect 15872 17440 15936 17520
-rect 11296 20800 19296 20980
-rect 11296 7260 19296 7440
+rect 4576 10180 4640 10260
+rect 0 13540 8000 13720
+rect 0 0 8000 180
 << metal1 >>
-rect 12732 7260 12796 7340
-rect 14332 7260 14396 7340
+rect 1436 0 1500 80
+rect 3036 0 3100 80
 use LELOTEMP_OTAR xad6 ../LELO_TEMP_SKY130A
-transform 1 0 11296 0 1 7560
-box 11296 7560 19296 21280
+transform 1 0 0 0 1 300
+box 0 300 8000 14020
 << labels >>
-flabel metal2 s 13580 13650 15164 13710 0 FreeSans 400 0 0 0 LPO
+flabel metal2 s 2284 6390 3868 6450 0 FreeSans 400 0 0 0 LPO
 port 1 nsew signal bidirectional
-flabel locali s 15872 17440 15936 17520 0 FreeSans 400 0 0 0 PWRUP_1V8
+flabel locali s 4576 10180 4640 10260 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 2 nsew power bidirectional
-flabel metal2 s 12290 14610 16106 14670 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal2 s 994 7350 4810 7410 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 3 nsew power bidirectional
-flabel metal2 s 14986 14130 17396 14190 0 FreeSans 400 0 0 0 VCP
+flabel metal2 s 3690 6870 6100 6930 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
-flabel metal1 s 12732 7260 12796 7340 0 FreeSans 400 0 0 0 VD1
+flabel metal1 s 1436 0 1500 80 0 FreeSans 400 0 0 0 VD1
 port 5 nsew signal bidirectional
-flabel locali s 11296 20800 19296 20980 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 13540 8000 13720 0 FreeSans 400 0 0 0 VDD_1V8
 port 6 nsew power bidirectional
-flabel metal1 s 14332 7260 14396 7340 0 FreeSans 400 0 0 0 VR1
+flabel metal1 s 3036 0 3100 80 0 FreeSans 400 0 0 0 VR1
 port 7 nsew signal bidirectional
-flabel locali s 11296 7260 19296 7440 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 0 8000 180 0 FreeSans 400 0 0 0 VSS
 port 8 nsew ground bidirectional
 << properties >>
-string FIXED_BBOX 11296 7260 19296 20980
+string FIXED_BBOX 0 0 8000 13720
 << end >>
