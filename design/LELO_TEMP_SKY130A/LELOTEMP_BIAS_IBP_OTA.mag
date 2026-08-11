@@ -5,9 +5,9 @@ timestamp 1786399200
 << checkpaint >>
 rect 0 0 8000 13720
 << metal2 >>
-rect 2284 6390 3868 6450
-rect 994 7350 4810 7410
-rect 3690 6870 6100 6930
+rect 2284 6330 3868 6390
+rect 994 7050 4810 7110
+rect 3690 6690 6100 6750
 << locali >>
 rect 4576 10180 4640 10260
 rect 0 13540 8000 13720
@@ -19,13 +19,13 @@ use LELOTEMP_OTAR xad6 ../LELO_TEMP_SKY130A
 transform 1 0 0 0 1 300
 box 0 300 8000 14020
 << labels >>
-flabel metal2 s 2284 6390 3868 6450 0 FreeSans 400 0 0 0 LPO
+flabel metal2 s 2284 6330 3868 6390 0 FreeSans 400 0 0 0 LPO
 port 1 nsew signal bidirectional
 flabel locali s 4576 10180 4640 10260 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 2 nsew power bidirectional
-flabel metal2 s 994 7350 4810 7410 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal2 s 994 7050 4810 7110 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 3 nsew power bidirectional
-flabel metal2 s 3690 6870 6100 6930 0 FreeSans 400 0 0 0 VCP
+flabel metal2 s 3690 6690 6100 6750 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
 flabel metal1 s 1436 0 1500 80 0 FreeSans 400 0 0 0 VD1
 port 5 nsew signal bidirectional

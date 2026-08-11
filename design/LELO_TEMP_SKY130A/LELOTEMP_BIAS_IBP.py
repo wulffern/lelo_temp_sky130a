@@ -231,31 +231,32 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
     #- ends). The IBP_1U outputs leave their column on four VERTICAL
     #- channel routes -- M5 bars on su-channel tracks, horizontal M4
     #- drops, so four nets from one column never share an x.
-    #- Declaring `routes` is what makes `make mag` build the cell in
-    #- two passes.
+    #- Declaring `routes` is what tells cicpy this cell is MADE OF
+    #- SUBCELLS: it splits the netlist, builds a cell per part and
+    #- assembles them.
     #- headroom the TT 1x1 tile (111.52 um tall) cannot afford
     channel = 6
     routes = [
         {"net": "VD2", "track": 0, "drops": [[bip, "M2", "right"],
                                              [r_lad, "M2", "left"]]},
-        {"net": "VR1", "track": 2, "drops": [[r_lad, "M4", "right"]]},
+        {"net": "VR1", "track": 1, "drops": [[r_lad, "M4", "right"]]},
         #- trim "l": VD1 carries net VC in the parent, and its bar's
         #- untrimmed right end IS the parent's pin, at the cell edge
-        {"net": "VD1", "track": 4, "trim": "l",
+        {"net": "VD1", "track": 2, "trim": "l",
          "drops": [[bip, "M4", "left"],
                    {"inst": p_cas, "skip": True}]},
-        {"net": "VCP", "track": 6},
-        {"net": "LPI", "track": 8, "trim": "l"},
-        {"net": "IBP_1U<0>", "channel": "su", "track": 6,
+        {"net": "VCP", "track": 3},
+        {"net": "LPI", "track": 4, "trim": "l"},
+        {"net": "IBP_1U<0>", "channel": "su", "track": 3,
          "bar_layer": "M5", "layer": "M4", "align": "top",
          "trim": "b"},
-        {"net": "IBP_1U<1>", "channel": "su", "track": 10,
+        {"net": "IBP_1U<1>", "channel": "su", "track": 5,
          "bar_layer": "M5", "layer": "M4", "align": "top",
          "trim": "b"},
-        {"net": "IBP_1U<2>", "channel": "su", "track": 14,
+        {"net": "IBP_1U<2>", "channel": "su", "track": 7,
          "bar_layer": "M5", "layer": "M4", "align": "top",
          "trim": "b"},
-        {"net": "IBP_1U<3>", "channel": "su", "track": 18,
+        {"net": "IBP_1U<3>", "channel": "su", "track": 9,
          "bar_layer": "M5", "layer": "M4", "align": "top",
          "trim": "b"},
     ]

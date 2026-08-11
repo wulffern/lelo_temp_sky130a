@@ -315,35 +315,35 @@ class LELOTEMP_OTAR(SidecarCell):
          "strap_exclude": "^xd2<[1-9]"},
     ]
 
-    #- The hierarchical top, from the same declarations: rows reused,
-    #- channel tracks two apart so the drops' via pads clear the
-    #- neighbouring bars, drops split by layer where pins share a
+    #- The top, from the same declarations: rows reused, one track
+    #- per net -- a channel track IS one legal lane now, so
+    #- consecutive indices are consecutive lanes and nothing has to
+    #- be counted in twos. Drops split by layer where pins share a
     #- column (the bias column: VDS M2, VO M4; VBP lands cutless on
     #- the subcell's own M4 pad), align left/center/right as the fine
     #- dial. Drops are discovered: every subcell exposing the net
     #- gets one, on the route's default layer M2, centered, two
     #- cuts. Entries below only override.
     channel = 8
-    #- built in TWO passes: every subcell is written and verified on
-    #- its own, then the parent is assembled from them. Declaring
-    #- `routes` is what makes `make mag` do it -- built flat this
-    #- cell does not pass LVS.
+    #- MADE OF SUBCELLS: declaring `routes` is what tells cicpy to
+    #- split this netlist, build a cell per subcell and assemble them.
+    #- Built flat this cell does not pass LVS.
     routes = [
         {"net": "VDS", "track": 0, "drops": [[r_deg, "M2", "left"]]},
-        {"net": "VD1", "track": 2, "drops": [[p_in_a, "M2", "right"]]},
-        {"net": "VO", "track": 4, "drops": [[p_bias, "M4", "left"]]},
-        {"net": "VCP", "track": 10, "drops": [[n_mirr, "M2", "left"],
+        {"net": "VD1", "track": 1, "drops": [[p_in_a, "M2", "right"]]},
+        {"net": "VO", "track": 2, "drops": [[p_bias, "M4", "left"]]},
+        {"net": "VCP", "track": 5, "drops": [[n_mirr, "M2", "left"],
                                              [p_bias, "M2", "right"]]},
-        {"net": "VD3", "track": 8, "drops": [[n_mirr, "M2", "right"],
+        {"net": "VD3", "track": 4, "drops": [[n_mirr, "M2", "right"],
                                              [p_in_a, "M2", "left"],
                                              [p_in_b, "M2", "left"]]},
-        {"net": "VD2", "track": 10, "align": "right"},
-        {"net": "VBP", "track": 12, "drops": [[n_load_a, "M2", "left"],
+        {"net": "VD2", "track": 5, "align": "right"},
+        {"net": "VBP", "track": 6, "drops": [[n_load_a, "M2", "left"],
                                               [p_bias, "M4", "center",
                                                "nopin"]]},
-        {"net": "VS", "track": 14, "layer": "M4",
+        {"net": "VS", "track": 7, "layer": "M4",
          "drops": [[r_deg, "M4", "left"]]},
-        {"net": "PWRUP_N_1V8", "track": 16, "layer": "M4",
+        {"net": "PWRUP_N_1V8", "track": 8, "layer": "M4",
          "align": "left", "drops": [[p_bias, "M2", "right"]]},
     ]
 
