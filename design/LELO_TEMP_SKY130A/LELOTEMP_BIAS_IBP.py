@@ -37,6 +37,12 @@ class BiasHier(HierLayoutCell):
     horizontals on M4 (magic metal3): each net is one hop at its own
     row, so nothing shares an x, where mid-channel drops stacked all
     six verticals on one column x and shorted (measured).
+
+    These stay HERE rather than in the cell's beforeRoute: the access
+    rects addConnectivityRoute matches on are the ones
+    HierLayoutCell.route() lays, and asked for any earlier it finds
+    nothing ("Could not find rectangles on VD1", measured). A route
+    that reads the assembly's own geometry belongs after it exists.
     """
 
     def route(self):
@@ -48,63 +54,20 @@ class BiasHier(HierLayoutCell):
         for net in ("IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>", "VBD1"):
             self.addConnectivityRoute("M4", f"^{net}$", "-|--", "",
                                       1, "", "")
-        #- cutalignright: the default cut pad grazed the cell's own
-        #- mcon at the far pin (met1.2/mcon.2 slivers, measured)
+        #- LEFT-aligned, which is the default: the pin is 22.4 um of
+        #- li and the cut lands at its left end, 6.5 um clear of VR1's
+        #- trunk. cutalignright puts it at the RIGHT end, on top of
+        #- VR1. It used to be here because the landing rect was
+        #- recentred whatever the alignment said, so the option was
+        #- picked for a side effect it no longer has.
         self.addConnectivityRoute("M4", "^VBD2$", "-|--",
-                                  "cutalignright", 1, "", "")
+                                  "", 1, "", "")
         #- VD1 enters p_cas by a seam hop from p_su, NOT by a channel
         #- drop: the drop's vertical would run the drain window and
         #- clip the IBP pin stacks (its discovered drop is skipped)
         self.addConnectivityRoute("M4", "^VD1$", "-|--",
-                                  "cutalignright", 1, "",
+                                  "cutaligncenter,endStopLayerM2", 1, "",
                                   r"^(xp_cas|xp_su)$")
-        #- the powerdown pins live deep in the OTA; the parent needs
-        #- them at an edge. M5 verticals from each pin straight up to
-        #- the top edge -- nothing above the OTA carries M5.
-        from cicpy.core.rect import Rect as _Rect
-        from cicpy.core.cut import Cut as _Cut
-        from cicpy.core.rules import Rules as _Rules
-        ota = self.getInstanceFromInstanceName("xota")
-        top = int(self.y2)
-        w5 = _Rules.getInstance().get("M5", "width")
-        for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
-            pt = ota.instancePorts.get(net)
-            r = pt.get() if pt is not None else None
-            if r is None:
-                continue
-            #- attach near a WIDE bar's right end: mid-bar, the cut
-            #- pad's overhang lands 0.1 um from the neighbouring
-            #- track's bar (met3.2, measured); a small pad is its own
-            #- only landing
-            if r.x2 - r.x1 > 20000:
-                cx = int(r.x1) + 2400
-            else:
-                cx = int(r.centerX())
-            cy = int(r.centerY())
-            v = _Rect("M5", cx - w5, cy - w5, 2 * w5, top - cy + w5)
-            v.setNet(net)
-            self.add(v)
-            if r.layer == "M1":
-                #- magic refuses PARTIAL overlap of top-level li on a
-                #- subcell's li: cover the pad exactly
-                cov = _Rect("M1", int(r.x1), int(r.y1),
-                            int(r.x2 - r.x1), int(r.y2 - r.y1))
-                cov.setNet(net)
-                self.add(cov)
-            ct = (_Cut.getInstance(r.layer, "M5", 1, 1)
-                  or _Cut.getInstance("M5", r.layer, 1, 1))
-            if ct is not None:
-                ct.moveCenter(cx, cy)
-                self.add(ct)
-            #- the stack's mid-level M4 pad alone is under the metal3
-            #- minimum area
-            pad = _Rect("M4", cx - 2500, cy - 2500, 5000, 5000)
-            pad.setNet(net)
-            self.add(pad)
-            #- the EDGE is the pin the parent reaches
-            pin = _Rect("M5", cx - w5, top - 4000, 2 * w5, 4000)
-            pin.setNet(net)
-            self.updatePort(net, pin)
         super().route()
 
 
@@ -313,6 +276,21 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
     #- channel routes -- M5 bars on su-channel tracks, horizontal M4
     #- drops, so four nets from one column never share an x.
     hier_cell = BiasHier
+
+    def beforeRoute(self, layout):
+        super().beforeRoute(layout)
+        #- The powerdown pins live deep in the OTA and the parent
+        #- needs them at an edge. A ring on the top edge says that in
+        #- the cell's own vocabulary, and addRouteConnection drives
+        #- each pin up to it -- where this used to be forty-five lines
+        #- of hand-placed rects, cuts, a min-area pad and an
+        #- updatePort, all of it re-deriving what a ring already
+        #- knows.
+        for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
+            layout.addRouteRing("M5", net, "t", widthmult=2,
+                                spacemult=2)
+            layout.addRouteConnection(f"^{net}$", "^xota$", "M5",
+                                      "top", "")
     #- 6 um carries the mid routes to track 8 with room; 12 was
     #- headroom the TT 1x1 tile (111.52 um tall) cannot afford
     channel = 6
