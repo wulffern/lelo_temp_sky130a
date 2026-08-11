@@ -208,11 +208,17 @@ class LELOTEMP_OTAR(SidecarCell):
         wires_key = "31185f64694d"
 
         def beforeRoute(self, entry):
-            conn = self.layout.addConnectivityRoute
-            conn("M1", "^VD1$", "||", "trunkright,nostartcut,noendcut",
-                 1, "", r"^(xnd1<\d+>|xns1)$")
-            conn("M1", "^VD1$", "||", "trunktab",
-                 1, "", r"^(xnd1<\d+>|xnd3)$")
+            #- TWO rails, both on M1, no via anywhere: the bars and the
+            #- gate tabs each get one, and the devices' own metal joins
+            #- them. Told as stories -- merge brings each pin sideways
+            #- onto the lane, trunk is the rail they meet on.
+            bars = self.layout.path(
+                "VD1", "M1", includeInstances=r"^(xnd1<\d+>|xns1)$")
+            bars.trunk(bars.right_of_pins())
+
+            tabs = self.layout.path(
+                "VD1", "M1", includeInstances=r"^(xnd1<\d+>|xnd3)$")
+            tabs.trunk(tabs.tab_lane())
             return None
 
     class n_load_b(Stack):
