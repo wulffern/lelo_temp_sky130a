@@ -25,15 +25,15 @@ def beforeRoute(layout):
     pmos = layout._route_scopes["pmos"]
 
     # Stack-local and group-local routes first.
-    n_mirr_bias.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U$", "track-2,onTopLeft", 1)
-    nmos.addOrthogonalConnectivityRoute("M4", "M3", "^PWRUP_N_1V8$", "onTopLeft,track6", 1)
-    pmos.addOrthogonalConnectivityRoute("M4", "M3", "^VS$", "track4,onTopLeft", 1)
+    n_mirr_bias.addOrthogonalConnectivityRoute("M2", "M3", "^IBP_1U$", "track-2,onTopLeft", 2)
+    nmos.addOrthogonalConnectivityRoute("M4", "M3", "^PWRUP_N_1V8$", "onTopLeft,track6", 2)
+    pmos.addOrthogonalConnectivityRoute("M4", "M3", "^VS$", "track4,onTopLeft", 2)
 
     # Cross-group routes last.
     layout.addRouteConnection("^VBP2$", "", "M4", "top", "")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO1$", "onTopLeft,track6", 1, "", "")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO$", "onTopLeft,track4", 1, "", "")
-    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VBN1$", "onTopLeft,track4", 1, "", "")
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO1$", "onTopLeft,track6", 2, "", "")
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VO$", "onTopLeft,track4", 2, "", "")
+    layout.addOrthogonalConnectivityRoute("M4", "M3", "^VBN1$", "onTopLeft,track4", 2, "", "")
 
 def afterPorts(layout):
     layout.addPortOnEdge("M2","VO","top","||", "")

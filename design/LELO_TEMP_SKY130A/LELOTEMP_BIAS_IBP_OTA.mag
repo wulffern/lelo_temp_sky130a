@@ -1,13 +1,13 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786312800
+timestamp 1786399200
 << checkpaint >>
 rect 11296 7260 19296 20980
 << metal2 >>
 rect 13580 13650 15164 13710
-rect 12342 14610 16010 14670
-rect 15034 13810 17348 13870
+rect 12290 14610 16106 14670
+rect 14986 13810 17396 13870
 << locali >>
 rect 15872 17440 15936 17520
 rect 12672 17440 12736 17520
@@ -22,9 +22,9 @@ flabel metal2 s 13580 13650 15164 13710 0 FreeSans 400 0 0 0 LPO
 port 1 nsew signal bidirectional
 flabel locali s 15872 17440 15936 17520 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 2 nsew power bidirectional
-flabel metal2 s 12342 14610 16010 14670 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal2 s 12290 14610 16106 14670 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 3 nsew power bidirectional
-flabel metal2 s 15034 13810 17348 13870 0 FreeSans 400 0 0 0 VCP
+flabel metal2 s 14986 13810 17396 13870 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
 flabel locali s 12672 17440 12736 17520 0 FreeSans 400 0 0 0 VD1
 port 5 nsew signal bidirectional

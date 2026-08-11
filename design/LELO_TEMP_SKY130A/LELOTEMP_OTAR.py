@@ -329,7 +329,7 @@ class LELOTEMP_OTAR(SidecarCell):
         {"net": "VDS", "track": 0, "drops": [[r_deg, "M2", "left"]]},
         {"net": "VD1", "track": 2, "drops": [[p_in_a, "M2", "right"]]},
         {"net": "VO", "track": 4, "drops": [[p_bias, "M4", "left"]]},
-        {"net": "VCP", "track": 6, "drops": [[n_mirr, "M2", "left"],
+        {"net": "VCP", "track": 10, "drops": [[n_mirr, "M2", "left"],
                                              [p_bias, "M2", "right"]]},
         {"net": "VD3", "track": 8, "drops": [[n_mirr, "M2", "right"],
                                              [p_in_a, "M2", "left"],

@@ -12,7 +12,8 @@ doc:
     LELO_TEMP_SKY130A:
       - LELOTEMP_BIAS_IBP
       #- LELOTEMP_OTA
-      - LELOTEMP_OTAN
+      #- LELOTEMP_OTAN
+      - LELOTEMP_OTAR
       - LELO_TEMP
       - LELOTEMP_CCMP
       - LELOTEMP_CMP
