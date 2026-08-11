@@ -20,19 +20,22 @@ make drc CELL=LELOTEMP_CMP                          # run Magic DRC
 make gds CELL=LELOTEMP_CMP                          # export GDS
 ```
 
-**A cell with a `hier_cell` is NOT built by `make mag`.** `make mag`
-builds it flat, which produces a different -- and worse -- layout than
-the committed one. Every subcell is generated and verified first, then
-the parent that holds them:
+**`make mag` is the only build command, and the design file decides
+what it means.** A sidecar that declares `routes` -- the assembled
+top's channel routes -- is built in TWO passes: every subcell is
+generated and verified on its own, then the parent is assembled from
+them. cicpy reads `<CELL>.py` and does that itself; there is nothing
+extra to type.
 
 ```bash
-make subcells hier gds cdl lvs drc CELL=LELOTEMP_BIAS_IBP
+make mag gds cdl lvs drc CELL=LELOTEMP_BIAS_IBP
 ```
 
 That is the whole loop for `LELOTEMP_BIAS_IBP` and `LELOTEMP_OTAR`. It
 reproduces the committed layout exactly, timestamp aside; if a rebuild
 disagrees with what is checked in, suspect the command before the
-design.
+design. (`make subcells` still writes just the subcells, for working
+on one of them without touching the parent.)
 
 ## Layout flow
 

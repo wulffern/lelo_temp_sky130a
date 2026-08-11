@@ -32,7 +32,6 @@ group-scoped; `self.layout.addConnectivityRoute` is parent-scoped.
 import logging
 
 from cicpy.sidecar import SidecarCell, Stack, Mirror
-from cicpy.core.sidecarcell import HierLayoutCell
 
 log = logging.getLogger("LELOTEMP_OTAR")
 
@@ -319,12 +318,10 @@ class LELOTEMP_OTAR(SidecarCell):
     #- gets one, on the route's default layer M2, centered, two
     #- cuts. Entries below only override.
     channel = 8
-    #- built in TWO passes: every subcell is written and
-    #- verified on its own, then the parent is assembled from
-    #- them. Declaring it here is what makes `make mag` do it
-    #- -- built flat this cell does not pass LVS.
-    hier_cell = HierLayoutCell
-
+    #- built in TWO passes: every subcell is written and verified on
+    #- its own, then the parent is assembled from them. Declaring
+    #- `routes` is what makes `make mag` do it -- built flat this
+    #- cell does not pass LVS.
     routes = [
         {"net": "VDS", "track": 0, "drops": [[r_deg, "M2", "left"]]},
         {"net": "VD1", "track": 2, "drops": [[p_in_a, "M2", "right"]]},
@@ -343,3 +340,19 @@ class LELOTEMP_OTAR(SidecarCell):
         {"net": "PWRUP_N_1V8", "track": 16, "layer": "M4",
          "align": "left", "drops": [[p_bias, "M2", "right"]]},
     ]
+
+    def afterPorts(self, layout):
+        """Put the inputs on the BOTTOM edge.
+
+        VIN and VIP are the p_in gate tabs, and a subcell's tabs sit
+        mid-cell: published as they fall, they leave the parent's
+        pins ~10 um up inside a cell 13.7 um tall, so anything
+        reaching them drives a trunk deep past the internals (that is
+        where LELOTEMP_BIAS_IBP's met1.2 sites came from). On the
+        edge they are reachable from outside without entering.
+
+        cicpy M2 is magic metal1 -- the layer the row above is
+        already crossed on, so the drop is a straight vertical.
+        """
+        for net in ("VIN", "VIP"):
+            layout.addPortOnEdge("M2", net, "bottom", "||", "offset_track+1")

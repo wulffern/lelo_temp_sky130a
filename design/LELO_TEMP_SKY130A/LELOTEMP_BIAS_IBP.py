@@ -23,99 +23,8 @@ per plate, drawn by the stack's own hook with `plateRail`.
 import logging
 
 from cicpy.sidecar import SidecarCell, Stack
-from cicpy.core.sidecarcell import HierLayoutCell
 
 log = logging.getLogger("LELOTEMP_BIAS_IBP")
-
-
-class BiasHier(HierLayoutCell):
-    """The assembled top, plus the seam nets the channels cannot say.
-
-    The source-cascode links (VBD1, VBD2, IBD<3:0>) pair pins at
-    MATCHED heights across the abutted src/cas seam -- the two
-    ladders declare the same order for exactly this. Routed as plain
-    horizontals on M4 (magic metal3): each net is one hop at its own
-    row, so nothing shares an x, where mid-channel drops stacked all
-    six verticals on one column x and shorted (measured).
-
-    These stay HERE rather than in the cell's beforeRoute: the access
-    rects addConnectivityRoute matches on are the ones
-    HierLayoutCell.route() lays, and asked for any earlier it finds
-    nothing ("Could not find rectangles on VD1", measured). A route
-    that reads the assembly's own geometry belongs after it exists.
-    """
-
-    def route(self):
-        #- L-shapes, not straights: a D pin and an S pin sit at
-        #- different heights WITHIN the cell (0.8 um here), and a
-        #- straight wire at the start pin's y puts the far cut just
-        #- off the far pin, onto whatever li lies between the rows
-        #- (measured: five nets merged through exactly that)
-        for net in ("IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>", "VBD1"):
-            self.addConnectivityRoute("M4", f"^{net}$", "-|--", "",
-                                      1, "", "")
-        #- LEFT-aligned, which is the default: the pin is 22.4 um of
-        #- li and the cut lands at its left end, 6.5 um clear of VR1's
-        #- trunk. cutalignright puts it at the RIGHT end, on top of
-        #- VR1. It used to be here because the landing rect was
-        #- recentred whatever the alignment said, so the option was
-        #- picked for a side effect it no longer has.
-        self.addConnectivityRoute("M4", "^VBD2$", "-|--",
-                                  "", 1, "", "")
-        #- VD1 enters p_cas by a seam hop from p_su, NOT by a channel
-        #- drop: the drop's vertical would run the drain window and
-        #- clip the IBP pin stacks (its discovered drop is skipped)
-        self.addConnectivityRoute("M4", "^VD1$", "-|--",
-                                  "cutaligncenter,endStopLayerM2", 1, "",
-                                  r"^(xp_cas|xp_su)$")
-        #- the powerdown pins live deep in the OTA; the parent needs
-        #- them at an edge. M5 verticals from each pin straight up to
-        #- the top edge -- nothing above the OTA carries M5.
-        from cicpy.core.rect import Rect as _Rect
-        from cicpy.core.cut import Cut as _Cut
-        from cicpy.core.rules import Rules as _Rules
-        ota = self.getInstanceFromInstanceName("xota")
-        top = int(self.y2)
-        w5 = _Rules.getInstance().get("M5", "width")
-        for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
-            pt = ota.instancePorts.get(net)
-            r = pt.get() if pt is not None else None
-            if r is None:
-                continue
-            #- attach near a WIDE bar's right end: mid-bar, the cut
-            #- pad's overhang lands 0.1 um from the neighbouring
-            #- track's bar (met3.2, measured); a small pad is its own
-            #- only landing
-            if r.x2 - r.x1 > 20000:
-                cx = int(r.x1) + 2400
-            else:
-                cx = int(r.centerX())
-            cy = int(r.centerY())
-            v = _Rect("M5", cx - w5, cy - w5, 2 * w5, top - cy + w5)
-            v.setNet(net)
-            self.add(v)
-            if r.layer == "M1":
-                #- magic refuses PARTIAL overlap of top-level li on a
-                #- subcell's li: cover the pad exactly
-                cov = _Rect("M1", int(r.x1), int(r.y1),
-                            int(r.x2 - r.x1), int(r.y2 - r.y1))
-                cov.setNet(net)
-                self.add(cov)
-            ct = (_Cut.getInstance(r.layer, "M5", 1, 1)
-                  or _Cut.getInstance("M5", r.layer, 1, 1))
-            if ct is not None:
-                ct.moveCenter(cx, cy)
-                self.add(ct)
-            #- the stack's mid-level M4 pad alone is under the metal3
-            #- minimum area
-            pad = _Rect("M4", cx - 2500, cy - 2500, 5000, 5000)
-            pad.setNet(net)
-            self.add(pad)
-            #- the EDGE is the pin the parent reaches
-            pin = _Rect("M5", cx - w5, top - 4000, 2 * w5, 4000)
-            pin.setNet(net)
-            self.updatePort(net, pin)
-        super().route()
 
 
 #- The `wires` blocks below are ROUTER-GENERATED, pasted from the
@@ -314,15 +223,16 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
          "guard_exclude": r"^(xca|xsu|xcc|xd1<\d+>|xd2<\d+>|xad6|xfill_p)"},
     ]
 
-    #- the assembled top: BiasHier (hier_cell) does the placement and
-    #- adds the src/cas seam nets; the mid channel carries the nets
-    #- that genuinely cross rows, one track each. Where two nets'
-    #- pins share a column x, the drops split by align and layer
-    #- (bip: VD1 center pnp vs VD2 ring; r_lad: chain ends).
-    #- The IBP_1U outputs leave their column on four VERTICAL
+    #- the assembled top: the rows above are the floorplan and
+    #- route() below adds the src/cas seam nets; the mid channel
+    #- carries the nets that genuinely cross rows, one track each.
+    #- Where two nets' pins share a column x, the drops split by
+    #- align and layer (bip: VD1 center pnp vs VD2 ring; r_lad: chain
+    #- ends). The IBP_1U outputs leave their column on four VERTICAL
     #- channel routes -- M5 bars on su-channel tracks, horizontal M4
     #- drops, so four nets from one column never share an x.
-    hier_cell = BiasHier
+    #- Declaring `routes` is what makes `make mag` build the cell in
+    #- two passes.
     #- headroom the TT 1x1 tile (111.52 um tall) cannot afford
     channel = 6
     routes = [
@@ -349,3 +259,96 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
          "bar_layer": "M5", "layer": "M4", "align": "top",
          "trim": "b"},
     ]
+
+    def route(self):
+        """The assembled top, plus the seam nets the channels cannot say.
+
+        The source-cascode links (VBD1, VBD2, IBD<3:0>) pair pins at
+        MATCHED heights across the abutted src/cas seam -- the two
+        ladders declare the same order for exactly this. Routed as
+        plain horizontals on M4 (magic metal3): each net is one hop at
+        its own row, so nothing shares an x, where mid-channel drops
+        stacked all six verticals on one column x and shorted
+        (measured).
+
+        These run BEFORE super() but only in the assembly pass: the
+        access rects addConnectivityRoute matches on are the ones the
+        assembly recipe lays, and asked for any earlier it finds
+        nothing ("Could not find rectangles on VD1", measured), while
+        in the flat pass there is no assembly to read at all -- these
+        nets are inside the columns there, and drawing them would put
+        wires into the subcells about to be published.
+        """
+        if not self.assembled:
+            super().route()
+            return
+        #- L-shapes, not straights: a D pin and an S pin sit at
+        #- different heights WITHIN the cell (0.8 um here), and a
+        #- straight wire at the start pin's y puts the far cut just
+        #- off the far pin, onto whatever li lies between the rows
+        #- (measured: five nets merged through exactly that)
+        for net in ("IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>", "VBD1"):
+            self.addConnectivityRoute("M4", f"^{net}$", "-|--", "",
+                                      1, "", "")
+        #- LEFT-aligned, which is the default: the pin is 22.4 um of
+        #- li and the cut lands at its left end, 6.5 um clear of VR1's
+        #- trunk. cutalignright puts it at the RIGHT end, on top of
+        #- VR1. It used to be here because the landing rect was
+        #- recentred whatever the alignment said, so the option was
+        #- picked for a side effect it no longer has.
+        self.addConnectivityRoute("M4", "^VBD2$", "-|--",
+                                  "", 1, "", "")
+        #- VD1 enters p_cas by a seam hop from p_su, NOT by a channel
+        #- drop: the drop's vertical would run the drain window and
+        #- clip the IBP pin stacks (its discovered drop is skipped)
+        self.addConnectivityRoute("M4", "^VD1$", "-|--",
+                                  "cutaligncenter,endStopLayerM2", 1, "",
+                                  r"^(xp_cas|xp_su)$")
+        #- the powerdown pins live deep in the OTA; the parent needs
+        #- them at an edge. M5 verticals from each pin straight up to
+        #- the top edge -- nothing above the OTA carries M5.
+        from cicpy.core.rect import Rect as _Rect
+        from cicpy.core.cut import Cut as _Cut
+        from cicpy.core.rules import Rules as _Rules
+        ota = self.getInstanceFromInstanceName("xota")
+        top = int(self.y2)
+        w5 = _Rules.getInstance().get("M5", "width")
+        for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
+            pt = ota.instancePorts.get(net)
+            r = pt.get() if pt is not None else None
+            if r is None:
+                continue
+            #- attach near a WIDE bar's right end: mid-bar, the cut
+            #- pad's overhang lands 0.1 um from the neighbouring
+            #- track's bar (met3.2, measured); a small pad is its own
+            #- only landing
+            if r.x2 - r.x1 > 20000:
+                cx = int(r.x1) + 2400
+            else:
+                cx = int(r.centerX())
+            cy = int(r.centerY())
+            v = _Rect("M5", cx - w5, cy - w5, 2 * w5, top - cy + w5)
+            v.setNet(net)
+            self.add(v)
+            if r.layer == "M1":
+                #- magic refuses PARTIAL overlap of top-level li on a
+                #- subcell's li: cover the pad exactly
+                cov = _Rect("M1", int(r.x1), int(r.y1),
+                            int(r.x2 - r.x1), int(r.y2 - r.y1))
+                cov.setNet(net)
+                self.add(cov)
+            ct = (_Cut.getInstance(r.layer, "M5", 1, 1)
+                  or _Cut.getInstance("M5", r.layer, 1, 1))
+            if ct is not None:
+                ct.moveCenter(cx, cy)
+                self.add(ct)
+            #- the stack's mid-level M4 pad alone is under the metal3
+            #- minimum area
+            pad = _Rect("M4", cx - 2500, cy - 2500, 5000, 5000)
+            pad.setNet(net)
+            self.add(pad)
+            #- the EDGE is the pin the parent reaches
+            pin = _Rect("M5", cx - w5, top - 4000, 2 * w5, 4000)
+            pin.setNet(net)
+            self.updatePort(net, pin)
+        super().route()
