@@ -20,6 +20,20 @@ make drc CELL=LELOTEMP_CMP                          # run Magic DRC
 make gds CELL=LELOTEMP_CMP                          # export GDS
 ```
 
+**A cell with a `hier_cell` is NOT built by `make mag`.** `make mag`
+builds it flat, which produces a different -- and worse -- layout than
+the committed one. Every subcell is generated and verified first, then
+the parent that holds them:
+
+```bash
+make subcells hier gds cdl lvs drc CELL=LELOTEMP_BIAS_IBP
+```
+
+That is the whole loop for `LELOTEMP_BIAS_IBP` and `LELOTEMP_OTAR`. It
+reproduces the committed layout exactly, timestamp aside; if a rebuild
+disagrees with what is checked in, suspect the command before the
+design.
+
 ## Layout flow
 
 `xschem .sch` → **cicpy** → `magic .mag` → **netgen** LVS

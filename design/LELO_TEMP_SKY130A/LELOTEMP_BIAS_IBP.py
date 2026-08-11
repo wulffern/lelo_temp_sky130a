@@ -15,8 +15,10 @@ link (VBD1, VBD2, IBD<3:0>) crosses between adjacent columns:
 IBD drains sit at the BOTTOM of both columns, nearest the mid
 channel their nets cross through.
 
-The caps are MiM (M3 bottom plate A, M4 top plate B) -- no
-diffusion, columns routed by their own hooks on M3/M4.
+The caps are MiM. cicpy's layer names sit one above magic's: the
+bottom plate (pin A) is cicpy M4 = magic metal3, the top plate (pin B)
+is cicpy M5 = magic metal4. No diffusion -- each column is a plain bar
+per plate, drawn by the stack's own hook with `plateRail`.
 """
 import logging
 
@@ -106,37 +108,16 @@ class BiasHier(HierLayoutCell):
         super().route()
 
 
-def _rail(stack, net, layer, widthmult=3, inset=5000):
-    """A plain bar down the column, joining every member's plate.
-
-    The same mechanism as the dummy straps: geometry owned by the
-    stack. Computed from the INSTANCE boxes -- the port rects a
-    stack carries are captured at netlist read and go stale when the
-    floorplan moves the column (measured: a pin-derived bar landed a
-    full millimetre above the caps). For the MiM columns the plates
-    span the cell, so a vertical bar over the column IS the
-    connection -- no cuts, no router. ``inset`` keeps the bar ends
-    on the end members' plates.
-    """
-    from cicpy.core.rect import Rect
-    from cicpy.core.rules import Rules
-    insts = stack.instances
-    if len(insts) < 2:
-        log.warning(f"_rail {stack.name}/{net}: only {len(insts)} members")
-        return None
-    w = Rules.getInstance().get(layer, "width") * widthmult
-    x = (min(int(i.x1) for i in insts) + max(int(i.x2) for i in insts)) / 2
-    y1 = min(int(i.y1) for i in insts) + inset
-    y2 = max(int(i.y2) for i in insts) - inset
-    bar = Rect(layer, int(x - w / 2), int(y1), int(w), int(y2 - y1))
-    bar.setNet(net)
-    stack.layout.add(bar)
-    stack.layout.detachPlacementChild(bar, keepParent=stack)
-    stack.add(bar)
-    stack.dummy_routes.append(bar)
-    log.info(f"_rail {stack.name}/{net}: {layer} bar "
-             f"{bar.x1},{bar.y1}..{bar.x2},{bar.y2}")
-    return bar
+#- The `wires` blocks below are ROUTER-GENERATED, pasted from the
+#- build's .routes.py. Each 4-tuple is ordinary addConnectivityRoute
+#- arguments and can be edited like any other route; a ("net",
+#- "blocked", reason) triple records a search that proved unroutable,
+#- so replay reproduces the outcome instead of retrying it. The
+#- options are resolved against a placement, so `wires_key`
+#- fingerprints the stack's instances -- on a mismatch the whole block
+#- is ignored, loudly, and the router searches afresh and prints a new
+#- one. A stack whose beforeRoute returns True is claimed ENTIRELY and
+#- never consults its wires, so those stacks carry none.
 
 
 class LELOTEMP_BIAS_IBP(SidecarCell):
@@ -159,11 +140,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         channel = "res"
         fill = False
         order = [r'xd3<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
         wires = [
             ('VSS', 'blocked', "no path for VSS from (1040900, 1098000, 'M1') to (1040900, 1138000, 'M1'); closest approach (1040900, 1098000, 'M1') (40000 away)"),
             ('R1<0>', 'M1', '||', 'trunkx=1067900'),
@@ -180,11 +156,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "nmos"
         xspace = 2
         order = ['xg1']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
         wires = [
             ('VR1', 'blocked', "VR1: trunk 1005900 lies outside the pins' common overlap 1017700..1020900"),
         ]
@@ -207,11 +178,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "src"
         order = ['xca2', r'xca3<\d+>', r'xca1<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
         wires = [
             ('VDD_1V8', 'M2', '-|--', 'trunkx=399200'),
             ('LPI', 'M1', '||', 'trunkx=457600'),
@@ -234,11 +200,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "cas"
         order = ['xca4', r'xca2<\d+>', r'xca5<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
         wires = [
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (479200, 1470000, 'M1') to (479200, 1510000, 'M1'); closest approach (479200, 1470000, 'M1') (40000 away)"),
             ('VBD1', 'M1', '||', 'trunkx=505500'),
@@ -263,11 +224,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "su"
         order = ['xsu1', 'xsu2']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
         wires = [
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (595200, 1854000, 'M1') to (559200, 1870000, 'M1'); closest approach (559200, 1870000, 'M3') (0 away)"),
             ('VD1', 'blocked', "VD1: trunk 604200 lies outside the pins' common overlap 612800..616000"),
@@ -291,15 +247,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "cc"
         order = [r'xcc<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (675200, 1734000, 'M1') to (639200, 1750000, 'M1'); closest approach (639200, 1750000, 'M3') (0 away)"),
-        ]
-        wires_key = "b9ed78827dbc"
 
         def beforeRoute(self, entry):
             #- the decaps are netlist-real supply devices: exactly
@@ -312,23 +259,10 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "cap"
         fill = False
         order = [r'xd1<[0-4]>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (761000, 1392000, 'M5') to (761000, 1472000, 'M5'); closest approach (761000, 1392000, 'M5') (80000 away)"),
-            ('LPI', 'M4', '||', 'trunkx=760000.0'),
-        ]
-        wires_key = "6014588b88b6"
 
         def beforeRoute(self, entry):
-            #- cicpy layers sit one above the magic names: M4 is
-            #- magic metal3, the MiM bottom plate; M5 is metal4, the
-            #- top plate. A bar per plate down the column.
-            _rail(self, "LPI", "M4")
-            _rail(self, "VDD_1V8", "M5")
+            self.plateRail("LPI", "M4")
+            self.plateRail("VDD_1V8", "M5")
             return True
 
     class cap_lpi_b(Stack):
@@ -336,23 +270,10 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "cap"
         fill = False
         order = [r'xd1<[5-9]>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (841000, 1392000, 'M5') to (841000, 1472000, 'M5'); closest approach (841000, 1392000, 'M5') (80000 away)"),
-            ('LPI', 'M4', '||', 'trunkx=840000.0'),
-        ]
-        wires_key = "cd1c98b13714"
 
         def beforeRoute(self, entry):
-            #- cicpy layers sit one above the magic names: M4 is
-            #- magic metal3, the MiM bottom plate; M5 is metal4, the
-            #- top plate. A bar per plate down the column.
-            _rail(self, "LPI", "M4")
-            _rail(self, "VDD_1V8", "M5")
+            self.plateRail("LPI", "M4")
+            self.plateRail("VDD_1V8", "M5")
             return True
 
     class cap_vcp(Stack):
@@ -360,23 +281,10 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "cap"
         fill = False
         order = [r'xd2<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (921000, 1392000, 'M5') to (921000, 1472000, 'M5'); closest approach (921000, 1392000, 'M5') (80000 away)"),
-            ('VCP', 'M4', '||', 'trunkx=920000.0'),
-        ]
-        wires_key = "de5a12e224b1"
 
         def beforeRoute(self, entry):
-            #- cicpy layers sit one above the magic names: M4 is
-            #- magic metal3, the MiM bottom plate; M5 is metal4, the
-            #- top plate. A bar per plate down the column.
-            _rail(self, "VCP", "M4")
-            _rail(self, "VDD_1V8", "M5")
+            self.plateRail("VCP", "M4")
+            self.plateRail("VDD_1V8", "M5")
             return True
 
     #- the OTA stands at the RIGHT end of its row: its VSS port is a
