@@ -67,7 +67,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
             ('R1<3>', 'M1', '||', 'trunkx=1067900'),
             ('R1<4>', 'M1', '||', 'trunkx=1067900'),
         ]
-        wires_key = "c4c8e0fbeb4c"
+        wires_key = "6dad32574c7a"
 
     class n_g(Stack):
         """xg1: nmos diode VR1 -> VD2."""
@@ -78,7 +78,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         wires = [
             ('VR1', 'blocked', "VR1: trunk 1005900 lies outside the pins' common overlap 1017700..1020900"),
         ]
-        wires_key = "392d5122c2b4"
+        wires_key = "a123dc0963bc"
 
     #- row 1 -----------------------------------------------------
 
@@ -102,7 +102,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
             ('LPI', 'M1', '||', 'trunkx=457600'),
             ('VBD1', 'blocked', "path for VBD1 is not a shape route.py can draw (13 nodes, layers ['M1', 'M2'])"),
         ]
-        wires_key = "1951880410d0"
+        wires_key = "a295e31e2fcc"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -125,7 +125,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
             ('VCP', 'M1', '||', 'trunkx=537600'),
             ('VD1', 'blocked', "path for VD1 is not a shape route.py can draw (15 nodes, layers ['M1', 'M2'])"),
         ]
-        wires_key = "ffb95d71ef78"
+        wires_key = "caa71805a52e"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -148,7 +148,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
             ('VD1', 'blocked', "VD1: trunk 604200 lies outside the pins' common overlap 612800..616000"),
             ('VSU', 'blocked', 'VSU: pins share only -9600 of column, a straight vertical cannot land'),
         ]
-        wires_key = "2a177a571eb6"
+        wires_key = "095b78be0d58"
 
         def beforeRoute(self, entry):
             #- VSU: xsu1's tied bar to xsu2's source, adjacent rows;
@@ -259,6 +259,31 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
          "bar_layer": "M5", "layer": "M4", "align": "top",
          "trim": "b"},
     ]
+
+    #def beforeRoute(self):
+        #- L-shapes, not straights: a D pin and an S pin sit at
+        #- different heights WITHIN the cell (0.8 um here), and a
+        #- straight wire at the start pin's y puts the far cut just
+        #- off the far pin, onto whatever li lies between the rows
+        #- (measured: five nets merged through exactly that)
+     #   for net in ("IBD<0>", "IBD<1>", "IBD<2>", "IBD<3>", "VBD1"):
+      #      self.addConnectivityRoute("M4", f"^{net}$", "-|--", "",
+       #                               1, "", "")
+        #- LEFT-aligned, which is the default: the pin is 22.4 um of
+        #- li and the cut lands at its left end, 6.5 um clear of VR1's
+        #- trunk. cutalignright puts it at the RIGHT end, on top of
+        #- VR1. It used to be here because the landing rect was
+        #- recentred whatever the alignment said, so the option was
+        #- picked for a side effect it no longer has.
+       # self.addConnectivityRoute("M4", "^VBD2$", "-|--",
+        #                          "", 1, "", "")
+        #- VD1 enters p_cas by a seam hop from p_su, NOT by a channel
+        #- drop: the drop's vertical would run the drain window and
+        #- clip the IBP pin stacks (its discovered drop is skipped)
+        #self.addConnectivityRoute("M4", "^VD1$", "-|--",
+        #                          "cutaligncenter,endStopLayerM2", 1, "",
+        #                          r"^(xp_cas|xp_su)$")
+
 
     def route(self):
         """The assembled top, plus the seam nets the channels cannot say.

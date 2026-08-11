@@ -56,7 +56,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VIN', 'M1', '||', 'trunkx=150400'),
             ('VS', 'M1', '||', 'trunkx=95900'),
         ]
-        wires_key = "5e9dae4e1d29"
+        wires_key = "4f9492b9c6c6"
 
     class p_in_b(Stack):
         match = r'^(xbl5|xbl2<\d+>|xstack_p_in_b_(top|bot)|xfill_p_in_b_\d+)$'
@@ -74,7 +74,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VIP', 'M1', '||', 'trunkx=230400'),
             ('VS', 'M1', '||', 'trunkx=175900'),
         ]
-        wires_key = "aa2455a6a24e"
+        wires_key = "81f6802f0dd3"
 
     class p_bias(Stack):
         """Route VBP and PWRUP_1V8, which the stack router declines.
@@ -109,7 +109,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VBP', 'blocked', "path for VBP is not a shape route.py can draw (15 nodes, layers ['M1', 'M2', 'M3'])"),
             ('VO', 'M1', '||', 'trunkx=304100'),
         ]
-        wires_key = "6485b44f0f02"
+        wires_key = "bb829ffad027"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -205,7 +205,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VSS', 'M2', '-|--', 'trunkx=479200'),
             ('VD1', 'blocked', 'VD1: pins share only -3200 of column, a straight vertical cannot land'),
         ]
-        wires_key = "d45af74d3125"
+        wires_key = "31185f64694d"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -235,7 +235,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VSS', 'blocked', "no path for VSS from (595200, 42000, 'M1') to (559200, 58000, 'M1'); closest approach (559200, 58000, 'M3') (0 away)"),
             ('VD2', 'blocked', 'VD2: pins share only -3200 of column, a straight vertical cannot land'),
         ]
-        wires_key = "d9c6d8ebf9c3"
+        wires_key = "b93a03294cde"
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -295,7 +295,7 @@ class LELOTEMP_OTAR(SidecarCell):
             ('VSS', 'blocked', "no path for VSS from (719200, 34000, 'M1') to (719200, 74000, 'M1'); closest approach (719200, 34000, 'M1') (40000 away)"),
             ('R1<0>', 'M1', '||', 'trunkx=746200'),
         ]
-        wires_key = "8c039ee4ea52"
+        wires_key = "ca19e31a456f"
 
     rows = [
         [n_load_a, n_load_b, n_mirr, r_deg],
