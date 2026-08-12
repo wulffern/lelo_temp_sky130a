@@ -42,6 +42,28 @@ class LELO_TEMP(SidecarCell):
         xspace = 5
         order = ['x2_ccmp', 'x3_ccmp']
 
+        def beforeRoute(self, entry):
+            """MIRROR THE UPPER ONE about x, so the pair is symmetric
+            about the seam they share.
+
+            A matched pair placed as two identical copies repeats the
+            same edge at the seam; mirrored, the two halves meet edge
+            to mirrored-edge, which is what lets a matched pair sit
+            together at all. The same argument as CellGroup.mirror()
+            makes for a column about its vertical axis -- this is the
+            horizontal one, because these two are stacked.
+            """
+            up = self.layout.getInstanceFromInstanceName("x3_ccmp")
+            if up is not None:
+                #- setAngle leaves the instance position in the
+                #- mirrored frame, so pin it back where it was
+                x, y = int(up.x1), int(up.y1)
+                up.setAngle("MX")
+                up.moveTo(x, y)
+                up.updateBoundingRect()
+                self.updateBoundingRect()
+            return None
+
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
         pair, the two buffers, the powerdown inverter chain."""
