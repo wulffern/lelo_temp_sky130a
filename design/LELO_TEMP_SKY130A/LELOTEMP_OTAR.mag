@@ -3,7 +3,7 @@ tech sky130A
 magscale 1 2
 timestamp 1786485600
 << checkpaint >>
-rect 0 -300 8096 13420
+rect 0 -300 8000 13420
 << metal2 >>
 rect 3916 5790 5324 5850
 rect 3976 5786 4152 5854
@@ -131,14 +131,14 @@ rect 1120 864 1184 1032
 rect 2720 864 2784 1032
 rect 4320 1664 4384 1832
 rect 4572 8232 4636 8400
-rect 0 13240 8096 13420
-rect 0 13240 8096 13420
+rect 0 13240 8000 13420
+rect 0 13240 8000 13420
 rect 3200 12200 3296 13420
 rect 0 12200 96 13420
 rect 1600 12200 1696 13420
 rect 4800 12200 4896 13420
-rect 0 -300 8096 -120
-rect 0 -300 8096 -120
+rect 0 -300 8000 -120
+rect 0 -300 8000 -120
 rect 0 -300 96 920
 rect 1600 -300 1696 920
 rect 3200 -300 3296 1720
@@ -297,28 +297,28 @@ rect 4266 6748 4322 6804
 rect 4362 6748 4418 6804
 use LELOTEMP_OTAR_N_LOAD_A xn_load_a 
 transform 1 0 0 0 1 0
-box 0 0 1800 5760
+box 0 0 1696 5760
 use LELOTEMP_OTAR_N_LOAD_B xn_load_b 
 transform 1 0 1600 0 1 0
-box 1600 0 3400 5760
+box 1600 0 3200 5760
 use LELOTEMP_OTAR_N_MIRR xn_mirr 
 transform 1 0 3200 0 1 0
 box 3200 0 4800 5760
 use LELOTEMP_OTAR_P_BIAS xp_bias 
 transform 1 0 3200 0 1 7360
-box 3200 7360 4896 13120
+box 3200 7360 4800 13120
 use LELOTEMP_OTAR_P_IN_A xp_in_a 
 transform 1 0 0 0 1 7360
 box 0 7360 1696 13120
 use LELOTEMP_OTAR_P_IN_B xp_in_b 
 transform 1 0 1600 0 1 7360
-box 1600 7360 3296 13120
+box 1600 7360 3200 13120
 use LELOTEMP_OTAR_P_SW xp_sw 
 transform 1 0 4800 0 1 7360
 box 4800 7360 6496 13120
 use LELOTEMP_OTAR_R_DEG xr_deg 
 transform 1 0 4800 0 1 0
-box 4800 0 8096 2560
+box 4800 0 8000 2560
 << labels >>
 flabel metal2 s 2284 6030 3868 6090 0 FreeSans 400 0 0 0 VO
 port 3 nsew signal bidirectional
@@ -326,9 +326,9 @@ flabel metal2 s 3690 6390 6100 6450 0 FreeSans 400 0 0 0 VCP
 port 8 nsew signal bidirectional
 flabel metal2 s 994 6750 4810 6810 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 7 nsew power bidirectional
-flabel locali s 0 13240 8096 13420 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 13240 8000 13420 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
-flabel locali s 0 -300 8096 -120 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 -300 8000 -120 0 FreeSans 400 0 0 0 VSS
 port 5 nsew ground bidirectional
 flabel metal1 s 3036 -300 3100 -220 0 FreeSans 400 0 0 0 VIP
 port 2 nsew signal bidirectional
@@ -337,5 +337,5 @@ port 4 nsew signal bidirectional
 flabel locali s 4576 9880 4640 9960 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 6 nsew power bidirectional
 << properties >>
-string FIXED_BBOX 0 -300 8096 13420
+string FIXED_BBOX 0 -300 8000 13420
 << end >>
