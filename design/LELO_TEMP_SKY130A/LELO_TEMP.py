@@ -31,6 +31,22 @@ class LELO_TEMP(SidecarCell):
         fill = False
         order = ['x1_ibp']
 
+        #- LPI IS THIS SUBCELL'S OWN NET and it is NOT DRAWN. It closes
+        #- the loop from the block's LPO pin back to its LPI pin, both
+        #- ends inside here, and the top used to draw it by hand -- so
+        #- it went when the top's routing went. LVS reads 10 nets in
+        #- the layout against 11 in the schematic and checkroutes says
+        #- OPEN net=LPI; that is the whole of this cell's mismatch, and
+        #- it is a missing wire, not a naming artefact.
+        #-
+        #- addConnectivityRoute IS the maze router, and it does not
+        #- solve this one: "-|--" lays a bar across the block and
+        #- merges five nets (11 DRC, layout down to 5 nets), a channel
+        #- trunk draws something that leaves the net open, and a fresh
+        #- search (CICPY_NO_ROUTEPLAN=1) gives the same 11. Left
+        #- undrawn deliberately, because a wrong wire here reads as
+        #- five shorted nets and an absent one reads as one open.
+
     class ccmp(Stack):
         """BOTH comparators, as one subcell. They were two stacks the
         top had to abut by hand; as one they stack themselves, get
