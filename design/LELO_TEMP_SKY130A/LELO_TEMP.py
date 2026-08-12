@@ -42,6 +42,17 @@ class LELO_TEMP(SidecarCell):
         xspace = 5
         order = ['x2_ccmp', 'x3_ccmp']
 
+        def beforePlace(self, entry):
+            """SPACE FOR THE CAPS AT THE SEAM.
+
+            Mirrored, the pair meets cap array to cap array -- and a
+            MiM cap wants 0.84 um to another (capm.2a), where abutted
+            they sat 0.44 apart. The gap is stated in microns from the
+            rule, not guessed: the caps are the tallest thing at the
+            seam and they set it.
+            """
+            self.stack(ygap=2 * self.layout.um)
+
         def beforeRoute(self, entry):
             """MIRROR THE UPPER ONE about x, so the pair is symmetric
             about the seam they share.
