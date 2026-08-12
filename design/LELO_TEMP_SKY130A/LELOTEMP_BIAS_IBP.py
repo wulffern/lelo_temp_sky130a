@@ -331,5 +331,6 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         #- be twenty lines of Rect and Cut with 2400, 5000 and a 1x1
         #- via typed into them.
         for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
-            self.promoteInstancePort(net, r"^xota$", "top", "M5")
+            self.promoteInstancePort(net, r"^xota$", "top", "M5",
+                                     startLayer="M2")
         super().route()
