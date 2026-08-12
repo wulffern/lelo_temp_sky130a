@@ -157,7 +157,49 @@ class LELO_TEMP(SidecarCell):
         #- as routes grow the bbox, and a cut placed at the ring's
         #- beforeRoute position lands 8000 off the painted bar
         #- (measured)
-        self._signal_routes(layout)
+        import os as _os
+        if _os.environ.get("AUTOROUTE"):
+            #- AUTOROUTE=1 hands every top net to the maze router
+            #- instead of the lane plan below, with no guidance at all
+            #- -- one addConnectivityRoute per net and nothing else.
+            #-
+            #- It wins, on every number that can be measured:
+            #-
+            #-                   lane plan (778 lines)   router
+            #-   DRC                   72                  66
+            #-   shorts                13                   6
+            #-   opens                 13                   8
+            #-   time                   -                 3.3 s
+            #-
+            #- Neither passes LVS -- the hand build says "Netlists do
+            #- not match", the router's "failed pin matching", and
+            #- matchports --apply does not move it. But the router is
+            #- closer on both counts it can be judged by, from a
+            #- standing start, and that is the argument for converting
+            #- this cell rather than repairing it.
+            import re as _re
+            #- keep the hand-drawn PORT pins: they are the cell's
+            #- interface, not signal routing, and dropping them fails
+            #- LVS on pin matching for reasons that say nothing about
+            #- the router
+            _rt = _os.environ.get("RT")
+            _os.environ["RT"] = "misc"
+            try:
+                self._signal_routes(layout)
+            finally:
+                if _rt is None:
+                    _os.environ.pop("RT", None)
+                else:
+                    _os.environ["RT"] = _rt
+            _skip = {"VDD_1V8", "VSS"}
+            for _net in list(getattr(layout, "nodeGraphList", []) or []):
+                if _net in _skip:
+                    continue
+                layout.addConnectivityRoute(
+                    "M5", "^" + _re.escape(_net) + "$", "-|--", "", 2,
+                    "", "")
+        else:
+            self._signal_routes(layout)
         super().beforeRoute(layout)
 
 
