@@ -31,21 +31,54 @@ class LELO_TEMP(SidecarCell):
         fill = False
         order = ['x1_ibp']
 
-        #- LPI IS THIS SUBCELL'S OWN NET and it is NOT DRAWN. It closes
-        #- the loop from the block's LPO pin back to its LPI pin, both
-        #- ends inside here, and the top used to draw it by hand -- so
-        #- it went when the top's routing went. LVS reads 10 nets in
-        #- the layout against 11 in the schematic and checkroutes says
-        #- OPEN net=LPI; that is the whole of this cell's mismatch, and
-        #- it is a missing wire, not a naming artefact.
-        #-
-        #- addConnectivityRoute IS the maze router, and it does not
-        #- solve this one: "-|--" lays a bar across the block and
-        #- merges five nets (11 DRC, layout down to 5 nets), a channel
-        #- trunk draws something that leaves the net open, and a fresh
-        #- search (CICPY_NO_ROUTEPLAN=1) gives the same 11. Left
-        #- undrawn deliberately, because a wrong wire here reads as
-        #- five shorted nets and an absent one reads as one open.
+        def beforeRoute(self, entry):
+            """LPI, the loop: the block's LPO pad back to its LPI bar.
+
+            Both ends are inside this subcell -- the top used to draw
+            it by hand, so it went when the top's routing went, and LVS
+            read 10 nets against 11.
+
+            A SEARCH IS THE WRONG TOOL FOR IT. `-|--` takes the direct
+            line, straight west through the M5 supply columns and the
+            cap array, and merges five nets (11 DRC, the layout down to
+            5 nets); a channel trunk resolves to `trunkx891000`, mid
+            block, and leaves the net open. The corridor a person would
+            use is the last few microns at the RIGHT EDGE, which is
+            empty and which the LPI bar already reaches -- so the story
+            says that, and nothing has to discover it.
+            """
+            lay = self.layout
+            inst = lay.getInstanceFromInstanceName("x1_ibp")
+            if inst is None:
+                return None
+            #- both pins carry the net name, so tell them apart by
+            #- position: the pad is the high one, the bar the low
+            rs = [c.get() for c in inst.children
+                  if getattr(c, "isPort", lambda: False)()
+                  and getattr(c, "name", "") == "LPI"]
+            rs = [r for r in rs if r is not None]
+            if len(rs) < 2:
+                log.error("LPI: expected two pins on the block")
+                return None
+            lpo = max(rs, key=lambda r: r.y1)
+            lpi = min(rs, key=lambda r: r.y1)
+            pp = lay.path("LPI", lpo.layer, start=[lpo], stop=[lpi])
+            pp.start()
+            pp.up()
+            pp.up()
+            pp.movex(pp.track("bias", 155))
+            pp.movey(pp.landing("y"))
+            pp.down()
+            pp.down()
+            pp.end()
+            #- TRUE CLAIMS THE NET. Returning None leaves the built-in
+            #- router free to route LPI as well, and it draws a bare M2
+            #- vertical from pin to pin -- x 712300..715300, straight
+            #- up 35 um through the block's own device metal, which is
+            #- what pulled xota/VR1 into this net and made LVS read one
+            #- net fewer in the layout than in the schematic. The story
+            #- above is the route; there is nothing left to find.
+            return True
 
     class ccmp(Stack):
         """BOTH comparators, as one subcell. They were two stacks the
