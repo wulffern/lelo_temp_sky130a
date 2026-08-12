@@ -160,23 +160,31 @@ class LELO_TEMP(SidecarCell):
         import os as _os
         if _os.environ.get("AUTOROUTE"):
             #- AUTOROUTE=1 hands every top net to the maze router
-            #- instead of the lane plan below, with no guidance at all
-            #- -- one addConnectivityRoute per net and nothing else.
+            #- instead of the lane plan below -- one
+            #- addConnectivityRoute per net and nothing else.
             #-
-            #- It wins, on every number that can be measured:
+            #- IT LOSES, and the first measurement said otherwise
+            #- because it counted the wrong thing. Short COMPONENTS
+            #- flatter a build that merges everything: one component
+            #- can hold thirty nets.  Count the NETS caught in a short:
             #-
-            #-                   lane plan (778 lines)   router
-            #-   DRC                   72                  66
-            #-   shorts                13                   6
-            #-   opens                 13                   8
-            #-   time                   -                 3.3 s
+            #-                        shorts  nets shorted  worst
+            #-   lane plan (778 ln)     13         24        8 nets
+            #-   router, all on M5       6         29       24 nets
+            #-   router, M3/M4/M5        4         32       29 nets
+            #-   router, M4/M5 only      5         37       33 nets
             #-
-            #- Neither passes LVS -- the hand build says "Netlists do
-            #- not match", the router's "failed pin matching", and
-            #- matchports --apply does not move it. But the router is
-            #- closer on both counts it can be judged by, from a
-            #- standing start, and that is the argument for converting
-            #- this cell rather than repairing it.
+            #- Every variant collapses into one giant component, and
+            #- the bridges say why: the top level has no idea which
+            #- layers the BLOCKS own. Routed on M3 it runs into
+            #- LELOTEMP_CMP's own VBP2; confined to M4/M5 it has two
+            #- layers for twenty nets and they cross each other.
+            #-
+            #- Which is exactly what the 778 lines encode -- a lane
+            #- budget and a layer reservation per band. Converting this
+            #- cell is not deleting them; it is saying the same thing
+            #- declaratively, as channels and tracks, so the search has
+            #- the constraints the hand plan carries in its head.
             import re as _re
             #- keep the hand-drawn PORT pins: they are the cell's
             #- interface, not signal routing, and dropping them fails
@@ -191,13 +199,20 @@ class LELO_TEMP(SidecarCell):
                     _os.environ.pop("RT", None)
                 else:
                     _os.environ["RT"] = _rt
+            #- ONE LAYER PER NET IS NOT A TEST OF THE ROUTER. Giving
+            #- every net "M5" put twenty of them on one plane, where
+            #- they crossed freely and merged into a single 24-net
+            #- component of 2293 rects -- which says nothing about
+            #- routing and everything about the question asked.
+            #- Spread them instead, and let the search do the rest.
             _skip = {"VDD_1V8", "VSS"}
-            for _net in list(getattr(layout, "nodeGraphList", []) or []):
-                if _net in _skip:
-                    continue
+            _layers = ["M4", "M5"]
+            _nets = [n for n in (getattr(layout, "nodeGraphList", []) or [])
+                     if n not in _skip]
+            for _i, _net in enumerate(sorted(_nets)):
                 layout.addConnectivityRoute(
-                    "M5", "^" + _re.escape(_net) + "$", "-|--", "", 2,
-                    "", "")
+                    _layers[_i % len(_layers)],
+                    "^" + _re.escape(_net) + "$", "-|--", "", 2, "", "")
         else:
             self._signal_routes(layout)
         super().beforeRoute(layout)
