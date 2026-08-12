@@ -609,12 +609,18 @@ class LELO_TEMP(SidecarCell):
                     and getattr(c, "name", "") == "LPI"]
             lpo = max(lpis, key=lambda r: r.y1)      # the OTA output pad
             lpi = min(lpis, key=lambda r: r.y1)      # the bar's right end
-            y = int(lpo.centerY())
-            stk("LPI", "M3", "M5", int(lpo.x2) - 3000, y)
-            wire("LPI", "M5", int(lpo.x2) - 4500, y - 1500, L(1) + w, y + 1500)
-            wire("LPI", "M5", L(1), int(lpi.centerY()) - 1500, L(1) + w, y + 1500)
-            wire("LPI", "M3", int(lpi.x2), int(lpi.y1), L(1) + w, int(lpi.y2))
-            stk("LPI", "M3", "M5", L(1) + 1500, int(lpi.centerY()))
+            #- CONVERTED: up out of the OTA pad, east to the L band's
+            #- first lane, down it to the bar's own row, and in on M3 --
+            #- which is the bar's layer, so the last leg is the bar.
+            pp = layout.path("LPI", "M3", start=[lpo], stop=[lpi])
+            pp.start()
+            pp.up()
+            pp.up()
+            pp.movex(pp.track("lband", 0))
+            pp.movey(pp.pin("x1_ibp", "LPI", "y"))
+            pp.down()
+            pp.down()
+            pp.end()
 
         if on("vc"):
             #- VC: the bias VD1 bar to both comparators' VC pins.
