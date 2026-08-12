@@ -133,6 +133,25 @@ class LELO_TEMP(SidecarCell):
             grp.updateBoundingRect()
         layout.updateBoundingRect()
 
+        #- THE BANDS, NAMED. Every corridor this floorplan opens gets
+        #- registered here, so a route can aim at "lband track 1"
+        #- instead of a lambda over a literal pitch. The lambdas below
+        #- are what these replace; a track index survives a resize and
+        #- another technology, and 960000 + 1000 + (i-1)*6000 does not.
+        _bi = layout.getInstanceFromInstanceName("x1_ibp")
+        _ca = layout.getInstanceFromInstanceName("x2_ccmp")
+        _cb = layout.getInstanceFromInstanceName("x3_ccmp")
+        _d0 = layout.getInstanceFromInstanceName("x7")
+        if None not in (_bi, _ca, _cb, _d0):
+            layout.addRoutingChannel("lband", int(_bi.x2), int(_ca.x1),
+                                     horizontal=False)
+            layout.addRoutingChannel("dband", int(_ca.x2), int(_d0.x1),
+                                     horizontal=False)
+            layout.addRoutingChannel("bband", 0, int(_ca.y1))
+            layout.addRoutingChannel("myband", int(_ca.y2), int(_cb.y1))
+            layout.addRoutingChannel("sband", int(_bi.y2),
+                                     int(_bi.y2) + 28000)
+
     def beforeRoute(self, layout):
         #- rings on an EXPLICIT rect: addRouteRing wraps the layout
         #- bbox, which does not count the physical-only tapcell, so
@@ -598,22 +617,25 @@ class LELO_TEMP(SidecarCell):
             stk("LPI", "M3", "M5", L(1) + 1500, int(lpi.centerY()))
 
         if on("vc"):
-            #- VC: the bias VD1 bar to both comparators' VC pins
-            vcb = P("x1_ibp", "VC")
-            yv = int(vcb.centerY())
-            wire("VC", "M3", int(vcb.x2), yv - 1500, L(2) + w, yv + 1500)
-            wire("VC", "M3", L(2), B(1), L(2) + w, yv + 1500)
-            for tgt, ylane in ((P("x2_ccmp", "VC"), B(1)),
-                               (P("x3_ccmp", "VC"), MY(1))):
-                #- the pin sits at the comparator CORE's bottom edge: the
-                #- riser must be the pin's own M2 -- the core is full of
-                #- everything below M5 (measured: an M3 riser merged the
-                #- mirror tails)
-                wire("VC", "M3", L(2), ylane, int(tgt.x2), ylane + w)
-                stk("VC", "M3", "M2", int(tgt.centerX()), ylane + 1500)
-                wire("VC", "M2", int(tgt.x1), ylane,
-                     int(tgt.x2), int(tgt.y2))
-            wire("VC", "M3", L(2), MY(1), L(2) + w, yv)
+            #- VC: the bias VD1 bar to both comparators' VC pins.
+            #- CONVERTED to two `~` stories, one per target. Six wire()
+            #- calls over literal lanes became six anchored steps: the
+            #- lane is "lband track 1", the crossing rows are the b and
+            #- my bands' track 0, and the landing is the pin itself.
+            #- Nothing here is a coordinate.
+            for _inst, _ch in (("x2_ccmp", "bband"), ("x3_ccmp", "myband")):
+                pp = layout.path("VC", "M3", start=[P("x1_ibp", "VC")],
+                                 stop=[P(_inst, "VC")])
+                pp.start()
+                pp.movex(pp.track("lband", 1))
+                pp.movey(pp.track(_ch, 0))
+                pp.movex(pp.pin(_inst, "VC"))
+                #- the pin sits at the comparator CORE's bottom edge, so
+                #- the last leg is the pin's own M2: the core is full of
+                #- everything below M5 (measured -- an M3 riser merged
+                #- the mirror tails)
+                pp.down()
+                pp.end()
 
         if on("ibp"):
             #- IBP_1U<0..3>: the bias's M5 su-channel bars over the top
