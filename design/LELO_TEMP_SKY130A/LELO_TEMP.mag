@@ -3,10 +3,10 @@ tech sky130A
 magscale 1 2
 timestamp 1786485600
 << checkpaint >>
-rect 0 -300 32104 21592
+rect 0 -300 31176 21592
 << locali >>
-rect 0 21412 32104 21592
-rect 0 -300 32104 -120
+rect 0 21412 31176 21592
+rect 0 -300 31176 -120
 rect 0 21100 19200 21280
 rect 29826 2930 30006 2990
 rect 29466 3490 29646 3550
@@ -19,7 +19,7 @@ transform 1 0 20200 0 1 0
 box 20200 0 28396 15360
 use LELO_TEMP_DIG xdig 
 transform 1 0 29196 0 1 0
-box 29196 0 32104 3794
+box 29196 0 31176 3680
 << labels >>
 flabel locali s 0 21100 19200 21280 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
@@ -30,5 +30,5 @@ port 3 nsew power bidirectional
 flabel locali s 0 0 19200 180 0 FreeSans 400 0 0 0 VSS
 port 4 nsew ground bidirectional
 << properties >>
-string FIXED_BBOX 0 -300 32104 21592
+string FIXED_BBOX 0 -300 31176 21592
 << end >>

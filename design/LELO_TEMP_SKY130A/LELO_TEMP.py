@@ -343,30 +343,341 @@ class LELO_TEMP(SidecarCell):
         #- moment the schematic gained one.
 
         def beforeRoute(self, entry):
-            """The strip's own nets, each on its own lane.
+            """The strip's own nets, each on its own lane, told out.
 
-            Left to itself the router put RST_A, RST_B and net2 in one
-            column on M2 and shorted all three -- the same failure as
-            the top level had, and the same cause: no lane budget. A
-            channel over the strip's own width gives each net a lane,
-            and the lanes are two tracks apart because an M2-M3 pad is
-            wider than one.
+            THE STRIP IS A LADDER and its rungs are stated, not
+            searched. Every JNWTR cell puts its pins on M1 in two
+            columns -- inputs at 18000, outputs at 36000 -- and
+            carries nothing above them but its two M4 supply columns,
+            so M2 and M3 are free the strip's whole height. That is
+            the whole geometry: a lane per net on M2 east of the
+            pins, an M3 stub in to each pin, and one via at each end.
+
+            What it replaces asked `addConnectivityRoute` for a
+            vchannel track per net and got `vtrack=16` and `23` out of
+            a channel with 16 tracks: RST_A and RST_B were railed
+            OUTSIDE the cell, which is why LVS found each of them
+            split between its gate side and its drain side, and two
+            more gates landed on VSS.
+
+            The lanes are two tracks apart because an M2-M3 pad is
+            wider than one lane.
             """
             lay = self.layout
             lay.addRoutingChannel("strip", int(self.x1), int(self.x2),
                                   horizontal=False)
-            for _i, _n in enumerate(("net1", "net2", "RST_A", "RST_B")):
-                self.addConnectivityRoute(
-                    "M2", "^" + _n + "$", "||",
-                    f"vchannel=strip,vtrack={2 + _i * 7}", 2)
-            return None
+            #- net, lane, and the hops that make it whole.
+            #-
+            #- THE SUPPLY COLUMNS ARE NOT FREE ABOVE M1. Every JNWTR
+            #- cell carries a full height M4 bar in each of them --
+            #- 31500..40300 and 58500..67300 -- with an M1-M4 cut
+            #- stack at every rail, so a lane whose M2-M3 pad reaches
+            #- into one is tied to that supply. Measured: net2 on a
+            #- lane at 57000 came back as part of VDD_1V8. The lanes
+            #- below are the ones a 8800 wide pad clears.
+            #-
+            #- A THREE PIN NET IS NOT THREE HOPS. Two vias on one pin
+            #- land concentric but not identical, which magic reports
+            #- as "this layer can't abut or partially overlap between
+            #- subcells" -- 36 boxes of it. The far pins take the lane
+            #- end to end and the middle pin meets the lane where it
+            #- passes, which is one via each.
+            #- A LANE IS 12000 FROM THE NEXT, not 6000: the via pad
+            #- that drops a stub onto a lane is 8800 wide, and at
+            #- 6000 spacing it lands on the neighbouring lane's wire
+            #- (measured, RST_A's lane and RST_B's pad). What that
+            #- leaves, once both M4 supply columns are excluded, is
+            #- four lanes -- t1 west of the pins, t7 between the
+            #- columns, t13 and t15 east of them.
+            #-
+            #- Four lanes for five nets, so net1 and net2 SHARE one:
+            #- one runs y 50..66k and the other 95..118k, and a lane
+            #- is only busy where its net is.
+            #-
+            #- PWRUP_N TAKES THE MIDDLE LANE because it is the one
+            #- that can. A lane between the two M4 columns cannot be
+            #- reached from M5 (below), so its net's inputs cross on
+            #- M3 and are held to the band above each rail -- and
+            #- PWRUP_N is the net whose three pins sit in the roomiest
+            #- cells. RST_B there left x4 with no row assignment at
+            #- all, three stubs into one 24 um cell.
+            plan = (("net1", 1, ("x7", "x3"), None),
+                    ("net2", 1, ("x1", "x4"), None),
+                    ("RST_B", 13, ("x3", "x5"), "x4"),
+                    ("PWRUP_N_1V8", 7, ("x7", "x6"), "x2"),
+                    ("RST_A", 15, ("x3", "x4"), None))
+            #- rows step in SPACE, not in whole lanes: the pins sit
+            #- on a 4000 grid and the rows have to interleave with
+            #- them, which a 6000 step cannot do -- three pins in one
+            #- cell had no assignment at all.
+            from cicpy.core.rules import Rules as _Ru
+            step = int(_Ru.getInstance().get("M3", "space"))
+            #- rows are a PAD APART, not a lane: what has to fit
+            #- between two of them is the M2-M3 cut that drops a stub
+            #- onto its lane, and a lane's worth (6000) leaves three
+            #- stubs of one cell with no assignment at all, because
+            #- the pins sit on a 4000 grid and the steps on a 3000
+            #- one -- no two rows off different pins ever coincide.
+            #- HALF OF EACH PAD, plus half a space. The deck asks
+            #- 0.14 um between two M2 shapes; the design's own default
+            #- 0.3 um is a preference, and at a full space three stubs
+            #- of one 24 um cell have no assignment at all -- the pins
+            #- are on a 4000 grid, the steps on a 3000 one, and
+            #- nothing lines up. Half of it is 0.15 um, still over
+            #- the rule, and it verifies.
+            from cicpy.core.cut import Cut as _Cut
 
-        #- NO `return True` HERE ANY MORE. That claimed the subcell as
-        #- already routed, which was true when the top hand-routed
-        #- every net into it; with the top's routing gone it meant
-        #- nothing wired the strip at all -- LVS counted 25 nets in
-        #- the layout against 18 in the schematic, seven of them
-        #- split. The built-in router takes it now.
+            def _pad(a, b):
+                ct = (_Cut.getInstance(a, b, 2, 1)
+                      or _Cut.getInstance(b, a, 2, 1))
+                return int(ct.height()) if ct is not None else 2 * step
+
+            pads = {"M3": _pad("M2", "M3"), "M5": _pad("M2", "M5"),
+                    "pin": _pad("M1", "M2")}
+            #- and the space between two rows is the one their
+            #- HIGHEST SHARED LAYER asks for. Two M5 pads are thick
+            #- metal to each other -- met4.2 wants 0.3 um where
+            #- met1.2 wants 0.14 -- but an M5 pad beside an M3 pad
+            #- only ever meets it on M2 and M3. Charging every pair
+            #- the M5 figure cost x3 its assignment by 100 units.
+            gaps = {"M3": step // 2, "M5": int(_Ru.getInstance().get(
+                "M5", "space")), "pin": step // 2}
+
+            def _gap(l1, l2):
+                return gaps[l1] if l1 == l2 else min(gaps[l1], gaps[l2])
+            pitch = lay._lanePitch("M2")
+            m5 = {}
+            wanted = []
+            for net, _lane, (src, dst), mid in plan:
+                x = lay.channelTrackCoord("strip", _lane)
+                ok = x is not None and self._m5Lane(lay, x)
+                for inst in (src, dst) + ((mid,) if mid else ()):
+                    r = self._pin(lay, inst, net)
+                    if r is None:
+                        continue
+                    m5[(net, inst)] = self._crossLayer(r, ok)
+                    wanted.append(((net, inst), r, m5[(net, inst)]))
+            rows = self._bookRows(step, pads, _gap, wanted)
+
+            def row(net, inst):
+                return rows.get((net, inst), (1, 0))
+
+            for net, lane, (src, dst), mid in plan:
+                a, b = self._pin(lay, src, net), self._pin(lay, dst, net)
+                if a is None or b is None:
+                    log.error(f"dig: {net} is not on {src} and {dst}")
+                    continue
+                p = lay.path(net, "M1", start=[a], stop=[b])
+                p.start()
+                #- STEP OFF THE PIN ROW BEFORE TURNING. A cell puts
+                #- its input at 18000 and its output at 36000 only a
+                #- row or two apart in y, so two nets' stubs leaving
+                #- at their own pin rows ran 600 apart across the VSS
+                #- column -- ten met1.2 and met2.2 pairs, no short.
+                #- Inputs step down and outputs step up, which puts
+                #- two lanes between the families wherever they cross.
+                ka, _ = row(net, src)
+                kb, _ = row(net, dst)
+                p.up("M2")               #- the pin's own lane
+                p.movey(p.pin(src, net, "y") + ka * p.SPACE)
+                p.up(m5[(net, src)])              #- east, over or
+                p.movex(p.track("strip", lane))   #- under the rails
+                #- RIDE THE LANE FIRST, ALWAYS. On a row of its own
+                #- the turn is obvious; on the pin's own row (k=0) it
+                #- is easy to leave out, and then the vertical
+                #- happens at the far pin's x instead -- measured,
+                #- 155 um of M2 down the output column, five nets in
+                #- one component.
+                p.down("M2")             #- the lane
+                p.movey(p.landing("y") + kb * p.SPACE)
+                p.up(m5[(net, dst)])              #- in to the other
+                p.movex(p.landing("x"))           #- pin
+                #- BACK ON M2 BEFORE DROPPING IN. end() draws what
+                #- is left on the layer it is handed, and left on M3
+                #- that last leg is a vertical in the pin column --
+                #- measured, RST_A's ran 7500 up x4's output column
+                #- and RST_B's stub crossed it.
+                p.down("M2")
+                p.end()
+                if mid is None:
+                    continue
+                m = self._pin(lay, mid, net)
+                if m is None:
+                    log.error(f"dig: {net} is not on {mid}")
+                    continue
+                #- the middle pin meets the lane, not the other pins
+                x = lay.channelTrackCoord("strip", lane)
+                if x is None:
+                    continue
+                km, y = row(net, mid)
+                from cicpy.core.rect import Rect as _R
+                meet = _R("M2", int(x) - pitch // 2, y - pitch // 2,
+                          pitch, pitch)
+                meet.setNet(net)
+                p = lay.path(net, "M1", start=[m], stop=[meet])
+                p.start()
+                p.up("M2")
+                p.movey(p.pin(mid, net, "y") + km * p.SPACE)
+                p.up(m5[(net, mid)])
+                p.movex(p.track("strip", lane))
+                p.end()
+            #- TRUE CLAIMS THE STRIP. Everything else it holds is a
+            #- port on one pin -- CMPO_A, CMPO_B, OSC_TEMP_1V8,
+            #- PWRUP_1V8, PWRUP_B_1V8 -- and the supplies are the M4
+            #- columns, which the cells abut into each other.
+            return True
+
+        @staticmethod
+        def _step(pin):
+            """Which way a stub prefers to leave its pin: inputs down,
+            outputs up. The two pin columns are 13500..22500 and
+            31500..40500."""
+            return -1 if int(pin.x1) < 25000 else 1
+
+        #- EVERY STUB CROSSES ON M3, under the M4 supply bars and
+        #- between the rails.
+        #-
+        #- M5 looks better -- it is free the strip's whole height and
+        #- an input pin, at 13500..22500, is clear of both M4 columns
+        #- and could climb to it. What kills it is the via at the
+        #- other end: an M2-M5 cut carries an M4 pad 10800 wide with
+        #- its enclosure, so a lane anywhere in the 18 um between the
+        #- two M4 columns lands that pad ON one of them. Measured --
+        #- RST_B on the middle lane came back shorted to VSS. There
+        #- is no track in that band where it fits, so the layer that
+        #- can use the band is the one that never reaches M4.
+        def _m4columns(self, lay):
+            """The M4 supply bars, off the cells' own ports."""
+            cols = []
+            for inst in self.instances:
+                ports = getattr(inst, "instancePorts", {}) or {}
+                for net in ("VDD_1V8", "VSS"):
+                    port = ports.get(net)
+                    r = port.get() if port is not None else None
+                    if r is not None and r.layer == "M4":
+                        cols.append((int(r.x1), int(r.x2)))
+            return cols
+
+        def _m5Lane(self, lay, x):
+            """Can a stub drop onto the lane at `x` from M5?
+
+            Only if the M4 pad the cut carries clears both supply
+            bars. That is the whole reason the middle lane is M3
+            only.
+            """
+            from cicpy.core.cut import Cut as _Cut
+            from cicpy.core.rules import Rules as _Ru
+            ct = (_Cut.getInstance("M2", "M5", 2, 1)
+                  or _Cut.getInstance("M5", "M2", 2, 1))
+            if ct is None:
+                return False
+            half = int(ct.width()) // 2 + int(_Ru.getInstance().get(
+                "M4", "space"))
+            return all(x + half < c1 or x - half > c2
+                       for c1, c2 in self._m4columns(lay))
+
+        def _crossLayer(self, pin, m5ok):
+            """An input crosses above everything on M5 when its lane
+            can take the drop; an output cannot -- its pin IS the VSS
+            column, so it can never pass M4 there -- and crosses on
+            M3, under the bars and between the rails."""
+            return "M5" if (m5ok and int(pin.x1) < 25000) else "M3"
+
+        def _bookRows(self, step, pads, gapfor, pins):
+            """A stub row for every pin at once, as step counts.
+
+            SOLVED FOR THE WHOLE STRIP, NOT HANDED OUT AS ASKED. Four
+            things decide whether a row is legal, and each one cost a
+            build to find:
+
+            * an M3 row must clear the cell's own rail -- every JNWTR
+              cell carries an M1-M4 cut stack 2500..4200 above its
+              bottom edge. An M5 row is above all of that.
+            * the leg that reaches the row runs up the pin column, so
+              the row may not sit on the far side of another pin in
+              that column, nor close enough for its pad to touch one.
+            * two rows keep half of each pad plus the space their
+              highest shared layer asks for. The pads are not one
+              size: the cut that reaches M5 is 4800 tall where the
+              one that reaches M3 is 3400.
+            * and rows in ADJACENT CELLS see each other -- solved a
+              cell at a time, RST_A's row at the top of x3 and
+              RST_B's at the bottom of x4 came out 4000 apart with
+              two M5 pads on them.
+
+            First-come-first-served fails on the first two cells: it
+            takes the middle row and leaves the last pin nothing. So
+            every pin is collected first and the whole strip is
+            solved by search, shortest legs preferred.
+            """
+            cells = [(int(i.y1), int(i.y2)) for i in self.instances]
+            cand = []
+            for key, r, layer in pins:
+                y0 = int(r.centerY())
+                own = next(((a, b) for a, b in cells if a <= y0 <= b),
+                           None)
+                if own is None:
+                    log.error(f"dig: a pin at {y0} is in no cell")
+                    continue
+                lo = own[0] + (7800 if layer == "M3" else 1100)
+                hi = own[1] - 1100
+                half = pads[layer] // 2
+                #- the other pins of this column, in this cell
+                others = [int(o.centerY()) for k2, o, _l in pins
+                          if k2 != key and own[0] <= int(o.centerY())
+                          <= own[1] and abs(int(o.x1) - int(r.x1)) < 9000]
+                s0 = self._step(r)
+                cs = []
+                for k in range(1, 12):
+                    for sign in (s0, -s0):
+                        y = y0 + sign * k * step
+                        if not lo <= y <= hi:
+                            continue
+                        if any(min(y0, y) < o < max(y0, y)
+                               for o in others):
+                            continue
+                        if any(abs(y - o) < half + pads["pin"] // 2
+                               + gapfor(layer, "pin") for o in others):
+                            continue
+                        cs.append((sign * k, y))
+                cand.append((key, half, layer, y0, int(r.x1), cs))
+
+            #- the pin with the fewest ways to go decides first
+            cand.sort(key=lambda c: len(c[5]))
+            taken, chosen = [], {}
+
+            def place(i):
+                if i == len(cand):
+                    return True
+                key, half, layer, y0, x0, cs = cand[i]
+                for k, y in cs:
+                    if any(abs(y - t) < half + th + gapfor(layer, tl)
+                           for t, th, tl in taken):
+                        continue
+                    taken.append((y, half, layer))
+                    chosen[key] = (k, y)
+                    if place(i + 1):
+                        return True
+                    taken.pop()
+                    del chosen[key]
+                return False
+
+            if not place(0):
+                log.error("dig: no row assignment for the strip; "
+                          + repr([(k, [c[1] for c in cs])
+                                  for k, _h, _l, _y, _x, cs in cand]))
+                for key, _half, _layer, _y, _x, cs in cand:
+                    chosen.setdefault(key, cs[0] if cs else (1, 0))
+            return chosen
+
+        @staticmethod
+        def _pin(lay, instname, net):
+            """One instance's pin on `net`, as placed."""
+            inst = lay.getInstanceFromInstanceName(instname)
+            if inst is None:
+                return None
+            port = (getattr(inst, "instancePorts", {}) or {}).get(net)
+            return port.get() if port is not None else None
 
     rows = [
         [bias, ccmp, dig],
