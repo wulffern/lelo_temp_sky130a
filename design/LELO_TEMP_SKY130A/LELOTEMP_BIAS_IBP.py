@@ -335,6 +335,19 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
             #- carries the net to M2; stacking down to M1 lands a second
             #- via beside the first. Same thought as the endStopLayerM2
             #- above: meet the pin on the metal it is brought up to.
-            self.promoteInstancePort(net, r"^xota$", "top", "M5",
+            #-
+            #- EAST, not north. Everything that consumes these two nets
+            #- -- both comparators and the whole logic strip -- is east
+            #- of this block, and off the top edge they had to come back
+            #- down 30 um and then cross the bias-ccmp lane band to get
+            #- there. That band is eight lanes at a 0.6 um pitch, which
+            #- cannot legally hold an M4-M5 via (the pad is 0.54 and
+            #- wants 0.30 either side), so every crossing was an illegal
+            #- hop. Leaving on the east edge at the pins' own rows --
+            #- y 70.2 and 85.9 -- skips the band entirely.
+            #- Measured: LELO_TEMP 75 DRC -> 72 and its cost 2321 ->
+            #- 2255 with no change to the top-level routing at all;
+            #- this block stays 0 DRC and LVS clean.
+            self.promoteInstancePort(net, r"^xota$", "right", "M5",
                                      stopLayer="M2")
         super().route()
