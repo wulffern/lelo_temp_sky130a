@@ -3,21 +3,21 @@ tech sky130A
 magscale 1 2
 timestamp 1786485600
 << checkpaint >>
-rect 0 0 8000 13720
+rect 0 0 8096 13720
 << metal2 >>
 rect 2284 6330 3868 6390
 rect 994 7050 4810 7110
 rect 3690 6690 6100 6750
 << locali >>
 rect 4576 10180 4640 10260
-rect 0 13540 8000 13720
-rect 0 0 8000 180
+rect 0 13540 8096 13720
+rect 0 0 8096 180
 << metal1 >>
 rect 1436 0 1500 80
 rect 3036 0 3100 80
 use LELOTEMP_OTAR xad6 ../LELO_TEMP_SKY130A
 transform 1 0 0 0 1 300
-box 0 300 8000 14020
+box 0 300 8096 14020
 << labels >>
 flabel metal2 s 2284 6330 3868 6390 0 FreeSans 400 0 0 0 LPO
 port 1 nsew signal bidirectional
@@ -29,12 +29,12 @@ flabel metal2 s 3690 6690 6100 6750 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
 flabel metal1 s 1436 0 1500 80 0 FreeSans 400 0 0 0 VD1
 port 5 nsew signal bidirectional
-flabel locali s 0 13540 8000 13720 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 13540 8096 13720 0 FreeSans 400 0 0 0 VDD_1V8
 port 6 nsew power bidirectional
 flabel metal1 s 3036 0 3100 80 0 FreeSans 400 0 0 0 VR1
 port 7 nsew signal bidirectional
-flabel locali s 0 0 8000 180 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 0 8096 180 0 FreeSans 400 0 0 0 VSS
 port 8 nsew ground bidirectional
 << properties >>
-string FIXED_BBOX 0 0 8000 13720
+string FIXED_BBOX 0 0 8096 13720
 << end >>
