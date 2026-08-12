@@ -93,9 +93,30 @@ class LELO_TEMP(SidecarCell):
         #- moment the schematic gained one.
 
         def beforeRoute(self, entry):
-            #- every net is hand-routed at the top; the built-in
-            #- series router has nothing to say about logic cells
-            return True
+            """The strip's own nets, each on its own lane.
+
+            Left to itself the router put RST_A, RST_B and net2 in one
+            column on M2 and shorted all three -- the same failure as
+            the top level had, and the same cause: no lane budget. A
+            channel over the strip's own width gives each net a lane,
+            and the lanes are two tracks apart because an M2-M3 pad is
+            wider than one.
+            """
+            lay = self.layout
+            lay.addRoutingChannel("strip", int(self.x1), int(self.x2),
+                                  horizontal=False)
+            for _i, _n in enumerate(("net1", "net2", "RST_A", "RST_B")):
+                self.addConnectivityRoute(
+                    "M2", "^" + _n + "$", "||",
+                    f"vchannel=strip,vtrack={2 + _i * 7}", 2)
+            return None
+
+        #- NO `return True` HERE ANY MORE. That claimed the subcell as
+        #- already routed, which was true when the top hand-routed
+        #- every net into it; with the top's routing gone it meant
+        #- nothing wired the strip at all -- LVS counted 25 nets in
+        #- the layout against 18 in the schematic, seven of them
+        #- split. The built-in router takes it now.
 
     rows = [
         [bias, ccmp, dig],
