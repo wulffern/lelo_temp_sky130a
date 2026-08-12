@@ -205,23 +205,9 @@ class LELOTEMP_OTAR(SidecarCell):
         #- block
         wires = [
             ('VSS', 'M2', '-|--', 'trunktab'),
-            ('VD1', 'blocked', 'VD1: pins share only -3200 of column, a straight vertical cannot land'),
         ]
         wires_key = "31185f64694d"
 
-        def beforeRoute(self, entry):
-            #- TWO rails, both on M1, no via anywhere: the bars and the
-            #- gate tabs each get one, and the devices' own metal joins
-            #- them. Told as stories -- merge brings each pin sideways
-            #- onto the lane, trunk is the rail they meet on.
-            bars = self.layout.path(
-                "VD1", "M1", includeInstances=r"^(xnd1<\d+>|xns1)$")
-            bars.trunk(bars.right_of_pins())
-
-            tabs = self.layout.path(
-                "VD1", "M1", includeInstances=r"^(xnd1<\d+>|xnd3)$")
-            tabs.trunk(tabs.tab_lane())
-            return None
 
     class n_load_b(Stack):
         """VD2 is n_load_a's VD1, one cell right -- see that class
@@ -241,17 +227,9 @@ class LELOTEMP_OTAR(SidecarCell):
         #- block
         wires = [
             ('VSS', 'blocked', "no path for VSS from (595200, 42000, 'M1') to (559200, 58000, 'M1'); closest approach (559200, 58000, 'M3') (0 away)"),
-            ('VD2', 'blocked', 'VD2: pins share only -3200 of column, a straight vertical cannot land'),
         ]
         wires_key = "b93a03294cde"
 
-        def beforeRoute(self, entry):
-            conn = self.layout.addConnectivityRoute
-            conn("M1", "^VD2$", "||", "trunkright,nostartcut,noendcut",
-                 2, "", r"^(xnd2<\d+>|xns2)$")
-            conn("M1", "^VD2$", "||", "trunktab",
-                 2, "", r"^(xnd2<\d+>|xnd4)$")
-            return None
 
     class n_mirr(Mirror):
         match = r'^(xnc0|xnc1<\d+>|xns4|xstack_n_mirr_(top|bot)|xfill_n_mirr_\d+)$'
