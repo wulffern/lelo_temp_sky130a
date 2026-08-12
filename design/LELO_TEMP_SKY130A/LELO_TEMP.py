@@ -31,21 +31,16 @@ class LELO_TEMP(SidecarCell):
         fill = False
         order = ['x1_ibp']
 
-    class ccmp_a(Stack):
-        """The comparator on IBP_1U<3:2> (CMPO_A, reset RST_B)."""
-        match = r'^x2_ccmp$'
+    class ccmp(Stack):
+        """BOTH comparators, as one subcell. They were two stacks the
+        top had to abut by hand; as one they stack themselves, get
+        their own cell, and present ports the top can reach instead of
+        interior pins it had to hop into."""
+        match = r'^x[23]_ccmp$'
         group = "ccmp"
         fill = False
         xspace = 5
-        order = ['x2_ccmp']
-
-    class ccmp_b(Stack):
-        """The comparator on IBP_1U<1:0> (CMPO_B, reset RST_A).
-        Placed above ccmp_a by afterPlace."""
-        match = r'^x3_ccmp$'
-        group = "ccmp"
-        fill = False
-        order = ['x3_ccmp']
+        order = ['x2_ccmp', 'x3_ccmp']
 
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
@@ -70,19 +65,23 @@ class LELO_TEMP(SidecarCell):
             return True
 
     rows = [
-        [bias, ccmp_a, dig],
+        [bias, ccmp, dig],
     ]
 
     supplies = []
+
+    #- the presence of `routes` is what makes this cell MADE OF
+    #- SUBCELLS: hierarchy() splits the netlist, builds a cell per
+    #- subcell, and the top instantiates them and routes between
+    #- their ports. Empty means the top declares no channel routes
+    #- of its own yet.
+    routes = []
 
     def afterPlace(self, layout):
         super().afterPlace(layout)
         from cicpy.core.subcell import subcell_groups
         g = subcell_groups(layout)
-        ca, cb = g.get("ccmp_a"), g.get("ccmp_b")
-        if ca is not None and cb is not None:
-            #- the L: ccmp_b above ccmp_a, lefts aligned
-            cb.abutTop(ca, space=4 * layout.um)
+        #- the two comparators stack themselves now: one subcell
         #- the tap hangs 16000 below the logic strip, which drags the
         #- whole dig group below the other blocks' bases -- and the
         #- bottom VSS ring, drawn on the FULL bbox, then lays its 9 um
@@ -159,10 +158,19 @@ class LELO_TEMP(SidecarCell):
         #- li bar shorted the logic strip's AVDD to AVSS (measured).
         #- The rect here spans every instance, tap included.
         from cicpy.core.rect import Rect as _RR
-        names = ["x1_ibp", "x2_ccmp", "x3_ccmp", "xtap_dig_0",
+        #- MADE OF SUBCELLS: the devices live inside them now, so the
+        #- ring wraps the three block instances. The old list named
+        #- every device and came back empty the moment the hierarchy
+        #- appeared -- min() on nothing, which is a loud failure and
+        #- the right one.
+        names = ["xbias", "xccmp", "xdig",
+                 "x1_ibp", "x2_ccmp", "x3_ccmp", "xtap_dig_0",
                  "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
         boxes = [layout.getInstanceFromInstanceName(n) for n in names]
         boxes = [i for i in boxes if i is not None]
+        if not boxes:
+            log.error("no blocks to wrap a ring around")
+            return
         x1 = min(int(i.x1) for i in boxes)
         y1 = min(int(i.y1) for i in boxes)
         x2 = max(int(i.x2) for i in boxes)
@@ -232,12 +240,24 @@ class LELO_TEMP(SidecarCell):
                 layout.addConnectivityRoute(
                     _layers[_i % len(_layers)],
                     "^" + _re.escape(_net) + "$", "-|--", "", 2, "", "")
-        else:
-            self._signal_routes(layout)
+        #- NO TOP ROUTING. This cell is made of subcells now: the
+        #- blocks are cells with ports, and the top's job is to route
+        #- between those ports -- declaratively, in `routes` -- not to
+        #- reach into their interiors with hand geometry.
+        #-
+        #- The 778 lines that used to live here are in git; they named
+        #- devices (x1_ibp, x2_ccmp, x7) that this level no longer has,
+        #- so they could not survive the hierarchy even if they were
+        #- wanted.
         super().beforeRoute(layout)
 
 
     def beforePaint(self, layout):
+        #- the block supply ties reached into device instances that a
+        #- hierarchical build no longer has at this level; the rings
+        #- are laid in beforeRoute and the blocks present their own
+        #- supply ports for the top to tie to.
+        return
         #- NO addPowerConnection here: it stretches EVERY published
         #- supply rect to the ring -- including the blocks' mid-cell
         #- tap bars -- and each stretched copy slices through the core
@@ -387,550 +407,3 @@ class LELO_TEMP(SidecarCell):
             _corridor_tie("VSS", _edge_bar(cb, "VSS", False), rb,
                           _xg, "M4")
 
-    def _dbg_dig(self, layout):
-        for nm in ("x6", "x7"):
-            i = layout.getInstanceFromInstanceName(nm)
-            for net, pt in sorted(i.instancePorts.items()):
-                r = pt.get()
-                if r is not None:
-                    log.warning(f"DBG {nm}.{net} {r.layer} ({int(r.x1)},{int(r.y1)})..({int(r.x2)},{int(r.y2)})")
-
-    def _signal_routes(self, layout):
-        self._dbg_dig(layout)
-        """Every top net, hand-placed on the lane plan.
-
-        Corridors (all coordinates from the placed pins; the lanes
-        are formulas off the block edges): the 5 um bias-ccmp GAP
-        carries eight vertical lanes L1..L8; the strip ABOVE the
-        content four horizontal M5 lanes S1..S4 (M4 risers cross
-        them); B lanes run under the comparators, My lanes between
-        them, D lanes down the ccmp-dig gap, and every logic pin is
-        reached by an M2 stub at its own row -- the JNWTR cells
-        carry no metal1/metal2, so M2 crosses them freely.
-        """
-        from cicpy.core.rect import Rect
-        from cicpy.core.cut import Cut
-
-        #- Every hand route is recorded here, and _report_collisions
-        #- below walks the list for two nets sharing a layer and a
-        #- spot. Bisecting builds against the extract to find one
-        #- crossing took the best part of a day; this finds them all
-        #- in the build that made them.
-        drawn = []
-
-        def wire(net, layer, x1, y1, x2, y2):
-            r = Rect(layer, int(min(x1, x2)), int(min(y1, y2)),
-                     int(abs(x2 - x1)), int(abs(y2 - y1)))
-            r.setNet(net)
-            layout.add(r)
-            drawn.append((net, layer, int(min(x1, x2)), int(min(y1, y2)),
-                          int(max(x1, x2)), int(max(y1, y2))))
-            return r
-
-        def stk(net, la, lb, x, y):
-            ct = (Cut.getInstance(la, lb, 1, 1)
-                  or Cut.getInstance(lb, la, 1, 1))
-            if ct is None:
-                log.error(f"no cut {la}-{lb} for {net}")
-                return
-            ct.moveCenter(int(x), int(y))
-            layout.add(ct)
-            #- A stack's pad on a layer it only passes through is the
-            #- cut's own, 0.44 x 0.44 um = 0.19 um^2, under the 0.24
-            #- that met3.6/met4.4a want. Patch the pass-through metal
-            #- layers to 0.5 um square.
-            names = ["M1", "M2", "M3", "M4", "M5"]
-            try:
-                _lo, _hi = sorted((names.index(la), names.index(lb)))
-            except ValueError:
-                _lo = _hi = -1
-            for _k in range(_lo + 1, _hi):
-                if names[_k] not in ("M4", "M5"):
-                    continue
-                #- 0.3 x 0.85 um, not a 0.5 um square: the square is
-                #- wider than the 3 um lanes and ate the spacing to
-                #- the neighbouring lane on both sides
-                pt = Rect(names[_k], int(x) - 1500, int(y) - 4250,
-                          3000, 8500)
-                pt.setNet(net)
-                layout.add(pt)
-            names = ["M1", "M2", "M3", "M4", "M5"]
-            try:
-                lo, hi = sorted((names.index(la), names.index(lb)))
-            except ValueError:
-                return
-            hw = int(ct.width()) // 2 or 1600
-            hh = int(ct.height()) // 2 or 1600
-            for k in range(lo, hi + 1):
-                drawn.append((net, names[k], int(x) - hw, int(y) - hh,
-                              int(x) + hw, int(y) + hh))
-
-        def P(inst, net):
-            i = layout.getInstanceFromInstanceName(inst)
-            pt = i.instancePorts.get(net) if i is not None else None
-            r = pt.get() if pt is not None else None
-            if r is None:
-                log.error(f"no pin {inst}.{net}")
-            return r
-
-        def pad(net, r, x=None):
-            #- an M2 landing on an li pin: pad plus mcon
-            cx = int(x if x is not None else r.centerX())
-            cy = int(r.centerY())
-            wire(net, "M2", cx - 1700, cy - 1700, cx + 1700, cy + 1700)
-            stk(net, "M1", "M2", cx, cy)
-
-        import os
-        RT = os.environ.get("RT", "all")
-        on = lambda k: RT == "all" or k in RT
-        w = 3000
-        bias = layout.getInstanceFromInstanceName("x1_ibp")
-        GAP = int(bias.x2)                       # 960000
-        #- L: 1 um off the bias edge, not 2.5 -- L(8) sat 2.5 um from
-        #- the comparator's own M5 edge bar, and met4.2 wants 3.
-        L = lambda i: GAP + 1000 + (i - 1) * 6000
-        #- S: the IBP bars leave the bias on M5 and turn east over its
-        #- top. The lanes must clear the bars' own tops (they cross
-        #- every bar on the way) and stay under the top ring -- and
-        #- under the TinyTapeout ceiling, which the old rows at
-        #- bias.y2+1900 and up overshot by 2 um. 7.5 um pitch: the
-        #- M4-M5 cut pads are 4.8 um, wider than the 3 um lane, so a
-        #- 6 um pitch leaves 1.2 um between pads.
-        #- clear of the block's OWN M5, which reaches 1.5 um higher
-        #- than the IBP pins do -- the wide source bars in the middle
-        #- of the block. Basing the rows on the pin tops ran S(1) and
-        #- S(2) straight through them (measured: IBP<3:2> on VDD).
-        #- ABOVE the block, not in its top strip: the strip carries
-        #- the block's own straps and the two lowest lanes shorted
-        #- IBP<3:2> onto VDD there (measured). 0.7 um pitch -- these
-        #- are long runs, and met4.5a/b ask 0.4 um of a long M4/M5
-        #- shape, not the 0.3 um of met4.2. So 0.3 of wire + 0.4 of
-        #- gap, and the FIRST lane needs that same 0.4 to the block
-        #- below it: at +1900 it sat 0.19 away and fired 24 times, once
-        #- per column, because the block's 7.2 um M5 columns repeat at
-        #- 8 um. +4000 is the rule, not a tuning.
-        #-
-        #- NOTE ON UNITS: these are cicpy units, 10000 to the micron.
-        #- The numbers here are right and the older comments in this
-        #- method are not -- they read "7 um" for 7000, which is 0.7.
-        S = lambda j: int(bias.y2) + 4000 + (j - 1) * 7000
-        #- The B and MY bands carry lanes on THREE layers, and only
-        #- same-layer lanes need the 3 um metal pitch: M3 and M4 lanes
-        #- share row 1 with the M5 lanes stacked above them at 6 um.
-        #- At the old 4.5 um pitch every neighbour pair was 1.5 um
-        #- apart and met3.2/met4.2 fired right down the band.
-        B = lambda j: 1500 + (j - 1) * 6000
-        ca = layout.getInstanceFromInstanceName("x2_ccmp")
-        cb = layout.getInstanceFromInstanceName("x3_ccmp")
-        MY = lambda j: int(ca.y2) + 1500 + (j - 1) * 6000
-        D = lambda i: int(ca.x2) + 3200 + (i - 1) * 6000
-
-        import os
-        RT = os.environ.get("RT", "all")
-        on = lambda k: RT == "all" or k in RT.split(",")
-
-        #- ---------------------------------------------------------------
-        #- Reaching the logic strip.
-        #-
-        #- The ccmp-dig corridor is 40 um wide and eight nets wanted a
-        #- vertical in it: six 6 um lanes, and every attempt to wedge
-        #- the extra two in landed on a neighbour. But the corridor is
-        #- the wrong place for them. The JNWTR logic cells carry li,
-        #- poly and their two M4 supply columns and NOTHING else, so
-        #- M2, M3 and M5 are free the whole height of the strip -- the
-        #- fan-out verticals belong OVER the cells, not beside them.
-        #-
-        #- So each net crosses the corridor once, on M5, at its own y,
-        #- and turns down an M2 column of its own over the strip; a
-        #- short M3 stub reaches each pin from there. The corridor
-        #- keeps only horizontals, which cannot collide with the
-        #- supply ties (M4/M5 verticals) or with each other.
-        dig0 = layout.getInstanceFromInstanceName("x7")
-        DIG_X1 = int(dig0.x1)
-        #- The strip's own occupancy, in cell-local units off DIG_X1.
-        #- The li pins do not block M2 -- only these do:
-        #-   31500..40300   AVSS column: an M1-M4 cut stack in every
-        #-                  cell, so an M2 column here ties every Y
-        #-                  pin to AVSS (measured)
-        #-   58500..67300   AVDD column, same stack
-        #-   16300..19700   the M2 pad this file lands on each A pin
-        #-   34300..37700   the same on each Y pin
-        #- Columns run at a 6 um pitch: the M2-M3 cut pad is 4.4 um,
-        #- wider than the 3 um column, and a tighter pitch leaves the
-        #- pads 1.1 um apart where met1.2 wants 1.4.
-        COL = {
-            "CMPO_A":      DIG_X1 + 1000,
-            "CMPO_B":      DIG_X1 + 7000,
-            "RST_B":       DIG_X1 + 23500,
-            "RST_A":       DIG_X1 + 42000,
-            "PWRUP_N_1V8": DIG_X1 + 48000,
-            "PWRUP_B_1V8": DIG_X1 + 54000,
-            "net1":        DIG_X1 + 68000,
-            "net2":        DIG_X1 + 74000,
-        }
-
-        def link_logic(net, pins, ylane=None, x_from=None):
-            """The net's own M2 column over the strip, with an M3 stub
-            to every pin. With ylane/x_from it first crosses the
-            corridor on M5 at that row and drops into the column."""
-            col = COL[net]
-            rows = [int(P(i, n).centerY()) for i, n in pins]
-            if ylane is not None:
-                wire(net, "M5", x_from, ylane, col + w, ylane + w)
-                stk(net, "M5", "M2", col + 1500, ylane + 1500)
-                rows.append(ylane + 1500)
-            wire(net, "M2", col, min(rows) - 1500, col + w,
-                 max(rows) + 1500)
-            for inst, pinname in pins:
-                r = P(inst, pinname)
-                ry = int(r.centerY())
-                #- M3 across: an M2 stub would cross the other nets'
-                #- columns on its own layer. At MINIMUM width: the
-                #- cells' pin rows are 4 um apart, and 3 um stubs on
-                #- neighbouring rows leave 1 um where met2.2 wants
-                #- 1.4. The cut pads are wider than that, but two
-                #- neighbouring rows belong to different nets on
-                #- different columns, so their pads never meet.
-                stk(net, "M2", "M3", col + 1500, ry)
-                wire(net, "M3", col, ry - 700,
-                     int(r.centerX()) + 1700, ry + 700)
-                stk(net, "M3", "M2", int(r.centerX()), ry)
-                pad(net, r)
-
-        def to_logic(net, x_from, ylane, pins):
-            link_logic(net, pins, ylane=ylane, x_from=x_from)
-
-        #- the strip's columns as TRACK INDICES in the dig channel, so
-        #- a column is "the strip's fourth lane" and not DIG_X1+23500
-        #- the strip's columns as TRACK INDICES in the dig channel, so
-        #- a column is "the strip's fourth lane" and not DIG_X1+23500
-        COLT = {"CMPO_A": 0, "CMPO_B": 1, "RST_B": 3, "RST_A": 6,
-                "PWRUP_N_1V8": 8, "PWRUP_B_1V8": 9,
-                "net1": 11, "net2": 12}
-
-        def logic_story(net, src, ch, tr, pins):
-            """One `~` per (source, logic pin): out of the source, up
-            to M5, across the named band, down the net's own column
-            over the strip, and in on M3 at the pin's own row.
-
-            The hand version drew one shared M2 column and stubbed off
-            it; a story per pin says the same thing without a helper
-            holding the column's coordinate, and the framework merges
-            the shared metal because it is one net.
-            """
-            for inst, pinname in pins:
-                tgt = P(inst, pinname)
-                if tgt is None:
-                    continue
-                pp = layout.path(net, src.layer, start=[src], stop=[tgt])
-                pp.start()
-                #- STEPS RUN AT ROUTE TIME, so pp.routeLayer does not
-                #- move as they are appended -- looping on it appends
-                #- Up forever. Count the layers instead.
-                #- A STRIP-LOCAL NET STAYS LOW. The JNWTR cells carry
-                #- li, poly and their two M4 supply columns and nothing
-                #- else, so M2 is free the whole height of the strip --
-                #- and an M2-M3 pad is 4400 against met1.2's 1400,
-                #- which fits the 6000 lane, where an M4-M5 pad is 5400
-                #- against met4.2's 3000 and does not. A net crossing a
-                #- BAND has to be up on M5 to clear the blocks; one
-                #- that never leaves the strip has no reason to be.
-                _stack = ["M1", "M2", "M3", "M4", "M5"]
-                _top = "M5" if ch is not None else "M2"
-                for _ in range(_stack.index(_top)
-                               - _stack.index(src.layer)):
-                    pp.up()
-                #- a strip-LOCAL net has no band to cross: both its
-                #- ends are over the logic, so it goes straight to its
-                #- own column
-                if ch is not None:
-                    pp.movey(pp.track(ch, tr))
-                pp.movex(pp.track("dig", COLT[net]))
-                pp.movey(pp.pin(inst, pinname, "y"))
-                #- in on M3: an M2 stub would cross the other nets'
-                #- columns on their own layer
-                if ch is not None:
-                    pp.down()
-                    pp.down()
-                else:
-                    pp.up()
-                pp.end()
-
-        if on("lpi"):
-            #- LPI: the loop -- the OTA output back to the bias input.
-            #- Both pins share the net, so the port dict keeps one; take
-            #- both rects off the instance's children.
-            lpis = [c.get() for c in bias.children
-                    if getattr(c, "isPort", lambda: False)()
-                    and getattr(c, "name", "") == "LPI"]
-            lpo = max(lpis, key=lambda r: r.y1)      # the OTA output pad
-            lpi = min(lpis, key=lambda r: r.y1)      # the bar's right end
-            #- CONVERTED: up out of the OTA pad, east to the L band's
-            #- first lane, down it to the bar's own row, and in on M3 --
-            #- which is the bar's layer, so the last leg is the bar.
-            pp = layout.path("LPI", "M3", start=[lpo], stop=[lpi])
-            pp.start()
-            pp.up()
-            pp.up()
-            pp.movex(pp.track("lband", 0))
-            pp.movey(pp.pin("x1_ibp", "LPI", "y"))
-            pp.down()
-            pp.down()
-            pp.end()
-
-        if on("vc"):
-            #- VC: the bias VD1 bar to both comparators' VC pins.
-            #- CONVERTED to two `~` stories, one per target. Six wire()
-            #- calls over literal lanes became six anchored steps: the
-            #- lane is "lband track 1", the crossing rows are the b and
-            #- my bands' track 0, and the landing is the pin itself.
-            #- Nothing here is a coordinate.
-            for _inst, _ch in (("x2_ccmp", "bband"), ("x3_ccmp", "myband")):
-                pp = layout.path("VC", "M3", start=[P("x1_ibp", "VC")],
-                                 stop=[P(_inst, "VC")])
-                pp.start()
-                pp.movex(pp.track("lband", 1))
-                pp.movey(pp.track(_ch, 0))
-                pp.movex(pp.pin(_inst, "VC"))
-                #- the pin sits at the comparator CORE's bottom edge, so
-                #- the last leg is the pin's own M2: the core is full of
-                #- everything below M5 (measured -- an M3 riser merged
-                #- the mirror tails)
-                pp.down()
-                pp.end()
-
-        if on("ibp"):
-            #- IBP_1U<0..3>: the bias's M5 su-channel bars over the top
-            #- strip and down the gap. Risers M4 so they cross the M5
-            #- strip lanes; each turns to M5 only in its own lane.
-            ibp = []
-            for k in range(4):
-                ibp.append(P("x1_ibp", f"IBP_1U<{k}>"))
-            #- RIGHT to LEFT: each bar climbs to its lane on its OWN
-            #- M5, which is the only layer that crosses the block's
-            #- top strip cleanly -- an M4 riser met the block's own
-            #- straps there (measured: IBP<3:2> on VDD). A riser can
-            #- only stay on M5 if no LOWER lane passes over it, and
-            #- the lanes run east, so the rightmost bar takes the
-            #- lowest lane.
-            keys = ["IBP_1U<3>", "IBP_1U<2>", "IBP_1U<1>", "IBP_1U<0>"]
-            tgts = [P("x2_ccmp", "IBP_1U<3>"), P("x2_ccmp", "IBP_1U<2>"),
-                    P("x3_ccmp", "IBP_1U<1>"), P("x3_ccmp", "IBP_1U<0>")]
-            bars = [ibp[3], ibp[2], ibp[1], ibp[0]]
-            hows = ["M3stub", "B2", "M3stub", "MY2"]
-            _ib = os.environ.get("IB", "0123")
-            for _k, (net, bar, sj, li_, tgt, how) in enumerate(zip(
-                    keys, bars, (1, 2, 3, 4), (3, 4, 5, 6), tgts, hows)):
-                if str(_k) not in _ib:
-                    continue
-                bx = int(bar.centerX())
-                wire(net, "M5", bx - 1500, int(bar.y2) - 3000,
-                     bx + 1500, S(sj) + w)
-                wire(net, "M5", bx - 1500, S(sj), L(li_) + w, S(sj) + w)
-                stk(net, "M5", "M4", L(li_) + 1500, S(sj) + 1500)
-                if how == "B2":
-                    wire(net, "M4", L(li_), B(2), L(li_) + w, S(sj) + w)
-                    wire(net, "M4", L(li_), B(2), int(tgt.x2), B(2) + w)
-                    stk(net, "M4", "M2", int(tgt.centerX()), B(2) + 1500)
-                    wire(net, "M2", int(tgt.x1), B(2),
-                         int(tgt.x2), int(tgt.y2))
-                elif how == "MY2":
-                    wire(net, "M4", L(li_), MY(2), L(li_) + w, S(sj) + w)
-                    wire(net, "M4", L(li_), MY(2), int(tgt.x2), MY(2) + w)
-                    stk(net, "M4", "M2", int(tgt.centerX()), MY(2) + 1500)
-                    wire(net, "M2", int(tgt.x1), MY(2),
-                         int(tgt.x2), int(tgt.y2))
-                else:  # M3stub: the pin is M3 at the ccmp's left edge
-                    ty = int(tgt.centerY())
-                    wire(net, "M4", L(li_), ty - 1500,
-                         L(li_) + w, S(sj) + w)
-                    stk(net, "M4", "M3", L(li_) + 1500, ty)
-                    wire(net, "M3", L(li_), int(tgt.y1),
-                         int(tgt.x2), int(tgt.y2))
-
-        if on("pwrn"):
-            #- PWRUP_N: off the bias's M5 riser sideways at its own
-            #- attach row, down L7 to both comparators' edge bars, and
-            #- on to the logic under everything
-            pn = P("x1_ibp", "PWRUP_N_1V8")
-            pnx = int(pn.centerX())
-            #- on the riser, above both risers' bases (the bases sit at
-            #- the OTA pins; constants here were once bias-frame and
-            #- missed by the placement offset -- derive from the pin)
-            #- low on the riser: the PWRUP_B riser two tracks east
-            #- hangs down to 856000, and an attach row above that
-            #- crossed it on M5 (measured: PWRUP_N merged with the
-            #- whole PWRUP_B/OTA chain)
-            yn = int(pn.y1) - 300000
-            wire("PWRUP_N_1V8", "M5", pnx - 1500, yn - 1500,
-                 L(7) + w, yn + 1500)
-            #- the crossing row: above ccmp_b, where the corridor
-            #- carries nothing. The B band under ccmp_a is 24 um tall
-            #- and holds four lanes at the 6 um metal pitch, which VC,
-            #- IBP, RST_B and PWRUP_B already fill.
-            ytn = int(cb.y2) + 8500
-            #- the L7 riser has to cover EVERY attach row: the bias
-            #- stub, both comparator bars and the crossing row. When
-            #- the crossing moved above the pair it stopped reaching
-            #- down to the bars and ccmp_b's PWRUP_N went open.
-            _bys = [int(P(cc, "PWRUP_N_1V8").centerY())
-                    for cc in ("x2_ccmp", "x3_ccmp")]
-            wire("PWRUP_N_1V8", "M5", L(7), min(_bys + [yn]) - 1500,
-                 L(7) + w, max(_bys + [ytn + w, yn + 1500]))
-            for cc in ("x2_ccmp", "x3_ccmp"):
-                #- the stub crosses the PWRUP_B L8 vertical: hop it on
-                #- M4, with the vias on the L7 vertical and on the
-                #- ccmp's own edge bar
-                bar = P(cc, "PWRUP_N_1V8")
-                by = int(bar.centerY())
-                stk("PWRUP_N_1V8", "M5", "M4", L(7) + 1500, by)
-                wire("PWRUP_N_1V8", "M4", L(7), by - 1500,
-                     1014500, by + 1500)
-                stk("PWRUP_N_1V8", "M4", "M5", 1013000, by)
-            #- PWRUP_N is the only net that starts WEST of L(8), and
-            #- L(8) is PWRUP_B's M5 riser spanning the whole height:
-            #- crossing it on M5 shorted the two (measured). Hop over
-            #- on M4, then carry on east.
-            wire("PWRUP_N_1V8", "M5", L(7), ytn, L(7) + 4500, ytn + w)
-            stk("PWRUP_N_1V8", "M5", "M4", L(7) + 3000, ytn + 1500)
-            wire("PWRUP_N_1V8", "M4", L(7) + 3000, ytn,
-                 L(8) + 7500, ytn + w)
-            stk("PWRUP_N_1V8", "M4", "M5", L(8) + 6000, ytn + 1500)
-            to_logic("PWRUP_N_1V8", L(8) + 4500, ytn,
-                     [("x2", "PWRUP_N_1V8"), ("x7", "PWRUP_N_1V8"),
-                      ("x6", "PWRUP_N_1V8")])
-
-        if on("pwrb"):
-            #- PWRUP_B: off the bias riser at the pad row, down L8, under
-            #- the comparators to their bottom drops, and to x2's output
-            pb = P("x1_ibp", "PWRUP_B_1V8")
-            pbx = int(pb.centerX())
-            yb = int(pb.y1) - 124000
-            wire("PWRUP_B_1V8", "M5", pbx - 1500, yb - 1500,
-                 L(8) + w, yb + 1500)
-            wire("PWRUP_B_1V8", "M5", L(8), B(4), L(8) + w, yb + 1500)
-            #- B(5)/MY(4): a riser must sit on the HIGHEST lane of its
-            #- band, or it climbs through the ones above it
-            for cc, yl in (("x2_ccmp", B(4)), ("x3_ccmp", MY(5))):
-                drop = P(cc, "PWRUP_B_1V8")
-                #- the ccmp's own drop column stands 12000 east of the
-                #- interior pin and STOPS at the top of the cell's own
-                #- bottom ring (local y 24000), so the riser must reach
-                #- INTO it. The column at local x 378000 looks like a
-                #- drop but is the caps' VSS M1-M5 stack: landing there
-                #- shorted PWRUP_B into VSS (measured).
-                ci = layout.getInstanceFromInstanceName(cc)
-                dx = int(drop.x2) + 12000
-                #- climb into the cell on M5 and only THEN drop to the
-                #- drop's own layer: an M3 riser through the cell's
-                #- bottom ring band merged PWRUP_B into VSS (measured,
-                #- both comparators). The cut sits above the cell's
-                #- IBP band bar (local y 19500) and inside the drop,
-                #- which spans local y 24000..126000.
-                ylo = int(ci.y1) + 30000
-                wire("PWRUP_B_1V8", "M5", L(8), yl, dx + 6000, yl + w)
-                #- the riser climbs past the lanes ABOVE this one --
-                #- PWRUP_N under ccmp_a, CMPO_A between the pair -- so
-                #- it crosses them on M4 and turns M5 only in the gap
-                #- below the cell, where M4 would hit the block's own
-                #- IBP band bar (local y 13500..19500)
-                ymid = int(ci.y1) - 1000
-                stk("PWRUP_B_1V8", "M5", "M4", dx + 3000, yl + 1500)
-                wire("PWRUP_B_1V8", "M4", dx, yl, dx + 6000, ymid + w)
-                stk("PWRUP_B_1V8", "M4", "M5", dx + 3000, ymid + 1500)
-                wire("PWRUP_B_1V8", "M5", dx, ymid, dx + 6000,
-                     ylo + 4000)
-                stk("PWRUP_B_1V8", "M5", "M3", dx + 3000, ylo)
-                wire("PWRUP_B_1V8", "M3", dx, ylo - 4000,
-                     dx + 6000, ylo + 4000)
-            #- cross at MY(4), the lane its ccmp_b drop already uses:
-            #- RST_B owns B(3), and two nets on one M5 lane is a short
-            to_logic("PWRUP_B_1V8", L(8), MY(5),
-                     [("x2", "PWRUP_B_1V8")])
-
-        if on("cmpoa"):
-            #- CMPO_A: comparator A's output up into the My window and
-            #- east on M5 to its own column over the logic strip
-            logic_story("CMPO_A", P("x2_ccmp", "CMPO_A"), "myband", 3,
-                        [("x1", "CMPO_A")])
-
-        if on("cmpob"):
-            #- CMPO_B: comparator B's output over its own top, then east
-            logic_story("CMPO_B", P("x3_ccmp", "CMPO_B"), "sband", 0,
-                        [("x7", "CMPO_B")])
-
-        if on("rstb"):
-            #- RST_B: comparator A's reset, out of its bottom pin into
-            #- the B band and east to the NORs and the buffer
-            logic_story("RST_B", P("x2_ccmp", "RST_B"), "bband", 2,
-                        [("x3", "RST_B"), ("x4", "RST_B"),
-                         ("x5", "RST_B")])
-
-        if on("rsta"):
-            #- RST_A: comparator B's reset, down into the My window
-            logic_story("RST_A", P("x3_ccmp", "RST_A"), "myband", 2,
-                        [("x3", "RST_A"), ("x4", "RST_A")])
-
-        if on("nets"):
-            #- net1, net2: the logic's own links. They ran an M2
-            #- vertical in the pin's own column before, and the Y pin
-            #- column IS the cells' AVSS column -- every cell puts an
-            #- M1-M4 cut stack there, so the wire collected AVSS and
-            #- everything else that landed on a Y pin (measured).
-            #- NOT CONVERTED, and the number says why: told as
-            #- stories these two close two OPENS (11 -> 9) and cost
-            #- sixteen DRC (54 -> 70), on M2 or on M5 and at every
-            #- column lane swept. Worth doing when the strip's own
-            #- constraints are written down -- the cells' AVSS and
-            #- AVDD stacks are at 31500..40300 and 58500..67300 from
-            #- the strip's left edge, and a column that lands on one
-            #- ties every pin it passes to a supply.
-            link_logic("net1", [("x7", "net1"), ("x3", "net1")])
-            link_logic("net2", [("x1", "net2"), ("x4", "net2")])
-
-        def _report_collisions():
-            bad = 0
-            for i in range(len(drawn)):
-                n1, l1, ax1, ay1, ax2, ay2 = drawn[i]
-                for j in range(i + 1, len(drawn)):
-                    n2, l2, bx1, by1, bx2, by2 = drawn[j]
-                    if n1 == n2 or l1 != l2:
-                        continue
-                    if ax1 < bx2 and bx1 < ax2 and ay1 < by2 and by1 < ay2:
-                        log.error(
-                            f"ROUTE SHORT {n1} x {n2} on {l1} at "
-                            f"({max(ax1, bx1)},{max(ay1, by1)}).."
-                            f"({min(ax2, bx2)},{min(ay2, by2)})")
-                        bad += 1
-            if bad:
-                log.error(f"{bad} route collisions")
-
-        if on("misc"):
-            #- the block's own pins: PWRUP_1V8 up to the top edge on M4,
-            #- OSC_TEMP_1V8 east to the strip edge on M2
-            pw1 = P("x6", "PWRUP_1V8")
-            pad("PWRUP_1V8", pw1)
-            stk("PWRUP_1V8", "M2", "M4", int(pw1.centerX()),
-                int(pw1.centerY()))
-            ptop = S(4) + 3900
-            wire("PWRUP_1V8", "M4", int(pw1.centerX()) - 1500,
-                 int(pw1.y1), int(pw1.centerX()) + 1500, ptop)
-            pin1 = Rect("M4", int(pw1.centerX()) - 1500, ptop - 4000,
-                        3000, 4000)
-            pin1.setNet("PWRUP_1V8")
-            layout.updatePort("PWRUP_1V8", pin1)
-            #- OSC leaves on M3: an M2 run east crosses every net's
-            #- M2 column over the strip (measured: it landed on
-            #- PWRUP_B)
-            osc = P("x5", "OSC_TEMP_1V8")
-            pad("OSC_TEMP_1V8", osc)
-            ocx, ocy = int(osc.centerX()), int(osc.centerY())
-            stk("OSC_TEMP_1V8", "M2", "M3", ocx, ocy)
-            dig_x2 = int(layout.getInstanceFromInstanceName("x5").x2)
-            wire("OSC_TEMP_1V8", "M3", ocx - 1500, ocy - 1500,
-                 dig_x2 + 3000, ocy + 1500)
-            pin2 = Rect("M3", dig_x2, ocy - 1500, 3000, 3000)
-            pin2.setNet("OSC_TEMP_1V8")
-            layout.updatePort("OSC_TEMP_1V8", pin2)
-
-        _report_collisions()
