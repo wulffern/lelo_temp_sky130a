@@ -331,6 +331,10 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         #- be twenty lines of Rect and Cut with 2400, 5000 and a 1x1
         #- via typed into them.
         for net in ("PWRUP_1V8", "PWRUP_N_1V8"):
+            #- LELOTEMP_OTAR_P_BIAS already puts a via on these pins and
+            #- carries the net to M2; stacking down to M1 lands a second
+            #- via beside the first. Same thought as the endStopLayerM2
+            #- above: meet the pin on the metal it is brought up to.
             self.promoteInstancePort(net, r"^xota$", "top", "M5",
-                                     startLayer="M2")
+                                     stopLayer="M2")
         super().route()
