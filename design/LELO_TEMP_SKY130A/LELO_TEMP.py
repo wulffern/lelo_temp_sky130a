@@ -602,7 +602,7 @@ class LELO_TEMP(SidecarCell):
 
         #- the strip's columns as TRACK INDICES in the dig channel, so
         #- a column is "the strip's fourth lane" and not DIG_X1+23500
-        COLT = {"CMPO_A": 0, "CMPO_B": 1, "RST_B": 3, "RST_A": 7,
+        COLT = {"CMPO_A": 0, "CMPO_B": 1, "RST_B": 3, "RST_A": 6,
                 "PWRUP_N_1V8": 8, "PWRUP_B_1V8": 9,
                 "net1": 11, "net2": 12}
 
@@ -857,13 +857,8 @@ class LELO_TEMP(SidecarCell):
 
         if on("rsta"):
             #- RST_A: comparator B's reset, down into the My window
-            rsta = P("x3_ccmp", "RST_A")
-            rx = int(rsta.centerX())
-            wire("RST_A", "M2", rx - 1500, MY(3), rx + 1500,
-                 int(rsta.y2))
-            stk("RST_A", "M2", "M5", rx, MY(3) + 1500)
-            to_logic("RST_A", rx - 1500, MY(3),
-                     [("x3", "RST_A"), ("x4", "RST_A")])
+            logic_story("RST_A", P("x3_ccmp", "RST_A"), "myband", 2,
+                        [("x3", "RST_A"), ("x4", "RST_A")])
 
         if on("nets"):
             #- net1, net2: the logic's own links. They ran an M2
