@@ -602,6 +602,8 @@ class LELO_TEMP(SidecarCell):
 
         #- the strip's columns as TRACK INDICES in the dig channel, so
         #- a column is "the strip's fourth lane" and not DIG_X1+23500
+        #- the strip's columns as TRACK INDICES in the dig channel, so
+        #- a column is "the strip's fourth lane" and not DIG_X1+23500
         COLT = {"CMPO_A": 0, "CMPO_B": 1, "RST_B": 3, "RST_A": 6,
                 "PWRUP_N_1V8": 8, "PWRUP_B_1V8": 9,
                 "net1": 11, "net2": 12}
@@ -625,15 +627,33 @@ class LELO_TEMP(SidecarCell):
                 #- STEPS RUN AT ROUTE TIME, so pp.routeLayer does not
                 #- move as they are appended -- looping on it appends
                 #- Up forever. Count the layers instead.
+                #- A STRIP-LOCAL NET STAYS LOW. The JNWTR cells carry
+                #- li, poly and their two M4 supply columns and nothing
+                #- else, so M2 is free the whole height of the strip --
+                #- and an M2-M3 pad is 4400 against met1.2's 1400,
+                #- which fits the 6000 lane, where an M4-M5 pad is 5400
+                #- against met4.2's 3000 and does not. A net crossing a
+                #- BAND has to be up on M5 to clear the blocks; one
+                #- that never leaves the strip has no reason to be.
                 _stack = ["M1", "M2", "M3", "M4", "M5"]
-                for _ in range(_stack.index("M5")
+                _top = "M5" if ch is not None else "M2"
+                for _ in range(_stack.index(_top)
                                - _stack.index(src.layer)):
                     pp.up()
-                pp.movey(pp.track(ch, tr))
+                #- a strip-LOCAL net has no band to cross: both its
+                #- ends are over the logic, so it goes straight to its
+                #- own column
+                if ch is not None:
+                    pp.movey(pp.track(ch, tr))
                 pp.movex(pp.track("dig", COLT[net]))
                 pp.movey(pp.pin(inst, pinname, "y"))
-                pp.down()
-                pp.down()
+                #- in on M3: an M2 stub would cross the other nets'
+                #- columns on their own layer
+                if ch is not None:
+                    pp.down()
+                    pp.down()
+                else:
+                    pp.up()
                 pp.end()
 
         if on("lpi"):
@@ -857,6 +877,14 @@ class LELO_TEMP(SidecarCell):
             #- column IS the cells' AVSS column -- every cell puts an
             #- M1-M4 cut stack there, so the wire collected AVSS and
             #- everything else that landed on a Y pin (measured).
+            #- NOT CONVERTED, and the number says why: told as
+            #- stories these two close two OPENS (11 -> 9) and cost
+            #- sixteen DRC (54 -> 70), on M2 or on M5 and at every
+            #- column lane swept. Worth doing when the strip's own
+            #- constraints are written down -- the cells' AVSS and
+            #- AVDD stacks are at 31500..40300 and 58500..67300 from
+            #- the strip's left edge, and a column that lands on one
+            #- ties every pin it passes to a supply.
             link_logic("net1", [("x7", "net1"), ("x3", "net1")])
             link_logic("net2", [("x1", "net2"), ("x4", "net2")])
 
