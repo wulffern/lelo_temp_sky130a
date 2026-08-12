@@ -831,22 +831,13 @@ class LELO_TEMP(SidecarCell):
         if on("cmpoa"):
             #- CMPO_A: comparator A's output up into the My window and
             #- east on M5 to its own column over the logic strip
-            cma = P("x2_ccmp", "CMPO_A")
-            cx = int(cma.centerX())
-            wire("CMPO_A", "M2", cx - 1500, int(cma.y1), cx + 1500,
-                 MY(4) + w)
-            stk("CMPO_A", "M2", "M5", cx, MY(4) + 1500)
-            to_logic("CMPO_A", cx - 1500, MY(4), [("x1", "CMPO_A")])
+            logic_story("CMPO_A", P("x2_ccmp", "CMPO_A"), "myband", 3,
+                        [("x1", "CMPO_A")])
 
         if on("cmpob"):
             #- CMPO_B: comparator B's output over its own top, then east
-            cmb = P("x3_ccmp", "CMPO_B")
-            cx = int(cmb.centerX())
-            ytop = int(cb.y2) + 2500
-            wire("CMPO_B", "M2", cx - 1500, int(cmb.y1), cx + 1500,
-                 ytop + w)
-            stk("CMPO_B", "M2", "M5", cx, ytop + 1500)
-            to_logic("CMPO_B", cx - 1500, ytop, [("x7", "CMPO_B")])
+            logic_story("CMPO_B", P("x3_ccmp", "CMPO_B"), "sband", 0,
+                        [("x7", "CMPO_B")])
 
         if on("rstb"):
             #- RST_B: comparator A's reset, out of its bottom pin into
