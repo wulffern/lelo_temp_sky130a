@@ -109,6 +109,24 @@ class LELO_TEMP(SidecarCell):
                     moved.add(id(i))
                     i.translate(0, dy)
                 dg.updateBoundingRect()
+        #- DROP EVERY BLOCK 0.13 um, to buy the S band its clearance.
+        #- The four M5 lanes over the bias block need 0.40 under the
+        #- first one (met4.5a/b, "attached to large metal4"), 0.30 x 4
+        #- of wire, 0.40 x 3 of gap and 0.09 for the via cap above
+        #- S(4) -- 2.89 um. Between the block's top and the 111.52 um
+        #- tile ceiling there was 2.76. Everything else in the strip is
+        #- already at its minimum, so the room has to come from below.
+        #-
+        #- It is there: the rings are laid on the INSTANCES' own bbox
+        #- (see beforeRoute), so they come down with the blocks, and
+        #- the band under them absorbs the move. Measured -- the cell
+        #- goes 111.500 -> 111.370 on this alone, and 87 DRC -> 82.
+        #- With S at +4000 it lands on 111.520 exactly and 75.
+        for _n in ("x1_ibp", "x2_ccmp", "x3_ccmp", "xtap_dig_0",
+                   "x1", "x2", "x3", "x4", "x5", "x6", "x7"):
+            _i = layout.getInstanceFromInstanceName(_n)
+            if _i is not None:
+                _i.translate(0, -1300)
         #- the move leaves every group's stored extent where base
         #- place scattered it, and the ring wraps THAT box: refresh
         for grp in layout.cellgroups:
@@ -408,10 +426,18 @@ class LELO_TEMP(SidecarCell):
         #- S(2) straight through them (measured: IBP<3:2> on VDD).
         #- ABOVE the block, not in its top strip: the strip carries
         #- the block's own straps and the two lowest lanes shorted
-        #- IBP<3:2> onto VDD there (measured). 7 um pitch -- these are
-        #- long runs, and met4.5a/b ask 0.4 um of a long M4/M5 shape,
-        #- not the 0.3 um of met4.2.
-        S = lambda j: int(bias.y2) + 1900 + (j - 1) * 7000
+        #- IBP<3:2> onto VDD there (measured). 0.7 um pitch -- these
+        #- are long runs, and met4.5a/b ask 0.4 um of a long M4/M5
+        #- shape, not the 0.3 um of met4.2. So 0.3 of wire + 0.4 of
+        #- gap, and the FIRST lane needs that same 0.4 to the block
+        #- below it: at +1900 it sat 0.19 away and fired 24 times, once
+        #- per column, because the block's 7.2 um M5 columns repeat at
+        #- 8 um. +4000 is the rule, not a tuning.
+        #-
+        #- NOTE ON UNITS: these are cicpy units, 10000 to the micron.
+        #- The numbers here are right and the older comments in this
+        #- method are not -- they read "7 um" for 7000, which is 0.7.
+        S = lambda j: int(bias.y2) + 4000 + (j - 1) * 7000
         #- The B and MY bands carry lanes on THREE layers, and only
         #- same-layer lanes need the 3 um metal pitch: M3 and M4 lanes
         #- share row 1 with the M5 lanes stacked above them at 6 um.
@@ -754,7 +780,7 @@ class LELO_TEMP(SidecarCell):
             pad("PWRUP_1V8", pw1)
             stk("PWRUP_1V8", "M2", "M4", int(pw1.centerX()),
                 int(pw1.centerY()))
-            ptop = S(4) + 4500
+            ptop = S(4) + 3900
             wire("PWRUP_1V8", "M4", int(pw1.centerX()) - 1500,
                  int(pw1.y1), int(pw1.centerX()) + 1500, ptop)
             pin1 = Rect("M4", int(pw1.centerX()) - 1500, ptop - 4000,
