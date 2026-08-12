@@ -600,6 +600,42 @@ class LELO_TEMP(SidecarCell):
         def to_logic(net, x_from, ylane, pins):
             link_logic(net, pins, ylane=ylane, x_from=x_from)
 
+        #- the strip's columns as TRACK INDICES in the dig channel, so
+        #- a column is "the strip's fourth lane" and not DIG_X1+23500
+        COLT = {"CMPO_A": 0, "CMPO_B": 1, "RST_B": 3, "RST_A": 7,
+                "PWRUP_N_1V8": 8, "PWRUP_B_1V8": 9,
+                "net1": 11, "net2": 12}
+
+        def logic_story(net, src, ch, tr, pins):
+            """One `~` per (source, logic pin): out of the source, up
+            to M5, across the named band, down the net's own column
+            over the strip, and in on M3 at the pin's own row.
+
+            The hand version drew one shared M2 column and stubbed off
+            it; a story per pin says the same thing without a helper
+            holding the column's coordinate, and the framework merges
+            the shared metal because it is one net.
+            """
+            for inst, pinname in pins:
+                tgt = P(inst, pinname)
+                if tgt is None:
+                    continue
+                pp = layout.path(net, src.layer, start=[src], stop=[tgt])
+                pp.start()
+                #- STEPS RUN AT ROUTE TIME, so pp.routeLayer does not
+                #- move as they are appended -- looping on it appends
+                #- Up forever. Count the layers instead.
+                _stack = ["M1", "M2", "M3", "M4", "M5"]
+                for _ in range(_stack.index("M5")
+                               - _stack.index(src.layer)):
+                    pp.up()
+                pp.movey(pp.track(ch, tr))
+                pp.movex(pp.track("dig", COLT[net]))
+                pp.movey(pp.pin(inst, pinname, "y"))
+                pp.down()
+                pp.down()
+                pp.end()
+
         if on("lpi"):
             #- LPI: the loop -- the OTA output back to the bias input.
             #- Both pins share the net, so the port dict keeps one; take
@@ -815,12 +851,9 @@ class LELO_TEMP(SidecarCell):
         if on("rstb"):
             #- RST_B: comparator A's reset, out of its bottom pin into
             #- the B band and east to the NORs and the buffer
-            rstb = P("x2_ccmp", "RST_B")
-            rx = int(rstb.centerX())
-            wire("RST_B", "M2", rx - 1500, B(3), rx + 1500, int(rstb.y2))
-            stk("RST_B", "M2", "M5", rx, B(3) + 1500)
-            to_logic("RST_B", rx - 1500, B(3),
-                     [("x3", "RST_B"), ("x4", "RST_B"), ("x5", "RST_B")])
+            logic_story("RST_B", P("x2_ccmp", "RST_B"), "bband", 2,
+                        [("x3", "RST_B"), ("x4", "RST_B"),
+                         ("x5", "RST_B")])
 
         if on("rsta"):
             #- RST_A: comparator B's reset, down into the My window
