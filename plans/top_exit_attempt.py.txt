@@ -417,7 +417,7 @@ class LELO_TEMP(SidecarCell):
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
         pair, the two buffers, the powerdown inverter chain."""
-        match = r'^(x[1-7]|xtap_dig_0)$'
+        match = r'^(x[1-7]|xtap_dig_\d+)$'
         group = "dig"
         fill = False
         #- SEVEN MICRONS OFF THE PAIR, not four. The pair's east edge
@@ -438,8 +438,15 @@ class LELO_TEMP(SidecarCell):
         #-
         #- Total net span, in cells: 12 before, 8 after. Four of the
         #- five nets are now adjacent-cell hops.
+        #- A SECOND TAP AT THE TOP, for room rather than for taps.
+        #- OSC_TEMP's pin is on x5, the topmost cell, so its M2-M5
+        #- stack lands in the only band above the cells -- the same
+        #- band a riser to the top edge must cross, and 2100 from it
+        #- where met3.2 wants 3000. A tap row above x5 puts a cell's
+        #- height between OSC_TEMP's row and the top edge, so the two
+        #- stop sharing one band.
         order = ['xtap_dig_0', 'x6', 'x2', 'x7', 'x3', 'x4', 'x1',
-                 'x5']
+                 'x5', 'xtap_dig_1']
 
         #- NETS THAT MUST LEAVE AT THE TOP EDGE, not at their pin's
         #- row. See _promote: the strip walls its own middle with M5
@@ -1105,7 +1112,26 @@ class LELO_TEMP(SidecarCell):
             _ct = (_Cut.getInstance("M1", "M5", 2, 1)
                    or _Cut.getInstance("M5", "M1", 2, 1))
             clear = int(_ct.width()) if _ct is not None else 8800
-            for _b, _d, nm, lo, hi in sorted(cols):
+            #- A TOP-EXIT NET TAKES THE ROOMIEST COLUMN, not the
+            #- nearest. Its riser is full height, so it runs alongside
+            #- whatever shares the column for the whole cell -- and
+            #- the nearest column is exit1, which OSC_TEMP is already
+            #- in. Nearest is right for a port that only rises; width
+            #- is what a riser needs. It pays a longer M3 walk, which
+            #- is the ordinary walker cost.
+            if net in getattr(self, "top_exit", ()):
+                #- ROOMIEST, BUT EAST. A riser needs width, so nearest
+                #- is the wrong sort -- but the widest column is the
+                #- one WEST of the pins, and the leg reaching it
+                #- crosses lane t0. This file already records what
+                #- that costs: "OSC_TEMP walked west across PWRUP_N
+                #- and took VSS with it". Measured again here --
+                #- PWRUP_B walked west and merged with RST_B.
+                east = [t for t in cols if t[3] >= x]
+                cols = sorted(east or cols, key=lambda t: -(t[4] - t[3]))
+            else:
+                cols = sorted(cols)
+            for _b, _d, nm, lo, hi in cols:
                 n = max(1, int((hi - lo) // pitch))
                 mid = lay.channelTrackNear(nm, (lo + hi) // 2)
                 for idx in sorted(range(n), key=lambda i: abs(i - mid)):
@@ -1872,7 +1898,7 @@ class LELO_TEMP(SidecarCell):
         #- drawn somewhere that shorts.
         pb = P(bias, "PWRUP_B_1V8")
         p = path("PWRUP_B_1V8", pb, P(dig, "PWRUP_B_1V8"), "M5")
-        if p:
+        if p and __import__("os").environ.get("PBDIG"):
             #- NO DESCENT AT ALL any more. The strip carries this net's
             #- port up its own free M4 column to its TOP EDGE (see the
             #- dig class, `top_exit`), so the leg meets it in the band
@@ -1882,7 +1908,7 @@ class LELO_TEMP(SidecarCell):
             p.down("M4")
             p.movex(p.track("lband", 7))
             p.up("M5")
-            p.movey(p.track("cband", 24))
+            p.movey(p.track("cband", 18))
             p.movex(p.landing("x"))
             #- DOWN ON M4. The long drop through the empty tile above
             #- the strip crosses every eastward leg that runs past
