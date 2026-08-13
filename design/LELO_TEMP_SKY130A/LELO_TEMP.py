@@ -305,6 +305,28 @@ class LELO_TEMP(SidecarCell):
                 p.down()
                 p.end()
 
+            #- AND PWRUP_B LEAVES THE PAIR HERE. Its pin is in the
+            #- middle of the core's row, and that row east of it is
+            #- the other comparator's PWRUP_N bar on M5 -- so nothing
+            #- the level above sends down can land on the pin, and
+            #- this was the one pin of this pair it could not reach.
+            #- The same first half as the story above, and then
+            #- straight up to M5 in the column: the port is on metal
+            #- this cell drew, in the one corridor that is clear top
+            #- to bottom.
+            lo, _hi = pins("PWRUP_B_1V8")
+            if lo is not None:
+                p = lay.path("PWRUP_B_1V8", "M3", start=[lo], stop=[lo],
+                             options=narrow)
+                p.start()
+                p.down()
+                p.movey(p.pin("x2_ccmp", "PWRUP_B_1V8", "y") + p.PITCH)
+                p.up()
+                p.movex(p.track("cross", 3))
+                p.up("M5")
+                #- and the port goes where THIS ends (see afterPorts)
+                self._pwrupb = p
+
             #- VDD and VSS: RISE IN THE COLUMN, DO NOT TRAVEL TO IT.
             #- The rails are full width, so sliding along one on M1 to
             #- reach the column looks free -- and is not: the tap and
@@ -338,20 +360,47 @@ class LELO_TEMP(SidecarCell):
                 p.down()
                 p.end()
 
-        #- PWRUP_B IS STILL NOT PUBLISHED WHERE IT CAN BE MET.
-        #- Its pin is in the middle of the core's own row, and that
-        #- row east of it is the other comparator's PWRUP_N bar on
-        #- M5, so anything coming down onto the pin lands on PWRUP_N.
-        #- The net does have metal in this cell's one clear corridor
-        #- -- the seam story runs it up the free column on M2 -- and
-        #- an M5 pad there is the port it wants. Tried: a cut from
-        #- that riser up to M5, published with updatePort. The port
-        #- moved (the parent reads the ports dict and saw M5), but
-        #- the cut broke the riser it stood on -- the pair came back
-        #- with the upper comparator's PWRUP_B as a node of its own.
-        #- What it needs is to be part of the seam STORY, drawn as
-        #- one path from the pin up the column to a pad, rather than
-        #- a cut dropped onto a route that already exists.
+        def afterPorts(self, entry):
+            """PWRUP_B, published on the M5 its own story left.
+
+            The story above ends with a cut up to M5 in the free
+            column; this finds that metal and makes it the port. It
+            does not DRAW -- a path added in afterPorts never routes,
+            the phase is over, and the pad it was meant to sit on came
+            out as a port rect with nothing under it (measured: the
+            pair's port matched nothing at all).
+            """
+            lay = self.layout
+            story = getattr(self, "_pwrupb", None)
+            ends = getattr(story, "endsAt", None) if story else None
+            if not ends or ends[0] is None:
+                log.error("ccmp: PWRUP_B's story did not end anywhere")
+                return
+            from cicpy.core.rect import Rect as _R
+            from cicpy.core.rules import Rules as _Ru
+            x, y, layer = ends
+            w = int(_Ru.getInstance().get(layer, "width"))
+            pad = _R(layer, int(x) - w, int(y) - w, 2 * w, 2 * w)
+            pad.setNet("PWRUP_B_1V8")
+            lay.updatePort("PWRUP_B_1V8", pad, routeLayer=layer)
+
+        @staticmethod
+        def _netRects(layout, net, layer):
+            """What this cell holds on `net` -- rects, or anything on
+            it when `layer` is None (a cut is an instance, not a
+            rect, so a rect search never sees the metal it brings)."""
+            out = []
+
+            def walk(o):
+                for ch in getattr(o, "children", []) or []:
+                    if getattr(ch, "net", "") == net and \
+                            (layer is None
+                             or getattr(ch, "layer", "") == layer):
+                        out.append(ch)
+                    elif getattr(ch, "children", None):
+                        walk(ch)
+            walk(layout)
+            return out
 
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
@@ -1522,6 +1571,19 @@ class LELO_TEMP(SidecarCell):
             #- so the leg lands on metal the net already owns.
             p.movex(p.landing("x"))
 
+        #- AND THE PAIR'S OWN PWRUP_B IS STILL OPEN. The pair
+        #- publishes it on M5 in its free column now, which is the
+        #- half of the problem that is solved; what is not is getting
+        #- down to it. Straight down from `cband` at that port's x
+        #- lands on the pair's seam VDD ring, which reaches 1345200 --
+        #- lane 3 of that column, where the port is. Moved to lane 5
+        #- the port clears the ring and the descent shorts something
+        #- else (the tile came back as one net either way, and the
+        #- pair picked up 2 DRC of its own). From the west the row is
+        #- the other comparator's PWRUP_N bar; from the east it is the
+        #- cap bank. What this wants is the pair to publish on its own
+        #- TOP EDGE -- the column already runs the full height, so the
+        #- story has somewhere to end that no ring is on.
         for net, lb, band, down, lane_ch in (
                 ("PWRUP_N_1V8", 0, 20, 10, "dband"),
                 ("PWRUP_B_1V8", 7, 24, 0, "eband")):
