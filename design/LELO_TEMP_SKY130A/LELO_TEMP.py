@@ -694,8 +694,18 @@ class LELO_TEMP(SidecarCell):
                           if k2 != key and own[0] <= int(o.centerY())
                           <= own[1] and abs(int(o.x1) - int(r.x1)) < 9000]
                 s0 = self._step(r)
+                #- NEVER ONE STEP OFF THE PIN. The pad that ends the
+                #- leg is as wide as the pin and the leg is a third of
+                #- that, so at one step the pad's li stops 700 short
+                #- of the pin and leaves a 0.33 um notch either side of
+                #- the leg -- li.3 wants 0.17. Two steps and the gap
+                #- is 2900, clear.
+                #- k=0 IS THE BEST ROW: the cut lands on the pin, one
+                #- cut and no leg at all, and the pad is the pin's own
+                #- width. It is tried first, and it is the only row a
+                #- 16 um cell has room for.
                 cs = []
-                for k in range(1, 12):
+                for k in [0] + list(range(2, 12)):
                     for sign in (s0, -s0):
                         y = y0 + sign * k * step
                         if not lo <= y <= hi:
@@ -707,29 +717,48 @@ class LELO_TEMP(SidecarCell):
                                + gapfor(layer, "pin") for o in others):
                             continue
                         cs.append((sign * k, y))
+                        if k == 0:
+                            break
                 cand.append((key, half, layer, y0, int(r.x1), cs))
 
             #- the pin with the fewest ways to go decides first
             cand.sort(key=lambda c: len(c[5]))
             taken, chosen = [], {}
 
-            def place(i):
+            def place(i, ease):
                 if i == len(cand):
                     return True
                 key, half, layer, y0, x0, cs = cand[i]
                 for k, y in cs:
-                    if any(abs(y - t) < half + th + gapfor(layer, tl)
+                    if any(abs(y - t) < ease * (half + th
+                                               + gapfor(layer, tl))
                            for t, th, tl in taken):
                         continue
                     taken.append((y, half, layer))
                     chosen[key] = (k, y)
-                    if place(i + 1):
+                    if place(i + 1, ease):
                         return True
                     taken.pop()
                     del chosen[key]
                 return False
 
-            if not place(0):
+            #- GIVE GROUND IN ORDER, rather than all at once. The
+            #- strip does not always have an assignment at full
+            #- spacing -- x3 and x4 between them are 12 um of band for
+            #- six stubs -- and the fallback used to be "first
+            #- candidate each", which throws away the constraint
+            #- entirely. Easing the separation a step at a time keeps
+            #- the best assignment that does exist, and says by how
+            #- much it had to give.
+            for ease in (1.0, 0.9):
+                taken.clear()
+                chosen.clear()
+                if place(0, ease):
+                    if ease < 1.0:
+                        log.warning(f"dig: rows fit at {ease:.0%} of "
+                                    f"the spacing, not at full")
+                    break
+            else:
                 log.error("dig: no row assignment for the strip; "
                           + repr([(k, [c[1] for c in cs])
                                   for k, _h, _l, _y, _x, cs in cand]))
