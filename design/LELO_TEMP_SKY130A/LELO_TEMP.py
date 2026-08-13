@@ -338,6 +338,21 @@ class LELO_TEMP(SidecarCell):
                 p.down()
                 p.end()
 
+        #- PWRUP_B IS STILL NOT PUBLISHED WHERE IT CAN BE MET.
+        #- Its pin is in the middle of the core's own row, and that
+        #- row east of it is the other comparator's PWRUP_N bar on
+        #- M5, so anything coming down onto the pin lands on PWRUP_N.
+        #- The net does have metal in this cell's one clear corridor
+        #- -- the seam story runs it up the free column on M2 -- and
+        #- an M5 pad there is the port it wants. Tried: a cut from
+        #- that riser up to M5, published with updatePort. The port
+        #- moved (the parent reads the ports dict and saw M5), but
+        #- the cut broke the riser it stood on -- the pair came back
+        #- with the upper comparator's PWRUP_B as a node of its own.
+        #- What it needs is to be part of the seam STORY, drawn as
+        #- one path from the pin up the column to a pad, rather than
+        #- a cut dropped onto a route that already exists.
+
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
         pair, the two buffers, the powerdown inverter chain."""
@@ -1403,22 +1418,7 @@ class LELO_TEMP(SidecarCell):
             return
         P = self._port
 
-        #- the strip publishes in two columns on its west side; the
-        #- lane in front of them is what a net arriving from the pair
-        #- turns down. Its east wall is the westmost pin itself.
-        west = [c.get() for c in getattr(dig, "children", []) or []
-                if getattr(c, "isPort", lambda: False)()]
-        west = [r for r in west if r is not None]
-        if west:
-            layout.addRoutingChannel("eband", int(dig.x1),
-                                     min(int(r.x1) for r in west),
-                                     horizontal=False)
-
-        _only = __import__("os").environ.get("SIGNETS")
-
         def path(net, a, b, layer=None, at=None):
-            if _only and net not in _only.split(","):
-                return None
             if a is None or b is None:
                 log.error(f"top: {net} is not on both blocks")
                 return None
@@ -1504,8 +1504,8 @@ class LELO_TEMP(SidecarCell):
         if p:
             p.movex(p.track("lband", 6))
             p.up("M4")
-            p.movey(p.landing("y"))
-            p.movex(p.landing("x"))
+            p.movey(p.pin("xccmp", "VC", "y"))
+            p.movex(p.pin("xccmp", "VC", "x"))
             p.end()
 
         #- PWRUP_N, twice: the pair and the strip are on opposite
