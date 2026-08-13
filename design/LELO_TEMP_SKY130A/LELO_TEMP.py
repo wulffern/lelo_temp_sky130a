@@ -1607,7 +1607,7 @@ class LELO_TEMP(SidecarCell):
         pn = P(bias, "PWRUP_N_1V8")
         p = path("PWRUP_N_1V8", pn, P(ccmp, "PWRUP_N_1V8"), "M5")
         if p:
-            p.movex(p.track("lband", 0))
+            p.movex(p.track("lband", 1))
             p.movey(p.landing("y"))
             #- AND STOP ON THE PAIR'S OWN BAR: the pin's row east of
             #- it is that comparator's PWRUP_N on M5, this same net,
@@ -1628,12 +1628,27 @@ class LELO_TEMP(SidecarCell):
         #- at the pin's row.
         p = path("PWRUP_N_1V8", pn, P(dig, "PWRUP_N_1V8"), "M5")
         if p:
-            p.movex(p.track("lband", 0))
+            p.movex(p.track("lband", 1))
             p.movey(p.track("cband", 20))
             p.movex(p.track("dband", 10))
             p.down("M4")
             p.movey(p.landing("y"))
-            p.up("M5")
+            #- AND IT STAYS ON M4 TO THE PIN, rising only in end().
+            #- Coming up to M5 for the last leg put this net's landing
+            #- pad 0.28 um from the strip's own port pad where met4.2
+            #- wants 0.30 -- both pads ITS OWN, bridged by a wire
+            #- narrower than either, so the overhangs missed by 0.02
+            #- and DRC counted four. One layer lower there is no pad
+            #- at all until the end.
+            #-
+            #- LANE 10 IS THE ONLY ONE THAT WORKS, and the DRC count
+            #- alone would have picked a broken one -- measured:
+            #-   9  -> 2 DRC, PWRUP_N merged into VDD_1V8 (the supply
+            #-         tie stands at 8)
+            #-   10 -> 4 DRC, nothing merged            <- this
+            #-   11 -> 2 DRC, PWRUP_N merged with RST_A
+            #-   12 -> 0 DRC, PWRUP_N merged with RST_A
+            #- Read LVS before believing a DRC improvement.
             p.movex(p.landing("x"))
             p.end()
 
@@ -1645,20 +1660,93 @@ class LELO_TEMP(SidecarCell):
         #- measured, not chosen. Its crossing of `lband` is on M4:
         #- PWRUP_N rises there on M5, and the bundle's M4 rows are
         #- higher than this one.
+        #- A CORRIDOR IS PER NET, and asked FOR that net. The strip
+        #- routes its own rungs on M5, RST_B's clear across the block
+        #- at two heights -- so asked net-blind there is no free M5
+        #- column over the strip at all, and the one `digfree` both
+        #- these nets shared registered nothing. Every step that
+        #- named it then resolved to a bogus x, which is how RST_B's
+        #- descent came down on RST_A: one merged net, and the only
+        #- thing between this cell and LVS (23 nets against 24).
+        #- Asked for its own net, each gets the true answer.
+        def blockfree(tag, blk, net, pin, span=None):
+            nm = f"{tag}free_{net.lower()}"
+            return layout.addBlockChannel(
+                nm, blk, "M5",
+                span=span or (int(blk.y1), int(blk.y2)),
+                near=int(pin.centerX()) if pin is not None
+                else int(blk.x2), net=net) and nm
+
+        def digfree(net, pin):
+            return blockfree("dig", dig, net, pin)
+
+        #- AND IT STILL DOES NOT REACH THE STRIP. Measured this round,
+        #- against the schematic's 24 nets:
+        #-
+        #-   no leg at all                        26  (split in 3)
+        #-   down dband lane 8                    21  (the VDD tie
+        #-                                            stands there,
+        #-                                            1466000..1475600)
+        #-   down dband lane 12                   21  (track(dband,12)
+        #-                                            resolves to
+        #-                                            1494800, OUTSIDE
+        #-                                            the channel and
+        #-                                            inside the strip)
+        #-
+        #- dband has no lane left: 0 and 1 are the cap bank's MiM
+        #- halo, 2/4/6 are RST_A and the two outputs, 8 is the supply
+        #- tie, 10 is PWRUP_N, and 12 is past the far edge. And there
+        #- is no column over the strip either -- the strip's own RST_B
+        #- rungs cross it full width on M5 at two heights, which is
+        #- what `digfree` reports and why it is guarded rather than
+        #- ignored. The fix is in the STRIP: move those rungs off M5.
+        #- Until then this net is left open, honestly, rather than
+        #- drawn somewhere that shorts.
         pb = P(bias, "PWRUP_B_1V8")
         p = path("PWRUP_B_1V8", pb, P(dig, "PWRUP_B_1V8"), "M5")
-        if p and layout.addBlockChannel("digfree", dig, "M5",
-                                        span=(int(dig.y1), int(dig.y2)),
-                                        near=int(dig.x2)):
+        ch = digfree("PWRUP_B_1V8", P(dig, "PWRUP_B_1V8"))
+        if p and ch:
             p.down("M4")
             p.movex(p.track("lband", 7))
             p.up("M5")
             p.movey(p.track("cband", 24))
-            p.movex(p.track("digfree", 1))
+            p.movex(p.track(ch, 1))
             p.down("M4")
             p.movey(p.landing("y"))
             p.up("M5")
             p.movex(p.landing("x"))
+            p.end()
+
+        #- AND THE PAIR, FROM ABOVE. Its PWRUP_B pin is not on an edge
+        #- -- it is at block x 334200 of 409800 and y 696000 of
+        #- 798000, deep inside -- so any leg that meets it at its own
+        #- row crosses the whole pair on M5 first. That is what every
+        #- earlier attempt did, and why each made the count worse: on
+        #- lband lane 2 it swallowed VDD_1V8, both comparator outputs,
+        #- two bias currents, PWRUP_N and RST_B into one net (17 in
+        #- the layout against the schematic's 24).
+        #-
+        #- Come DOWN on it instead, in a column the pair itself says
+        #- is free for this net -- the same question the strip is
+        #- asked for RST_B, and the reason `addBlockChannel` takes a
+        #- net at all.
+        pbc = P(ccmp, "PWRUP_B_1V8")
+        ch = blockfree("ccmp", ccmp, "PWRUP_B_1V8", pbc,
+                       span=(int(pbc.y1), int(ccmp.y2)))
+        p = path("PWRUP_B_1V8", pb, pbc, "M5")
+        if p and ch and __import__("os").environ.get("PBPAIR"):
+            p.down("M4")
+            p.movex(p.track("lband", 7))
+            p.up("M5")
+            #- east along the band to the PIN'S OWN COLUMN, then
+            #- straight down onto it. Turning down anywhere else and
+            #- running east at the pin's row is the crossing this
+            #- whole detour exists to avoid; the channel above is the
+            #- proof that this column is clear for this net, and it
+            #- comes back holding the pin's x.
+            p.movey(p.track("cband", 26))
+            p.movex(p.landing("x"))
+            p.movey(p.landing("y"))
             p.end()
 
         #- RST_A is published on the pair's top edge, which is where
@@ -1691,18 +1779,23 @@ class LELO_TEMP(SidecarCell):
         #- over the strip instead, in the same measured corridor
         #- PWRUP_B uses, two lanes along.
         for net, band, down, step in (("RST_B", 4, 3, 2),
-                                      ("CMPO_A", 16, 6, -2),
-                                      ("CMPO_B", 12, 4, 0)):
+                                      ("CMPO_A", 16, 6, -4),
+                                      ("CMPO_B", 12, 4, -2)):
             pin = P(ccmp, net)
             name = net.lower() + "_up"
             p = path(net, pin, P(dig, net))
             if not p or not over(name, pin):
                 continue
+            #- RST_B comes down over the strip, in the column its own
+            #- port already sits in; the other two use dband.
+            ch = digfree(net, P(dig, net)) if net == "RST_B" else "dband"
+            if not ch:
+                log.error(f"top: {net} has no corridor over the strip")
+                continue
             p.up("M5")
             p.movex(p.track(name, lane(name, pin, step)))
             p.movey(p.track("cband", band))
-            p.movex(p.track("digfree" if net == "RST_B" else "dband",
-                            down))
+            p.movex(p.track(ch, down))
             p.down("M4")
             p.movey(p.landing("y"))
             p.up("M5")
