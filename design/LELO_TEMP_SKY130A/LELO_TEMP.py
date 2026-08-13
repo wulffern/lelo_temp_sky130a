@@ -1022,6 +1022,7 @@ class LELO_TEMP(SidecarCell):
                     _layers[_i % len(_layers)],
                     "^" + _re.escape(_net) + "$", "-|--", "", 2, "", "")
         self._supplies(layout)
+        self._ibp(layout)
         super().beforeRoute(layout)
 
 
@@ -1123,3 +1124,51 @@ class LELO_TEMP(SidecarCell):
             p.down()
             p.down()
             p.down()
+
+    def _ibp(self, layout):
+        """The four bias currents, as one bundle and four endings.
+
+        THE ORDER OF THE MEMBERS IS THE ORDER THEY LEAVE IN. Each
+        takes the row one lane above the last and turns down at its
+        own column, so the bundle only works if the member that turns
+        FIRST is on the LOWEST row -- otherwise its descent crosses
+        the rows still travelling east. <3> and <2> drop into the gap
+        west of the comparators to reach their pins at the bottom of
+        the pair, <1> and <0> carry on to the pins at the top, and
+        that is the order they are listed in.
+
+        They cross the bias block on M4, not on the M5 they leave: the
+        four pins ARE M5 verticals 60 um tall, so a horizontal on M5
+        would short the lot. One layer down they pass under all four.
+        """
+        bias = layout.getInstanceFromInstanceName("xbias")
+        ccmp = layout.getInstanceFromInstanceName("xccmp")
+        if None in (bias, ccmp):
+            return
+        nets = ["IBP_1U<3>", "IBP_1U<2>", "IBP_1U<1>", "IBP_1U<0>"]
+        starts = [self._port(bias, n) for n in nets]
+        stops = [self._port(ccmp, n) for n in nets]
+        if None in starts or None in stops:
+            log.error("top: the bias currents are not on both blocks")
+            return
+
+        #- TWO LANES APART, not one: they turn off M5 at their own
+        #- rows, and the pad of that turn is three times the wire --
+        #- at one lane the four pads left 2400 between them where
+        #- met4.2 wants 3000.
+        b = layout.bus(nets, "M5", starts=starts, stops=stops, lanes=2)
+        b.start()
+        #- up its own pin to its own row, then off M5 before turning
+        b.movey(b.track("cband", 30))
+        b.down("M4")
+
+        #- and from here each net is alone: two turn down in the gap
+        #- west of the pair, two carry on over it
+        for i, net in enumerate(nets):
+            p = b.member(net)
+            p.movex(p.track("lband", 2 + i * 2) if i < 2
+                    else p.landing("x"))
+            p.movey(p.landing("y"))
+            p.down(stops[i].layer)
+            p.movex(p.landing("x"))
+            p.end()
