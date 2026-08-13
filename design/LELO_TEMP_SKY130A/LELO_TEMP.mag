@@ -15,8 +15,6 @@ rect 24298 6994 28846 7054
 rect 28728 6990 28896 7054
 rect 28728 21442 28896 21506
 rect 0 21074 19200 21254
-rect 29826 3544 30006 3604
-rect 29466 424 29646 484
 rect 0 -26 19200 154
 << metal3 >>
 rect 30424 2934 30484 21506
@@ -61,6 +59,8 @@ rect 28728 21442 28904 21510
 rect 19644 456 19820 524
 rect 19740 464 22906 524
 rect 22780 14776 22956 14844
+rect 29792 3540 29968 3608
+rect 29432 300 29608 368
 << via1 >>
 rect 30370 21444 30426 21500
 rect 30466 21444 30522 21500
@@ -133,9 +133,9 @@ box 29196 -26 31212 3654
 << labels >>
 flabel locali s 0 21074 19200 21254 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
-flabel locali s 29826 3544 30006 3604 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
+flabel metal1 s 29792 3540 29968 3608 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
 port 2 nsew signal bidirectional
-flabel locali s 29466 424 29646 484 0 FreeSans 400 0 0 0 PWRUP_1V8
+flabel metal1 s 29432 300 29608 368 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 3 nsew power bidirectional
 flabel locali s 0 -26 19200 154 0 FreeSans 400 0 0 0 VSS
 port 4 nsew ground bidirectional

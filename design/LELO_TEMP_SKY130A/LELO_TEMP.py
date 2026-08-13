@@ -494,6 +494,13 @@ class LELO_TEMP(SidecarCell):
                     m5[(net, inst)] = self._crossLayer(r, ok)
                     wanted.append(((net, inst), r, m5[(net, inst)],
                                    int(x) if x is not None else 0))
+            for net in ("CMPO_A", "CMPO_B", "OSC_TEMP_1V8", "PWRUP_1V8",
+                        "PWRUP_B_1V8", "PWRUP_N_1V8", "RST_A", "RST_B"):
+                inst, pin = self._anyPin(lay, net)
+                if pin is not None and (net, inst) not in \
+                        {(k[0], k[1]) for k, _r, _l, _x in wanted}:
+                    wanted.append(((net, "^" + inst), pin, "M3",
+                                   int(pin.centerX())))
             rows = self._bookRows(step, pads, wides, _gap, wanted)
 
             def row(net, inst):
@@ -560,6 +567,7 @@ class LELO_TEMP(SidecarCell):
                 p.up(m5[(net, mid)])
                 p.movex(p.track("strip", lane))
                 p.end()
+            self._promote(lay, step, pads, wides, _gap, rows)
             #- TRUE CLAIMS THE STRIP. Everything else it holds is a
             #- port on one pin -- CMPO_A, CMPO_B, OSC_TEMP_1V8,
             #- PWRUP_1V8, PWRUP_B_1V8 -- and the supplies are the M4
@@ -864,6 +872,77 @@ class LELO_TEMP(SidecarCell):
                                     f"{key[1]}; on its own pin instead")
                     chosen.setdefault(key, cs[0] if cs else (0, 0))
             return chosen
+
+        def afterPorts(self, entry):
+            """Publish the pads the promotion drew."""
+            lay = self.layout
+            for net, pad in (getattr(self, "_pads", None) or {}).items():
+                lay.updatePort(net, pad, routeLayer="M2")
+
+        def _promote(self, lay, step, pads, wides, gapfor, rows):
+            """Every signal port up to M2, before anyone above sees it.
+
+            A JNWTR cell puts its pins on li and the strip published
+            them as it found them, so all eight of this cell's signals
+            arrived at the top on the ONE layer the design reserves
+            for power. The level above then has to meet li -- eight
+            times, across a tile.
+
+            So each port is carried up here instead, on a row booked
+            like any other stub and with the same three checks against
+            the cells' own geometry. What leaves this cell is an
+            ordinary M2 pad on the vertical layer, which is what the
+            strip's neighbours can route to.
+            """
+            from cicpy.core.rect import Rect as _R
+            self._pads = {}
+            for net in ("CMPO_A", "CMPO_B", "OSC_TEMP_1V8", "PWRUP_1V8",
+                        "PWRUP_B_1V8", "PWRUP_N_1V8", "RST_A", "RST_B"):
+                inst, pin = self._anyPin(lay, net)
+                if pin is None:
+                    log.error(f"dig: no pin to promote for {net}")
+                    continue
+                #- A NET THE STRIP ALREADY ROUTES HAS A PAD ALREADY.
+                #- Its stub left the pin through a cut that spans M1
+                #- to M3 or M5, so there is M2 on that row and the
+                #- port is simply that. Drilling a second via six
+                #- microns away instead put two mcon arrays 1700
+                #- apart where mcon.2 wants 1900 -- 18 boxes, for
+                #- geometry that was already there.
+                routed = rows.get((net, inst))
+                if routed is not None:
+                    k, y = routed
+                else:
+                    k, y = rows.get((net, "^" + inst),
+                                    (0, int(pin.centerY())))
+                    p = lay.path(net, "M1", start=[pin], stop=[pin])
+                    p.start()
+                    if k:
+                        p.movey(p.pin(inst, net, "y") + k * p.SPACE)
+                    p.up("M2")
+                pad = _R("M2", int(pin.centerX()) - wides["M3"] // 2,
+                         y - pads["M3"] // 2, wides["M3"], pads["M3"])
+                pad.setNet(net)
+                #- SAID IN afterPorts, NOT HERE. addAllPorts runs
+                #- after routing and takes the first rect it finds on
+                #- the net, so a port set now is overwritten before
+                #- the cell is published -- measured, six of these
+                #- eight went back to li.
+                self._pads[net] = pad
+
+        @staticmethod
+        def _anyPin(lay, net):
+            """The first instance carrying `net`, and its pin."""
+            for inst in lay.instances if hasattr(lay, "instances") else []:
+                pass
+            for name in ("x1", "x2", "x3", "x4", "x5", "x6", "x7"):
+                inst = lay.getInstanceFromInstanceName(name)
+                if inst is None:
+                    continue
+                port = (getattr(inst, "instancePorts", {}) or {}).get(net)
+                if port is not None:
+                    return name, port.get()
+            return None, None
 
         @staticmethod
         def _pin(lay, instname, net):

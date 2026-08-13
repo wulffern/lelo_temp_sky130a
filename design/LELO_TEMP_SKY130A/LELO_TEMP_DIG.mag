@@ -21,14 +21,12 @@ rect 264 3192 432 3256
 rect 330 3240 390 3390
 rect 330 2250 390 2400
 rect 264 2232 432 2296
-rect 270 2850 450 2910
-rect 270 1090 450 1150
-rect 630 3570 810 3630
-rect 270 450 450 510
-rect 630 850 810 910
-rect 270 1250 450 1310
-rect 270 2050 450 2110
-rect 270 2370 450 2430
+rect 272 2846 440 2910
+rect 272 1086 440 1150
+rect 632 3566 800 3630
+rect 330 330 390 480
+rect 272 326 440 390
+rect 632 846 800 910
 << viali >>
 rect 644 532 696 584
 rect 736 532 788 584
@@ -54,6 +52,16 @@ rect 276 3198 328 3250
 rect 368 3198 420 3250
 rect 276 2238 328 2290
 rect 368 2238 420 2290
+rect 284 2852 336 2904
+rect 376 2852 428 2904
+rect 284 1092 336 1144
+rect 376 1092 428 1144
+rect 644 3572 696 3624
+rect 736 3572 788 3624
+rect 284 332 336 384
+rect 376 332 428 384
+rect 644 852 696 904
+rect 736 852 788 904
 << metal1 >>
 rect 632 526 808 594
 rect -28 526 148 594
@@ -84,6 +92,19 @@ rect 1764 3192 1940 3260
 rect 264 3192 440 3260
 rect 264 2232 440 2300
 rect 1764 2232 1940 2300
+rect 272 2846 448 2914
+rect 272 1086 448 1154
+rect 632 3566 808 3634
+rect 272 326 448 394
+rect 632 846 808 914
+rect 236 2846 412 2914
+rect 236 1086 412 1154
+rect 596 3566 772 3634
+rect 236 326 412 394
+rect 596 846 772 914
+rect 236 766 412 834
+rect 236 2046 412 2114
+rect 596 1966 772 2034
 << via1 >>
 rect 644 532 700 588
 rect 740 532 796 588
@@ -285,21 +306,21 @@ use JNWTR_BFX1_CV x5 ../JNW_TR_SKY130A
 transform 1 0 0 0 1 3200
 box 0 3200 1980 3680
 << labels >>
-flabel locali s 270 2850 450 2910 0 FreeSans 400 0 0 0 CMPO_A
+flabel metal1 s 236 2846 412 2914 0 FreeSans 400 0 0 0 CMPO_A
 port 1 nsew signal bidirectional
-flabel locali s 270 1090 450 1150 0 FreeSans 400 0 0 0 CMPO_B
+flabel metal1 s 236 1086 412 1154 0 FreeSans 400 0 0 0 CMPO_B
 port 2 nsew signal bidirectional
-flabel locali s 630 3570 810 3630 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
+flabel metal1 s 596 3566 772 3634 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
 port 3 nsew signal bidirectional
-flabel locali s 270 450 450 510 0 FreeSans 400 0 0 0 PWRUP_1V8
+flabel metal1 s 236 326 412 394 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 4 nsew power bidirectional
-flabel locali s 630 850 810 910 0 FreeSans 400 0 0 0 PWRUP_B_1V8
+flabel metal1 s 596 846 772 914 0 FreeSans 400 0 0 0 PWRUP_B_1V8
 port 5 nsew power bidirectional
-flabel locali s 270 1250 450 1310 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal1 s 236 766 412 834 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 6 nsew power bidirectional
-flabel locali s 270 2050 450 2110 0 FreeSans 400 0 0 0 RST_A
+flabel metal1 s 236 2046 412 2114 0 FreeSans 400 0 0 0 RST_A
 port 7 nsew signal bidirectional
-flabel locali s 270 2370 450 2430 0 FreeSans 400 0 0 0 RST_B
+flabel metal1 s 596 1966 772 2034 0 FreeSans 400 0 0 0 RST_B
 port 8 nsew signal bidirectional
 flabel metal3 s 1170 2720 1346 3200 0 FreeSans 400 0 0 0 VDD_1V8
 port 9 nsew power bidirectional
