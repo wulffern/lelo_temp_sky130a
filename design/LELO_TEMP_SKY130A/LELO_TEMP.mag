@@ -8,8 +8,8 @@ rect 0 -300 31212 21592
 rect 0 21412 31212 21592
 rect 0 -300 31212 -120
 rect 0 21100 19200 21280
-rect 29826 2930 30006 2990
-rect 29466 3490 29646 3550
+rect 29826 3570 30006 3630
+rect 29466 450 29646 510
 rect 0 0 19200 180
 use LELO_TEMP_BIAS xbias 
 transform 1 0 0 0 1 0
@@ -23,9 +23,9 @@ box 29196 0 31212 3680
 << labels >>
 flabel locali s 0 21100 19200 21280 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
-flabel locali s 29826 2930 30006 2990 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
+flabel locali s 29826 3570 30006 3630 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
 port 2 nsew signal bidirectional
-flabel locali s 29466 3490 29646 3550 0 FreeSans 400 0 0 0 PWRUP_1V8
+flabel locali s 29466 450 29646 510 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 3 nsew power bidirectional
 flabel locali s 0 0 19200 180 0 FreeSans 400 0 0 0 VSS
 port 4 nsew ground bidirectional

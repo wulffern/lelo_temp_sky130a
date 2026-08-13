@@ -332,8 +332,18 @@ class LELO_TEMP(SidecarCell):
         group = "dig"
         fill = False
         xspace = 4
-        order = ['xtap_dig_0', 'x7', 'x3', 'x4', 'x1', 'x5', 'x2',
-                 'x6']
+        #- ORDER IS THE ROUTING BUDGET. The powerdown chain used to
+        #- sit at the TOP of the strip while the OR gate it drives sat
+        #- at the base, so PWRUP_N spanned six cells and 150 um -- and
+        #- it was the net stuck on the lane between the two M4 supply
+        #- bars, where an input pin has no legal row at all. Put the
+        #- chain at the base, beside the gate it feeds, and it becomes
+        #- three adjacent cells.
+        #-
+        #- Total net span, in cells: 12 before, 8 after. Four of the
+        #- five nets are now adjacent-cell hops.
+        order = ['xtap_dig_0', 'x6', 'x2', 'x7', 'x3', 'x4', 'x1',
+                 'x5']
 
         #- The tapcell is in the schematic now (the CV logic family
         #- carries no taps of its own, and netgen counts the two
@@ -403,11 +413,11 @@ class LELO_TEMP(SidecarCell):
             #- PWRUP_N is the net whose three pins sit in the roomiest
             #- cells. RST_B there left x4 with no row assignment at
             #- all, three stubs into one 24 um cell.
-            plan = (("net1", 0, ("x7", "x3"), None),
-                    ("net2", 0, ("x1", "x4"), None),
-                    ("RST_B", 13, ("x3", "x5"), "x4"),
-                    ("PWRUP_N_1V8", 7, ("x7", "x6"), "x2"),
-                    ("RST_A", 15, ("x3", "x4"), None))
+            plan = (("PWRUP_N_1V8", 0, ("x6", "x7"), "x2"),
+                    ("RST_A", 0, ("x3", "x4"), None),
+                    ("net1", 13, ("x7", "x3"), None),
+                    ("net2", 13, ("x1", "x4"), None),
+                    ("RST_B", 15, ("x3", "x5"), "x4"))
             #- rows step in SPACE, not in whole lanes: the pins sit
             #- on a 4000 grid and the rows have to interleave with
             #- them, which a 6000 step cannot do -- three pins in one
@@ -788,7 +798,12 @@ class LELO_TEMP(SidecarCell):
                         cs.append((sign * k, y))
                         if k == 0:
                             break
-                cand.append((key, half, layer, y0, int(r.x1), cs))
+                #- the row's x EXTENT, not its pin: what it occupies
+                #- is the run from the pin out to its lane
+                cx = int(r.centerX())
+                cand.append((key, half, layer, y0,
+                             (min(cx, lane) - wides[layer] // 2,
+                              max(cx, lane) + wides[layer] // 2), cs))
 
             #- the pin with the fewest ways to go decides first
             cand.sort(key=lambda c: len(c[5]))
@@ -797,21 +812,20 @@ class LELO_TEMP(SidecarCell):
             def place(i, ease):
                 if i == len(cand):
                     return True
-                key, half, layer, y0, x0, cs = cand[i]
+                key, half, layer, y0, span, cs = cand[i]
                 for k, y in cs:
-                    #- ONLY ROWS IN THE SAME COLUMN SEE EACH OTHER. A
-                    #- pad is 9600 wide about its own pin, the inputs
-                    #- sit at 18000 and the outputs at 36000, so two
-                    #- rows in different columns cannot touch whatever
-                    #- their y. Comparing every row with every other
-                    #- is what left the strip with no assignment at
-                    #- all -- and then the fallback drew it anyway.
-                    if any(abs(x0 - tx) < 12000
+                    #- TWO ROWS SEE EACH OTHER WHERE THEY OVERLAP IN X,
+                    #- and a row reaches from its pin all the way to
+                    #- its lane. Compared at the PIN alone, an output
+                    #- row and an input row read as different columns
+                    #- -- and then RST_A's run west to its lane passed
+                    #- 100 under net2's pad on the way (met2.2).
+                    if any(span[0] < tsp[1] and tsp[0] < span[1]
                            and abs(y - t) < ease * (half + th
                                                     + gapfor(layer, tl))
-                           for t, th, tl, tx in taken):
+                           for t, th, tl, tsp in taken):
                         continue
-                    taken.append((y, half, layer, x0))
+                    taken.append((y, half, layer, span))
                     chosen[key] = (k, y)
                     if place(i + 1, ease):
                         return True
