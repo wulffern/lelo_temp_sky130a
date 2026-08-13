@@ -387,8 +387,10 @@ class LELO_TEMP(SidecarCell):
             #- 6000 spacing it lands on the neighbouring lane's wire
             #- (measured, RST_A's lane and RST_B's pad). What that
             #- leaves, once both M4 supply columns are excluded, is
-            #- four lanes -- t1 west of the pins, t7 between the
-            #- columns, t13 and t15 east of them.
+            #- four lanes -- t0 west of the pins, t7 between the
+            #- columns, t13 and t15 east of them. Not t1: the 9600
+            #- wide pad that drops a stub on it reaches 13800 and the
+            #- input pins start at 13500.
             #-
             #- Four lanes for five nets, so net1 and net2 SHARE one:
             #- one runs y 50..66k and the other 95..118k, and a lane
@@ -401,8 +403,8 @@ class LELO_TEMP(SidecarCell):
             #- PWRUP_N is the net whose three pins sit in the roomiest
             #- cells. RST_B there left x4 with no row assignment at
             #- all, three stubs into one 24 um cell.
-            plan = (("net1", 1, ("x7", "x3"), None),
-                    ("net2", 1, ("x1", "x4"), None),
+            plan = (("net1", 0, ("x7", "x3"), None),
+                    ("net2", 0, ("x1", "x4"), None),
                     ("RST_B", 13, ("x3", "x5"), "x4"),
                     ("PWRUP_N_1V8", 7, ("x7", "x6"), "x2"),
                     ("RST_A", 15, ("x3", "x4"), None))
@@ -427,24 +429,48 @@ class LELO_TEMP(SidecarCell):
             #- the rule, and it verifies.
             from cicpy.core.cut import Cut as _Cut
 
+            def _cut(a, b):
+                return (_Cut.getInstance(a, b, 2, 1)
+                        or _Cut.getInstance(b, a, 2, 1))
+
             def _pad(a, b):
-                ct = (_Cut.getInstance(a, b, 2, 1)
-                      or _Cut.getInstance(b, a, 2, 1))
+                ct = _cut(a, b)
                 return int(ct.height()) if ct is not None else 2 * step
 
-            pads = {"M3": _pad("M2", "M3"), "M5": _pad("M2", "M5"),
+            #- the leg now ends in a cut from li, so the pad that sits
+            #- on the row is the M1-to-crossing-layer one, 8800 or
+            #- 9600 wide -- three times the leg. Checking the leg
+            #- alone left the pads to the GDS.
+            def _wide(a, b):
+                ct = _cut(a, b)
+                return int(ct.width()) if ct is not None else 3000
+
+            pads = {"M3": _pad("M1", "M3"), "M5": _pad("M1", "M5"),
                     "pin": _pad("M1", "M2")}
+            wides = {"M3": _wide("M1", "M3"), "M5": _wide("M1", "M5")}
             #- and the space between two rows is the one their
             #- HIGHEST SHARED LAYER asks for. Two M5 pads are thick
             #- metal to each other -- met4.2 wants 0.3 um where
             #- met1.2 wants 0.14 -- but an M5 pad beside an M3 pad
             #- only ever meets it on M2 and M3. Charging every pair
             #- the M5 figure cost x3 its assignment by 100 units.
-            gaps = {"M3": step // 2, "M5": int(_Ru.getInstance().get(
-                "M5", "space")), "pin": step // 2}
+            #- EVERY PAD HAS AN li PIECE now that the leg starts on
+            #- li, so no two rows may come closer than li.3 asks --
+            #- 0.17 um, more than the 0.14 the thin metals want, and
+            #- the 200 that was missing showed up as 50 li.3 boxes.
+            li = 1800
+            gaps = {"M3": li, "M5": int(_Ru.getInstance().get(
+                "M5", "space")), "pin": li}
 
+            #- li has a rule of its own -- li.3 asks 0.17 um, more
+            #- than the 0.14 the metals do -- and the leg and the
+            #- pads that sit on it are li, so anything measured
+            #- against a PIN is measured with that.
             def _gap(l1, l2):
-                return gaps[l1] if l1 == l2 else min(gaps[l1], gaps[l2])
+                if "pin" in (l1, l2):
+                    return gaps["pin"]
+                return gaps[l1] if l1 == l2 else max(li, min(gaps[l1],
+                                                             gaps[l2]))
             pitch = lay._lanePitch("M2")
             m5 = {}
             wanted = []
@@ -478,7 +504,13 @@ class LELO_TEMP(SidecarCell):
                 #- two lanes between the families wherever they cross.
                 ka, _ = row(net, src)
                 kb, _ = row(net, dst)
-                p.up("M2")               #- the pin's own lane
+                #- THE LEG TO THE ROW IS li. It used to via up to M2
+                #- at the pin and up again at the row, one step away
+                #- -- two cuts whose pads overlapped, on a leg 3000
+                #- long. The pin is li, the column is li, and li is
+                #- the ONE layer these cells publish: the row search
+                #- can check the leg against the real geometry, which
+                #- it cannot do on M2 or M3.
                 p.movey(p.pin(src, net, "y") + ka * p.SPACE)
                 p.up(m5[(net, src)])              #- east, over or
                 p.movex(p.track("strip", lane))   #- under the rails
@@ -492,12 +524,9 @@ class LELO_TEMP(SidecarCell):
                 p.movey(p.landing("y") + kb * p.SPACE)
                 p.up(m5[(net, dst)])              #- in to the other
                 p.movex(p.landing("x"))           #- pin
-                #- BACK ON M2 BEFORE DROPPING IN. end() draws what
-                #- is left on the layer it is handed, and left on M3
-                #- that last leg is a vertical in the pin column --
-                #- measured, RST_A's ran 7500 up x4's output column
-                #- and RST_B's stub crossed it.
-                p.down("M2")
+                #- and down to li in one cut, so end() draws the last
+                #- leg on the pin's own layer
+                p.down("M1")
                 p.end()
                 if mid is None:
                     continue
@@ -516,7 +545,6 @@ class LELO_TEMP(SidecarCell):
                 meet.setNet(net)
                 p = lay.path(net, "M1", start=[m], stop=[meet])
                 p.start()
-                p.up("M2")
                 p.movey(p.pin(mid, net, "y") + km * p.SPACE)
                 p.up(m5[(net, mid)])
                 p.movex(p.track("strip", lane))
@@ -611,6 +639,45 @@ class LELO_TEMP(SidecarCell):
             solved by search, shortest legs preferred.
             """
             cells = [(int(i.y1), int(i.y2)) for i in self.instances]
+            #- WHAT THE LEG HAS TO MISS, from the cells themselves.
+            #- A JNWTR cell publishes its li -- and only its li, which
+            #- is why this check exists for M1 and for nothing else.
+            #- A NET'S OWN PINS ARE NOT OBSTACLES TO IT; every other
+            #- net's are. Excluding all of them at once let RST_B's
+            #- leg sit 1000 under the pin it shares a column with,
+            #- which is 50 li.3 boxes and no short.
+            own = {}
+            for (n, _i), r, _l in pins:
+                own.setdefault(n, set()).add(
+                    (int(r.x1), int(r.y1), int(r.x2), int(r.y2)))
+            m1 = []
+            for inst in self.instances:
+                sub = (getattr(inst, "layoutcell", None)
+                       or getattr(inst, "_cell_obj", None))
+                for c in (getattr(sub, "children", []) or []):
+                    r = c.get() if hasattr(c, "get") else c
+                    if r is None or getattr(r, "layer", "") != "M1":
+                        continue
+                    box = (int(r.x1), int(r.y1) + int(inst.y1),
+                           int(r.x2), int(r.y2) + int(inst.y1))
+                    m1.append(box)
+
+            def leg_clear(net, r, y, half, wide, space):
+                """The li leg AND its pad, against the cells' own li."""
+                mine = own.get(net, set())
+                cx = int(r.centerX())
+                for x1, x2, lo, hi in (
+                        (cx - 1500, cx + 1500,
+                         min(int(r.y1), y), max(int(r.y2), y)),
+                        (cx - wide // 2, cx + wide // 2,
+                         y - half, y + half)):
+                    if any(o not in mine
+                           and o[0] < x2 + space and x1 - space < o[2]
+                           and o[1] < hi + space and lo - space < o[3]
+                           for o in m1):
+                        return False
+                return True
+
             cand = []
             for key, r, layer in pins:
                 y0 = int(r.centerY())
