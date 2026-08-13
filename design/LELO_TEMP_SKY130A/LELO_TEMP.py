@@ -344,7 +344,14 @@ class LELO_TEMP(SidecarCell):
         match = r'^(x[1-7]|xtap_dig_0)$'
         group = "dig"
         fill = False
-        xspace = 4
+        #- SEVEN MICRONS OFF THE PAIR, not four. The pair's east edge
+        #- IS the cap bank, and a MiM claims 1.34 um from any
+        #- unrelated metal3 -- so at four the whole corridor between
+        #- the two blocks was inside the halo, and every lane a net
+        #- came down cost capm.11 (150 boxes), met3.3d and met4.5b.
+        #- At seven the corridor's first two lanes are the halo's and
+        #- the rest are free; the tile is 159 um, inside its 161.
+        xspace = 7
         #- ORDER IS THE ROUTING BUDGET. The powerdown chain used to
         #- sit at the TOP of the strip while the OR gate it drives sat
         #- at the base, so PWRUP_N spanned six cells and 150 um -- and
@@ -510,6 +517,7 @@ class LELO_TEMP(SidecarCell):
             pitch = lay._lanePitch("M2")
             m5 = {}
             wanted = []
+            self._lanes = {n: l for n, l, _h, _m in plan}
             for net, _lane, (src, dst), mid in plan:
                 x = lay.channelTrackCoord("strip", _lane)
                 ok = x is not None and self._m5Lane(lay, x)
@@ -905,24 +913,79 @@ class LELO_TEMP(SidecarCell):
             for net, pad in (getattr(self, "_pads", None) or {}).items():
                 lay.updatePort(net, pad, routeLayer=pad.layer)
 
-        def _exitLane(self, lay, x, y):
-            """Where a port may rise to M5: the free column at `x`, or
-            the nearest one. Named channels, measured off the cells."""
-            best = None
+        def _exitLane(self, lay, net, x):
+            """Where this port may rise to M5, and whether it travels.
+
+            M5 IS THE ONE LAYER THESE CELLS DO NOT USE, so a port on it
+            can be met from anywhere above. What stops a port rising
+            where it stands is the cells' own supply bars -- full
+            height M4, one per supply column -- and the strip's OUTPUT
+            pins sit inside one, so a stack from above lands on VSS.
+
+            Three answers, in the order that costs least:
+
+              * the pin's own column is free: rise on the spot, no leg.
+              * the net has a LANE in the strip: it already has metal
+                in a free column, so rise there. Still no leg -- the
+                lane is the route it was going to take anyway.
+              * neither: the nearest free column, and a leg to it.
+                Measured, that leg is the expensive one -- on M2 it
+                crosses the strip's lanes, on M3 the supply column's
+                own via stacks -- so it is what the two nets that have
+                no lane pay, and nothing else.
+
+            Returns (x, travels) -- WHERE THE METAL ALREADY IS, so
+            the rise is a cut and nothing else. Answering with a lane
+            index instead put the pad at the lane and the cut at the
+            pin, and the port came back on a piece of metal joined to
+            nothing (measured: RST_B, one net split).
+            """
+            for nm in getattr(self, "_exits", []):
+                ch = lay.routingChannel(nm)
+                if ch and int(ch[0]) <= x <= int(ch[1]):
+                    return x, False
+            lane = getattr(self, "_lanes", {}).get(net)
+            if lane is not None:
+                #- the net's own lane, at this port's row: its stub
+                #- runs from the pin to the lane on exactly that row,
+                #- so there is M2 there to rise from
+                return int(lay.channelTrackCoord("strip", lane)), False
+            #- TO A COLUMN NOBODY ELSE IS USING, and one track each.
+            #- The nearest free column to an output pin is the one the
+            #- input pins and lane t0 are in, and a leg reaching it
+            #- crosses whatever t0 carries -- measured, OSC_TEMP walked
+            #- west across PWRUP_N and took VSS with it. And two nets
+            #- that walk to the same track short to each other. So:
+            #- columns with no lane in them first, nearest first; and
+            #- within one, out from the middle, first free -- the
+            #- middle because the column's walls ARE the supply bars,
+            #- and a cut against one left its M4 pad 300 from met3.2's
+            #- 3000.
+            taken = [int(lay.channelTrackCoord("strip", l))
+                     for l in set(getattr(self, "_lanes", {}).values())]
+            used = getattr(self, "_walked", None)
+            if used is None:
+                used = self._walked = set()
+            cols = []
             for nm in getattr(self, "_exits", []):
                 ch = lay.routingChannel(nm)
                 if ch is None:
                     continue
                 lo, hi = int(ch[0]), int(ch[1])
-                if lo <= x <= hi:
-                    return nm, lay.channelTrackNear(nm, x)
-                d = min(abs(lo - x), abs(hi - x))
-                if best is None or d < best[0]:
-                    best = (d, nm)
-            if best is None:
-                log.error("dig: no free column to publish a port in")
-                return None
-            return best[1], lay.channelTrackNear(best[1], x)
+                busy = any(lo <= t <= hi for t in taken)
+                cols.append((1 if busy else 0,
+                             min(abs(lo - x), abs(hi - x)), nm, lo, hi))
+            pitch = lay._lanePitch(None) or 1
+            for _b, _d, nm, lo, hi in sorted(cols):
+                n = max(1, int((hi - lo) // pitch))
+                mid = lay.channelTrackNear(nm, (lo + hi) // 2)
+                for idx in sorted(range(n), key=lambda i: abs(i - mid)):
+                    if (nm, idx) in used:
+                        continue
+                    used.add((nm, idx))
+                    return int(lay.channelTrackCoord(nm, idx)), True
+            log.error(f"dig: no free track to walk {net} out on")
+            return None
 
         def _promote(self, lay, step, pads, wides, gapfor, rows):
             """Every signal port up to M2, before anyone above sees it.
@@ -965,20 +1028,57 @@ class LELO_TEMP(SidecarCell):
                     if k:
                         p.movey(p.pin(inst, net, "y") + k * p.SPACE)
                     p.up("M2")
-                #- THE PAD STAYS ON M2 for now. Publishing on M5 --
-                #- the one layer a JNWTR cell does not use -- is what
-                #- this strip needs, because its OUTPUT pins sit under
-                #- a full-height M4 supply bar and nothing above M3
-                #- can land on them. What is not settled is how a port
-                #- REACHES a free column: the leg east from the pin
-                #- crosses the strip's own lanes on M2 and the supply
-                #- column's via stacks on M3, and both were measured
-                #- as shorts (PWRUP_N swallowing OSC_TEMP, RST_A,
-                #- RST_B and VSS). The lanes the exit channels name
-                #- are the answer -- a net that HAS a lane already has
-                #- metal in a free column and needs no leg at all --
-                #- and that is the next thing to write.
-                pad = _R("M2", int(pin.centerX()) - wides["M3"] // 2,
+                #- AND ON UP TO M5, where the strip's neighbours can
+                #- meet it. An M2 pad is what a JNWTR cell gives and
+                #- what nothing above M3 can land on when the pin sits
+                #- under a supply bar.
+                seed = _R("M2", int(pin.centerX()) - wides["M3"] // 2,
+                          y - pads["M3"] // 2, wides["M3"], pads["M3"])
+                seed.setNet(net)
+                where = self._exitLane(lay, net, int(pin.centerX()))
+                if where is None:
+                    self._pads[net] = seed
+                    continue
+                px, travels = where
+                seed = _R("M2", px - wides["M3"] // 2,
+                          y - pads["M3"] // 2, wides["M3"], pads["M3"])
+                seed.setNet(net)
+                #- A NET WITH NEITHER A FREE PIN NOR A LANE has to
+                #- walk to a free column, and the walk is on M3: M2 is
+                #- what the strip's lanes are and a leg across them on
+                #- their own layer shorts every one it passes. On M3
+                #- what it crosses is the supply column, whose stacks
+                #- are at the rails -- not at a booked signal row.
+                if travels:
+                    #- ON ITS SIDE: the column between the two supply
+                    #- bars is 13700 wide and a default cut's pad is
+                    #- 8800, so two walkers in it overlapped each
+                    #- other and came within 300 of a bar (met3.2
+                    #- wants 3000). Turned, the same cuts are 3200.
+                    #- FROM THE M2 PAD, not from the pin: starting on
+                    #- the pin makes the first cut an li one, and the
+                    #- turned cut is below mcon's own minimum width
+                    #- (22 mcon.1 boxes). The M2 is already there --
+                    #- the stub that promoted the pin drew it.
+                    home = _R("M2", int(pin.centerX()) - wides["M3"] // 2,
+                              y - pads["M3"] // 2, wides["M3"],
+                              pads["M3"])
+                    home.setNet(net)
+                    q = lay.path(net, "M2", start=[home], stop=[seed],
+                                 options="1cuts,2vcuts")
+                    q.start()
+                    q.up("M3")
+                    q.movex(q.landing("x"))
+                    q.up("M5")
+                else:
+                    #- and NOT turned for a port that rises where it
+                    #- stands: on its own pin or its own lane there is
+                    #- room for the default cut, and the narrow one
+                    #- cost 32 DRC of its own.
+                    q = lay.path(net, "M2", start=[seed], stop=[seed])
+                    q.start()
+                    q.up("M5")
+                pad = _R("M5", px - wides["M3"] // 2,
                          y - pads["M3"] // 2, wides["M3"], pads["M3"])
                 pad.setNet(net)
                 #- SAID IN afterPorts, NOT HERE. addAllPorts runs
@@ -1011,6 +1111,15 @@ class LELO_TEMP(SidecarCell):
             port = (getattr(inst, "instancePorts", {}) or {}).get(net)
             return port.get() if port is not None else None
 
+    #- THE STRIP SITS ON THE PAIR, not beside it. Side by side, the
+    #- only corridor between them is the 4 um gap at the pair's east
+    #- edge -- and that edge is the cap bank, whose MiM claims 1.34 um
+    #- from any unrelated metal3. Every lane in that gap was inside
+    #- the halo: 150 capm.11 boxes, and met3.3d and met4.5b with them.
+    #- Above the pair there is 26 um of empty tile, the strip is 18
+    #- tall, and the nets it shares with the pair (CMPO_A/B, RST_A/B)
+    #- stop being a journey at all. The tile gets narrower too: 142 um
+    #- against 156, inside a 161 um budget either way.
     rows = [
         [bias, ccmp, dig],
     ]
@@ -1159,7 +1268,7 @@ class LELO_TEMP(SidecarCell):
                     "^" + _re.escape(_net) + "$", "-|--", "", 2, "", "")
         self._supplies(layout)
         self._ibp(layout)
-        self._signals(layout)
+        if not __import__("os").environ.get("NOSIG"): self._signals(layout)
         super().beforeRoute(layout)
 
 
@@ -1253,7 +1362,7 @@ class LELO_TEMP(SidecarCell):
             #- 0.75 um off it on the first track and 1.22 on the
             #- second, where the wire cleared but the via pad, half
             #- again as wide, did not.
-            p.movex(p.track("dband", 3))
+            p.movex(p.track("dband", 8))
             p.up()
             p.up()
             p.up()
@@ -1305,7 +1414,11 @@ class LELO_TEMP(SidecarCell):
                                      min(int(r.x1) for r in west),
                                      horizontal=False)
 
+        _only = __import__("os").environ.get("SIGNETS")
+
         def path(net, a, b, layer=None, at=None):
+            if _only and net not in _only.split(","):
+                return None
             if a is None or b is None:
                 log.error(f"top: {net} is not on both blocks")
                 return None
@@ -1339,47 +1452,54 @@ class LELO_TEMP(SidecarCell):
             about where this route is. The pin does: the lane beside
             it, and the count from there.
             """
-            return layout.channelTrackNear(name,
-                                           int(pin.centerX())) + step
+            #- CLAMPED TO THE CORRIDOR. A corridor measured off a
+            #- block is as wide as the block leaves it, and a count of
+            #- lanes from the pin can walk out the far side -- asked
+            #- for track 19 of a 12-track channel, the route went
+            #- wherever channelTrackCoord extrapolated to.
+            ch = layout.routingChannel(name)
+            i = layout.channelTrackNear(name, int(pin.centerX())) + step
+            if ch is None:
+                return i
+            pitch = layout._lanePitch(None) or 1
+            n = max(1, int((int(ch[1]) - int(ch[0])) // pitch))
+            return max(0, min(i, n - 1))
 
-        #- ORDER IS THE WHOLE PLAN. Six nets share three corridors,
-        #- and on one layer a crossing is a short -- so the lanes are
-        #- assigned, not chosen one net at a time:
+        #- ORDER IS THE WHOLE PLAN, because on one layer a crossing is
+        #- a short:
         #-
         #-   * a leg east in `cband` passes over every riser west of
         #-     where it turns, so the risers over the pair go WEST to
         #-     EAST with DECREASING band tracks -- an eastern riser
         #-     stops below the western legs that cross it.
-        #-   * a descent in `dband`/`eband` cuts every band track below
-        #-     the one it leaves, so the lanes go WEST to EAST with
-        #-     INCREASING band tracks, and a descent only ever crosses
-        #-     rows its own net has already left.
-        #-   * and the last leg, in to the pin, is on M4: it runs
-        #-     across every other net's descent, and those are M5.
+        #-   * a descent in `dband` cuts every band track below the
+        #-     one it leaves, so the lanes go WEST to EAST with
+        #-     INCREASING band tracks.
+        #-   * the descents are on M4 and the band legs on M5, so a
+        #-     descent never meets the rows it cuts.
+        #-   * and the last leg, in to the strip, goes back UP to M5:
+        #-     every JNWTR cell carries a full height M4 supply bar in
+        #-     each of its supply columns, so a leg reaching across
+        #-     one on M4 lands on that supply (measured, RST_B tied to
+        #-     VSS). M5 is the layer those cells do not use, which is
+        #-     why the strip publishes its ports there.
+        #-   * DBAND'S FIRST TWO LANES BELONG TO THE CAP BANK. The
+        #-     pair's east edge is the bank, and a MiM claims 1.34 um
+        #-     from unrelated metal3, so the descents start at track 2.
         #-
         #-   net       riser over the pair   cband   down
-        #-   CMPO_B    east                    4     dband 0
-        #-   CMPO_A    middle                  8     dband 1
-        #-   RST_B     west                   12     dband 2
+        #-   CMPO_B    east                    4     dband 2
+        #-   CMPO_A    middle                  8     dband 4
+        #-   RST_B     west                   12     dband 6
         #-   RST_A     -- (its pin is on the top edge)
-        #-                                    16     dband 3
-        #-   PWRUP_N   -- (from lband)        20     dband 4
+        #-                                    16     dband 8
+        #-   PWRUP_N   -- (from lband)        20     dband 10
         #-   PWRUP_B   -- (from lband)        24     eband 0
-        #-
-        #- THE DESCENTS ARE ON M4 AND THE BAND LEGS ON M5, which is
-        #- what lets the lanes be one apart: what would collide is a
-        #- descent with the band rows it cuts, and they are never on
-        #- the same layer. dband is six lanes wide and this needs five.
 
         #- VC: the bias block's own M3 pin runs to its east edge, and
         #- the pair's is an M2 pin just above its base. The leg east
         #- over the pair's foot is on M4 -- on M5 it would cut the
         #- riser RST_B takes out of the pin below it.
-        #- FROM THE PIN'S EAST EDGE. The bias block publishes VC as a
-        #- bar across its whole width, so its centre is deep inside
-        #- the block -- and a story that starts there draws its first
-        #- leg back over everything the block owns (measured: VC and
-        #- LPI on one component).
         p = path("VC", P(bias, "VC"), P(ccmp, "VC"), at="e")
         if p:
             p.movex(p.track("lband", 6))
@@ -1397,34 +1517,23 @@ class LELO_TEMP(SidecarCell):
         if p:
             p.movex(p.track("lband", 0))
             p.movey(p.landing("y"))
-            #- AND STOP ON THE PAIR'S OWN BAR. The pin's row east of
+            #- AND STOP ON THE PAIR'S OWN BAR: the pin's row east of
             #- it is that comparator's PWRUP_N on M5, this same net,
-            #- so the leg lands on metal the net already owns and
-            #- needs no via. A second stack on the pin would sit
-            #- beside the narrow one the pair puts inside it.
+            #- so the leg lands on metal the net already owns.
             p.movex(p.landing("x"))
 
-        p = path("PWRUP_N_1V8", pn, P(dig, "PWRUP_N_1V8"), "M5")
-        if p:
-            p.movex(p.track("lband", 0))
-            p.movey(p.track("cband", 20))
-            p.movex(p.track("dband", 4))
+        for net, lb, band, down, lane_ch in (
+                ("PWRUP_N_1V8", 0, 20, 10, "dband"),
+                ("PWRUP_B_1V8", 7, 24, 0, "eband")):
+            p = path(net, P(bias, net), P(dig, net), "M5")
+            if not p:
+                continue
+            p.movex(p.track("lband", lb))
+            p.movey(p.track("cband", band))
+            p.movex(p.track(lane_ch, down))
             p.down("M4")
             p.movey(p.landing("y"))
-            p.movex(p.landing("x"))
-            p.end()
-
-        #- PWRUP_B reaches the strip the same way. Its pin on the pair
-        #- is not reachable from outside -- it sits under that
-        #- comparator's own PWRUP_N bar -- and is done separately.
-        p = path("PWRUP_B_1V8", P(bias, "PWRUP_B_1V8"),
-                 P(dig, "PWRUP_B_1V8"), "M5")
-        if p:
-            p.movex(p.track("lband", 7))
-            p.movey(p.track("cband", 24))
-            p.movex(p.track("eband", 0))
-            p.down("M4")
-            p.movey(p.landing("y"))
+            p.up("M5")
             p.movex(p.landing("x"))
             p.end()
 
@@ -1438,43 +1547,30 @@ class LELO_TEMP(SidecarCell):
             p.movey(p.track("cband", 0))
             p.up("M5")
             p.movey(p.track("cband", 16))
-            p.movex(p.track("dband", 3))
+            p.movex(p.track("dband", 8))
             p.down("M4")
             p.movey(p.landing("y"))
-            p.movex(p.landing("x"))
-            p.end()
-
-        #- RST_B is published on the BOTTOM edge, so it crosses the
-        #- pair to reach the band -- in the corridor the pair leaves
-        #- clear beside its own pin.
-        rb = P(ccmp, "RST_B")
-        p = path("RST_B", rb, P(dig, "RST_B"))
-        if p and over("rstb_up", rb):
             p.up("M5")
-            p.movex(p.track("rstb_up", lane("rstb_up", rb, 2)))
-            p.movey(p.track("cband", 12))
-            p.movex(p.track("dband", 2))
-            p.down("M4")
-            p.movey(p.landing("y"))
             p.movex(p.landing("x"))
             p.end()
 
-        #- the two comparator outputs, each rising in its own corridor
-        #- across the pair, east of the one before it
-        for net, step, band, down in (("CMPO_A", 4, 8, 1),
-                                      ("CMPO_B", 8, 4, 0)):
+        #- and the three whose pins are inside the pair, each rising
+        #- in the corridor the pair leaves clear beside it
+        for net, band, down, step in (("RST_B", 12, 6, 2),
+                                      ("CMPO_A", 8, 4, 4),
+                                      ("CMPO_B", 4, 2, 8)):
             pin = P(ccmp, net)
             name = net.lower() + "_up"
             p = path(net, pin, P(dig, net))
             if not p or not over(name, pin):
                 continue
-            p.up("M4")
-            p.movex(p.track(name, lane(name, pin, step)))
             p.up("M5")
+            p.movex(p.track(name, lane(name, pin, step)))
             p.movey(p.track("cband", band))
             p.movex(p.track("dband", down))
             p.down("M4")
             p.movey(p.landing("y"))
+            p.up("M5")
             p.movex(p.landing("x"))
             p.end()
 
@@ -1512,7 +1608,17 @@ class LELO_TEMP(SidecarCell):
         b = layout.bus(nets, "M5", starts=starts, stops=stops, lanes=2)
         b.start()
         #- up its own pin to its own row, then off M5 before turning
-        b.movey(b.track("cband", 30))
+        #- ON A ROW THE BIAS BLOCK LEAVES FREE, because the bundle
+        #- crosses it: asked of the block rather than counted off the
+        #- band. Its own track 2 -- 15 um above the pair, which looked
+        #- like open tile -- runs through the block's M4 and tied all
+        #- four members to VSS.
+        band = "cband"
+        if layout.addBlockChannel("ibpband", bias, "M4",
+                                  span=(int(bias.x1), int(bias.x2)),
+                                  near=int(bias.y2), horizontal=True):
+            band = "ibpband"
+        b.movey(b.track(band, 1))
         b.down("M4")
 
         #- and from here each net is alone: two turn down in the gap

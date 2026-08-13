@@ -339,6 +339,83 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
+            "x2": 4800,
+            "y2": 9600,
+            "layer": "",
+            "net": "",
+            "name": "cut_M3M5_1x2",
+            "has_pr": false,
+            "ckt": {},
+            "children": [
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3400,
+                    "y2": 8800,
+                    "layer": "M3",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 600,
+                    "x2": 3100,
+                    "y2": 3400,
+                    "layer": "VIA3",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 5400,
+                    "x2": 3100,
+                    "y2": 8200,
+                    "layer": "VIA3",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3800,
+                    "y2": 9600,
+                    "layer": "M4",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 600,
+                    "x2": 3500,
+                    "y2": 3800,
+                    "layer": "VIA4",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 5800,
+                    "x2": 3500,
+                    "y2": 9000,
+                    "layer": "VIA4",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 4800,
+                    "y2": 9600,
+                    "layer": "M5",
+                    "net": ""
+                }
+            ]
+        },
+        {
+            "class": "Cut",
+            "x1": 0,
+            "y1": 0,
             "x2": 8800,
             "y2": 3400,
             "layer": "",
@@ -5031,6 +5108,50 @@
                 },
                 {
                     "class": "Path",
+                    "x1": 13200.0,
+                    "y1": 141600.0,
+                    "x2": 22800.0,
+                    "y2": 146400.0,
+                    "layer": "",
+                    "net": "CMPO_A",
+                    "name": "CMPO_A",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 13200.0,
+                            "y1": 141600.0,
+                            "x2": 22800.0,
+                            "y2": 146400.0,
+                            "layer": "",
+                            "net": "CMPO_A",
+                            "name": "cut_M2M5_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M5_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
                     "x1": 13600.0,
                     "y1": 54300.0,
                     "x2": 22400.0,
@@ -5075,6 +5196,50 @@
                 },
                 {
                     "class": "Path",
+                    "x1": 13200.0,
+                    "y1": 53600.0,
+                    "x2": 22800.0,
+                    "y2": 58400.0,
+                    "layer": "",
+                    "net": "CMPO_B",
+                    "name": "CMPO_B",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 13200.0,
+                            "y1": 53600.0,
+                            "x2": 22800.0,
+                            "y2": 58400.0,
+                            "layer": "",
+                            "net": "CMPO_B",
+                            "name": "cut_M2M5_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M5_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
                     "x1": 31600.0,
                     "y1": 178300.0,
                     "x2": 40400.0,
@@ -5114,6 +5279,89 @@
                         {
                             "step": "up",
                             "layer": "M2"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 34300.0,
+                    "y1": 175200.0,
+                    "x2": 56200.0,
+                    "y2": 184800.0,
+                    "layer": "",
+                    "net": "OSC_TEMP_1V8",
+                    "name": "OSC_TEMP_1V8",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 34300.0,
+                            "y1": 175600.0,
+                            "x2": 37700.0,
+                            "y2": 184400.0,
+                            "layer": "",
+                            "net": "OSC_TEMP_1V8",
+                            "name": "cut_M2M3_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 36000.0,
+                            "y1": 178500,
+                            "x2": 55300.0,
+                            "y2": 181500,
+                            "layer": "M3",
+                            "net": "OSC_TEMP_1V8"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 51400.0,
+                            "y1": 175200.0,
+                            "x2": 56200.0,
+                            "y2": 184800.0,
+                            "layer": "",
+                            "net": "OSC_TEMP_1V8",
+                            "name": "cut_M3M5_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M3M5_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M3"
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "x"
+                            }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
                         }
                     ]
                 },
@@ -5185,6 +5433,50 @@
                 },
                 {
                     "class": "Path",
+                    "x1": 13200.0,
+                    "y1": 15600.0,
+                    "x2": 22800.0,
+                    "y2": 20400.0,
+                    "layer": "",
+                    "net": "PWRUP_1V8",
+                    "name": "PWRUP_1V8",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 13200.0,
+                            "y1": 15600.0,
+                            "x2": 22800.0,
+                            "y2": 20400.0,
+                            "layer": "",
+                            "net": "PWRUP_1V8",
+                            "name": "cut_M2M5_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M5_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
                     "x1": 31600.0,
                     "y1": 42300.0,
                     "x2": 40400.0,
@@ -5228,12 +5520,227 @@
                     ]
                 },
                 {
+                    "class": "Path",
+                    "x1": 34300.0,
+                    "y1": 39200.0,
+                    "x2": 50200.0,
+                    "y2": 48800.0,
+                    "layer": "",
+                    "net": "PWRUP_B_1V8",
+                    "name": "PWRUP_B_1V8",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 34300.0,
+                            "y1": 39600.0,
+                            "x2": 37700.0,
+                            "y2": 48400.0,
+                            "layer": "",
+                            "net": "PWRUP_B_1V8",
+                            "name": "cut_M2M3_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 36000.0,
+                            "y1": 42500,
+                            "x2": 49300.0,
+                            "y2": 45500,
+                            "layer": "M3",
+                            "net": "PWRUP_B_1V8"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 45400.0,
+                            "y1": 39200.0,
+                            "x2": 50200.0,
+                            "y2": 48800.0,
+                            "layer": "",
+                            "net": "PWRUP_B_1V8",
+                            "name": "cut_M3M5_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M3M5_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M3"
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "x"
+                            }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 13200.0,
+                    "y1": 37600.0,
+                    "x2": 22800.0,
+                    "y2": 42400.0,
+                    "layer": "",
+                    "net": "PWRUP_N_1V8",
+                    "name": "PWRUP_N_1V8",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 13200.0,
+                            "y1": 37600.0,
+                            "x2": 22800.0,
+                            "y2": 42400.0,
+                            "layer": "",
+                            "net": "PWRUP_N_1V8",
+                            "name": "cut_M2M5_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M5_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 13200.0,
+                    "y1": 101600.0,
+                    "x2": 22800.0,
+                    "y2": 106400.0,
+                    "layer": "",
+                    "net": "RST_A",
+                    "name": "RST_A",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 13200.0,
+                            "y1": 101600.0,
+                            "x2": 22800.0,
+                            "y2": 106400.0,
+                            "layer": "",
+                            "net": "RST_A",
+                            "name": "cut_M2M5_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M5_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 88200.0,
+                    "y1": 97600.0,
+                    "x2": 97800.0,
+                    "y2": 102400.0,
+                    "layer": "",
+                    "net": "RST_B",
+                    "name": "RST_B",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 88200.0,
+                            "y1": 97600.0,
+                            "x2": 97800.0,
+                            "y2": 102400.0,
+                            "layer": "",
+                            "net": "RST_B",
+                            "name": "cut_M2M5_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M5_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
+                        }
+                    ]
+                },
+                {
                     "class": "Port",
                     "x1": 11800,
                     "y1": 142300,
                     "x2": 20600,
                     "y2": 145700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "CMPO_A",
                     "spicePort": true
@@ -5244,18 +5751,18 @@
                     "y1": 54300,
                     "x2": 20600,
                     "y2": 57700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "CMPO_B",
                     "spicePort": true
                 },
                 {
                     "class": "Port",
-                    "x1": 29800,
+                    "x1": 47600,
                     "y1": 178300,
-                    "x2": 38600,
+                    "x2": 56400,
                     "y2": 181700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "OSC_TEMP_1V8",
                     "spicePort": true
@@ -5266,18 +5773,18 @@
                     "y1": 16300,
                     "x2": 20600,
                     "y2": 19700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "PWRUP_1V8",
                     "spicePort": true
                 },
                 {
                     "class": "Port",
-                    "x1": 29800,
+                    "x1": 41600,
                     "y1": 42300,
-                    "x2": 38600,
+                    "x2": 50400,
                     "y2": 45700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "PWRUP_B_1V8",
                     "spicePort": true
@@ -5288,7 +5795,7 @@
                     "y1": 38300,
                     "x2": 20600,
                     "y2": 41700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "PWRUP_N_1V8",
                     "spicePort": true
@@ -5299,18 +5806,18 @@
                     "y1": 102300,
                     "x2": 20600,
                     "y2": 105700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "RST_A",
                     "spicePort": true
                 },
                 {
                     "class": "Port",
-                    "x1": 29800,
+                    "x1": 86800,
                     "y1": 98300,
-                    "x2": 38600,
+                    "x2": 95600,
                     "y2": 101700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "RST_B",
                     "spicePort": true
@@ -5632,7 +6139,7 @@
             "class": "LELO_TEMP",
             "x1": 0,
             "y1": 0,
-            "x2": 1560600.0,
+            "x2": 1590600.0,
             "y2": 1094600,
             "layer": "",
             "net": "",
@@ -6002,10 +6509,10 @@
                 },
                 {
                     "class": "Instance",
-                    "x1": 1459800,
+                    "x1": 1489800,
                     "y1": 15000,
-                    "x2": 1560600.0,
-                    "y2": 199000.0,
+                    "x2": 1590600.0,
+                    "y2": 199800.0,
                     "layer": "",
                     "net": "",
                     "name": "LELO_TEMP_DIG",
@@ -6014,97 +6521,97 @@
                     "children": [
                         {
                             "class": "Port",
-                            "x1": 1471600,
+                            "x1": 1501600,
                             "y1": 157300,
-                            "x2": 1480400,
+                            "x2": 1510400,
                             "y2": 160700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "CMPO_A",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1471600,
+                            "x1": 1501600,
                             "y1": 69300,
-                            "x2": 1480400,
+                            "x2": 1510400,
                             "y2": 72700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "CMPO_B",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1489600,
+                            "x1": 1537400,
                             "y1": 193300,
-                            "x2": 1498400,
+                            "x2": 1546200,
                             "y2": 196700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "OSC_TEMP_1V8",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1471600,
+                            "x1": 1501600,
                             "y1": 31300,
-                            "x2": 1480400,
+                            "x2": 1510400,
                             "y2": 34700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "PWRUP_1V8",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1489600,
+                            "x1": 1531400,
                             "y1": 57300,
-                            "x2": 1498400,
+                            "x2": 1540200,
                             "y2": 60700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "PWRUP_B_1V8",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1471600,
+                            "x1": 1501600,
                             "y1": 53300,
-                            "x2": 1480400,
+                            "x2": 1510400,
                             "y2": 56700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "PWRUP_N_1V8",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1471600,
+                            "x1": 1501600,
                             "y1": 117300,
-                            "x2": 1480400,
+                            "x2": 1510400,
                             "y2": 120700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "RST_A",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1489600,
+                            "x1": 1576600,
                             "y1": 113300,
-                            "x2": 1498400,
+                            "x2": 1585400,
                             "y2": 116700,
-                            "layer": "M2",
+                            "layer": "M5",
                             "net": "",
                             "name": "RST_B",
                             "spicePort": true
                         },
                         {
                             "class": "Port",
-                            "x1": 1518300.0,
+                            "x1": 1548300.0,
                             "y1": 151000.0,
-                            "x2": 1527100.0,
+                            "x2": 1557100.0,
                             "y2": 175000.0,
                             "layer": "M4",
                             "net": "",
@@ -6113,9 +6620,9 @@
                         },
                         {
                             "class": "Port",
-                            "x1": 1491300.0,
+                            "x1": 1521300.0,
                             "y1": 151000.0,
-                            "x2": 1500100.0,
+                            "x2": 1530100.0,
                             "y2": 175000.0,
                             "layer": "M4",
                             "net": "",
@@ -6134,7 +6641,7 @@
                     "class": "RouteRing",
                     "x1": 0,
                     "y1": 1085600,
-                    "x2": 1560600,
+                    "x2": 1590600,
                     "y2": 1094600,
                     "layer": "",
                     "net": "",
@@ -6146,7 +6653,7 @@
                             "class": "Rect",
                             "x1": 0,
                             "y1": 1085600,
-                            "x2": 1560600,
+                            "x2": 1590600,
                             "y2": 1094600,
                             "layer": "M1",
                             "net": ""
@@ -6157,7 +6664,7 @@
                     "class": "RouteRing",
                     "x1": 0,
                     "y1": 0,
-                    "x2": 1560600,
+                    "x2": 1590600,
                     "y2": 9000,
                     "layer": "",
                     "net": "",
@@ -6169,7 +6676,7 @@
                             "class": "Rect",
                             "x1": 0,
                             "y1": 0,
-                            "x2": 1560600,
+                            "x2": 1590600,
                             "y2": 9000,
                             "layer": "M1",
                             "net": ""
@@ -6252,9 +6759,9 @@
                 },
                 {
                     "class": "Path",
-                    "x1": 1517900.0,
+                    "x1": 1547900.0,
                     "y1": 163000,
-                    "x2": 1527500.0,
+                    "x2": 1557500.0,
                     "y2": 1092000.0,
                     "layer": "",
                     "net": "VDD_1V8",
@@ -6264,18 +6771,18 @@
                     "children": [
                         {
                             "class": "Rect",
-                            "x1": 1521200,
+                            "x1": 1551200,
                             "y1": 163000,
-                            "x2": 1524200,
+                            "x2": 1554200,
                             "y2": 1091600,
                             "layer": "M4",
                             "net": "VDD_1V8"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1517900.0,
+                            "x1": 1547900.0,
                             "y1": 1088200.0,
-                            "x2": 1527500.0,
+                            "x2": 1557500.0,
                             "y2": 1092000.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6312,9 +6819,9 @@
                 },
                 {
                     "class": "Path",
-                    "x1": 1490900.0,
+                    "x1": 1520900.0,
                     "y1": 2600.0,
-                    "x2": 1500500.0,
+                    "x2": 1530500.0,
                     "y2": 163000,
                     "layer": "",
                     "net": "VSS",
@@ -6324,18 +6831,18 @@
                     "children": [
                         {
                             "class": "Rect",
-                            "x1": 1494200,
+                            "x1": 1524200,
                             "y1": 3000,
-                            "x2": 1497200,
+                            "x2": 1527200,
                             "y2": 163000,
                             "layer": "M4",
                             "net": "VSS"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1490900.0,
+                            "x1": 1520900.0,
                             "y1": 2600.0,
-                            "x2": 1500500.0,
+                            "x2": 1530500.0,
                             "y2": 6400.0,
                             "layer": "",
                             "net": "VSS",
@@ -6374,7 +6881,7 @@
                     "class": "Path",
                     "x1": 1214900,
                     "y1": 397600.0,
-                    "x2": 1445600.0,
+                    "x2": 1475600.0,
                     "y2": 1092000.0,
                     "layer": "",
                     "net": "VDD_1V8",
@@ -6386,16 +6893,16 @@
                             "class": "Rect",
                             "x1": 1214900,
                             "y1": 398000,
-                            "x2": 1442300,
+                            "x2": 1472300,
                             "y2": 401000,
                             "layer": "M1",
                             "net": "VDD_1V8"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1436400.0,
+                            "x1": 1466400.0,
                             "y1": 397800.0,
-                            "x2": 1445200.0,
+                            "x2": 1475200.0,
                             "y2": 401200.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6412,9 +6919,9 @@
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1436400.0,
+                            "x1": 1466400.0,
                             "y1": 397800.0,
-                            "x2": 1445200.0,
+                            "x2": 1475200.0,
                             "y2": 401200.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6431,9 +6938,9 @@
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1436000.0,
+                            "x1": 1466000.0,
                             "y1": 397600.0,
-                            "x2": 1445600.0,
+                            "x2": 1475600.0,
                             "y2": 401400.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6450,18 +6957,18 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1439300,
+                            "x1": 1469300,
                             "y1": 399500,
-                            "x2": 1442300,
+                            "x2": 1472300,
                             "y2": 1091600,
                             "layer": "M4",
                             "net": "VDD_1V8"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1436000.0,
+                            "x1": 1466000.0,
                             "y1": 1088200.0,
-                            "x2": 1445600.0,
+                            "x2": 1475600.0,
                             "y2": 1092000.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6478,9 +6985,9 @@
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1436400.0,
+                            "x1": 1466400.0,
                             "y1": 1088400.0,
-                            "x2": 1445200.0,
+                            "x2": 1475200.0,
                             "y2": 1091800.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6497,9 +7004,9 @@
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1436400.0,
+                            "x1": 1466400.0,
                             "y1": 1088400.0,
-                            "x2": 1445200.0,
+                            "x2": 1475200.0,
                             "y2": 1091800.0,
                             "layer": "",
                             "net": "VDD_1V8",
@@ -6527,7 +7034,7 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "dband",
-                                "index": 3
+                                "index": 8
                             }
                         },
                         {
@@ -6568,7 +7075,7 @@
                     "x1": 212200.0,
                     "y1": 80100.0,
                     "x2": 1025300,
-                    "y2": 998400.0,
+                    "y2": 978200.0,
                     "layer": "",
                     "net": "IBP_1U<3>",
                     "name": "IBP_1U<3>",
@@ -6580,16 +7087,16 @@
                             "x1": 215500,
                             "y1": 827150,
                             "x2": 218500,
-                            "y2": 997500,
+                            "y2": 977300,
                             "layer": "M5",
                             "net": "IBP_1U<3>"
                         },
                         {
                             "class": "InstanceCut",
                             "x1": 212200.0,
-                            "y1": 993600.0,
+                            "y1": 973400.0,
                             "x2": 221800.0,
-                            "y2": 998400.0,
+                            "y2": 978200.0,
                             "layer": "",
                             "net": "IBP_1U<3>",
                             "name": "cut_M4M5_2x1",
@@ -6606,9 +7113,9 @@
                         {
                             "class": "Rect",
                             "x1": 217000,
-                            "y1": 994500,
+                            "y1": 974300,
                             "x2": 976500,
-                            "y2": 997500,
+                            "y2": 977300,
                             "layer": "M4",
                             "net": "IBP_1U<3>"
                         },
@@ -6617,7 +7124,7 @@
                             "x1": 973500,
                             "y1": 80500,
                             "x2": 976500,
-                            "y2": 996000,
+                            "y2": 975800,
                             "layer": "M4",
                             "net": "IBP_1U<3>"
                         },
@@ -6661,8 +7168,8 @@
                             "anchor": {
                                 "kind": "track",
                                 "axis": "x",
-                                "channel": "cband",
-                                "index": 30
+                                "channel": "ibpband",
+                                "index": 1
                             }
                         },
                         {
@@ -6706,7 +7213,7 @@
                     "x1": 200200.0,
                     "y1": 25500,
                     "x2": 1231700,
-                    "y2": 1010400.0,
+                    "y2": 990200.0,
                     "layer": "",
                     "net": "IBP_1U<2>",
                     "name": "IBP_1U<2>",
@@ -6718,16 +7225,16 @@
                             "x1": 203500,
                             "y1": 807150,
                             "x2": 206500,
-                            "y2": 1009500,
+                            "y2": 989300,
                             "layer": "M5",
                             "net": "IBP_1U<2>"
                         },
                         {
                             "class": "InstanceCut",
                             "x1": 200200.0,
-                            "y1": 1005600.0,
+                            "y1": 985400.0,
                             "x2": 209800.0,
-                            "y2": 1010400.0,
+                            "y2": 990200.0,
                             "layer": "",
                             "net": "IBP_1U<2>",
                             "name": "cut_M4M5_2x1",
@@ -6744,9 +7251,9 @@
                         {
                             "class": "Rect",
                             "x1": 205000,
-                            "y1": 1006500,
+                            "y1": 986300,
                             "x2": 988500,
-                            "y2": 1009500,
+                            "y2": 989300,
                             "layer": "M4",
                             "net": "IBP_1U<2>"
                         },
@@ -6755,7 +7262,7 @@
                             "x1": 985500,
                             "y1": 25500,
                             "x2": 988500,
-                            "y2": 1008000,
+                            "y2": 987800,
                             "layer": "M4",
                             "net": "IBP_1U<2>"
                         },
@@ -6784,8 +7291,8 @@
                                     "rule": "pitch",
                                     "count": 2
                                 },
-                                "channel": "cband",
-                                "index": 30
+                                "channel": "ibpband",
+                                "index": 1
                             }
                         },
                         {
@@ -6829,7 +7336,7 @@
                     "x1": 188200.0,
                     "y1": 744100.0,
                     "x2": 1028600.0,
-                    "y2": 1022400.0,
+                    "y2": 1002200.0,
                     "layer": "",
                     "net": "IBP_1U<1>",
                     "name": "IBP_1U<1>",
@@ -6841,16 +7348,16 @@
                             "x1": 191500,
                             "y1": 787150,
                             "x2": 194500,
-                            "y2": 1021500,
+                            "y2": 1001300,
                             "layer": "M5",
                             "net": "IBP_1U<1>"
                         },
                         {
                             "class": "InstanceCut",
                             "x1": 188200.0,
-                            "y1": 1017600.0,
+                            "y1": 997400.0,
                             "x2": 197800.0,
-                            "y2": 1022400.0,
+                            "y2": 1002200.0,
                             "layer": "",
                             "net": "IBP_1U<1>",
                             "name": "cut_M4M5_2x1",
@@ -6867,9 +7374,9 @@
                         {
                             "class": "Rect",
                             "x1": 193000,
-                            "y1": 1018500,
+                            "y1": 998300,
                             "x2": 1025300,
-                            "y2": 1021500,
+                            "y2": 1001300,
                             "layer": "M4",
                             "net": "IBP_1U<1>"
                         },
@@ -6878,7 +7385,7 @@
                             "x1": 1022300,
                             "y1": 744500,
                             "x2": 1025300,
-                            "y2": 1020000,
+                            "y2": 999800,
                             "layer": "M4",
                             "net": "IBP_1U<1>"
                         },
@@ -6917,8 +7424,8 @@
                                     "rule": "pitch",
                                     "count": 4
                                 },
-                                "channel": "cband",
-                                "index": 30
+                                "channel": "ibpband",
+                                "index": 1
                             }
                         },
                         {
@@ -6960,7 +7467,7 @@
                     "x1": 176200.0,
                     "y1": 767150,
                     "x2": 1231700,
-                    "y2": 1034400.0,
+                    "y2": 1014200.0,
                     "layer": "",
                     "net": "IBP_1U<0>",
                     "name": "IBP_1U<0>",
@@ -6972,16 +7479,16 @@
                             "x1": 179500,
                             "y1": 767150,
                             "x2": 182500,
-                            "y2": 1033500,
+                            "y2": 1013300,
                             "layer": "M5",
                             "net": "IBP_1U<0>"
                         },
                         {
                             "class": "InstanceCut",
                             "x1": 176200.0,
-                            "y1": 1029600.0,
+                            "y1": 1009400.0,
                             "x2": 185800.0,
-                            "y2": 1034400.0,
+                            "y2": 1014200.0,
                             "layer": "",
                             "net": "IBP_1U<0>",
                             "name": "cut_M4M5_2x1",
@@ -6998,9 +7505,9 @@
                         {
                             "class": "Rect",
                             "x1": 181000,
-                            "y1": 1030500,
+                            "y1": 1010300,
                             "x2": 1231700,
-                            "y2": 1033500,
+                            "y2": 1013300,
                             "layer": "M4",
                             "net": "IBP_1U<0>"
                         },
@@ -7009,7 +7516,7 @@
                             "x1": 1228700,
                             "y1": 799500,
                             "x2": 1231700,
-                            "y2": 1032000,
+                            "y2": 1011800,
                             "layer": "M4",
                             "net": "IBP_1U<0>"
                         }
@@ -7029,8 +7536,8 @@
                                     "rule": "pitch",
                                     "count": 6
                                 },
-                                "channel": "cband",
-                                "index": 30
+                                "channel": "ibpband",
+                                "index": 1
                             }
                         },
                         {
@@ -7257,8 +7764,8 @@
                 {
                     "class": "Path",
                     "x1": 954000,
-                    "y1": 52300.0,
-                    "x2": 1477500,
+                    "y1": 50200.0,
+                    "x2": 1507500,
                     "y2": 940800.0,
                     "layer": "",
                     "net": "PWRUP_N_1V8",
@@ -7288,16 +7795,16 @@
                             "class": "Rect",
                             "x1": 963000,
                             "y1": 934500,
-                            "x2": 1448300,
+                            "x2": 1484300,
                             "y2": 937500,
                             "layer": "M5",
                             "net": "PWRUP_N_1V8"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1444400.0,
+                            "x1": 1480400.0,
                             "y1": 931200.0,
-                            "x2": 1449200.0,
+                            "x2": 1485200.0,
                             "y2": 940800.0,
                             "layer": "",
                             "net": "PWRUP_N_1V8",
@@ -7314,40 +7821,40 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1445300,
+                            "x1": 1481300,
                             "y1": 53500,
-                            "x2": 1448300,
+                            "x2": 1484300,
                             "y2": 936000,
                             "layer": "M4",
                             "net": "PWRUP_N_1V8"
                         },
                         {
-                            "class": "Rect",
-                            "x1": 1446800,
-                            "y1": 53500,
-                            "x2": 1477500,
-                            "y2": 56500,
-                            "layer": "M4",
-                            "net": "PWRUP_N_1V8"
-                        },
-                        {
                             "class": "InstanceCut",
-                            "x1": 1473300.0,
-                            "y1": 52300.0,
-                            "x2": 1477100.0,
-                            "y2": 61900.0,
+                            "x1": 1480400.0,
+                            "y1": 50200.0,
+                            "x2": 1485200.0,
+                            "y2": 59800.0,
                             "layer": "",
                             "net": "PWRUP_N_1V8",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M4M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M4M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1482800,
+                            "y1": 53500,
+                            "x2": 1507500,
+                            "y2": 56500,
+                            "layer": "M5",
+                            "net": "PWRUP_N_1V8"
                         }
                     ],
                     "routeLayer": "M5",
@@ -7380,7 +7887,7 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "dband",
-                                "index": 4
+                                "index": 10
                             }
                         },
                         {
@@ -7393,6 +7900,10 @@
                                 "kind": "landing",
                                 "axis": "y"
                             }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -7409,8 +7920,8 @@
                 {
                     "class": "Path",
                     "x1": 954000,
-                    "y1": 54200.0,
-                    "x2": 1495900.0,
+                    "y1": 52300.0,
+                    "x2": 1537300,
                     "y2": 964800.0,
                     "layer": "",
                     "net": "PWRUP_B_1V8",
@@ -7440,16 +7951,16 @@
                             "class": "Rect",
                             "x1": 1005000,
                             "y1": 958500,
-                            "x2": 1464300,
+                            "x2": 1494300,
                             "y2": 961500,
                             "layer": "M5",
                             "net": "PWRUP_B_1V8"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1460400.0,
+                            "x1": 1490400.0,
                             "y1": 955200.0,
-                            "x2": 1465200.0,
+                            "x2": 1495200.0,
                             "y2": 964800.0,
                             "layer": "",
                             "net": "PWRUP_B_1V8",
@@ -7466,40 +7977,40 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1461300,
+                            "x1": 1491300,
                             "y1": 57500,
-                            "x2": 1464300,
+                            "x2": 1494300,
                             "y2": 960000,
                             "layer": "M4",
                             "net": "PWRUP_B_1V8"
                         },
                         {
-                            "class": "Rect",
-                            "x1": 1462800,
-                            "y1": 57500,
-                            "x2": 1495500,
-                            "y2": 60500,
-                            "layer": "M4",
-                            "net": "PWRUP_B_1V8"
-                        },
-                        {
                             "class": "InstanceCut",
-                            "x1": 1492100.0,
-                            "y1": 54200.0,
-                            "x2": 1495900.0,
-                            "y2": 63800.0,
+                            "x1": 1488300.0,
+                            "y1": 52300.0,
+                            "x2": 1493100.0,
+                            "y2": 61900.0,
                             "layer": "",
                             "net": "PWRUP_B_1V8",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M4M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M4M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1492800,
+                            "y1": 57500,
+                            "x2": 1537300,
+                            "y2": 60500,
+                            "layer": "M5",
+                            "net": "PWRUP_B_1V8"
                         }
                     ],
                     "routeLayer": "M5",
@@ -7547,6 +8058,10 @@
                             }
                         },
                         {
+                            "step": "up",
+                            "layer": "M5"
+                        },
+                        {
                             "step": "movex",
                             "anchor": {
                                 "kind": "landing",
@@ -7561,8 +8076,8 @@
                 {
                     "class": "Path",
                     "x1": 1279800.0,
-                    "y1": 116300.0,
-                    "x2": 1477500,
+                    "y1": 114200.0,
+                    "x2": 1507500,
                     "y2": 916800.0,
                     "layer": "",
                     "net": "RST_A",
@@ -7611,16 +8126,16 @@
                             "class": "Rect",
                             "x1": 1282200,
                             "y1": 910500,
-                            "x2": 1442300,
+                            "x2": 1472300,
                             "y2": 913500,
                             "layer": "M5",
                             "net": "RST_A"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1438400.0,
+                            "x1": 1468400.0,
                             "y1": 907200.0,
-                            "x2": 1443200.0,
+                            "x2": 1473200.0,
                             "y2": 916800.0,
                             "layer": "",
                             "net": "RST_A",
@@ -7637,40 +8152,40 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1439300,
+                            "x1": 1469300,
                             "y1": 117500,
-                            "x2": 1442300,
+                            "x2": 1472300,
                             "y2": 912000,
                             "layer": "M4",
                             "net": "RST_A"
                         },
                         {
-                            "class": "Rect",
-                            "x1": 1440800,
-                            "y1": 117500,
-                            "x2": 1477500,
-                            "y2": 120500,
-                            "layer": "M4",
-                            "net": "RST_A"
-                        },
-                        {
                             "class": "InstanceCut",
-                            "x1": 1473300.0,
-                            "y1": 116300.0,
-                            "x2": 1477100.0,
-                            "y2": 125900.0,
+                            "x1": 1468400.0,
+                            "y1": 114200.0,
+                            "x2": 1473200.0,
+                            "y2": 123800.0,
                             "layer": "",
                             "net": "RST_A",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M4M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M4M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1470800,
+                            "y1": 117500,
+                            "x2": 1507500,
+                            "y2": 120500,
+                            "layer": "M5",
+                            "net": "RST_A"
                         }
                     ],
                     "routeLayer": "M2",
@@ -7707,7 +8222,7 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "dband",
-                                "index": 3
+                                "index": 8
                             }
                         },
                         {
@@ -7720,6 +8235,10 @@
                                 "kind": "landing",
                                 "axis": "y"
                             }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -7737,7 +8256,7 @@
                     "class": "Path",
                     "x1": 1279800.0,
                     "y1": 12200.0,
-                    "x2": 1495500,
+                    "x2": 1582500,
                     "y2": 892800.0,
                     "layer": "",
                     "net": "RST_B",
@@ -7786,16 +8305,16 @@
                             "class": "Rect",
                             "x1": 1311600,
                             "y1": 886500,
-                            "x2": 1436300,
+                            "x2": 1460300,
                             "y2": 889500,
                             "layer": "M5",
                             "net": "RST_B"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1432400.0,
+                            "x1": 1456400.0,
                             "y1": 883200.0,
-                            "x2": 1437200.0,
+                            "x2": 1461200.0,
                             "y2": 892800.0,
                             "layer": "",
                             "net": "RST_B",
@@ -7812,40 +8331,40 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1433300,
+                            "x1": 1457300,
                             "y1": 113500,
-                            "x2": 1436300,
+                            "x2": 1460300,
                             "y2": 888000,
                             "layer": "M4",
                             "net": "RST_B"
                         },
                         {
-                            "class": "Rect",
-                            "x1": 1434800,
-                            "y1": 113500,
-                            "x2": 1495500,
-                            "y2": 116500,
-                            "layer": "M4",
-                            "net": "RST_B"
-                        },
-                        {
                             "class": "InstanceCut",
-                            "x1": 1491700.0,
-                            "y1": 108200.0,
-                            "x2": 1495500.0,
-                            "y2": 117800.0,
+                            "x1": 1456400.0,
+                            "y1": 110200.0,
+                            "x2": 1461200.0,
+                            "y2": 119800.0,
                             "layer": "",
                             "net": "RST_B",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M4M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M4M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1458800,
+                            "y1": 113500,
+                            "x2": 1582500,
+                            "y2": 116500,
+                            "layer": "M5",
+                            "net": "RST_B"
                         }
                     ],
                     "routeLayer": "M2",
@@ -7863,7 +8382,7 @@
                             "anchor": {
                                 "kind": "track",
                                 "axis": "x",
-                                "channel": "rstb_up",
+                                "channel": "rst_b_up",
                                 "index": 2
                             }
                         },
@@ -7882,7 +8401,7 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "dband",
-                                "index": 2
+                                "index": 6
                             }
                         },
                         {
@@ -7895,6 +8414,10 @@
                                 "kind": "landing",
                                 "axis": "y"
                             }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -7910,9 +8433,9 @@
                 },
                 {
                     "class": "Path",
-                    "x1": 1100600.0,
+                    "x1": 1077500,
                     "y1": 154200.0,
-                    "x2": 1477900.0,
+                    "x2": 1507500,
                     "y2": 868800.0,
                     "layer": "",
                     "net": "CMPO_A",
@@ -7922,74 +8445,55 @@
                     "children": [
                         {
                             "class": "InstanceCut",
-                            "x1": 1105100.0,
+                            "x1": 1104600.0,
                             "y1": 350200.0,
-                            "x2": 1108900.0,
+                            "x2": 1109400.0,
                             "y2": 359800.0,
                             "layer": "",
                             "net": "CMPO_A",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M2M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M2M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
                         },
                         {
                             "class": "Rect",
-                            "x1": 1101500,
+                            "x1": 1077500,
                             "y1": 353500,
                             "x2": 1107000,
                             "y2": 356500,
-                            "layer": "M4",
+                            "layer": "M5",
                             "net": "CMPO_A"
                         },
                         {
-                            "class": "InstanceCut",
-                            "x1": 1100600.0,
-                            "y1": 350200.0,
-                            "x2": 1105400.0,
-                            "y2": 359800.0,
-                            "layer": "",
-                            "net": "CMPO_A",
-                            "name": "cut_M4M5_1x2",
-                            "has_pr": false,
-                            "ckt": {},
-                            "children": [],
-                            "instanceName": "",
-                            "angle": "",
-                            "cell": "cut_M4M5_1x2",
-                            "libpath": "",
-                            "xcell": 0,
-                            "ycell": 0
-                        },
-                        {
                             "class": "Rect",
-                            "x1": 1101500,
+                            "x1": 1077500,
                             "y1": 355000,
-                            "x2": 1104500,
+                            "x2": 1080500,
                             "y2": 865500,
                             "layer": "M5",
                             "net": "CMPO_A"
                         },
                         {
                             "class": "Rect",
-                            "x1": 1103000,
+                            "x1": 1079000,
                             "y1": 862500,
-                            "x2": 1430300,
+                            "x2": 1448300,
                             "y2": 865500,
                             "layer": "M5",
                             "net": "CMPO_A"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1426400.0,
+                            "x1": 1444400.0,
                             "y1": 859200.0,
-                            "x2": 1431200.0,
+                            "x2": 1449200.0,
                             "y2": 868800.0,
                             "layer": "",
                             "net": "CMPO_A",
@@ -8006,40 +8510,40 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1427300,
+                            "x1": 1445300,
                             "y1": 157500,
-                            "x2": 1430300,
+                            "x2": 1448300,
                             "y2": 864000,
                             "layer": "M4",
                             "net": "CMPO_A"
                         },
                         {
-                            "class": "Rect",
-                            "x1": 1428800,
-                            "y1": 157500,
-                            "x2": 1477500,
-                            "y2": 160500,
-                            "layer": "M4",
-                            "net": "CMPO_A"
-                        },
-                        {
                             "class": "InstanceCut",
-                            "x1": 1474100.0,
+                            "x1": 1444400.0,
                             "y1": 154200.0,
-                            "x2": 1477900.0,
+                            "x2": 1449200.0,
                             "y2": 163800.0,
                             "layer": "",
                             "net": "CMPO_A",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M4M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M4M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1446800,
+                            "y1": 157500,
+                            "x2": 1507500,
+                            "y2": 160500,
+                            "layer": "M5",
+                            "net": "CMPO_A"
                         }
                     ],
                     "routeLayer": "M2",
@@ -8050,7 +8554,7 @@
                         },
                         {
                             "step": "up",
-                            "layer": "M4"
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -8058,12 +8562,8 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "cmpo_a_up",
-                                "index": 15
+                                "index": 11
                             }
-                        },
-                        {
-                            "step": "up",
-                            "layer": "M5"
                         },
                         {
                             "step": "movey",
@@ -8080,7 +8580,7 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "dband",
-                                "index": 1
+                                "index": 4
                             }
                         },
                         {
@@ -8093,6 +8593,10 @@
                                 "kind": "landing",
                                 "axis": "y"
                             }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -8108,9 +8612,9 @@
                 },
                 {
                     "class": "Path",
-                    "x1": 1105100.0,
+                    "x1": 1077500,
                     "y1": 66200.0,
-                    "x2": 1477900.0,
+                    "x2": 1507500,
                     "y2": 844800.0,
                     "layer": "",
                     "net": "CMPO_B",
@@ -8120,74 +8624,55 @@
                     "children": [
                         {
                             "class": "InstanceCut",
-                            "x1": 1105100.0,
+                            "x1": 1104600.0,
                             "y1": 468200.0,
-                            "x2": 1108900.0,
+                            "x2": 1109400.0,
                             "y2": 477800.0,
                             "layer": "",
                             "net": "CMPO_B",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M2M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M2M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
                         },
                         {
                             "class": "Rect",
-                            "x1": 1107000,
+                            "x1": 1077500,
                             "y1": 471500,
-                            "x2": 1128500,
+                            "x2": 1107000,
                             "y2": 474500,
-                            "layer": "M4",
+                            "layer": "M5",
                             "net": "CMPO_B"
                         },
                         {
-                            "class": "InstanceCut",
-                            "x1": 1124600.0,
-                            "y1": 468200.0,
-                            "x2": 1129400.0,
-                            "y2": 477800.0,
-                            "layer": "",
-                            "net": "CMPO_B",
-                            "name": "cut_M4M5_1x2",
-                            "has_pr": false,
-                            "ckt": {},
-                            "children": [],
-                            "instanceName": "",
-                            "angle": "",
-                            "cell": "cut_M4M5_1x2",
-                            "libpath": "",
-                            "xcell": 0,
-                            "ycell": 0
-                        },
-                        {
                             "class": "Rect",
-                            "x1": 1125500,
+                            "x1": 1077500,
                             "y1": 473000,
-                            "x2": 1128500,
+                            "x2": 1080500,
                             "y2": 841500,
                             "layer": "M5",
                             "net": "CMPO_B"
                         },
                         {
                             "class": "Rect",
-                            "x1": 1127000,
+                            "x1": 1079000,
                             "y1": 838500,
-                            "x2": 1424300,
+                            "x2": 1436300,
                             "y2": 841500,
                             "layer": "M5",
                             "net": "CMPO_B"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 1420400.0,
+                            "x1": 1432400.0,
                             "y1": 835200.0,
-                            "x2": 1425200.0,
+                            "x2": 1437200.0,
                             "y2": 844800.0,
                             "layer": "",
                             "net": "CMPO_B",
@@ -8204,40 +8689,40 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 1421300,
+                            "x1": 1433300,
                             "y1": 69500,
-                            "x2": 1424300,
+                            "x2": 1436300,
                             "y2": 840000,
                             "layer": "M4",
                             "net": "CMPO_B"
                         },
                         {
-                            "class": "Rect",
-                            "x1": 1422800,
-                            "y1": 69500,
-                            "x2": 1477500,
-                            "y2": 72500,
-                            "layer": "M4",
-                            "net": "CMPO_B"
-                        },
-                        {
                             "class": "InstanceCut",
-                            "x1": 1474100.0,
+                            "x1": 1432400.0,
                             "y1": 66200.0,
-                            "x2": 1477900.0,
+                            "x2": 1437200.0,
                             "y2": 75800.0,
                             "layer": "",
                             "net": "CMPO_B",
-                            "name": "cut_M2M4_1x2",
+                            "name": "cut_M4M5_1x2",
                             "has_pr": false,
                             "ckt": {},
                             "children": [],
                             "instanceName": "",
                             "angle": "",
-                            "cell": "cut_M2M4_1x2",
+                            "cell": "cut_M4M5_1x2",
                             "libpath": "",
                             "xcell": 0,
                             "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1434800,
+                            "y1": 69500,
+                            "x2": 1507500,
+                            "y2": 72500,
+                            "layer": "M5",
+                            "net": "CMPO_B"
                         }
                     ],
                     "routeLayer": "M2",
@@ -8248,7 +8733,7 @@
                         },
                         {
                             "step": "up",
-                            "layer": "M4"
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -8256,12 +8741,8 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "cmpo_b_up",
-                                "index": 19
+                                "index": 11
                             }
-                        },
-                        {
-                            "step": "up",
-                            "layer": "M5"
                         },
                         {
                             "step": "movey",
@@ -8278,7 +8759,7 @@
                                 "kind": "track",
                                 "axis": "x",
                                 "channel": "dband",
-                                "index": 0
+                                "index": 2
                             }
                         },
                         {
@@ -8291,6 +8772,10 @@
                                 "kind": "landing",
                                 "axis": "y"
                             }
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M5"
                         },
                         {
                             "step": "movex",
@@ -8317,22 +8802,22 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 1489600,
+                    "x1": 1537400,
                     "y1": 193300,
-                    "x2": 1498400,
+                    "x2": 1546200,
                     "y2": 196700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "OSC_TEMP_1V8",
                     "spicePort": true
                 },
                 {
                     "class": "Port",
-                    "x1": 1471600,
+                    "x1": 1501600,
                     "y1": 31300,
-                    "x2": 1480400,
+                    "x2": 1510400,
                     "y2": 34700,
-                    "layer": "M2",
+                    "layer": "M5",
                     "net": "",
                     "name": "PWRUP_1V8",
                     "spicePort": true
