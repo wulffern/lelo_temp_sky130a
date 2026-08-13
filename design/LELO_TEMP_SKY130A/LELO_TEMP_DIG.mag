@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786572000
+timestamp 1786658400
 << checkpaint >>
 rect 0 0 1980 4000
 << locali >>
@@ -210,10 +210,10 @@ rect 686 792 754 968
 rect 270 850 720 910
 rect 270 880 330 1170
 rect 66 1110 300 1170
-rect 58 1044 126 1220
 rect 264 752 440 820
 rect 264 2352 440 2420
 rect 1764 2272 1940 2340
+rect -28 1086 148 1154
 << via2 >>
 rect -24 1558 32 1614
 rect 72 1558 128 1614
@@ -251,8 +251,6 @@ rect 1034 3836 1090 3892
 rect 1034 3932 1090 3988
 rect 276 318 332 374
 rect 372 318 428 374
-rect 64 1056 120 1112
-rect 64 1152 120 1208
 rect 276 758 332 814
 rect 372 758 428 814
 rect 276 2358 332 2414
@@ -278,11 +276,9 @@ rect 264 3152 456 3228
 rect 264 1392 456 1468
 rect 1028 3824 1104 4016
 rect 264 312 456 388
-rect 58 1044 134 1236
 rect 264 752 456 828
 rect 264 2352 456 2428
 rect 1764 2272 1956 2348
-rect -28 1086 148 1154
 rect 1170 3040 1346 3520
 rect 630 3040 806 3520
 << via3 >>
@@ -400,7 +396,7 @@ flabel metal4 s 952 3886 1128 3954 0 FreeSans 400 0 0 0 OSC_TEMP_1V8
 port 3 nsew signal bidirectional
 flabel metal4 s 236 326 412 394 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 4 nsew power bidirectional
-flabel metal3 s -28 1086 148 1154 0 FreeSans 400 0 0 0 PWRUP_B_1V8
+flabel metal2 s -28 1086 148 1154 0 FreeSans 400 0 0 0 PWRUP_B_1V8
 port 5 nsew power bidirectional
 flabel metal4 s 236 766 412 834 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 6 nsew power bidirectional

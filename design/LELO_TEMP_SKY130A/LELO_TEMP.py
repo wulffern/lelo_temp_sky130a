@@ -314,6 +314,10 @@ class LELO_TEMP(SidecarCell):
             #- straight up to M5 in the column: the port is on metal
             #- this cell drew, in the one corridor that is clear top
             #- to bottom.
+            #- the sliver at the block's east edge, which is where
+            #- the pair's neighbour can meet it
+            lay.addRoutingChannel("eastedge", int(lay.x2) - 12000,
+                                  int(lay.x2), horizontal=False)
             lo, _hi = pins("PWRUP_B_1V8")
             if lo is not None:
                 p = lay.path("PWRUP_B_1V8", "M3", start=[lo], stop=[lo],
@@ -332,10 +336,24 @@ class LELO_TEMP(SidecarCell):
                 #- its full height; four lanes above the upper pin is
                 #- inside the upper comparator, above every ring and
                 #- below the top edge's own.
-                p.down()
-                p.movey(p.pin("x3_ccmp", "PWRUP_B_1V8", "y")
-                        + 4 * p.PITCH)
-                p.up("M5")
+                #- AND EAST UNDER THE CAPS, ON M3, TO THE EDGE.
+                #- Ending in the column leaves the port a third of the
+                #- way into the block and seven eighths up, inside its
+                #- own routing -- nothing above can reach it, and the
+                #- search that finally routed this net end to end came
+                #- out of that port onto CMPO_A and a diffpair source.
+                #- A port in the middle of a block cannot be left
+                #- without crossing the block.
+                #-
+                #- UNDER the cap bank is empty. A MiM lives on the
+                #- upper metals -- the caps own M4 from 339300 and M5
+                #- from 355800, and mirrored they cover this row -- but
+                #- M2 and M3 below them carry one via stack in the
+                #- whole bank, down at the VSS rail. On M3 this row is
+                #- clear from the column to the east edge, so the port
+                #- goes there and stays on M3: rising to M4 or M5 at
+                #- the edge would land on the cap plate itself.
+                p.movex(p.track("eastedge", 0))
                 #- and the port goes where THIS ends (see afterPorts)
                 self._pwrupb = p
 
@@ -1242,7 +1260,14 @@ class LELO_TEMP(SidecarCell):
                         q.movey(q.track(band, lay.channelTrackNear(
                             band, ty)))
                     q.movex(q.landing("x"))
-                    q.up("M4" if net in self.left_exit else "M5")
+                    #- AND IT STOPS ON M3. The walk is already there
+                    #- -- M3 is what carries it west under RST_B's M5
+                    #- rungs -- so rising again only puts the pad one
+                    #- layer up, against the supply columns, where the
+                    #- search can reach the port's x and y exactly (0
+                    #- away, on M3) and then not via up to it.
+                    if net not in self.left_exit:
+                        q.up("M5")
                 else:
                     #- and NOT turned for a port that rises where it
                     #- stands: on its own pin or its own lane there is
@@ -1251,7 +1276,7 @@ class LELO_TEMP(SidecarCell):
                     q = lay.path(net, "M2", start=[seed], stop=[seed])
                     q.start()
                     q.up("M5")
-                pad = _R("M4" if net in self.left_exit else "M5",
+                pad = _R("M3" if net in self.left_exit else "M5",
                          px - wides["M3"] // 2,
                          ty - pads["M3"] // 2, wides["M3"], pads["M3"])
                 pad.setNet(net)
@@ -1801,70 +1826,30 @@ class LELO_TEMP(SidecarCell):
         #- Until then this net is left open, honestly, rather than
         #- drawn somewhere that shorts.
         pb = P(bias, "PWRUP_B_1V8")
-        #- THE MAZE ROUTER TAKES THIS ONE NET.
-        import os as _o2
-        if _o2.environ.get("PBMAZE"):
-            layout.addConnectivityRoute(
-                _o2.environ["PBMAZE"], "^PWRUP_B_1V8$", "-|--", "",
-                2, "", "")
-        p = path("PWRUP_B_1V8", pb, P(dig, "PWRUP_B_1V8"), "M5")
-        #- AND IT COMES DOWN THE STRIP'S WEST SLIVER, ON M4. The
-        #- strip publishes this net on its WEST EDGE now (see the dig
-        #- class, `left_exit`), so there is no descent in dband to
-        #- find a lane for -- the sliver in front of the pins is free
-        #- on M4 for the block's whole height, and the block says so
-        #- itself when asked for this net.
-        #- ...over the span the DESCENT uses, which is the port's
-        #- row upward, not the block's whole height. Asked for the
-        #- full height nothing is wide enough (the widest is 8700
-        #- where the rule wants 9000); above the port there is room.
-        pbd = P(dig, "PWRUP_B_1V8")
-        ch = pbd is not None and layout.addBlockChannel(
-            "digwest", dig, "M4", span=(int(pbd.y1), int(dig.y2)),
-            near=int(pbd.centerX()), net="PWRUP_B_1V8") and "digwest"
-        if p and ch:
-            p.down("M4")
-            p.movex(p.track("lband", 7))
-            p.up("M5")
-            p.movey(p.track("cband", 24))
-            p.down("M4")
-            p.movex(p.track(ch, 1))
-            p.movey(p.landing("y"))
-            p.movex(p.landing("x"))
-            p.end()
-
-        #- AND THE PAIR, FROM ABOVE. Its PWRUP_B pin is not on an edge
-        #- -- it is at block x 334200 of 409800 and y 696000 of
-        #- 798000, deep inside -- so any leg that meets it at its own
-        #- row crosses the whole pair on M5 first. That is what every
-        #- earlier attempt did, and why each made the count worse: on
-        #- lband lane 2 it swallowed VDD_1V8, both comparator outputs,
-        #- two bias currents, PWRUP_N and RST_B into one net (17 in
-        #- the layout against the schematic's 24).
+        #- THE SEARCH TAKES THIS ONE NET, in two legs, each on the
+        #- stack that leg needs. It runs at DRAW time, so every story
+        #- above is metal it can see -- which is what a hand lane plan
+        #- was standing in for, and why twenty of them were needed.
         #-
-        #- Come DOWN on it instead, in a column the pair itself says
-        #- is free for this net -- the same question the strip is
-        #- asked for RST_B, and the reason `addBlockChannel` takes a
-        #- net at all.
-        pbc = P(ccmp, "PWRUP_B_1V8")
-        ch = blockfree("ccmp", ccmp, "PWRUP_B_1V8", pbc,
-                       span=(int(pbc.y1), int(ccmp.y2)))
-        p = path("PWRUP_B_1V8", pb, pbc, "M5")
-        if p and ch and __import__("os").environ.get("PBPAIR"):
-            p.down("M4")
-            p.movex(p.track("lband", 7))
-            p.up("M5")
-            #- east along the band to the PIN'S OWN COLUMN, then
-            #- straight down onto it. Turning down anywhere else and
-            #- running east at the pin's row is the crossing this
-            #- whole detour exists to avoid; the channel above is the
-            #- proof that this column is clear for this net, and it
-            #- comes back holding the pin's x.
-            p.movey(p.track("cband", 26))
-            p.movex(p.landing("x"))
-            p.movey(p.landing("y"))
-            p.end()
-
+        #- THE STACKS ARE NOT THE SAME, and neither is the default.
+        #- Left to the technology's own chain the search runs verticals
+        #- on li, the supply layer, and its own via check then calls
+        #- the descent blocked.
+        #-
+        #-   leg 1, bias -> pair: M2/M3/M5. It needs M5 because that
+        #-     is where the bias block publishes, and it must NOT have
+        #-     M4: the leg passes the cap bank's west edge, and M4 is
+        #-     met3, which capm.11 keeps 1.34 um clear of a MiM. With
+        #-     M4 in the stack this is LVS clean and 9 DRC -- eight
+        #-     capm.11 and met3.2/met3.3d, all of them at 136..138 um,
+        #-     which is that edge. Without it, none.
+        #-   leg 2, pair -> strip: M3/M4. Both ports are low and on
+        #-     M3, and there is no MiM between them.
+        layout.addMazeRoute("^PWRUP_B_1V8$", layers=["M2", "M3", "M5"],
+                            rects=[pb, P(ccmp, "PWRUP_B_1V8")])
+        layout.addMazeRoute("^PWRUP_B_1V8$", layers=["M3", "M4"],
+                            rects=[P(ccmp, "PWRUP_B_1V8"),
+                                   P(dig, "PWRUP_B_1V8")])
         #- RST_A is published on the pair's top edge, which is where
         #- the band is: north out of the pin on its own layer, up, and
         #- east. It rises OUTSIDE the block -- the pin shares its row
