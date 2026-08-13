@@ -1801,6 +1801,12 @@ class LELO_TEMP(SidecarCell):
         #- Until then this net is left open, honestly, rather than
         #- drawn somewhere that shorts.
         pb = P(bias, "PWRUP_B_1V8")
+        #- THE MAZE ROUTER TAKES THIS ONE NET.
+        import os as _o2
+        if _o2.environ.get("PBMAZE"):
+            layout.addConnectivityRoute(
+                _o2.environ["PBMAZE"], "^PWRUP_B_1V8$", "-|--", "",
+                2, "", "")
         p = path("PWRUP_B_1V8", pb, P(dig, "PWRUP_B_1V8"), "M5")
         #- AND IT COMES DOWN THE STRIP'S WEST SLIVER, ON M4. The
         #- strip publishes this net on its WEST EDGE now (see the dig
