@@ -153,3 +153,56 @@ make drc CELL=LELO_TEMP
 Read the LVS verdict from the **`Final result:`** line and nowhere
 else — netgen prints "match uniquely with port errors" on failing
 runs.
+
+## The top's last mile, measured (2026-08-13)
+
+`cicpy sch2mag <lib> <cell> --check-connectivity` prints a BRIDGE line
+per short -- both shapes, their nets, and the routes that drew them.
+That is the instrument for this level; net counts say something is
+wrong and geometry dumps say where metal is, but only the bridge says
+*which two things touch*.
+
+Committed state: **23 layout nets against 24, 20 DRC**, one own short
+(RST_A's landing cut against RST_B's last leg).
+
+An alternative was measured and kept beside this file as
+`top_eband_variant.py.txt`: RST_B and PWRUP_B brought down in `eband`
+on M4, where every other net's last leg is on M5. In it **the top's
+own routes short nothing at all** -- the only bridges left are below
+it -- but RST_A and RST_B then fail to land (21 nets) and it costs
+38 DRC. The two states differ by one short against three opens.
+
+### What the level has room for
+
+  * `dband` (pair to strip, 7 um) has ELEVEN lanes and FOUR usable:
+    0 and 1 are inside the cap bank's 1.34 um halo (capm.11), 7..9
+    are a supply tie's. Six nets want to come down.
+  * `eband`, the sliver in front of the strip's pins, is two lanes,
+    and every other net's last leg crosses it -- which is only safe
+    because those legs are M5 and a descent there is M4.
+  * `lband` (bias to pair, 5 um) fits four lanes at the 12000 a via
+    pad wants; five nets ask. PWRUP_B crosses it on M4 instead, under
+    the bundle's rows and over PWRUP_N's M5 riser.
+  * over the STRIP there is no corridor at all: it routes its own
+    stubs on M5 (an input crosses above everything when its lane can
+    take the drop). Forcing those to M3 to free the layer costs more
+    than it buys -- the strip goes 0 -> 28 DRC and the tile 23 -> 20
+    nets.
+
+### Ordering rules, both learned from bridges
+
+  * risers over the pair go WEST to EAST with DECREASING band tracks:
+    the riser furthest east must stop lowest, so the legs crossing it
+    pass above.
+  * of two nets walking west to their risers, the one whose PIN is
+    lower takes the farther riser -- each walks at its own pin's row,
+    so the higher walk would cross the other's riser.
+
+### Still open below the top
+
+Five bridges that are not the top's: `IBP_1U<0>` against `<1>`, `<2>`,
+`<3>` and `LPI` inside LELOTEMP_BIAS_IBP, and `CMPO_B|PWRUP_N_1V8`
+inside a JNWTR_ORX1_CV in the strip. Both cells pass their own LVS, so
+these are either artefacts of flattening or shorts their own
+extraction resolves differently. Settle them before trusting any
+count at the top.
