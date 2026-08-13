@@ -417,7 +417,7 @@ class LELO_TEMP(SidecarCell):
     class dig(Stack):
         """The oscillator's logic: OR gate, the cross-coupled NOR
         pair, the two buffers, the powerdown inverter chain."""
-        match = r'^(x[1-7]|xtap_dig_0)$'
+        match = r'^(x[1-7]|xtap_dig_\d+)$'
         group = "dig"
         fill = False
         #- SEVEN MICRONS OFF THE PAIR, not four. The pair's east edge
@@ -438,8 +438,28 @@ class LELO_TEMP(SidecarCell):
         #-
         #- Total net span, in cells: 12 before, 8 after. Four of the
         #- five nets are now adjacent-cell hops.
-        order = ['xtap_dig_0', 'x6', 'x2', 'x7', 'x3', 'x4', 'x1',
-                 'x5']
+        #- A TAP ROW ABOVE x2, for room rather than for taps. The
+        #- strip is fully abutted -- the varying pitches are cell
+        #- HEIGHTS, ORX1 is 40000 tall, and there is no empty band
+        #- anywhere in it. A tapcell makes one: it carries no signal
+        #- pin, so no row is booked in it and no via pad sits in it,
+        #- and the lanes cross it as bare wire. That is the one place
+        #- a leg can cross a lane it does not own -- which is what
+        #- PWRUP_B needs to reach the west sliver, and where every
+        #- earlier attempt met PWRUP_N's pad at t0.
+        order = ['xtap_dig_0', 'x6', 'x2', 'xtap_dig_1', 'x7', 'x3',
+                 'x4', 'x1', 'x5']
+
+        #- NETS THAT ESCAPE WEST, ON M4. The strip's west sliver
+        #- (exit0, block x 0..31500) is free on M4 for the full
+        #- height, and it is the one column a neighbour can reach
+        #- without crossing the block: dband has no lane left and
+        #- there is no column over the strip on M5. What kept this
+        #- from working before was the LAYER -- the walk ends
+        #- `up("M5")`, and RST_B's own rungs cross the sliver on M5 at
+        #- two heights, so the pad landed on RST_B (measured, one
+        #- merged net). One layer down passes under all of them.
+        left_exit = ("PWRUP_B_1V8",)
 
         #- The tapcell is in the schematic now (the CV logic family
         #- carries no taps of its own, and netgen counts the two
@@ -485,6 +505,22 @@ class LELO_TEMP(SidecarCell):
                 nm = f"exit{i}"
                 lay.addRoutingChannel(nm, a, b, horizontal=False)
                 self._exits.append(nm)
+            #- AND THE BANDS BETWEEN THE CELLS. The order leaves real
+            #- gaps -- x7 ends at 64000 and x3 starts at 88000 -- and
+            #- a gap has no cell in it, so no pin, no booked row and
+            #- no via pad: the lanes cross it as bare wire. That is
+            #- the one place a leg can cross a lane it does not own.
+            #- Measured with M1, which every cell is full of and a
+            #- gap has none of.
+            self._gaps = []
+            for nme in [n for n in self.order if n.startswith("xtap")]:
+                inst = lay.getInstanceFromInstanceName(nme)
+                if inst is None:
+                    continue
+                nm = "band_" + nme
+                lay.addRoutingChannel(nm, int(inst.y1), int(inst.y2))
+                self._gaps.append((nm, int(inst.y1), int(inst.y2)))
+            log.info(f"dig: tap bands {self._gaps}")
             #- net, lane, and the hops that make it whole.
             #-
             #- THE SUPPLY COLUMNS ARE NOT FREE ABOVE M1. Every JNWTR
@@ -1016,6 +1052,34 @@ class LELO_TEMP(SidecarCell):
             pin, and the port came back on a piece of metal joined to
             nothing (measured: RST_B, one net split).
             """
+            if net in getattr(self, "left_exit", ()):
+                #- straight to the sliver, whatever else it stands in
+                cols = [(lay.routingChannel(nm), nm)
+                        for nm in getattr(self, "_exits", [])]
+                cols = [(int(c[0]), int(c[1]), nm)
+                        for c, nm in cols if c is not None]
+                if cols:
+                    #- THE WESTMOST TRACK, not the middle of the
+                    #- sliver. exit0 is 0..31500 but the strip's lane
+                    #- t0 runs down it at ~13200, and a pad centred in
+                    #- the column lands on it -- measured, PWRUP_B
+                    #- merged with PWRUP_N, which is what t0 carries.
+                    #- Hard against the west edge there is nothing.
+                    #- HALF A PAD IN FROM THE EDGE. The westmost
+                    #- track hangs the pad at x=-3200, outside the
+                    #- block; the middle of the sliver lands on lane
+                    #- t0 at 13200. Half a pad in puts it at 0..8800,
+                    #- inside the block and 4400 clear of the lane.
+                    from cicpy.core.cut import Cut as _C
+                    _c = (_C.getInstance("M1", "M5", 2, 1)
+                          or _C.getInstance("M5", "M1", 2, 1))
+                    w = int(_c.width()) if _c is not None else 8800
+                    lo, hi, nm = min(cols)
+                    idx = lay.channelTrackNear(nm, lo + w // 2)
+                    c = int(lay.channelTrackCoord(nm, idx))
+                    #- the grid has no track that far in, so clamp:
+                    #- a pad half outside the block is not a port.
+                    return max(c, int(lo) + w // 2), True
             for nm in getattr(self, "_exits", []):
                 ch = lay.routingChannel(nm)
                 if ch and int(ch[0]) <= x <= int(ch[1]):
@@ -1116,8 +1180,21 @@ class LELO_TEMP(SidecarCell):
                     self._pads[net] = seed
                     continue
                 px, travels = where
+                #- CROSS IN THE TAP BAND, not at the pin's row. The
+                #- leg west has to pass lane t0, which is PWRUP_N's,
+                #- and at this net's own row PWRUP_N's via pad is
+                #- 4000 away with pads 9600 tall -- they overlap and
+                #- the two nets merge. The tap row above has no
+                #- signal pin in it, so nothing is booked there and
+                #- the lanes cross it as bare wire.
+                ty, band = y, None
+                if net in self.left_exit and self._gaps:
+                    band, ba, bb = min(
+                        self._gaps,
+                        key=lambda g: abs((g[1] + g[2]) // 2 - y))
+                    ty = (ba + bb) // 2
                 seed = _R("M2", px - wides["M3"] // 2,
-                          y - pads["M3"] // 2, wides["M3"], pads["M3"])
+                          ty - pads["M3"] // 2, wides["M3"], pads["M3"])
                 seed.setNet(net)
                 #- A NET WITH NEITHER A FREE PIN NOR A LANE has to
                 #- walk to a free column, and the walk is on M3: M2 is
@@ -1144,8 +1221,28 @@ class LELO_TEMP(SidecarCell):
                                  options="1cuts,2vcuts")
                     q.start()
                     q.up("M3")
+                    if band is not None:
+                        #- TWO WALLS, CROSSED IN DIFFERENT PLACES. The
+                        #- supply column is crossed at the PIN'S row,
+                        #- where its via stacks are only at the rails;
+                        #- inside a tapcell the whole cell is supply
+                        #- and a leg across it at any row lands on VSS
+                        #- (measured -- x2's output pair joined VSS).
+                        #- The LANE is crossed in the tap band, where
+                        #- nothing is booked. So: west at this row to
+                        #- the strip between the lane and the column,
+                        #- up into the band, then on west.
+                        t0 = int(lay.channelTrackCoord("strip", 0))
+                        ch0 = lay.routingChannel(self._exits[0])
+                        stop = int(ch0[1]) if ch0 else t0
+                        q.movex(q.track(self._exits[0],
+                                        lay.channelTrackNear(
+                                            self._exits[0],
+                                            (t0 + stop) // 2)))
+                        q.movey(q.track(band, lay.channelTrackNear(
+                            band, ty)))
                     q.movex(q.landing("x"))
-                    q.up("M5")
+                    q.up("M4" if net in self.left_exit else "M5")
                 else:
                     #- and NOT turned for a port that rises where it
                     #- stands: on its own pin or its own lane there is
@@ -1154,8 +1251,9 @@ class LELO_TEMP(SidecarCell):
                     q = lay.path(net, "M2", start=[seed], stop=[seed])
                     q.start()
                     q.up("M5")
-                pad = _R("M5", px - wides["M3"] // 2,
-                         y - pads["M3"] // 2, wides["M3"], pads["M3"])
+                pad = _R("M4" if net in self.left_exit else "M5",
+                         px - wides["M3"] // 2,
+                         ty - pads["M3"] // 2, wides["M3"], pads["M3"])
                 pad.setNet(net)
                 #- SAID IN afterPorts, NOT HERE. addAllPorts runs
                 #- after routing and takes the first rect it finds on
@@ -1704,16 +1802,28 @@ class LELO_TEMP(SidecarCell):
         #- drawn somewhere that shorts.
         pb = P(bias, "PWRUP_B_1V8")
         p = path("PWRUP_B_1V8", pb, P(dig, "PWRUP_B_1V8"), "M5")
-        ch = digfree("PWRUP_B_1V8", P(dig, "PWRUP_B_1V8"))
+        #- AND IT COMES DOWN THE STRIP'S WEST SLIVER, ON M4. The
+        #- strip publishes this net on its WEST EDGE now (see the dig
+        #- class, `left_exit`), so there is no descent in dband to
+        #- find a lane for -- the sliver in front of the pins is free
+        #- on M4 for the block's whole height, and the block says so
+        #- itself when asked for this net.
+        #- ...over the span the DESCENT uses, which is the port's
+        #- row upward, not the block's whole height. Asked for the
+        #- full height nothing is wide enough (the widest is 8700
+        #- where the rule wants 9000); above the port there is room.
+        pbd = P(dig, "PWRUP_B_1V8")
+        ch = pbd is not None and layout.addBlockChannel(
+            "digwest", dig, "M4", span=(int(pbd.y1), int(dig.y2)),
+            near=int(pbd.centerX()), net="PWRUP_B_1V8") and "digwest"
         if p and ch:
             p.down("M4")
             p.movex(p.track("lband", 7))
             p.up("M5")
             p.movey(p.track("cband", 24))
-            p.movex(p.track(ch, 1))
             p.down("M4")
+            p.movex(p.track(ch, 1))
             p.movey(p.landing("y"))
-            p.up("M5")
             p.movex(p.landing("x"))
             p.end()
 

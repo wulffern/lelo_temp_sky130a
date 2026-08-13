@@ -88,3 +88,8 @@ N 900.0 150.0 900.0 170.0 {lab=VDD_1V8}
 C {devices/lab_pin.sym} 900.0 150.0 3 0 {name=l31 sig_type=std_logic lab=VDD_1V8 }
 N 900.0 230.0 900.0 210.0 {lab=VSS}
 C {devices/lab_pin.sym} 900.0 230.0 1 0 {name=l32 sig_type=std_logic lab=VSS }
+C {JNW_TR_SKY130A/JNWTR_TAPCELLB_CV.sym} 900 340.0 0 0 {name=Xxtap_dig_1}
+N 900.0 300.0 900.0 320.0 {lab=VDD_1V8}
+C {devices/lab_pin.sym} 900.0 300.0 3 0 {name=l33 sig_type=std_logic lab=VDD_1V8 }
+N 900.0 380.0 900.0 360.0 {lab=VSS}
+C {devices/lab_pin.sym} 900.0 380.0 1 0 {name=l34 sig_type=std_logic lab=VSS }
