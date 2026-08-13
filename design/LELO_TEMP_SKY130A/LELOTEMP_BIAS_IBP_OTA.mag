@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786485600
+timestamp 1786572000
 << checkpaint >>
 rect 0 0 8000 13720
 << metal2 >>
@@ -16,8 +16,8 @@ rect 0 0 8000 180
 rect 1436 0 1500 80
 rect 3036 0 3100 80
 use LELOTEMP_OTAR xad6 ../LELO_TEMP_SKY130A
-transform 1 0 0 0 1 300
-box 0 300 8000 14020
+transform 1 0 0 0 1 0
+box 0 0 8000 13720
 << labels >>
 flabel metal2 s 2284 6330 3868 6390 0 FreeSans 400 0 0 0 LPO
 port 1 nsew signal bidirectional

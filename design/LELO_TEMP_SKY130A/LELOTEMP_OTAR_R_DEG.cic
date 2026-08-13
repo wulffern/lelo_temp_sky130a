@@ -673,7 +673,7 @@
             ]
         },
         {
-            "class": "SubcellLayout",
+            "class": "SidecarCell",
             "x1": 0,
             "y1": 0,
             "x2": 160000,
@@ -725,53 +725,148 @@
             },
             "children": [
                 {
-                    "class": "StackGroup",
-                    "name": "r_deg",
-                    "kind": "stack",
-                    "bbox": {
-                        "x1": 0,
-                        "y1": 0,
-                        "x2": 160000.0,
-                        "y2": 128000.0,
-                        "layer": "",
-                        "net": ""
-                    },
-                    "ports": [
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 24000,
+                    "x2": 160000.0,
+                    "y2": 64000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYATR_RES_36C2F0",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
                         {
+                            "class": "Port",
                             "x1": 14400.0,
-                            "y1": 90000.0,
+                            "y1": 50000.0,
                             "x2": 40000.0,
-                            "y2": 94000.0,
+                            "y2": 54000.0,
                             "layer": "M1",
-                            "net": "VDS",
-                            "name": "VDS",
-                            "routeLayer": "M1",
-                            "side": "boundary",
-                            "spicePort": false
+                            "net": "",
+                            "name": "R1<0>",
+                            "spicePort": true
                         },
                         {
+                            "class": "Port",
                             "x1": 14400.0,
                             "y1": 42000.0,
                             "x2": 40000.0,
                             "y2": 46000.0,
                             "layer": "M1",
-                            "net": "VS",
+                            "net": "",
                             "name": "VS",
-                            "routeLayer": "M1",
-                            "side": "boundary",
-                            "spicePort": false
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": -4800.0,
+                            "y1": 54000.0,
+                            "x2": 4800.0,
+                            "y2": 58000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
                         }
                     ],
-                    "preserve_order": true,
-                    "instances": [
-                        "xd2<0>",
-                        "xd2<1>"
+                    "instanceName": "xd2<0>",
+                    "angle": "",
+                    "cell": "REYATR_RES_36C2F0",
+                    "libpath": "REY_ATR_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 64000,
+                    "x2": 160000.0,
+                    "y2": 104000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYATR_RES_36C2F0",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 14400.0,
+                            "y1": 90000.0,
+                            "x2": 40000.0,
+                            "y2": 94000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDS",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 14400.0,
+                            "y1": 82000.0,
+                            "x2": 40000.0,
+                            "y2": 86000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "R1<0>",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": -4800.0,
+                            "y1": 94000.0,
+                            "x2": 4800.0,
+                            "y2": 98000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
                     ],
-                    "tap_instances": [
-                        "xstack_r_deg_bot",
-                        "xstack_r_deg_top"
-                    ],
-                    "route_bundles": []
+                    "instanceName": "xd2<1>",
+                    "angle": "",
+                    "cell": "REYATR_RES_36C2F0",
+                    "libpath": "REY_ATR_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 160000.0,
+                    "y2": 24000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYATR_RES_36CTAPBOT",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "xstack_r_deg_bot",
+                    "angle": "",
+                    "cell": "REYATR_RES_36CTAPBOT",
+                    "libpath": "REY_ATR_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 104000,
+                    "x2": 160000.0,
+                    "y2": 128000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYATR_RES_36CTAPTOP",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [],
+                    "instanceName": "xstack_r_deg_top",
+                    "angle": "",
+                    "cell": "REYATR_RES_36CTAPTOP",
+                    "libpath": "REY_ATR_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
                 },
                 {
                     "class": "Route",
