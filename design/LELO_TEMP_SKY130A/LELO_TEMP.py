@@ -1021,15 +1021,7 @@ class LELO_TEMP(SidecarCell):
                 layout.addConnectivityRoute(
                     _layers[_i % len(_layers)],
                     "^" + _re.escape(_net) + "$", "-|--", "", 2, "", "")
-        #- NO TOP ROUTING. This cell is made of subcells now: the
-        #- blocks are cells with ports, and the top's job is to route
-        #- between those ports -- declaratively, in `routes` -- not to
-        #- reach into their interiors with hand geometry.
-        #-
-        #- The 778 lines that used to live here are in git; they named
-        #- devices (x1_ibp, x2_ccmp, x7) that this level no longer has,
-        #- so they could not survive the hierarchy even if they were
-        #- wanted.
+        self._supplies(layout)
         super().beforeRoute(layout)
 
 
@@ -1048,116 +1040,82 @@ class LELO_TEMP(SidecarCell):
             return None
         return pick(rs) if pick else rs[0]
 
-    @staticmethod
-    def _slice(bar, x, net, w=3000):
-        """A piece of a full width bar, at `x`.
+    def _supplies(self, layout):
+        """Five ties, and every one of them in empty space.
 
-        A RING IS NOT A PLACE. `end()` lands on the stop rect's
-        CENTRE, and the centre of a ring that spans the whole tile is
-        the middle of the cell -- so a riser told to end on the ring
-        drew its last leg all the way there, 60 um of M4 across three
-        blocks. It happened to be harmless on VSS, which everything
-        touches anyway, and it is what a supply tie must never do.
-        Hand the path a slice of the bar where the riser actually
-        meets it, and the leg is nothing.
-        """
-        from cicpy.core.rect import Rect as _R
-        r = _R(bar.layer, int(x) - w // 2, int(bar.y1), w,
-               int(bar.y2) - int(bar.y1))
-        r.setNet(net)
-        return r
+        WHAT DOES NOT NEED ONE is most of it. The comparators' VSS bar
+        and the bias block's two bars sit on the rings' own rows, and
+        the strip's supplies are already M4 columns pointing at them.
+        What is left is: both bias bars up to their rings, which
+        `addRouteRingOnRect` lays 6600 clear of the block rather than
+        against it; the strip's two columns, which stop 87 um short;
+        and the comparators' VDD, which is a bar mid cell.
 
-    def beforePaint(self, layout):
-        """Three ties, and every one of them in empty space.
-
-        WHAT DOES NOT NEED ONE is most of it: the bias block's own
-        supply bars ARE the rings' rows -- its VDD sits at
-        1055000..1064000 and its VSS at 0..9000, which is where
-        `addRouteRingOnRect` lays them -- and the comparators' VSS bar
-        is on the bottom row too. They abut, and abutting is the
-        connection.
-
-        What is left is the three that do not: the comparator pair's
-        VDD, which is a bar mid cell, and the logic strip's two M4
-        supply columns, which stop at the top of the strip 87 um short
-        of the top ring.
+        A RING IS A ROW, NOT A PLACE. None of these stories `end()`:
+        `end()` lands on the stop rect and a ring spans the tile, so
+        the last leg would run to the middle of the cell. A ring is
+        met wherever the riser reaches its row -- `movey` to it and
+        drop a via -- which is also why none of them need to name a
+        coordinate.
 
         NOT `addPowerConnection`. It stretches EVERY published supply
-        rect to the ring -- the blocks' mid-cell tap bars included --
-        and each stretched copy slices through the core it came from.
+        rect to the ring, the blocks' mid-cell tap bars included, and
+        each stretched copy slices through the core it came from.
         Measured: every pin of both comparators and the bias merged
         into one VSS blob, with no signal routes drawn at all.
         """
         rt = layout.named_rects.get("ring_t_VDD_1V8")
         rb = layout.named_rects.get("ring_b_VSS")
+        bias = layout.getInstanceFromInstanceName("xbias")
         ccmp = layout.getInstanceFromInstanceName("xccmp")
         dig = layout.getInstanceFromInstanceName("xdig")
-        if None in (rt, rb, ccmp, dig):
+        if None in (rt, rb, bias, ccmp, dig):
             log.error("top: no rings or blocks to tie")
             return
+        top = lambda rs: max(rs, key=lambda r: int(r.y1))
+        bot = lambda rs: min(rs, key=lambda r: int(r.y1))
 
-        #- THE STRIP'S TWO COLUMNS ARE ALREADY M4 AND ALREADY
-        #- VERTICAL: they only have to keep going. Nothing is above
-        #- the strip for 87 um, which is why this is four lines.
+        #- the bias block's own bars, straight up and straight down to
+        #- the rows above and below them
+        for net, ring, pick in (("VDD_1V8", rt, top), ("VSS", rb, bot)):
+            bar = self._port(bias, net, pick)
+            if bar is None:
+                log.error(f"top: the bias block has no {net} bar")
+                continue
+            p = layout.path(net, "M1", start=[bar], stop=[ring])
+            p.start()
+            p.movey(p.landing("y"))
+
+        #- the strip's two columns are already M4 and already
+        #- vertical: they only have to keep going, and nothing is
+        #- above the strip for 87 um
         for net, ring in (("VDD_1V8", rt), ("VSS", rb)):
             col = self._port(dig, net)
             if col is None:
                 log.error(f"top: the strip has no {net} column")
                 continue
-            p = layout.path(net, "M4", start=[col],
-                            stop=[self._slice(ring, col.centerX(), net)])
+            p = layout.path(net, "M4", start=[col], stop=[ring])
             p.start()
             p.movey(p.landing("y"))
-            p.end()
-            #- AND DRAW IT. beforePaint runs after the route phase, so
-            #- a path made here is never walked -- the three ties came
-            #- out as three empty Paths and LVS saw the strip floating.
-            #- Ring attachment belongs in beforePaint (the rings are
-            #- final by then), so the story asks to be drawn.
-            p.route()
+            #- ONE CUT TO THE RING'S OWN LAYER. A bare `down()` is one
+            #- step, and one step from M4 is M3 -- 87 um of riser
+            #- ending a layer short of what it came for.
+            p.down("M1")
 
-        #- THE RING DOES NOT ABUT ANYTHING. `addRouteRingOnRect` lays
-        #- it clear of the rect it wraps -- 6600 above the bias
-        #- block's own VDD bar -- so the bar and the ring are two
-        #- nets until something joins them. VSS hid this: it is the
-        #- substrate, and the extraction ties it through the wells
-        #- whatever the metal does.
-        bias = layout.getInstanceFromInstanceName("xbias")
-        lx = layout.channelTrackCoord("lband", 1)
-        for net, ring, pick in (
-                ("VDD_1V8", rt, lambda rs: max(rs, key=lambda r: int(r.y1))),
-                ("VSS", rb, lambda rs: min(rs, key=lambda r: int(r.y1)))):
-            bar = self._port(bias, net, pick)
-            if bar is None or lx is None:
-                log.error(f"top: the bias block has no {net} bar")
-                continue
-            x = min(int(lx), int(bar.x2) - 6000)
-            p = layout.path(net, "M1", start=[self._slice(bar, x, net)],
-                            stop=[self._slice(ring, x, net)])
+        #- and the comparators' VDD slides east along the bar it is
+        #- already on -- same net, same layer -- to climb the 4 um gap
+        #- between the pair and the strip, which holds nothing else
+        bar = self._port(ccmp, "VDD_1V8", top)
+        if bar is not None:
+            p = layout.path("VDD_1V8", "M1", start=[bar], stop=[rt])
             p.start()
-            p.movey(p.landing("y"))
-            p.end()
-            p.route()
-
-        #- The comparators' VDD is a full width bar mid cell, so the
-        #- riser slides along the bar it is already on -- same net,
-        #- same layer, no new geometry -- and climbs the 4 um gap east
-        #- of the pair, which has nothing else in it.
-        bar = self._port(ccmp, "VDD_1V8",
-                         lambda rs: max(rs, key=lambda r: int(r.y1)))
-        x = layout.channelTrackCoord("dband", 1)
-        if bar is not None and x is not None:
-            #- START ON THE BAR, not on the lane. The riser climbs the
-            #- 4 um gap east of the pair, but the bar it comes from
-            #- ends at the block edge -- a slice taken at the lane is
-            #- 9000 past it, and the via at the bottom landed on
-            #- nothing at all.
-            p = layout.path("VDD_1V8", "M1",
-                            start=[self._slice(bar, int(bar.x2) - 3000,
-                                               "VDD_1V8")],
-                            stop=[self._slice(rt, x, "VDD_1V8")])
-            p.start()
-            p.movex(p.track("dband", 1))
+            #- TRACK 3, NOT 1: the pair's east edge is its cap bank,
+            #- and a MiM claims 1.34 um from unrelated M4 (capm.11) --
+            #- including metal outside its own cell. The riser stood
+            #- 0.75 um off it on the first track and 1.22 on the
+            #- second, where the wire cleared but the via pad, half
+            #- again as wide, did not.
+            p.movex(p.track("dband", 3))
             p.up()
             p.up()
             p.up()
@@ -1165,5 +1123,3 @@ class LELO_TEMP(SidecarCell):
             p.down()
             p.down()
             p.down()
-            p.end()
-            p.route()
