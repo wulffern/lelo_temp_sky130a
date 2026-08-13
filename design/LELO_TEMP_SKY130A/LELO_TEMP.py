@@ -1479,6 +1479,19 @@ class LELO_TEMP(SidecarCell):
             return
         P = self._port
 
+        #- the lane in front of the strip's own pins, measured off the
+        #- westmost of them. Lost in a rewrite once, and the story
+        #- that aimed at it did not fail -- the anchor resolved to
+        #- None, the move was skipped, and PWRUP_B descended in
+        #- `lband` and crossed the tile at its landing row.
+        west = [c.get() for c in getattr(dig, "children", []) or []
+                if getattr(c, "isPort", lambda: False)()]
+        west = [r for r in west if r is not None]
+        if west:
+            layout.addRoutingChannel("eband", int(dig.x1),
+                                     min(int(r.x1) for r in west),
+                                     horizontal=False)
+
         def path(net, a, b, layer=None, at=None):
             if a is None or b is None:
                 log.error(f"top: {net} is not on both blocks")
@@ -1548,14 +1561,32 @@ class LELO_TEMP(SidecarCell):
         #-     pair's east edge is the bank, and a MiM claims 1.34 um
         #-     from unrelated metal3, so the descents start at track 2.
         #-
-        #-   net       riser over the pair   cband   down
-        #-   CMPO_B    east                    4     dband 2
-        #-   CMPO_A    middle                  8     dband 4
-        #-   RST_B     west                   12     dband 6
-        #-   RST_A     -- (its pin is on the top edge)
-        #-                                    16     dband 8
-        #-   PWRUP_N   -- (from lband)        20     dband 10
-        #-   PWRUP_B   -- (from lband)        24     eband 0
+        #- THE ORDER, WEST TO EAST BY RISER, WITH FALLING TRACKS.
+        #- It was the other way round and the connectivity check named
+        #- every consequence: RST_A's riser at 1280700 and RST_B's at
+        #- 1310100 both climbed through CMPO_A's leg at 862500 and
+        #- CMPO_B's at 838500, because they were assigned the HIGHER
+        #- tracks. The riser furthest east must stop lowest.
+        #-
+        #-   net       riser at    cband   down
+        #-   CMPO_A    ~1067000      16    dband 6
+        #-   CMPO_B    ~1079000      12    dband 4
+        #-   RST_A      1280700        8    dband 2
+        #-   RST_B      1310100        4    dband 0
+        #-   PWRUP_N   -- (lband)     20    dband 10
+        #-   PWRUP_B   -- (lband)     24    eband 0
+        #-
+        #- THE LOWER PIN TAKES THE FARTHER RISER. Both comparator
+        #- outputs walk WEST from a pin column outside their corridor
+        #- to reach it, and each walk is at its own pin's row -- so
+        #- the walk of the one whose pin is higher would cross the
+        #- other's riser. CMPO_A's pin is at 338700 and CMPO_B's at
+        #- 456700, so CMPO_A goes further west and CMPO_B's walk
+        #- passes below where CMPO_A's riser begins.
+        #-
+        #- AND DBAND'S LANES 7..9 BELONG TO A SUPPLY TIE: the VDD tie
+        #- to the strip stands at 1466000..1475600, and the
+        #- connectivity check caught a descent in it twice.
 
         #- VC: the bias block's own M3 pin runs to its east edge, and
         #- the pair's is an M2 pin just above its base. The leg east
@@ -1595,15 +1626,35 @@ class LELO_TEMP(SidecarCell):
         #- against the schematic's 24: 18 with no leg at all, 16 on
         #- M5 down the column, 16 crossing above the bundle, 13 on M4
         #- at the pin's row.
-        for net, lb, band, down, lane_ch in (
-                ("PWRUP_N_1V8", 0, 20, 10, "dband"),
-                ("PWRUP_B_1V8", 7, 24, 0, "eband")):
-            p = path(net, P(bias, net), P(dig, net), "M5")
-            if not p:
-                continue
-            p.movex(p.track("lband", lb))
-            p.movey(p.track("cband", band))
-            p.movex(p.track(lane_ch, down))
+        p = path("PWRUP_N_1V8", pn, P(dig, "PWRUP_N_1V8"), "M5")
+        if p:
+            p.movex(p.track("lband", 0))
+            p.movey(p.track("cband", 20))
+            p.movex(p.track("dband", 10))
+            p.down("M4")
+            p.movey(p.landing("y"))
+            p.up("M5")
+            p.movex(p.landing("x"))
+            p.end()
+
+        #- PWRUP_B: OVER the strip, not in front of it. dband's lanes
+        #- are spoken for (four nets and a supply tie), and the sliver
+        #- before the strip's pins is where every other net's last leg
+        #- runs -- a descent there met RST_A's landing cut. The strip
+        #- itself leaves a corridor east of its pins, and that is
+        #- measured, not chosen. Its crossing of `lband` is on M4:
+        #- PWRUP_N rises there on M5, and the bundle's M4 rows are
+        #- higher than this one.
+        pb = P(bias, "PWRUP_B_1V8")
+        p = path("PWRUP_B_1V8", pb, P(dig, "PWRUP_B_1V8"), "M5")
+        if p and layout.addBlockChannel("digfree", dig, "M5",
+                                        span=(int(dig.y1), int(dig.y2)),
+                                        near=int(dig.x2)):
+            p.down("M4")
+            p.movex(p.track("lband", 7))
+            p.up("M5")
+            p.movey(p.track("cband", 24))
+            p.movex(p.track("digfree", 1))
             p.down("M4")
             p.movey(p.landing("y"))
             p.up("M5")
@@ -1619,8 +1670,8 @@ class LELO_TEMP(SidecarCell):
         if p:
             p.movey(p.track("cband", 0))
             p.up("M5")
-            p.movey(p.track("cband", 16))
-            p.movex(p.track("dband", 8))
+            p.movey(p.track("cband", 8))
+            p.movex(p.track("dband", 2))
             p.down("M4")
             p.movey(p.landing("y"))
             p.up("M5")
@@ -1629,9 +1680,19 @@ class LELO_TEMP(SidecarCell):
 
         #- and the three whose pins are inside the pair, each rising
         #- in the corridor the pair leaves clear beside it
-        for net, band, down, step in (("RST_B", 12, 6, 2),
-                                      ("CMPO_A", 8, 4, 4),
-                                      ("CMPO_B", 4, 2, 8)):
+        #- and the two comparator outputs, whose risers are the
+        #- westmost and so take the highest tracks. Their corridors
+        #- are the same span, so the lanes are counted from the pin
+        #- and kept two apart -- at the same index they came out at
+        #- the same x and shorted to each other.
+        #- RST_B lands furthest east of all of them (block-x 86800),
+        #- so a leg from dband to its pad crosses every other net's
+        #- landing on the way -- it caught RST_A's cut. It comes down
+        #- over the strip instead, in the same measured corridor
+        #- PWRUP_B uses, two lanes along.
+        for net, band, down, step in (("RST_B", 4, 3, 2),
+                                      ("CMPO_A", 16, 6, -2),
+                                      ("CMPO_B", 12, 4, 0)):
             pin = P(ccmp, net)
             name = net.lower() + "_up"
             p = path(net, pin, P(dig, net))
@@ -1640,7 +1701,8 @@ class LELO_TEMP(SidecarCell):
             p.up("M5")
             p.movex(p.track(name, lane(name, pin, step)))
             p.movey(p.track("cband", band))
-            p.movex(p.track("dband", down))
+            p.movex(p.track("digfree" if net == "RST_B" else "dband",
+                            down))
             p.down("M4")
             p.movey(p.landing("y"))
             p.up("M5")
