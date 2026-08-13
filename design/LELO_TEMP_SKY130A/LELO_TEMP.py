@@ -187,14 +187,24 @@ class LELO_TEMP(SidecarCell):
                 return None
             tall = (int(inst.y2) - int(inst.y1)) // 4
             wall, stop = None, None
-            rects = []
-            for c in getattr(sub, "children", []) or []:
-                r = c.get() if hasattr(c, "get") else c
-                if r is not None and getattr(r, "layer", ""):
-                    rects.append(r)
+            #- THROUGH THE BLOCK VIEW, not the block's own children.
+            #- The comparator is made of cells now, and the wall this
+            #- measures -- the cap bank's tall M4/M5 -- belongs to one
+            #- of them. Asked of the children alone the question came
+            #- back empty and the seam went unrouted, which is the
+            #- same blindness the view was built to end.
+            rects = [r for r in sub.flatMetal()
+                     if getattr(r, "layer", "")]
+            #- THE RIGHTMOST tall column, not the leftmost. Through
+            #- the published rects alone the cap bank was the only
+            #- one and either answer was it; through the view there
+            #- are the comparator's own risers too, and the leftmost
+            #- of those (44300) named a 6500 band in the middle of
+            #- the core. The bank is the block's right wall, so the
+            #- rightmost is the one that means it.
             for r in rects:
                 if r.layer in ("M4", "M5") and int(r.y2 - r.y1) > tall:
-                    wall = int(r.x1) if wall is None else min(wall,
+                    wall = int(r.x1) if wall is None else max(wall,
                                                               int(r.x1))
             if wall is None:
                 return None
@@ -274,9 +284,12 @@ class LELO_TEMP(SidecarCell):
                 p.movex(p.landing("x"))
                 p.end()
 
-            #- PWRUP_N: its own M4 lane, two stubs east of the pin. The
-            #- trip to the empty column would cross the whole cell
-            #- twice for a net that has a free lane 5 um away.
+            #- PWRUP_N: its own M4 lane, two stubs east of the pin.
+            #- The trip to the empty column would cross the whole cell
+            #- twice for a net that has a free lane 5 um away -- and
+            #- the lane stays free because the comparator takes its
+            #- own PWRUP_N up on cuts turned on their side, inside the
+            #- pin, rather than on a leg out to the east.
             lo, hi = pins("PWRUP_N_1V8")
             if lo is not None and hi is not None:
                 p = lay.path("PWRUP_N_1V8", "M3", start=[lo],

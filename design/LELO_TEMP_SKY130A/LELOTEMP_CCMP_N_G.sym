@@ -1,0 +1,20 @@
+v {xschem version=3.0.0 file_version=1.2 }
+K {type=subcircuit
+format="@name @pinlist @symname "
+template="name=x1 "
+} 
+B 5 -22.5 -2.5  -17.5 2.5 {name=IBP_1U<0> dir=inout }
+L 4 -20 0 0 0 {}
+T {IBP_1U<0>} 5 -5 0 0 0.2 0.2  {}
+B 5 -22.5 17.5  -17.5 22.5 {name=PWRUP_N_1V8 dir=inout }
+L 4 -20 20 0 20 {}
+T {PWRUP_N_1V8} 5 15 0 0 0.2 0.2  {}
+B 5 -22.5 37.5  -17.5 42.5 {name=RST dir=inout }
+L 4 -20 40 0 40 {}
+T {RST} 5 35 0 0 0.2 0.2  {}
+B 5 -22.5 57.5  -17.5 62.5 {name=VSS dir=inout }
+L 4 -20 60 0 60 {}
+T {VSS} 5 55 0 0 0.2 0.2  {}
+P 4 5 0 -10 180 -10 180 70 0 70 0 -10 {}
+T {@symname}  50 20.0  0 0 0.25 0.25 {}
+T {@name} 0 -25 0 0 0.2 0.2 {}

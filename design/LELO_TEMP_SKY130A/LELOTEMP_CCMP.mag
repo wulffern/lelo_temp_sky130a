@@ -1,150 +1,133 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786485600
+timestamp 1786572000
 << checkpaint >>
-rect 0 0 8196 7480
-<< metal3 >>
-rect 7566 880 7746 7080
-rect 1444 2412 1532 2500
-rect 5636 2412 5724 2500
-rect 1442 2410 1542 2510
-rect 5634 2410 5734 2510
-rect 2616 270 7036 390
-rect 2632 256 2720 344
-rect 6088 256 6176 344
-rect 6916 270 7036 540
-rect 6916 480 7746 540
-rect 7560 42 7752 118
-<< metal4 >>
-rect 7566 880 7746 7080
-rect 0 2400 5716 2520
-rect 1444 2412 1540 2508
-rect 5636 2412 5732 2508
-rect 7566 0 7746 880
-rect 7560 42 7752 138
+rect 0 -480 8196 7300
 << locali >>
-rect 0 6960 8196 7140
-rect 0 6960 8196 7140
-rect 276 6660 4772 7140
-rect 0 0 8196 180
-rect 0 0 8196 180
-rect 276 0 4772 660
-rect 5788 0 5956 168
-rect 5396 0 5588 1400
-rect 5788 0 5956 168
-rect 5396 0 5588 2200
-rect 7560 42 7728 106
-<< metal1 >>
-rect 5780 0 5972 1640
-rect 5788 0 5964 176
-rect 5780 0 5972 2440
-rect 5788 0 5964 176
-rect 5652 2200 5716 2520
-rect 5636 2412 5716 2492
-rect 2644 270 2708 482
-rect 2632 256 2712 336
-rect 6036 270 6228 1002
-rect 6088 256 6168 336
-rect 7560 42 7736 110
-rect 6168 1040 6228 1840
-rect 2644 480 2708 560
-rect 1844 6760 2036 6840
-rect 2884 480 2948 560
-rect 5412 0 5476 80
-rect 5412 0 5476 80
-rect 5232 1320 5684 1380
-rect 5232 0 5444 60
-rect 5232 0 5292 1380
+rect 0 7120 8196 7300
+rect 0 7120 8196 7300
+rect 276 6180 4772 7300
+rect 0 -480 8196 -300
+rect 0 -480 8196 -300
+rect 7560 -480 7728 -312
+rect 276 -480 4772 180
+rect 5492 -480 5588 920
+<< metal4 >>
+rect 7116 -480 8196 100
+rect 7560 -480 7752 -288
+rect 1444 1884 1540 2076
+rect 1492 1950 5714 2010
+rect 5654 1650 5714 1980
+rect 5636 1584 5732 1776
 << viali >>
-rect 5800 12 5852 64
-rect 5800 104 5852 156
-rect 5892 12 5944 64
-rect 5892 104 5944 156
-rect 5800 12 5852 64
-rect 5800 104 5852 156
-rect 5892 12 5944 64
-rect 5892 104 5944 156
-rect 7572 48 7624 100
-rect 7664 48 7716 100
-<< metal2 >>
-rect 1444 2412 1524 2492
-rect 5636 2412 5716 2492
-rect 2632 256 2712 336
-rect 6088 256 6168 336
-rect 7560 42 7736 110
-rect 4708 2400 5132 2520
-rect 5012 480 5132 2520
-rect 180 1300 372 1380
-rect 1460 2420 1524 2500
-rect 4708 2420 4772 2500
-<< via2 >>
-rect 1456 2424 1512 2480
-rect 5648 2424 5704 2480
-rect 2644 268 2700 324
-rect 6100 268 6156 324
-rect 7572 48 7628 104
-rect 7668 48 7724 104
-<< via3 >>
-rect 1456 2424 1520 2488
-rect 5648 2424 5712 2488
-rect 7572 48 7636 112
-rect 7676 48 7740 112
+rect 7572 -468 7624 -416
+rect 7572 -376 7624 -324
+rect 7664 -468 7716 -416
+rect 7664 -376 7716 -324
+<< metal1 >>
+rect 7560 -480 7736 -304
+rect 5636 1584 5704 1760
+rect 6036 522 6212 590
+rect 2646 -240 2706 40
+rect 2580 -278 2756 -210
+rect 6102 -240 6162 560
+rect 6036 -278 6212 -210
+rect 1844 6280 2036 6360
+rect 2884 0 2948 80
+rect 5412 -480 5476 -400
+rect 5412 -480 5476 -400
+rect 5232 840 5684 900
+rect 5232 -480 5444 -420
+rect 5232 -480 5292 900
 << via1 >>
-rect 5648 2424 5704 2480
-rect 2644 268 2700 324
-rect 6100 268 6156 324
-rect 7572 48 7628 104
-rect 7668 48 7724 104
-use LELOTEMP_CMP x1_cmp ../LELO_TEMP_SKY130A
-transform 1 0 180 0 1 480
-box 180 480 5072 6840
-use JNWATR_NCH_2C5F0 xg1 ../JNW_ATR_SKY130A
-transform 1 0 5492 0 1 960
-box 5492 960 6516 1760
-use JNWATR_NCH_2C5F0 xg4 ../JNW_ATR_SKY130A
-transform 1 0 5492 0 1 1760
-box 5492 1760 6516 2560
-use JNWATR_NCH_2CTAPBOT xstack_n_g_bot ../JNW_ATR_SKY130A
-transform 1 0 5492 0 1 480
-box 5492 480 6516 960
-use JNWATR_NCH_2CTAPTOP xstack_n_g_top ../JNW_ATR_SKY130A
-transform 1 0 5492 0 1 2560
-box 5492 2560 6516 3040
-use JNWTR_CAPX1 xd1<0> ../JNW_TR_SKY130A
-transform 1 0 7116 0 1 480
-box 7116 480 8196 1560
-use JNWTR_CAPX1 xd1<1> ../JNW_TR_SKY130A
-transform 1 0 7116 0 1 1960
-box 7116 1960 8196 3040
-use JNWTR_CAPX1 xd1<2> ../JNW_TR_SKY130A
-transform 1 0 7116 0 1 3440
-box 7116 3440 8196 4520
-use JNWTR_CAPX1 xd1<3> ../JNW_TR_SKY130A
-transform 1 0 7116 0 1 4920
-box 7116 4920 8196 6000
-use JNWTR_CAPX1 xd1<4> ../JNW_TR_SKY130A
-transform 1 0 7116 0 1 6400
-box 7116 6400 8196 7480
+rect 7572 -468 7628 -412
+rect 7572 -372 7628 -316
+rect 7668 -468 7724 -412
+rect 7668 -372 7724 -316
+rect 5642 1596 5698 1652
+rect 5642 1692 5698 1748
+rect 6048 528 6104 584
+rect 6144 528 6200 584
+rect 2592 -272 2648 -216
+rect 2688 -272 2744 -216
+rect 6048 -272 6104 -216
+rect 6144 -272 6200 -216
+<< metal2 >>
+rect 7560 -480 7736 -304
+rect 1444 1884 1512 2060
+rect 5636 1584 5704 1760
+rect 6036 522 6212 590
+rect 2580 -278 2756 -210
+rect 6036 -278 6212 -210
+rect 180 820 372 900
+rect 1460 1940 1524 2020
+rect 4708 1940 4772 2020
+<< via2 >>
+rect 7572 -468 7628 -412
+rect 7572 -372 7628 -316
+rect 7668 -468 7724 -412
+rect 7668 -372 7724 -316
+rect 1450 1896 1506 1952
+rect 1450 1992 1506 2048
+rect 5642 1596 5698 1652
+rect 5642 1692 5698 1748
+rect 6048 528 6104 584
+rect 6144 528 6200 584
+rect 2592 -272 2648 -216
+rect 2688 -272 2744 -216
+rect 6048 -272 6104 -216
+rect 6144 -272 6200 -216
+<< metal3 >>
+rect 7560 -480 7752 -288
+rect 1444 1884 1520 2076
+rect 5636 1584 5712 1776
+rect 6786 20 7656 80
+rect 6786 -270 6846 50
+rect 6102 -270 6816 -210
+rect 6102 -240 6162 590
+rect 6036 522 6228 598
+rect 2520 -270 6288 -210
+rect 2520 -270 6288 -210
+rect 2580 -278 2772 -202
+rect 6036 -278 6228 -202
+<< via3 >>
+rect 7572 -468 7636 -404
+rect 7572 -364 7636 -300
+rect 7676 -468 7740 -404
+rect 7676 -364 7740 -300
+rect 1450 1896 1514 1960
+rect 1450 2000 1514 2064
+rect 5642 1596 5706 1660
+rect 5642 1700 5706 1764
+use LELOTEMP_CCMP_CAPS xcaps 
+transform 1 0 7116 0 1 0
+box 7116 0 8196 7000
+use LELOTEMP_CCMP_CMP xcmp 
+transform 1 0 0 0 1 0
+box 0 0 4892 6360
+use LELOTEMP_CCMP_N_G xn_g 
+transform 1 0 5492 0 1 0
+box 5492 0 6516 2560
 << labels >>
-flabel locali s 0 6960 8196 7140 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 7120 8196 7300 0 FreeSans 400 0 0 0 VDD_1V8
 port 3 nsew power bidirectional
-flabel locali s 0 0 8196 180 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 -480 8196 -300 0 FreeSans 400 0 0 0 VSS
 port 9 nsew ground bidirectional
-flabel metal2 s 180 1300 372 1380 0 FreeSans 400 0 0 0 IBP_1U<1>
-port 1 nsew signal bidirectional
-flabel metal1 s 2644 480 2708 560 0 FreeSans 400 0 0 0 IBP_1U<0>
+flabel metal3 s 2520 -270 6288 -210 0 FreeSans 400 0 0 0 IBP_1U<0>
 port 2 nsew signal bidirectional
-flabel metal2 s 1460 2420 1524 2500 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal2 s 180 820 372 900 0 FreeSans 400 0 0 0 IBP_1U<1>
+port 1 nsew signal bidirectional
+flabel metal2 s 1460 1940 1524 2020 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 4 nsew power bidirectional
-flabel metal2 s 4708 2420 4772 2500 0 FreeSans 400 0 0 0 PWRUP_B_1V8
+flabel metal2 s 4708 1940 4772 2020 0 FreeSans 400 0 0 0 PWRUP_B_1V8
 port 5 nsew power bidirectional
-flabel metal1 s 1844 6760 2036 6840 0 FreeSans 400 0 0 0 CMPO
+flabel metal1 s 1844 6280 2036 6360 0 FreeSans 400 0 0 0 CMPO
 port 6 nsew signal bidirectional
-flabel metal1 s 2884 480 2948 560 0 FreeSans 400 0 0 0 VC
+flabel metal1 s 2884 0 2948 80 0 FreeSans 400 0 0 0 VC
 port 7 nsew signal bidirectional
-flabel metal1 s 5412 0 5476 80 0 FreeSans 400 0 0 0 RST
+flabel metal1 s 5412 -480 5476 -400 0 FreeSans 400 0 0 0 RST
 port 8 nsew signal bidirectional
 << properties >>
-string FIXED_BBOX 0 0 8196 7480
+string FIXED_BBOX 0 -480 8196 7300
 << end >>

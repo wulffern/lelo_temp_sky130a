@@ -1,0 +1,39 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786572000
+<< checkpaint >>
+rect 0 0 1024 2560
+<< locali >>
+rect 0 1080 384 1160
+rect 0 1880 384 1960
+rect 0 840 96 920
+<< metal1 >>
+rect 676 560 736 1360
+rect 544 520 736 600
+rect 160 1640 224 1720
+rect 160 840 224 920
+use JNWATR_NCH_2C5F0 xg1 ../JNW_ATR_SKY130A
+transform 1 0 0 0 1 480
+box 0 480 1024 1280
+use JNWATR_NCH_2C5F0 xg4 ../JNW_ATR_SKY130A
+transform 1 0 0 0 1 1280
+box 0 1280 1024 2080
+use JNWATR_NCH_2CTAPBOT xstack_n_g_bot ../JNW_ATR_SKY130A
+transform 1 0 0 0 1 0
+box 0 0 1024 480
+use JNWATR_NCH_2CTAPTOP xstack_n_g_top ../JNW_ATR_SKY130A
+transform 1 0 0 0 1 2080
+box 0 2080 1024 2560
+<< labels >>
+flabel metal1 s 544 520 736 600 0 FreeSans 400 0 0 0 IBP_1U<0>
+port 1 nsew signal bidirectional
+flabel metal1 s 160 1640 224 1720 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+port 2 nsew power bidirectional
+flabel metal1 s 160 840 224 920 0 FreeSans 400 0 0 0 RST
+port 3 nsew signal bidirectional
+flabel locali s 0 840 96 920 0 FreeSans 400 0 0 0 VSS
+port 4 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 0 1024 2560
+<< end >>

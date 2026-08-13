@@ -76,145 +76,144 @@ class LELOTEMP_CCMP(SidecarCell):
         [cmp, n_g, caps],
     ]
 
-    #- rings and connections are hand-rolled below: the recipe's
-    #- supply loop hardcodes strap geometry this cell does not want
-    supplies = []
+    #- STRAPS FOR THE SUBCELLS, RINGS BY HAND HERE. An entry without
+    #- `ring` does nothing at this level -- the assembly recipe only
+    #- reads `ring` -- and everything at the subcell level, where the
+    #- flat recipe guards and straps each stack. Which is exactly the
+    #- split this cell wants: it does not want the recipe's ring
+    #- geometry, and its pieces do want their own rails. As groups
+    #- they got them from the parent's addPowerConnection reaching
+    #- every published supply rect; as cells they have to be strapped
+    #- where they are.
+    supplies = [{"net": "VDD_1V8", "strap": "top"},
+                {"net": "VSS", "strap": "bottom"}]
+
+    #- EVERY DECLARED PIECE IS A CELL. The stacks above are written as
+    #- classes like any other subcell, so they are built as cells with
+    #- their own lifecycle and assembled here.
+    #-
+    #- IBP_1U<0> is what the three of them share -- the comparator's
+    #- input, the reset pull's drain and the cap bank's plate -- and
+    #- all three publish it within 30 um of the cell's base, so one
+    #- bar in the band between the ring and the cells reaches every
+    #- one. The drops are discovered: a subcell exposing the net gets
+    #- one.
+    #- THE BAR STOPS SHORT OF THE CAPS. A MiM claims 1.34 um from
+    #- unrelated metal3 (capm.11) and counts anything under its halo,
+    #- so a bar running the cell's full width in the band below picks
+    #- up the whole cap bank. The bank's drop is skipped here and told
+    #- as a story instead -- west of the caps, then up and in on the
+    #- pin bar the cap cell already owns.
+    routes = [
+        {"net": "IBP_1U<0>", "bar_layer": "M4", "channel": "base",
+         "track": 0, "drops": [{"inst": "caps", "skip": True}]},
+    ]
 
     def beforeRoute(self, layout):
+        """Three subcells, and the nets that cross between them.
+
+        WHAT THIS USED TO BE: 150 lines of Rect and Cut reaching into
+        `x1_cmp`, `xg1`, `xg4` and `xd1<0>` by instance name and
+        computing every coordinate off their pins. None of it could
+        survive the hierarchy, because none of those instances belong
+        to this cell any more -- they belong to the three cells it
+        places.
+        """
         layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3,
                             spacemult=2)
         layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=5)
         layout.addPowerConnection("VDD_1V8", "", "top")
         layout.addPowerConnection("VSS", "", "bottom")
-        #- PWRUP_N_1V8 by hand: an M4 bar at the cmp pin's own row
-        #- (the core is routed up through M4; only M5 crosses it touching nothing, so M4 crosses it touching
-        #- nothing), a cut at the pin, and a drop outside the core
-        #- down to xg4's gate tab. The orthogonal route's via column
-        #- at the gate reached into the core's tail drains (measured:
-        #- three proxy ports on the extracted comparator).
-        from cicpy.core.rect import Rect as _Rect
-        from cicpy.core.cut import Cut as _Cut
-        from cicpy.core.rules import Rules as _Rules
-        i_cmp = layout.getInstanceFromInstanceName("x1_cmp")
-        pw = i_cmp.instancePorts["PWRUP_N_1V8"].get()
-        xg4 = layout.getInstanceFromInstanceName("xg4")
-        gpin = xg4.instancePorts["PWRUP_N_1V8"].get()
-        if None not in (pw, gpin):
-            w4 = _Rules.getInstance().get("M5", "width")
-            yb2 = int(pw.centerY())
-            #- from the LEFT EDGE: the parent reaches PWRUP_N here,
-            #- and the interior pin is unreachable from outside
-            bar2 = _Rect("M5", 0, int(yb2 - w4),
-                         int(gpin.x2), int(w4 * 2))
-            bar2.setNet("PWRUP_N_1V8")
-            layout.add(bar2)
-            ct = (_Cut.getInstance(pw.layer, "M5", 1, 1)
-                  or _Cut.getInstance("M5", pw.layer, 1, 1))
-            if ct is not None:
-                ct.moveCenter(int(pw.centerX()), yb2)
-                layout.add(ct)
-            v = _Rect(gpin.layer, int(gpin.x1), int(gpin.y2),
-                      int(gpin.x2 - gpin.x1),
-                      int(yb2 + w4 - gpin.y2))
-            v.setNet("PWRUP_N_1V8")
-            layout.add(v)
-            ct2 = (_Cut.getInstance(gpin.layer, "M5", 1, 1)
-                   or _Cut.getInstance("M5", gpin.layer, 1, 1))
-            if ct2 is not None:
-                ct2.moveCenter(int(gpin.centerX()), yb2)
-                layout.add(ct2)
-            #- the stacks' mid-level M4 pads alone are under the
-            #- metal3 minimum area; one 0.5 um patch per stack
-            for cx in (int(pw.centerX()), int(gpin.centerX())):
-                pad = _Rect("M4", cx - 2500, yb2 - 2500, 5000, 5000)
-                pad.setNet("PWRUP_N_1V8")
-                layout.add(pad)
-        #- IBP_1U<0> rides one M4 bar in the band between the VSS
-        #- ring and the cells' bases, tapped from the cmp's input pin,
-        #- the nmos drain trunk and the caps' A-plate rail. The old
-        #- orthogonal route anchored a bar at the cmp's TOP for a pin
-        #- on its BOTTOM edge, and its vertical sliced the whole core
-        #- (measured: every diff pin on one net).
-        xg1 = layout.getInstanceFromInstanceName("xg1")
-        vin = i_cmp.instancePorts["IBP_1U<0>"].get()
-        dpin = xg1.instancePorts["IBP_1U<0>"].get()
-        abar = getattr(layout, "_caps_ibp_rail", None)
-        rbv = layout.named_rects.get("rail_b_VSS")
-        if None not in (vin, dpin, abar, rbv):
-            w4 = _Rules.getInstance().get("M4", "width")
-            #- hug the ring: at mid-band the bar sat 0.9 um
-            #- under the first cap's mimcap (capm.11 wants 1.34)
-            yb = int(rbv.y2) + 2 * _Rules.getInstance().get("M4", "width")
-            c0 = layout.getInstanceFromInstanceName("xd1<0>")
-            x_app = int(c0.x1) - 10000
-            bar = _Rect("M4", int(vin.centerX() - w4),
-                        int(yb - w4 // 2),
-                        int(x_app + 2 * w4 - (vin.centerX() - w4)),
-                        int(w4 * 2))
-            bar.setNet("IBP_1U<0>")
-            layout.add(bar)
-            #- taps: a vertical on each pin's own layer down to the
-            #- bar, a stack where the layers differ
-            for pr in (vin, dpin):
-                v = _Rect(pr.layer, int(pr.x1), int(yb - w4 // 2),
-                          int(pr.x2 - pr.x1),
-                          int(pr.y1 - yb + w4 // 2 + 100))
-                v.setNet("IBP_1U<0>")
-                layout.add(v)
-                ct = (_Cut.getInstance(pr.layer, "M4", 1, 1)
-                      or _Cut.getInstance("M4", pr.layer, 1, 1))
-                if ct is not None:
-                    ct.moveCenter(int(pr.centerX()), int(yb))
-                    layout.add(ct)
-            #- approach the column from the LEFT, never from below:
-            #- any metal3 under the mimcap's halo is "unrelated" to
-            #- capm.11 (measured three ways). A stub 1 um left of the
-            #- cells climbs to the pin bar's own height and enters ON
-            #- the pin bar, whose geometry the cap cell already owns.
-            v = _Rect("M4", x_app, int(yb - w4 // 2), int(2 * w4),
-                      int(c0.y1) + 3000 - int(yb - w4 // 2))
-            v.setNet("IBP_1U<0>")
-            layout.add(v)
-            h = _Rect("M4", x_app, int(c0.y1),
-                      int(abar.x2 - x_app), 3000)
-            h.setNet("IBP_1U<0>")
-            layout.add(h)
-        #- the caps' VSS plate rail down onto the bottom ring: extend
-        #- the bar into the ring band and stack through to its M1
-        bar = getattr(layout, "_caps_vss_rail", None)
-        rb = layout.named_rects.get("rail_b_VSS")
-        if bar is not None and rb is not None:
-            from cicpy.core.rect import Rect
-            from cicpy.core.cut import Cut
-            ext = Rect("M5", int(bar.x1), int(rb.y1),
-                       int(bar.x2 - bar.x1), int(bar.y1 - rb.y1))
-            ext.setNet("VSS")
-            layout.add(ext)
-            ct = (Cut.getInstance("M1", "M5", 2, 1)
-                  or Cut.getInstance("M1", "M5", 1, 1))
-            if ct is not None:
-                ct.moveCenter(int((bar.x1 + bar.x2) // 2),
-                              int(rb.centerY()))
-                layout.add(ct)
+        #- the band the channel route rides: between the ring just
+        #- laid and the cells' base. Registered here rather than in
+        #- afterPlace because the ring is what bounds it.
+        rb = (layout.named_rects.get("rail_b_VSS")
+              or layout.named_rects.get("ring_b_VSS"))
+        if rb is not None:
+            layout.addRoutingChannel("base", int(rb.y2), 0)
+        #- and the gap between the pull and the cap bank, which is
+        #- where anything reaching the caps has to turn
+        n_g = layout.getInstanceFromInstanceName("xn_g")
+        caps = layout.getInstanceFromInstanceName("xcaps")
+        if None not in (n_g, caps):
+            layout.addRoutingChannel("capgap", int(n_g.x2),
+                                     int(caps.x1), horizontal=False)
         super().beforeRoute(layout)
+        self._crossings(layout)
 
-        #- PWRUP_B to the BOTTOM edge: the pin sits at the core's
-        #- right edge, so a stub on its own layer steps into the
-        #- core-to-nmos gap and drops straight down -- no crossing of
-        #- the PWRUP_N M5 bar that shares the pin row
-        pb = i_cmp.instancePorts["PWRUP_B_1V8"].get()
-        if pb is not None:
-            w3 = _Rules.getInstance().get(pb.layer, "width")
-            xg = int(pb.x2) + 12000
-            hst = _Rect(pb.layer, int(pb.x1), int(pb.centerY() - w3),
-                        xg - int(pb.x1) + 2 * w3, int(2 * w3))
-            hst.setNet("PWRUP_B_1V8")
-            layout.add(hst)
-            vpb = _Rect(pb.layer, xg, 0, int(2 * w3),
-                        int(pb.centerY() + w3))
-            vpb.setNet("PWRUP_B_1V8")
-            layout.add(vpb)
+    @staticmethod
+    def _port(inst, net):
+        rs = [c.get() for c in getattr(inst, "children", []) or []
+              if getattr(c, "isPort", lambda: False)()
+              and getattr(c, "name", "") == net]
+        rs = [r for r in rs if r is not None]
+        return rs[0] if rs else None
+
+    def _crossings(self, layout):
+        """The nets a channel bar cannot carry.
+
+        PWRUP_N crosses the comparator, not the band under it: its pin
+        is at the core's own row and the pull's gate is 13 um lower.
+        The core is routed through M4, so M5 is the one layer that
+        crosses it touching nothing -- which the hand-drawn version
+        found too, the hard way.
+
+        The cap bank's VSS is its plate rail on M5 and the ring is M1
+        in the band below, so that one is a drop.
+        """
+        cmp_i = layout.getInstanceFromInstanceName("xcmp")
+        n_g = layout.getInstanceFromInstanceName("xn_g")
+        caps = layout.getInstanceFromInstanceName("xcaps")
+        rb = (layout.named_rects.get("rail_b_VSS")
+              or layout.named_rects.get("ring_b_VSS"))
+        if None in (cmp_i, n_g, caps, rb):
+            log.error("CCMP: three subcells and a ring are needed")
+            return
+
+        a = self._port(cmp_i, "PWRUP_N_1V8")
+        b = self._port(n_g, "PWRUP_N_1V8")
+        if a is not None and b is not None:
+            #- A PIN IS 3200 WIDE AND THE DEFAULT CUT IS 8800, so a
+            #- stack centred on this pin reaches 4800 west, and the
+            #- core's own M4 riser is 5200 away: met3.2 wants 3000 and
+            #- got 2000. Turned on its side the same two cuts fit
+            #- INSIDE the pin (the seam stories above this cell found
+            #- the same thing), which leaves the pin's whole
+            #- neighbourhood free -- for this net's clearance and for
+            #- the pair's riser, which needs a lane beside the pin.
+            p = layout.path("PWRUP_N_1V8", a.layer, start=[a], stop=[b],
+                            options="1cuts,2vcuts")
+            p.start()
+            p.up("M5")
+            p.movex(p.landing("x"))
+            p.movey(p.landing("y"))
+            p.down("M2")
+            p.movex(p.landing("x"))
+            p.end()
+
+        #- the cap bank, from the LEFT and never from below
+        ci = self._port(caps, "IBP_1U<0>")
+        ni = self._port(n_g, "IBP_1U<0>")
+        if ci is not None and ni is not None:
+            p = layout.path("IBP_1U<0>", "M4", start=[ci], stop=[ni])
+            p.start()
+            p.movex(p.track("capgap", 2))
+            p.movey(p.track("base", 0))
+            p.end()
+
+        #- NO STORY FOR THE CAP BANK'S VSS. Its plate rail is a
+        #- published supply rect, and addPowerConnection above already
+        #- stretches every one of those to the ring -- a second stack
+        #- at the same x put four via layers 2400 from the first
+        #- (via.2, via2.2, via3.2 and nine mcon.2).
 
     def afterPorts(self, layout):
         layout.addPortOnEdge("M2", "RST", "bottom", "--|-",
                              "offset_track-4,track4")
+        #- PWRUP_N AND PWRUP_B STAY WHERE THEY ARE, in the middle
+        #- of the core's own row. Promoting them to edges looked
+        #- right when this cell was built alone -- but it is never
+        #- built alone: the pair above it is assembled by LELO_TEMP's
+        #- `ccmp` subcell, whose five seam stories anchor on these two
+        #- pins where the core publishes them. Moved to the edges,
+        #- all three seam nets lost their second end (measured).
