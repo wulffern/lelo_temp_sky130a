@@ -323,6 +323,18 @@ class LELO_TEMP(SidecarCell):
                 p.movey(p.pin("x2_ccmp", "PWRUP_B_1V8", "y") + p.PITCH)
                 p.up()
                 p.movex(p.track("cross", 3))
+                #- AND UP THE COLUMN, PAST THE SEAM, before leaving.
+                #- Rising where the story arrives puts the port at the
+                #- seam, and this cell's VDD ring is there -- 1345200
+                #- in the parent's frame, which is this very lane, so
+                #- a parent coming down onto the port lands on VDD and
+                #- the whole tile becomes one net. The column is clear
+                #- its full height; four lanes above the upper pin is
+                #- inside the upper comparator, above every ring and
+                #- below the top edge's own.
+                p.down()
+                p.movey(p.pin("x3_ccmp", "PWRUP_B_1V8", "y")
+                        + 4 * p.PITCH)
                 p.up("M5")
                 #- and the port goes where THIS ends (see afterPorts)
                 self._pwrupb = p
@@ -1571,19 +1583,18 @@ class LELO_TEMP(SidecarCell):
             #- so the leg lands on metal the net already owns.
             p.movex(p.landing("x"))
 
-        #- AND THE PAIR'S OWN PWRUP_B IS STILL OPEN. The pair
-        #- publishes it on M5 in its free column now, which is the
-        #- half of the problem that is solved; what is not is getting
-        #- down to it. Straight down from `cband` at that port's x
-        #- lands on the pair's seam VDD ring, which reaches 1345200 --
-        #- lane 3 of that column, where the port is. Moved to lane 5
-        #- the port clears the ring and the descent shorts something
-        #- else (the tile came back as one net either way, and the
-        #- pair picked up 2 DRC of its own). From the west the row is
-        #- the other comparator's PWRUP_N bar; from the east it is the
-        #- cap bank. What this wants is the pair to publish on its own
-        #- TOP EDGE -- the column already runs the full height, so the
-        #- story has somewhere to end that no ring is on.
+        #- PWRUP_B DOES NOT REACH THE PAIR YET, and the tile has
+        #- six merges besides. Every way down to the pair's port
+        #- tried so far makes it worse, and the reason is that this
+        #- level is out of room rather than that any one story is
+        #- wrong: `lband` fits four lanes at the 12000 a via pad
+        #- wants and five nets ask for one; the band above the pair
+        #- carries five M5 legs, the bundle's four M4 rows sit over
+        #- those, and the pair's own column is walled by its seam
+        #- ring below and the cap bank east. Measured, in layout nets
+        #- against the schematic's 24: 18 with no leg at all, 16 on
+        #- M5 down the column, 16 crossing above the bundle, 13 on M4
+        #- at the pin's row.
         for net, lb, band, down, lane_ch in (
                 ("PWRUP_N_1V8", 0, 20, 10, "dband"),
                 ("PWRUP_B_1V8", 7, 24, 0, "eband")):
