@@ -482,8 +482,9 @@ class LELO_TEMP(SidecarCell):
                     if r is None:
                         continue
                     m5[(net, inst)] = self._crossLayer(r, ok)
-                    wanted.append(((net, inst), r, m5[(net, inst)]))
-            rows = self._bookRows(step, pads, _gap, wanted)
+                    wanted.append(((net, inst), r, m5[(net, inst)],
+                                   int(x) if x is not None else 0))
+            rows = self._bookRows(step, pads, wides, _gap, wanted)
 
             def row(net, inst):
                 return rows.get((net, inst), (1, 0))
@@ -611,7 +612,7 @@ class LELO_TEMP(SidecarCell):
             M3, under the bars and between the rails."""
             return "M5" if (m5ok and int(pin.x1) < 25000) else "M3"
 
-        def _bookRows(self, step, pads, gapfor, pins):
+        def _bookRows(self, step, pads, wides, gapfor, pins):
             """A stub row for every pin at once, as step counts.
 
             SOLVED FOR THE WHOLE STRIP, NOT HANDED OUT AS ASKED. Four
@@ -647,52 +648,111 @@ class LELO_TEMP(SidecarCell):
             #- leg sit 1000 under the pin it shares a column with,
             #- which is 50 li.3 boxes and no short.
             own = {}
-            for (n, _i), r, _l in pins:
+            for (n, _i), r, _l, _x in pins:
                 own.setdefault(n, set()).add(
                     (int(r.x1), int(r.y1), int(r.x2), int(r.y2)))
-            m1 = []
+            #- WHAT IS IN THE WAY, FROM THE CELLS THEMSELVES. Not
+            #- their children -- a JNWTR cell's children are its pins
+            #- and its two M4 bars, and the M2 and M3 of its M1-M4
+            #- stacks are in the cells it uses. `blockCell()` is that
+            #- view: metal and cuts, at every depth, in the cell's own
+            #- frame.
+            #-
+            #- It replaces two things this used to guess. The li leg
+            #- was checked against published M1 alone, which was all
+            #- there was; and a stub's row had to clear its cell's
+            #- rail by 7800, a number measured off DRC boxes rather
+            #- than read off the rail.
+            blocked = {}
             for inst in self.instances:
                 sub = (getattr(inst, "layoutcell", None)
                        or getattr(inst, "_cell_obj", None))
-                for c in (getattr(sub, "children", []) or []):
-                    r = c.get() if hasattr(c, "get") else c
-                    if r is None or getattr(r, "layer", "") != "M1":
-                        continue
-                    box = (int(r.x1), int(r.y1) + int(inst.y1),
-                           int(r.x2), int(r.y2) + int(inst.y1))
-                    m1.append(box)
+                if sub is None or not hasattr(sub, "blockCell"):
+                    continue
+                for r in sub.blockCell().rects(int(inst.x1),
+                                               int(inst.y1)):
+                    blocked.setdefault(r.layer, []).append(
+                        (int(r.x1), int(r.y1), int(r.x2), int(r.y2)))
+            m1 = blocked.get("M1", [])
+            #- A NET OWNS WHAT TOUCHES ITS PINS. The li that reaches a
+            #- pin is drawn inside the cell, at a depth where it is
+            #- just another rect -- (36000,50500,43500,53500) is the
+            #- OR gate's output conductor, overlapping the pin and
+            #- three microns longer. Compared box for box it reads as
+            #- somebody else's metal, and every candidate row for
+            #- every output pin was rejected against the pin's own
+            #- wire. Flood the ownership out from each pin instead,
+            #- which is what the router's own attribution does.
+            for net, boxes in own.items():
+                grown, wave = set(boxes), list(boxes)
+                while wave:
+                    a = wave.pop()
+                    for o in m1:
+                        if o in grown:
+                            continue
+                        if o[0] < a[2] and a[0] < o[2] \
+                                and o[1] < a[3] and a[1] < o[3]:
+                            grown.add(o)
+                            wave.append(o)
+                own[net] = grown
 
-            def leg_clear(net, r, y, half, wide, space):
-                """The li leg AND its pad, against the cells' own li."""
+            def hits(layer, box, space, mine=()):
+                x1, y1, x2, y2 = box
+                return any(o not in mine
+                           and o[0] < x2 + space and x1 - space < o[2]
+                           and o[1] < y2 + space and y1 - space < o[3]
+                           for o in blocked.get(layer, []))
+
+            def leg_clear(net, r, y, half, wide, space, layer, lane):
+                """The whole stub, against everything below.
+
+                Three shapes, and each one used to be a separate
+                guess: the li leg from the pin up to its row, the pad
+                that ends it -- which spans every layer from li to the
+                crossing one -- and the crossing run itself, from the
+                pin's column out to its lane. That last one is the
+                check that replaces the rail band: it asks the rail
+                whether it is in the way instead of assuming where it
+                is.
+                """
                 mine = own.get(net, set())
                 cx = int(r.centerX())
-                for x1, x2, lo, hi in (
-                        (cx - 1500, cx + 1500,
-                         min(int(r.y1), y), max(int(r.y2), y)),
-                        (cx - wide // 2, cx + wide // 2,
-                         y - half, y + half)):
-                    if any(o not in mine
-                           and o[0] < x2 + space and x1 - space < o[2]
-                           and o[1] < hi + space and lo - space < o[3]
-                           for o in m1):
+                leg = (cx - 1500, min(int(r.y1), y),
+                       cx + 1500, max(int(r.y2), y))
+                if hits("M1", leg, space, mine):
+                    return False
+                pad = (cx - wide // 2, y - half, cx + wide // 2, y + half)
+                stack = ["M1", "M2", "M3"]
+                if layer == "M5":
+                    stack += ["M4", "M5"]
+                for l in stack:
+                    if hits(l, pad, space, mine):
                         return False
-                return True
+                run = (min(cx, lane), y - 1500, max(cx, lane), y + 1500)
+                return not hits(layer, run, space)
 
             cand = []
-            for key, r, layer in pins:
+            for key, r, layer, lane in pins:
                 y0 = int(r.centerY())
-                own = next(((a, b) for a, b in cells if a <= y0 <= b),
-                           None)
-                if own is None:
+                #- `band`, not `own`: `own` is the pins each net may
+                #- land on, which is what leg_clear needs to know to
+                #- tell its own metal from everyone else's.
+                band = next(((a, b) for a, b in cells if a <= y0 <= b),
+                            None)
+                if band is None:
                     log.error(f"dig: a pin at {y0} is in no cell")
                     continue
-                lo = own[0] + (7800 if layer == "M3" else 1100)
-                hi = own[1] - 1100
+                #- the row stays inside the pin's own cell, because
+                #- the leg that reaches it runs up the pin column
+                #- where every other net's pins are. How far it must
+                #- keep off the cell's rail is no longer a number
+                #- here: leg_clear asks the rail.
+                lo, hi = band[0] + 1100, band[1] - 1100
                 half = pads[layer] // 2
                 #- the other pins of this column, in this cell
-                others = [int(o.centerY()) for k2, o, _l in pins
-                          if k2 != key and own[0] <= int(o.centerY())
-                          <= own[1] and abs(int(o.x1) - int(r.x1)) < 9000]
+                others = [int(o.centerY()) for k2, o, _l, _x in pins
+                          if k2 != key and band[0] <= int(o.centerY())
+                          <= band[1] and abs(int(o.x1) - int(r.x1)) < 9000]
                 s0 = self._step(r)
                 #- NEVER ONE STEP OFF THE PIN. The pad that ends the
                 #- leg is as wide as the pin and the leg is a third of
@@ -716,6 +776,15 @@ class LELO_TEMP(SidecarCell):
                         if any(abs(y - o) < half + pads["pin"] // 2
                                + gapfor(layer, "pin") for o in others):
                             continue
+                        #- AND ASK THE CELLS. Everything above is what
+                        #- the pins say; this is what the geometry
+                        #- says, at every depth -- the leg, the pad
+                        #- and the run across the supply columns.
+                        if not leg_clear(key[0], r, y, half,
+                                         wides[layer],
+                                         gapfor(layer, "pin"),
+                                         layer, lane):
+                            continue
                         cs.append((sign * k, y))
                         if k == 0:
                             break
@@ -730,11 +799,19 @@ class LELO_TEMP(SidecarCell):
                     return True
                 key, half, layer, y0, x0, cs = cand[i]
                 for k, y in cs:
-                    if any(abs(y - t) < ease * (half + th
-                                               + gapfor(layer, tl))
-                           for t, th, tl in taken):
+                    #- ONLY ROWS IN THE SAME COLUMN SEE EACH OTHER. A
+                    #- pad is 9600 wide about its own pin, the inputs
+                    #- sit at 18000 and the outputs at 36000, so two
+                    #- rows in different columns cannot touch whatever
+                    #- their y. Comparing every row with every other
+                    #- is what left the strip with no assignment at
+                    #- all -- and then the fallback drew it anyway.
+                    if any(abs(x0 - tx) < 12000
+                           and abs(y - t) < ease * (half + th
+                                                    + gapfor(layer, tl))
+                           for t, th, tl, tx in taken):
                         continue
-                    taken.append((y, half, layer))
+                    taken.append((y, half, layer, x0))
                     chosen[key] = (k, y)
                     if place(i + 1, ease):
                         return True
@@ -760,10 +837,18 @@ class LELO_TEMP(SidecarCell):
                     break
             else:
                 log.error("dig: no row assignment for the strip; "
-                          + repr([(k, [c[1] for c in cs])
-                                  for k, _h, _l, _y, _x, cs in cand]))
+                          + repr([(k, l, x, [c[1] for c in cs])
+                                  for k, _h, l, _y, x, cs in cand]))
+                #- A PIN WITH NO LEGAL ROW FALLS BACK TO ITS OWN.
+                #- k=0 is one cut on the pin and no leg at all, which
+                #- is the least a stub can be; the old fallback took
+                #- k=1 and put the pad three microns up, on whatever
+                #- was there.
                 for key, _half, _layer, _y, _x, cs in cand:
-                    chosen.setdefault(key, cs[0] if cs else (1, 0))
+                    if not cs:
+                        log.warning(f"dig: {key[0]} has no legal row on "
+                                    f"{key[1]}; on its own pin instead")
+                    chosen.setdefault(key, cs[0] if cs else (0, 0))
             return chosen
 
         @staticmethod
