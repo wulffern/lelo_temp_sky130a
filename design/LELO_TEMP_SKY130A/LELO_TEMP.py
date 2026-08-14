@@ -1382,6 +1382,56 @@ class LELO_TEMP(SidecarCell):
                                  horizontal=False)
         layout.addRoutingChannel("cband", int(cc.y2), int(bi.y2))
         layout.addRoutingChannel("sband", int(dg.y2), int(bi.y2))
+
+        #- THE ANTENNA DIODES STAND IN THE FLOOR OF `dband`, which is
+        #- the one part of this tile that is empty at every layer.
+        #- They are in the SCHEMATIC -- a diode extracts as a DEVICE
+        #- and LVS counts devices -- and the schematic says nothing
+        #- about where a device goes, so `place` has no row for them
+        #- and drops them above the floorplan. Left there they are not
+        #- merely misplaced: the tile has a 111.52 um ceiling, the
+        #- bbox grew to 117.39, and the rings and both supply ports
+        #- followed the bbox up with it.
+        #-
+        #- ONE DIODE PER LANE, EACH UNDER ITS OWN. The two violations
+        #- are CMPO_A's and CMPO_B's M4, and each of those nets holds
+        #- a full-height lane of this channel -- so a diode standing
+        #- at the foot of the lane reaches the offending metal on a
+        #- riser that never leaves it. The tracks are the ones
+        #- `_signals` sends the descents down (4 and 6), which is what
+        #- makes the riser straight; naming the track twice is the
+        #- statement that they are the same lane.
+        #-
+        #- AND THEY STACK, they do not stand side by side. The drawn
+        #- guard rings are 1.83 um across against a 1.2 um lane pitch,
+        #- so two at one height would overlap outright. The lower one
+        #- sits in the clear box below every descent (measured with
+        #- `blockers`: x 1425000..1489000 by y 16000..53000 holds
+        #- nothing on any layer), the upper one above it -- and the
+        #- lane a diode stands under is free at that height precisely
+        #- because its own descent stops higher up: CMPO_B's M4
+        #- begins at 82200 and CMPO_A's at 170200.
+        #- (track, height above the blocks' own floor)
+        for name, track, y in (("xant_cmpo_b", 4, 10000),
+                               ("xant_cmpo_a", 6, 40000)):
+            ant = layout.getInstanceFromInstanceName(name)
+            if ant is None:
+                log.error(f"top: the antenna diode {name} is not placed")
+                continue
+            #- OFF THE FLOOR AND OFF EACH OTHER, both by p-select.
+            #- The cell's guard ring overhangs its abutment box by
+            #- 0.265 um on every side and its psubdiff generates
+            #- psdm, which owes 0.38 to anybody else's -- psdm.1, the
+            #- same rule that rode inside the bandgap unseen. 25000
+            #- clears the blocks' floor by a micron; the 30000
+            #- between the two clears their rings by 0.765.
+            ant.translate(int(layout.channelTrackCoord("dband", track)
+                              - ant.centerX()),
+                          int(int(cc.y1) + y - int(ant.y1)))
+        for grp in layout.cellgroups:
+            grp.updateBoundingRect()
+        layout.updateBoundingRect()
+
     def beforeRoute(self, layout):
         #- rings on an EXPLICIT rect: addRouteRing wraps the layout
         #- bbox, which does not count the physical-only tapcell, so
@@ -1426,9 +1476,45 @@ class LELO_TEMP(SidecarCell):
         #- and a layer reservation per band.
         self._supplies(layout)
         self._ibp(layout)
+        self._antenna(layout)
         if not __import__("os").environ.get("NOSIG"): self._signals(layout)
         super().beforeRoute(layout)
 
+    def afterPorts(self, layout):
+        """SAY WHICH RECT IS THE SUPPLY PIN. Do not let it be found.
+
+        `afterPorts` on the recipe places supply ports on the bulk
+        column -- but only for a cell built as a PIECE, and this one
+        is the top, so it returns early and the two supplies keep
+        whatever `addAllPorts` picked, which is the FIRST rect on the
+        net. That is iteration order, and it held only by luck.
+
+        The luck ran out when the antenna diodes arrived. Each one
+        ties its guard ring to VSS, and one of those rings became the
+        rect published as this tile's ground pin: a 1.47 x 0.17 um
+        patch of li at (145.1, 5.4) um, in the middle of the floor
+        between two blocks, in place of the 96 um bar along the
+        bottom. Nothing in the flow complains -- DRC, LVS and the
+        antenna check all pass, because all three are about this
+        cell's inside, and a port is a promise to whatever instantiates
+        it. The harness that lands on that pin is not in this repo.
+
+        So the tile names them: the bias block's own two bars, which
+        are what the rings run to and where the committed layout had
+        them.
+        """
+        super().afterPorts(layout)
+        bias = layout.getInstanceFromInstanceName("xbias")
+        if bias is None:
+            log.error("top: no bias block to take the supply pins from")
+            return
+        for net, pick in (("VDD_1V8", lambda rs: max(rs, key=lambda r: int(r.y1))),
+                          ("VSS", lambda rs: min(rs, key=lambda r: int(r.y1)))):
+            r = self._port(bias, net, pick)
+            if r is None:
+                log.error(f"top: the bias block has no {net} bar to publish")
+                continue
+            layout.updatePort(net, r)
 
     #- ------------------------------------------------------------
     #- The blocks meet the rings
@@ -1861,6 +1947,94 @@ class LELO_TEMP(SidecarCell):
             p.up("M5")
             p.movex(p.landing("x"))
             p.end()
+
+    def _antenna(self, layout):
+        """The two diodes, and the legs that make them count.
+
+        The check is `make ant`: metal3 collects charge during its own
+        etch and discharges through whatever gate it reaches. Two
+        gates here are over the limit of 400 -- MP0 of `x1`, the
+        output buffer, at 450.6, and MP0 of `x7`'s NOR at 488.2.
+
+        THE NETS ARE CMPO_A AND CMPO_B, and finding that out was the
+        whole of the work. Nothing in the antenna report names a net:
+        it gives a gate box and one rect of the offender, and both
+        gates extract under the same device name, `MP0`. The rects
+        place themselves -- (1456400,170200) and (1444400,82200) in
+        this cell's units -- exactly on the two lanes `tracks` calls
+        CMPO_A's and CMPO_B's, at the very bottom of each. The
+        netlist agrees from the other side: `x1 CMPO_A ...` and
+        `x7 CMPO_B PWRUP_N_1V8 ...`, and MP0 is the pmos on the A
+        input of both cells. A diode was hung on PWRUP_N first, on
+        the strength of the report alone, and the two ratios came
+        back to the third decimal unchanged -- which is what a diode
+        on the wrong net looks like.
+
+        WHY THIS IS ROUTED BY HAND rather than by `addAntennaDiode`.
+        That command places a PHYSICAL-only instance and routes to
+        it, which is right when the netlist does not know about the
+        diode. These are in the schematic, because a diode extracts
+        as a DEVICE and LVS counts devices: place one physically as
+        well and the layout has two where the schematic has one. So
+        the schematic carries them, `place` puts them down as
+        ordinary instances, and what is left is exactly the routing
+        half of that command -- these stories.
+
+        THE A LEG MUST END ON M4 OR BELOW, and that is the whole
+        constraint. It is metal3's etch that does the damage, so a
+        diode reached over M5 would be connected in the netlist and
+        useless in the fab -- the protection has to exist at the step
+        the charge is collected. Straight up in the diode's own
+        column to M4, then north until it meets the descent already
+        in that lane: same net, so the overlap is the connection.
+
+        AND THE LEG STOPS ON THE LANE, without `end()`. The stop rect
+        is the strip's pin and `end()` would drive the leg all the
+        way east to it, laying a second copy of a leg the net already
+        has -- more metal3 on the very nets whose metal3 is the
+        problem.
+        """
+        dig = layout.getInstanceFromInstanceName("xdig")
+        rb = layout.named_rects.get("ring_b_VSS")
+        if None in (dig, rb):
+            log.error("top: nothing to hang the antenna diodes on")
+            return
+
+        for name, net, track in (("xant_cmpo_b", "CMPO_B", 4),
+                                 ("xant_cmpo_a", "CMPO_A", 6)):
+            ant = layout.getInstanceFromInstanceName(name)
+            if ant is None:
+                log.error(f"top: no antenna diode {name}")
+                continue
+            #- an instance's ports are named for the NETS they carry,
+            #- not for the pins of the cell: these are A and AVSS
+            a = self._port(ant, net)
+            gnd = self._port(ant, "VSS")
+            pin = self._port(dig, net)
+            if None in (a, gnd, pin):
+                log.error(f"top: {name} published no ports")
+                continue
+
+            #- A: M2 AND NOT M1. The diode already carries its own li
+            #- to met1 contact over the anode, so met1 is the metal
+            #- the pin has been brought up to; starting a stack from
+            #- the li below it lands a second via on the cell's own,
+            #- concentric and a few tens of nm off, which magic
+            #- reports as "this layer can't abut or partially overlap
+            #- between subcells".
+            p = layout.path(net, "M2", start=[a], stop=[pin],
+                            options="1cuts,2vcuts")
+            p.start()
+            p.up("M4")
+            p.movex(p.track("dband", track))
+            p.movey(p.pin("xdig", net, "y"))
+
+            #- AVSS is the substrate tie, and it is li all the way:
+            #- the ring below is li too, so this is one leg and no
+            #- via. A RING IS A ROW -- `movey` onto it, never `end()`.
+            p = layout.path("VSS", "M1", start=[gnd], stop=[rb])
+            p.start()
+            p.movey(p.landing("y"))
 
     def _ibp(self, layout):
         """The four bias currents, as one bundle and four endings.

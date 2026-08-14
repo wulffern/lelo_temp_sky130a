@@ -87,6 +87,12 @@ C {JNW_TR_SKY130A/JNWTR_IVX1_CV.sym} 210 -300 0 0 {name=x2 }
 C {devices/lab_pin.sym} 250 -250 0 1 {name=l1 sig_type=std_logic lab=VSS}
 C {devices/lab_pin.sym} 250 -350 0 1 {name=l2 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_wire.sym} 430 -280 0 0 {name=p7 sig_type=std_logic lab=PWRUP_N_1V8}
+C {REY_TR_SKY130A/REYTR_ANTX1_CV.sym} 300 -180 0 0 {name=xant_cmpo_a}
+C {devices/lab_wire.sym} 300 -200 0 0 {name=p35 sig_type=std_logic lab=CMPO_A}
+C {devices/lab_wire.sym} 300 -160 0 0 {name=p36 sig_type=std_logic lab=VSS}
+C {REY_TR_SKY130A/REYTR_ANTX1_CV.sym} 380 -180 0 0 {name=xant_cmpo_b}
+C {devices/lab_wire.sym} 380 -200 0 0 {name=p37 sig_type=std_logic lab=CMPO_B}
+C {devices/lab_wire.sym} 380 -160 0 0 {name=p38 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 430 -300 0 0 {name=p21 sig_type=std_logic lab=PWRUP_B_1V8}
 C {JNW_TR_SKY130A/JNWTR_NRX1_CV.sym} 980 -740 0 0 {name=x3 }
 C {JNW_TR_SKY130A/JNWTR_NRX1_CV.sym} 980 -510 0 0 {name=x4 }

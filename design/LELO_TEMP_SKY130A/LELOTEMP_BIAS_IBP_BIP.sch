@@ -7,7 +7,7 @@ E {}
 C {devices/iopin.sym} 0 0 0 0 {name=p0 lab=VD1}
 C {devices/iopin.sym} 0 20 0 0 {name=p1 lab=VD2}
 C {devices/iopin.sym} 0 40 0 0 {name=p2 lab=VSS}
-C {JNW_BIAS_SKY130A/JNWBIAS_BIPOLAR.sym} 400 0 0 0 {name=Xxe1}
+C {LELO_TEMP_SKY130A/LELOTEMP_BIPOLAR.sym} 400 0 0 0 {name=Xxe1}
 N 600.0 -100.0 580.0 -100.0 {lab=VD2}
 C {devices/lab_pin.sym} 600.0 -100.0 2 0 {name=l0 sig_type=std_logic lab=VD2 }
 N 220.0 -100.0 240.0 -100.0 {lab=VD1}

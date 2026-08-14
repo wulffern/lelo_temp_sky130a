@@ -139,10 +139,23 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
 
     class p_su(Stack):
         """Startup: xsu1 diode from VDD, xsu2 diode VD1 -> VSU."""
-        match = r'^(xsu\d+|xstack_p_su_(top|bot)|xfill_p_su_\d+)$'
+        match = r'^(xsu\d+|xstack_p_su_(top|bot)|xfill_p_su<\d+>)$'
         group = "pmos"
         channel = "su"
         order = ['xsu1', 'xsu2']
+        #- Kept as declarations, not coordinates.
+        #-
+        #- These three nets are not for the maze router to draw: left to
+        #- it, VDD_1V8 shorts to VSU (measured -- LVS reports VDD_1V8 and
+        #- VSU as one node). The reasons still quote the coordinates the
+        #- router reported at the time, but the declaration itself is
+        #- just "not this net, not here", which no placement can staleen.
+        #-
+        #- wires_key no longer has to match for them to survive: a
+        #- mismatch now drops only the wires that declare a coordinate.
+        #- That is what lets the fills become a vector instance -- the
+        #- fingerprint covers every member's name, so the rename moves
+        #- the key while these three stay true.
         wires = [
             ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (595200, 1854000, 'M1') to (559200, 1870000, 'M1'); closest approach (559200, 1870000, 'M3') (0 away)"),
             ('VD1', 'blocked', "VD1: trunk 604200 lies outside the pins' common overlap 612800..616000"),
@@ -162,7 +175,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
 
     class p_cc(Stack):
         """Decap column: every terminal on VDD_1V8, one strap."""
-        match = r'^(xcc<\d+>|xstack_p_cc_(top|bot)|xfill_p_cc_\d+)$'
+        match = r'^(xcc<\d+>|xstack_p_cc_(top|bot)|xfill_p_cc<\d+>)$'
         group = "pmos"
         channel = "cc"
         order = [r'xcc<\d+>']
