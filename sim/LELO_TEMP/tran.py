@@ -83,7 +83,9 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
 
 
   obj["freq_min"] = float(freq.min())
-  obj["freq_max"] = float(freq.min())
+  #- was freq.min() -- freq_max reported the minimum, so the frequency
+  #- spec collapsed to a single point and never showed the real spread.
+  obj["freq_max"] = float(freq.max())
   obj["temperature"] = [float(lt.celcius(x)) for x in xk]
   obj["freq"] = [float(f) for f in freq]
   obj["error_two_pp"] = float(np.abs((error_two[istart:istop+1].max() - error_two[istart:istop+1].min())))

@@ -4,6 +4,12 @@ simulations:
     name: Temperature sensor
     description: |
       Check temperature accuracy
+
+      The Sch rows are the schematic netlist, the Lay rows the parasitic
+      extraction of the finished layout. Lay is typical process only:
+      the extracted netlist carries the full parasitic capacitance, and
+      the whole corner matrix on it is not worth the runtime while the
+      Sch corners already bound the process spread.
     data:
       - name: Sch_typ
         src: results/tran_Sch_typical
@@ -14,3 +20,9 @@ simulations:
       - name: Sch_3std
         src: results/tran_Sch_mc
         method: 3std
+      - name: Lay_typ
+        src: results/tran_Lay_typical
+        method: typical
+      - name: Lay_supply
+        src: results/tran_Lay_supply
+        method: minmax

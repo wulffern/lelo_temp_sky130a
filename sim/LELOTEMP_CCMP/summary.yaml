@@ -1,0 +1,24 @@
+description: |
+  LELOTEMP_CCMP, the timing element of the LELO_TEMP relaxation
+  oscillator: the comparator plus its five MIM caps and reset device,
+  simulated with the bias block replaced by ideal current sources.
+simulations:
+  tran:
+    name: Integrating half cycle
+    description: |
+      Release the reset, let ibias charge the cap, and wait for CMPO to
+      trip as the ramp passes VC. t_half is one half period of the
+      oscillator; c_eff is the integrating capacitance back-calculated
+      from the ramp it actually produced; t_delay and v_over are the
+      comparator's contribution, and should agree with the LELOTEMP_CMP
+      transient testbench.
+    data:
+      - name: Sch_typ
+        src: results/tran_Sch_typical
+        method: typical
+      - name: Sch_etc
+        src: results/tran_Sch_etc
+        method: minmax
+      - name: Sch_3std
+        src: results/tran_Sch_mc
+        method: 3std

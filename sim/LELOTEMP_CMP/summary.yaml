@@ -1,0 +1,40 @@
+description: |
+  LELOTEMP_CMP, the comparator of the LELO_TEMP relaxation oscillator,
+  simulated on its own with the bias block replaced by ideal current
+  sources.
+simulations:
+  dc:
+    name: DC transfer
+    description: |
+      Sweep VIP with VIN held at the nominal threshold. Gives the trip
+      point, the input referred offset and the small signal gain. The
+      mismatch run is the one that matters: random offset here is a
+      threshold error the one point calibration has to absorb.
+    data:
+      - name: Sch_typ
+        src: results/dc_Sch_typical
+        method: typical
+      - name: Sch_etc
+        src: results/dc_Sch_etc
+        method: minmax
+      - name: Sch_3std
+        src: results/dc_Sch_mc
+        method: 3std
+  tran:
+    name: Propagation delay
+    description: |
+      VIP driven with a ramp at the slope it really sees in LELOTEMP_CCMP
+      (ibias into the 5x MIM cap, about 4 V/us). The delay is added to
+      every half period of the oscillator, so v_overshoot -- the delay
+      expressed as an input voltage -- is directly comparable to the
+      offset from the dc testbench.
+    data:
+      - name: Sch_typ
+        src: results/tran_Sch_typical
+        method: typical
+      - name: Sch_etc
+        src: results/tran_Sch_etc
+        method: minmax
+      - name: Sch_3std
+        src: results/tran_Sch_mc
+        method: 3std

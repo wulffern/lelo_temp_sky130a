@@ -1,0 +1,60 @@
+* Measure LELOTEMP_CCMP integrating half cycle
+.control
+
+load {cicname}.raw
+
+echo "MEAS_START"
+
+*- RAMP is the integrating node IBP_1U<0>, shorted through a 0 V source
+*- in tran.spi so it has a name meas can parse -- see the comment there.
+*- Aliasing with "let" is not enough: meas resolves names against the
+*- plot's nodes, not user-defined vectors.
+let ramp = v(ramp)
+let cmpo = v(cmpo)
+
+let cmpo_low  = minimum(cmpo)
+let cmpo_high = maximum(cmpo)
+let cmpo_mid  = (cmpo_low + cmpo_high)/2
+
+*- Reset quality: the level the ramp is held at while RST is high. A
+*- residue here is charge the next cycle does not have to supply, so it
+*- shortens the period and shows up as a temperature offset.
+meas tran v_reset FIND ramp AT={t_measure_reset}
+
+*- The half period: from the reset releasing to the comparator tripping.
+meas tran t_release_x WHEN v(rst)={vrst_mid} FALL=1
+meas tran t_trip WHEN cmpo=$&cmpo_mid RISE=1
+let t_half = t_trip - t_release_x
+
+*- Where the ramp actually was when the comparator tripped. The excess
+*- over VC is the comparator delay expressed as a voltage -- the same
+*- quantity the LELOTEMP_CMP tran testbench reports as v_overshoot.
+meas tran v_trip FIND ramp AT=$&t_trip
+let v_over = v_trip - {vc}
+
+*- When the ramp crossed VC, so the delay separates from the ramp itself.
+meas tran t_vc WHEN ramp={vc} RISE=1
+let t_delay = t_trip - t_vc
+
+*- Effective integrating capacitance, back-calculated from the ramp it
+*- actually produced: C = I*dt/dV. Together with ibias this is what sets
+*- the period, so it is worth watching across the cap corners.
+*- ibias_a is the plain-number form: nutmeg does not read spice suffixes.
+let c_eff = {ibias_a}*(t_vc - t_release_x)/({vc} - v_reset)
+
+*- Equivalent full-period oscillator frequency, if both halves match.
+let freq = 1/(2*t_half)
+
+let idd = -i(vdd)
+let idd_avg = mean(idd)
+
+print t_half
+print t_delay
+print v_over
+print v_reset
+print c_eff
+print freq
+print idd_avg
+
+echo "MEAS_END"
+.endc

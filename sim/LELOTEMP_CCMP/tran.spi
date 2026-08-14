@@ -1,0 +1,101 @@
+*LELO_TEMP_SKY130A/LELOTEMP_CCMP
+*----------------------------------------------------------------
+* One integrating half cycle of the relaxation oscillator.
+*
+* LELOTEMP_CCMP is the timing element of LELO_TEMP. IBP_1U<0> is both
+* the bias current input and the integrating node: five JNWTR_CAPX1
+* MIM caps hang on it, an NMOS gated by RST shorts it to VSS, and it
+* drives the comparator's VIP. IBP_1U<1> biases the comparator. VC is
+* the threshold.
+*
+* So a half period is: release RST, let ibias charge the cap, and wait
+* for CMPO to rise as the ramp passes VC. In LELO_TEMP two of these
+* alternate through an RS latch, and the temperature reading is that
+* period. Measuring it here isolates the period from the bias block
+* that sets ibias and VC.
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/LELOTEMP_CCMP_lpe.spi
+#else
+.include ../../../work/xsch/LELOTEMP_CCMP.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-15 reltol=1e-4 method=gear
+
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param AVDD = {vdda}
+
+*-----------------------------------------------------------------
+* FORCE
+*-----------------------------------------------------------------
+VSS  VSS  0     dc 0
+VDD  VDD_1V8  0  dc {AVDD}
+
+*- Powered up: PWRUP_N low releases the clamp on the ramp node,
+*- PWRUP_B high enables the comparator tail.
+VPWRN PWRUP_N_1V8  0 dc 0
+VPWRB PWRUP_B_1V8  0 dc {AVDD}
+
+*- Threshold. Held at a fixed DC here so the period measured is the
+*- comparator+cap contribution alone; in LELO_TEMP the bias block sets
+*- this and its drift is a separate effect.
+VC VC 0 dc {vc}
+
+*- Reset: hold the ramp node at VSS, then release at t_release. The
+*- oscillator gets this edge from the other half through the latch.
+VRST RST 0 pwl 0 {AVDD} {t_release} {AVDD} {{t_release}+{t_rst_edge}} 0
+
+*- The two bias legs the top level feeds in, both 1uA by design.
+*- IBP_1U<0> charges the cap; IBP_1U<1> biases the comparator.
+IRAMP VDD_1V8 IBP_1U<0> dc {ibias}
+ICMP  VDD_1V8 IBP_1U<1> dc {ibias}
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+.include ../xdut.spi
+
+*- Measurable alias for the integrating node.
+*-
+*- The node is called IBP_1U<0>, and "meas ... v(ibp_1u<0>)" cannot be
+*- written: nutmeg reads the "<" as input redirection, silently consumes
+*- the rest of the line and performs no measurement at all -- no error,
+*- just a missing result. Quoting does not help and v(ibp_1u[0]) is not
+*- the name. A 0 V source is a short, so RAMP carries exactly the same
+*- voltage under a name meas can parse, and ../xdut.spi stays the
+*- generated source of truth for the port order.
+VRAMP RAMP IBP_1U<0> dc 0
+
+*----------------------------------------------------------------
+* PROBE
+*----------------------------------------------------------------
+.save v(ramp) v(ibp_1u<0>) v(ibp_1u<1>) v(vc) v(rst) v(cmpo) v(vdd_1v8) i(vdd)
+
+#ifdef Debug
+.option savecurrents
+.save all
+#endif
+
+*----------------------------------------------------------------
+* NGSPICE control
+*----------------------------------------------------------------
+.control
+unset askquit
+
+optran 0 0 0 1n 1u 0
+
+tran {t_step} {t_stop}
+
+write {cicname}.raw
+quit
+
+.endc
+
+.end

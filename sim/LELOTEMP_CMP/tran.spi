@@ -1,31 +1,51 @@
-*TB_SUN_TR_SKY130NM/TB_NCM
+*LELO_TEMP_SKY130A/LELOTEMP_CMP
+*----------------------------------------------------------------
+* Propagation delay of the comparator at its real input slope.
+*
+* In LELO_TEMP the comparator is not driven by a step: VIP is the
+* CCMP integrating node, a ramp of ibias into the 5x MIM cap. The
+* delay from that ramp crossing VC to VO switching is added to every
+* half period of the oscillator, so it is a direct period error -- and
+* because it is set by the tail current and the load, it drifts with
+* temperature and process in a way the ramp itself does not.
+*
+* Driving with a ramp rather than a step is the point: a step measures
+* a delay the circuit never actually sees.
 *----------------------------------------------------------------
 * Include
 *----------------------------------------------------------------
 #ifdef Lay
-.include ../../../work/lpe/LELO_TEMP_lpe.spi
+.include ../../../work/lpe/LELOTEMP_CMP_lpe.spi
 #else
-.include ../../../work/xsch/LELO_TEMP.spice
+.include ../../../work/xsch/LELOTEMP_CMP.spice
 #endif
 
 *-----------------------------------------------------------------
 * OPTIONS
 *-----------------------------------------------------------------
 .option TNOM=27 GMIN=1e-15 reltol=1e-4 method=gear
-.options sparse
+
 *-----------------------------------------------------------------
 * PARAMETERS
 *-----------------------------------------------------------------
-.param TRF = 10p
-
 .param AVDD = {vdda}
 
 *-----------------------------------------------------------------
 * FORCE
 *-----------------------------------------------------------------
 VSS  VSS  0     dc 0
-VDD  VDD_1V8  VSS  pwl 0 0 10n {AVDD}
-VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start} + 10p} {AVDD}
+VDD  VDD_1V8  0  dc {AVDD}
+
+VPWR  PWRUP_1V8    0 dc {AVDD}
+VPWRN PWRUP_N_1V8  0 dc 0
+
+IBIAS VDD_1V8 IBP_1U dc {ibias}
+
+VIN VIN 0 dc {vcm}
+
+*- The ramp. Flat below the threshold long enough for the comparator to
+*- settle, then a constant slope through vcm.
+VIP VIP 0 pwl 0 {vramp_lo} {t_ramp_start} {vramp_lo} {t_ramp_stop} {vramp_hi}
 
 *-----------------------------------------------------------------
 * DUT
@@ -35,53 +55,26 @@ VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start} + 10p} {AVDD}
 *----------------------------------------------------------------
 * PROBE
 *----------------------------------------------------------------
-*.save all
-.save v(vdd_1v8) v(vss) v(pwrup_1v8) v(osc_temp_1v8)
-.save i(vdd)
-
-*- See tran.spi: internal node paths differ between the views because the
-*- layout wraps the blocks in cells the schematic does not have.
-#ifdef Lay
-.save v(xdut.xbias.x1_ibp.LPI) v(xdut.xbias.vc) v(xdut.xbias.ibp_1u<0>)
-.save v(xdut.xccmp.rst_a) v(xdut.xccmp.rst_b)
-.save v(xdut.xbias.x1_ibp.xr_lad.vr1) v(xdut.xbias.x1_ibp.xr_lad.vd2)
-#else
-.save v(xdut.LPI) v(xdut.vc) v(xdut.ibp_1u<0>)
-.save v(xdut.rst_a) v(xdut.rst_b)
-.save v(xdut.x1_ibp.vr1) v(xdut.x1_ibp.vd2)
-#endif
+.save v(vip) v(vin) v(vo) v(vdd_1v8) i(vdd)
+.save v(xdut.vo1) v(xdut.vbn1) v(xdut.vbp2) v(xdut.vs)
 
 #ifdef Debug
 .option savecurrents
 .save all
 #endif
+
 *----------------------------------------------------------------
 * NGSPICE control
 *----------------------------------------------------------------
 .control
-*set num_threads=64
-*#set color0=white
-*set color1=black
 unset askquit
 
 optran 0 0 0 1n 1u 0
 
-#ifdef Nosweep
-tran 1n {t_stop}
+tran {t_step} {t_stop}
+
 write {cicname}.raw
-#else
-set fend = .raw
-foreach vtemp 25 85
-  option temp=$vtemp
-  tran 2n {t_stop}
-  remzerrovec
-  write {cicname}_$vtemp$fend
-end
-
-#endif
-
 quit
-
 
 .endc
 

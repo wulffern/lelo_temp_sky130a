@@ -131,3 +131,38 @@ Over mismatch and extreme test condition (ETC) the temperature error increase.
 
 <sub> Figure 6: Extreme test conditions (PVT) simulation of oscillator </sub>
 
+
+# Block level simulations
+
+The top level testbench measures the sensor as a whole, which makes it hard
+to say *which* block moved when a number changes. Two blocks are therefore
+also simulated on their own, with the bias block replaced by ideal 1 uA
+sources, so their contribution can be attributed directly.
+
+| Testbench | Block | Measures |
+|:---|:---|:---|
+| [sim/LELOTEMP_CMP](sim/LELOTEMP_CMP/README.md) | Comparator | Trip point, input referred offset, gain (`dc`); propagation delay at the real input slope (`tran`) |
+| [sim/LELOTEMP_CCMP](sim/LELOTEMP_CCMP/README.md) | Comparator + integrating caps | Half period, effective capacitance, reset residue (`tran`) |
+
+`LELOTEMP_CCMP` is the timing element of the relaxation oscillator: the 1 uA
+bias charges five MIM caps, and the comparator trips when the ramp passes VC.
+Its `t_half` is one half period of `OSC_TEMP_1V8`.
+
+The comparator delay is worth watching because it adds to *every* half period,
+so it is a direct period error rather than a second order effect. Both
+testbenches measure it independently and agree.
+
+Extraction costs roughly a factor two in that delay, and the effects compound:
+
+| | Sch | Lay |
+|:---|---:|---:|
+| `LELOTEMP_CMP` propagation delay | 4.51 ns | 11.17 ns |
+| `LELOTEMP_CCMP` effective capacitance | 285 fF | 316 fF |
+| `LELOTEMP_CCMP` half period | 217.8 ns | 247.9 ns |
+
+The parasitics add about 11% to the integrating capacitance and roughly double
+the comparator delay, which together account for the 14% longer half period --
+and for the extracted temperature error being about twice the schematic one.
+
+Run them with `make report` in either directory; `VIEW=Lay` switches to the
+extracted netlist.

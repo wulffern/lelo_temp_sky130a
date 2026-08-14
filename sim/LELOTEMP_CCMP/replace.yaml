@@ -1,0 +1,30 @@
+#- Both bias legs the top level feeds in, 1uA each by design:
+#- IBP_1U<0> charges the integrating cap, IBP_1U<1> biases the comparator.
+ibias: 1u
+
+#- Threshold on VC. This is the bias block's control node, near 0.74 V
+#- at 27 C on the top-level transient.
+vc: 0.75
+
+#- Reset timing. Hold the ramp node down long enough to settle, then
+#- release with a fast edge.
+t_release: 200n
+t_rst_edge: 100p
+
+#- Midpoint of the RST edge, used to time the release. RST swings rail
+#- to rail, so half of the nominal supply is the crossing; kept a plain
+#- number because .meas is nutmeg and does not evaluate {AVDD}.
+vrst_mid: 0.9
+
+#- Where to sample the held-down ramp level, comfortably inside the
+#- reset window.
+t_measure_reset: 150n
+
+#- One half period is roughly 0.75 V * 250 fF / 1 uA = 190 ns, so
+#- 600 ns leaves room for the slow corners.
+t_stop: 600n
+t_step: 50p
+
+#- Same current as ibias, as a plain number: the .meas file is nutmeg,
+#- which does not read spice engineering suffixes like "1u".
+ibias_a: 1e-6

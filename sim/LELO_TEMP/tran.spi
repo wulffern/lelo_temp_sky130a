@@ -37,11 +37,27 @@ VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start} + 10p} {AVDD}
 *----------------------------------------------------------------
 *.save all
 .save v(vdd_1v8) v(vss) v(pwrup_1v8) v(osc_temp_1v8)
-.save v(xdut.LPI) v(xdut.CMPO) v(xdut.clk)
-.save i(vdd) v(xdut.ibp_1u<0>) v(xdut.ibp_1u<1>) v(xdut.ibp_1u<2>) v(xdut.ibp_1u<3>) v(xdut.vc)
+.save i(vdd)
+
+*- Internal probes. The layout wraps the blocks in LELO_TEMP_BIAS /
+*- LELO_TEMP_CCMP cells that the schematic does not have, and the LPE is
+*- flat, so every internal node carries the wrapper instance in its name
+*- (VC -> xbias.VC). The bias subcells are split further still
+*- (x1_ibp.VR1 -> xbias.x1_ibp.xr_lad.VR1). Only the four ports are
+*- common to both views, so the rest has to be spelled out per view.
+#ifdef Lay
+.save v(xdut.xbias.x1_ibp.LPI) v(xdut.xbias.vc)
+.save v(xdut.xbias.ibp_1u<0>) v(xdut.xbias.ibp_1u<1>) v(xdut.xbias.ibp_1u<2>) v(xdut.xbias.ibp_1u<3>)
+.save v(xdut.xccmp.rst_a) v(xdut.xccmp.rst_b)
+.save v(xdut.xccmp.cmpo_a) v(xdut.xccmp.cmpo_b)
+.save v(xdut.xbias.x1_ibp.xr_lad.vr1) v(xdut.xbias.x1_ibp.xr_lad.vd2)
+#else
+.save v(xdut.LPI) v(xdut.vc)
+.save v(xdut.ibp_1u<0>) v(xdut.ibp_1u<1>) v(xdut.ibp_1u<2>) v(xdut.ibp_1u<3>)
 .save v(xdut.rst_a) v(xdut.rst_b)
-.save v(xdut.cmpo_b) v(xdut.cmpo_a)
+.save v(xdut.cmpo_a) v(xdut.cmpo_b)
 .save v(xdut.x1_ibp.vr1) v(xdut.x1_ibp.vd2)
+#endif
 
 #ifdef Debug
 .option savecurrents

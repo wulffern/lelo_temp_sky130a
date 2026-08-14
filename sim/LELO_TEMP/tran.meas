@@ -14,7 +14,17 @@ load {cicname}_$vtemp$fend
 meas tran t1_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=1 FROM={t_start}
 meas tran t2_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=5 FROM={t_start}
 
+*- VC is an internal net, so its path depends on the view. The layout
+*- groups the blocks into LELO_TEMP_BIAS / LELO_TEMP_CCMP / LELO_TEMP_DIG
+*- wrapper cells that the schematic does not have, and the extraction is
+*- flat, so the wrapper instance name ends up in the node name itself
+*- (xbias.VC). LVS still matches -- only the ports are compared -- so the
+*- mismatch shows up here, as "no such vector as v(xdut.vc)".
+#ifdef Lay
+meas tran vc_$vtemp FIND V(xdut.xbias.vc) AT={t_stop}
+#else
 meas tran vc_$vtemp FIND V(xdut.vc) AT={t_stop}
+#endif
 
 meas tran idd_$vtemp AVG i(vdd) from={t_start} to={t_stop}
 meas tran iddq_$vtemp AVG i(vdd) from=0.5u to=1.5u

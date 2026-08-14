@@ -1,0 +1,43 @@
+* Measure LELOTEMP_CMP dc transfer
+.control
+
+load {cicname}.raw
+
+echo "MEAS_START"
+
+let vo   = v(vo)
+let vip  = v(vip)
+
+*- Take the logic levels from the curve itself rather than from AVDD:
+*- the supply corners move AVDD, and the output does not reach the rails
+*- exactly anyway.
+let vo_low  = minimum(vo)
+let vo_high = maximum(vo)
+let vo_mid  = (vo_low + vo_high)/2
+
+*- Trip point: where the output passes its own midpoint. VO rises with
+*- VIP, so this is a rising crossing.
+meas dc vtrip when v(vo)=$&vo_mid rise=1
+
+*- Input referred offset. VIN is what the comparator should have tripped
+*- at, so anything left over is offset -- systematic in the corner runs,
+*- random once the mismatch (mm) corners run.
+let voffset = vtrip - {vcm}
+
+*- Small signal gain at the trip point. deriv() is w.r.t. the sweep
+*- vector, which is VIP here, so this is dVO/dVIP directly.
+let gain = maximum(abs(deriv(vo)))
+
+*- Supply current in the tripped state (the last sweep point).
+let idd = -i(vdd)
+let idd_hi = idd[length(idd)-1]
+
+print vtrip
+print voffset
+print gain
+print vo_low
+print vo_high
+print idd_hi
+
+echo "MEAS_END"
+.endc

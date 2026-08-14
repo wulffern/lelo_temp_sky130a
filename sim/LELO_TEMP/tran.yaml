@@ -83,7 +83,11 @@ freq:
   scale: 1e-6
   digits: 3
   unit: MHz
-freq:
+#- Keyed "fom", not "freq". This was a second "freq:" entry, and YAML
+#- keeps only the last value for a duplicate key -- so the frequency
+#- spec above was silently discarded and never checked, while this one
+#- was reported under the name "freq".
+fom:
   src:
     - FOM
   typ: 40

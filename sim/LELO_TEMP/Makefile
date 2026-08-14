@@ -72,8 +72,11 @@ ntc: netlist
 temp: netlist
 	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Ktt" "Tt,Th,Tl" Vt
 
+#- Named _supply, not _temp: this used to share the `temp` target's run
+#- name, so whichever ran second silently overwrote the other's .run and
+#- results/, and a supply sweep would be reported as a temperature sweep.
 supply: netlist
-	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Ktt" "Tt" "Vl,Vt,Vh"
+	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_supply ${TB} ${OPT} ${VIEW} Gt "Ktt" "Tt" "Vt,Vl,Vh"
 
 rc: netlist
 	cicsim run --threads ${THREADS} ${PROGRESS} --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Kll,Ktt,Khh" "Tt" "Vt"

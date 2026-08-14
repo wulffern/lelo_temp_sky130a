@@ -1,0 +1,90 @@
+#<name>:
+#  src:
+#    - <paramters>
+#  typ: <typical spec value>
+#  name: <long name>
+#  min: <minimum spec value>
+#  max: <maximum spec value>
+#  scale: <scale, multiply result by scale>
+#  digits: <significant digits>
+#  unit: Unit
+
+t_half:
+  src:
+    - t_half
+  desc: Half period, reset release to comparator trip
+  typ: 218
+  min: 100
+  max: 340
+  scale: 1e9
+  digits: 3
+  unit: ns
+
+freq:
+  src:
+    - freq
+  desc: Equivalent oscillator frequency if both halves match
+  typ: 2.3
+  min: 1.5
+  max: 4.8
+  scale: 1e-6
+  digits: 3
+  unit: MHz
+
+t_delay:
+  src:
+    - t_delay
+  desc: Comparator delay from the ramp crossing VC to CMPO rising
+  #- Negative under mismatch: offset trips the comparator before the ramp
+  #- reaches VC. Same effect the LELOTEMP_CMP testbench sees.
+  typ: 4.6
+  min: -20
+  max: 20
+  scale: 1e9
+  digits: 3
+  unit: ns
+
+v_over:
+  src:
+    - v_over
+  desc: Ramp overshoot past VC caused by the comparator delay
+  #- Negative under mismatch, see t_delay.
+  typ: 17
+  min: -80
+  max: 80
+  scale: 1e3
+  digits: 3
+  unit: mV
+
+v_reset:
+  src:
+    - v_reset
+  desc: Residual level on the integrating node while RST is high
+  typ: 2
+  min: -5
+  max: 20
+  scale: 1e3
+  digits: 3
+  unit: mV
+
+c_eff:
+  src:
+    - c_eff
+  desc: Effective integrating capacitance, back-calculated from the ramp
+  typ: 285
+  min: 200
+  max: 380
+  scale: 1e15
+  digits: 3
+  unit: fF
+
+idd:
+  src:
+    - idd_avg
+  desc: Average supply current including both injected bias legs
+  typ: 16.8
+  min: 5
+  max: 40
+  scale: 1e6
+  digits: 3
+  unit: uA

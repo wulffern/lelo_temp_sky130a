@@ -1,0 +1,76 @@
+#<name>:
+#  src:
+#    - <paramters>
+#  typ: <typical spec value>
+#  name: <long name>
+#  min: <minimum spec value>
+#  max: <maximum spec value>
+#  scale: <scale, multiply result by scale>
+#  digits: <significant digits>
+#  unit: Unit
+
+voffset:
+  src:
+    - voffset
+  desc: Input referred offset at the trip point
+  typ: 0
+  min: -50
+  max: +50
+  scale: 1e3
+  digits: 2
+  unit: mV
+
+vtrip:
+  src:
+    - vtrip
+  desc: Input voltage at which VO crosses its own midpoint
+  typ: 0.75
+  min: 0.6
+  max: 0.9
+  scale: 1
+  digits: 4
+  unit: V
+
+gain:
+  src:
+    - gain
+  desc: Small signal gain dVO/dVIP at the trip point
+  typ: 600
+  min: 50
+  max: 5000
+  scale: 1
+  digits: 1
+  unit: V/V
+
+vo_low:
+  src:
+    - vo_low
+  desc: Output low level
+  typ: 0
+  min: -0.05
+  max: 0.2
+  scale: 1
+  digits: 4
+  unit: V
+
+vo_high:
+  src:
+    - vo_high
+  desc: Output high level
+  typ: 1.8
+  min: 1.5
+  max: 2.0
+  scale: 1
+  digits: 4
+  unit: V
+
+idd:
+  src:
+    - idd_hi
+  desc: Supply current including the injected bias
+  typ: 11
+  min: 4
+  max: 25
+  scale: 1e6
+  digits: 3
+  unit: uA
