@@ -14,7 +14,13 @@ LIB=LELO_TEMP_SKY130A
 CELL=LELO_TEMP
 
 #- Provide cells you want to check for the lvsall drcall commands
-CELLS = LELO_TEMP
+CELLS = LELOTEMP_CMP LELOTEMP_CCMP LELOTEMP_OTAR LELOTEMP_BIAS_IBP LELO_TEMP
+
+#- Leaf first, because each of these has a sidecar of its own and the
+#- one above it instantiates the result: CMP sits inside CCMP, OTAR
+#- inside BIAS_IBP, and both inside LELO_TEMP. `make rebuildall` walks
+#- this order and then checks every cell.
+MAGCELLS = LELOTEMP_CMP LELOTEMP_CCMP LELOTEMP_OTAR LELOTEMP_BIAS_IBP LELO_TEMP
 
 include ../tech/make/core.make
 
