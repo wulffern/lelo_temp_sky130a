@@ -1325,11 +1325,12 @@ class LELO_TEMP(SidecarCell):
 
     supplies = []
 
-    #- the presence of `routes` is what makes this cell MADE OF
+    #- the subcell classes above are what make this cell MADE OF
     #- SUBCELLS: hierarchy() splits the netlist, builds a cell per
     #- subcell, and the top instantiates them and routes between
-    #- their ports. Empty means the top declares no channel routes
-    #- of its own yet.
+    #- their ports. `routes` only declares the channel routes that
+    #- join them, and this top has none -- _signal_routes lays its
+    #- crossing nets instead.
     routes = []
 
     def afterPlace(self, layout):

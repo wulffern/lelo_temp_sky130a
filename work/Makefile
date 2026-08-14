@@ -19,9 +19,9 @@ CELLS = LELO_TEMP
 include ../tech/make/core.make
 
 #- ONE command for every cell, and one pass. sch2mag reads <CELL>.py
-#- and the cell decides what it is made of: a sidecar declaring
-#- `routes` is made of SUBCELLS -- it splits its own netlist, builds a
-#- cell per part and assembles them -- and everything else is made of
+#- and the cell decides what it is made of: a sidecar holding subcell
+#- classes is made of SUBCELLS -- it splits its own netlist, builds a
+#- cell per part and assembles them -- and one holding none is made of
 #- devices. Both are `make mag`.
 #-
 #- There used to be a second and third command here (`make subcells`,

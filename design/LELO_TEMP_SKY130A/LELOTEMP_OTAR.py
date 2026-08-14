@@ -305,9 +305,11 @@ class LELOTEMP_OTAR(SidecarCell):
     #- gets one, on the route's default layer M2, centered, two
     #- cuts. Entries below only override.
     channel = 8
-    #- MADE OF SUBCELLS: declaring `routes` is what tells cicpy to
-    #- split this netlist, build a cell per subcell and assemble them.
-    #- Built flat this cell does not pass LVS.
+    #- HOW THE PIECES ARE JOINED. What makes this cell MADE OF
+    #- SUBCELLS -- cicpy splitting the netlist, building a cell per
+    #- subcell and assembling them -- is the subcell classes above;
+    #- `routes` only lays the nets that cross between them. Built
+    #- flat this cell does not pass LVS.
     routes = [
         {"net": "VDS", "track": 0, "drops": [[r_deg, "M2", "left"]]},
         {"net": "VD1", "track": 1, "drops": [[p_in_a, "M2", "right"]]},
