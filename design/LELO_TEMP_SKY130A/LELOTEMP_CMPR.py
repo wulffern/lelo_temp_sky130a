@@ -172,19 +172,21 @@ did, which is the signature of a via column rather than a wire.
 
 WHAT IS STILL OPEN, and what I would do about it:
 
-  1. VBP2 is in four components. Its two halves each aim at
-     hchannel=top,htrack=1 but each draws a bar spanning only its own
-     pins -- the bias bar is M3 (42000,366300)-(50800,369700), 0.88 um
-     of a 34 um cell -- and the p_mirr_tail2 bridge riser asked for
-     ctail lane 12 and was never drawn at all (no VBP2 geometry above
-     y=300000 anywhere right of x=264800). addChannelRoute lays a
-     full-width bar on that track but it did not join them either, so
-     check first whether addChannelRoute and _resolveChannelOptions
-     agree on the track coordinate: addChannelRoute passes layer=None
-     to channelTrackCoord and takes the widest lane in the stack,
-     which is NOT the same pitch the option string resolves with.
-     That mismatch would put the two bars a fraction of a lane apart
-     and explains the whole symptom.
+  1. VBP2 is in four components, and the bar is NOT the reason -- I
+     guessed that first and it was wrong. addChannelConnection paves
+     the union of successive calls on one channel track, and it did:
+     the bar is M3 (38400,366500)-(320800,369500), bias to tail, the
+     full width it should be. Both halves resolve to the same
+     bandy329000. What is missing is the RISER on the tail side: the
+     p_mirr_tail2 bridge draws its bar and no vertical at all, so
+     VBP2's tail geometry stops at the tab rail's top, y=265000, with
+     100 um of nothing between it and the bar. Tried with the trunk on
+     ctail lane 12 and with no vchannel at all; identical output both
+     times, so the route is degenerating rather than landing badly --
+     a one-pin orthogonal route may have no trunk to draw. Next: give
+     that bridge two pins (add xp_mirr_tail3<2>, also a VBP2 gate) so
+     the route has a span, or drive the riser explicitly with
+     promoteInstancePort from the tab rail up to the bar.
   2. VDD_1V8 is in three components. The ring and the guard rows are
      not fully tied; this has been true since the guard change and is
      independent of the signal routing.
@@ -430,17 +432,17 @@ def _route_signals(layout):
     #- crossed by a via stack on the way to a bar.
     #-
     #- So VBP2 is TWO trunks, one per group, and a bridge between them.
-    #- ONE bar, laid explicitly, because the two halves below are two
-    #- ROUTES and each would otherwise draw its own bar on this track
-    #- spanning only its own pins -- bias's over n_mirr_bias, tail's
-    #- over p_mirr_tail, never touching. checkroutes reported VBP2 in
-    #- four components for exactly that. addChannelRoute lays a bar the
-    #- full width of the cell on the track both of them aim at.
-    layout.addChannelRoute("M3", "VBP2", "top", track=1)
-
     conn0 = layout.addOrthogonalConnectivityRoute
-    if _want("VBP2"): conn0("M2", "M3", "^VBP2$", "vchannel=cbias,vtrack=4,hchannel=top,htrack=1",
-          2, "", r"^xn_mirr_bias2")
+    #- addChannelConnection, not two bare orthogonal routes. Its whole
+    #- reason for existing is this case: successive calls for the same
+    #- net on the same channel track extend ONE shared bar across the
+    #- union of their spans. Two orthogonal routes each draw their own
+    #- bar over their own pins and meet only by luck -- measured, the
+    #- bias bar came out M3 (42000,366300)-(50800,369700), 0.88 um of a
+    #- 34 um cell, and VBP2 stayed in four components.
+    if _want("VBP2"): layout.addChannelConnection(
+        "M2", "M3", "^VBP2$", "top", 1, 2, r"^xn_mirr_bias2", "",
+        "vchannel=cbias,vtrack=4")
     #- p_mirr_tail gets an M1 rail on the GATE-TAB lane, not a spine
     #- on a channel lane. VBP2 has a pin on every row 0-5 of this
     #- column, so any vertical it owns spans the column -- measured,
@@ -462,8 +464,9 @@ def _route_signals(layout):
                                 r"^xp_mirr_tail1")
     #- and ONE riser to the top bar, from p_mirr_tail2 at the top row,
     #- on a ctail lane that carries no pin.
-    if _want("VBP2"): conn0("M2", "M3", "^VBP2$", "vchannel=ctail,vtrack=12,hchannel=top,htrack=1",
-          2, "", r"^xp_mirr_tail2$")
+    if _want("VBP2"): layout.addChannelConnection(
+        "M2", "M3", "^VBP2$", "top", 1, 2, r"^xp_mirr_tail2$", "",
+        "")
 
     #- The rest: one vertical trunk and one horizontal branch per pin,
     #- with the trunk lane stated per net. Read the lane table as a

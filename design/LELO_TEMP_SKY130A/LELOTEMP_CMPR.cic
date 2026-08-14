@@ -3417,29 +3417,6 @@
                     "net": "VSS"
                 },
                 {
-                    "class": "ChannelRoute",
-                    "x1": 4800,
-                    "y1": 366500,
-                    "x2": 344800,
-                    "y2": 369500,
-                    "layer": "",
-                    "net": "",
-                    "name": "VBP2",
-                    "has_pr": false,
-                    "ckt": {},
-                    "children": [
-                        {
-                            "class": "Rect",
-                            "x1": 4800,
-                            "y1": 366500,
-                            "x2": 344800,
-                            "y2": 369500,
-                            "layer": "M3",
-                            "net": ""
-                        }
-                    ]
-                },
-                {
                     "class": "OrthogonalLayerRoute",
                     "x1": 31800,
                     "y1": 137000.0,
@@ -4524,6 +4501,15 @@
                     ]
                 },
                 {
+                    "class": "Rect",
+                    "x1": 38400,
+                    "y1": 366500,
+                    "x2": 54400,
+                    "y2": 369500,
+                    "layer": "M3",
+                    "net": "VBP2"
+                },
+                {
                     "class": "Route",
                     "x1": 298400.0,
                     "y1": 97000.0,
@@ -4667,6 +4653,15 @@
                             "name": "VBP2"
                         }
                     ]
+                },
+                {
+                    "class": "Rect",
+                    "x1": 38400,
+                    "y1": 366500,
+                    "x2": 320800,
+                    "y2": 369500,
+                    "layer": "M3",
+                    "net": "VBP2"
                 },
                 {
                     "class": "OrthogonalLayerRoute",
