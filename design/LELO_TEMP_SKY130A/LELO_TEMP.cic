@@ -6571,6 +6571,32 @@
                 "instances": [
                     {
                         "class": "",
+                        "name": "xant_cmpo_a",
+                        "nodes": [
+                            "CMPO_A",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYTR_ANTX1_CV",
+                        "groupName": "xant_cmpo_a",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
+                        "name": "xant_cmpo_b",
+                        "nodes": [
+                            "CMPO_B",
+                            "VSS"
+                        ],
+                        "properties": {},
+                        "subcktName": "REYTR_ANTX1_CV",
+                        "groupName": "xant_cmpo_b",
+                        "deviceName": "subckt",
+                        "groupTag": null
+                    },
+                    {
+                        "class": "",
                         "name": "xbias",
                         "nodes": [
                             "IBP_1U<0>",
@@ -6637,6 +6663,90 @@
                 ]
             },
             "children": [
+                {
+                    "class": "Instance",
+                    "x1": 1452300,
+                    "y1": 55000,
+                    "x2": 1465300.0,
+                    "y2": 68000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYTR_ANTX1_CV",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 1456550.0,
+                            "y1": 59550.0,
+                            "x2": 1461050.0,
+                            "y2": 63450.0,
+                            "layer": "M2",
+                            "net": "",
+                            "name": "CMPO_A",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 1451450.0,
+                            "y1": 54150.0,
+                            "x2": 1466150.0,
+                            "y2": 55850.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xant_cmpo_a",
+                    "angle": "",
+                    "cell": "REYTR_ANTX1_CV",
+                    "libpath": "REY_TR_SKY130A",
+                    "xcell": 6500,
+                    "ycell": 6500
+                },
+                {
+                    "class": "Instance",
+                    "x1": 1440300,
+                    "y1": 25000,
+                    "x2": 1453300.0,
+                    "y2": 38000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "REYTR_ANTX1_CV",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 1444550.0,
+                            "y1": 29550.0,
+                            "x2": 1449050.0,
+                            "y2": 33450.0,
+                            "layer": "M2",
+                            "net": "",
+                            "name": "CMPO_B",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 1439450.0,
+                            "y1": 24150.0,
+                            "x2": 1454150.0,
+                            "y2": 25850.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "xant_cmpo_b",
+                    "angle": "",
+                    "cell": "REYTR_ANTX1_CV",
+                    "libpath": "REY_TR_SKY130A",
+                    "xcell": 6500,
+                    "ycell": 6500
+                },
                 {
                     "class": "Instance",
                     "x1": 0,
@@ -7983,6 +8093,222 @@
                         },
                         {
                             "step": "end"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 1444900.0,
+                    "y1": 26700.0,
+                    "x2": 1448700.0,
+                    "y2": 88500,
+                    "layer": "",
+                    "net": "CMPO_B",
+                    "name": "CMPO_B",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 1444900.0,
+                            "y1": 26700.0,
+                            "x2": 1448700.0,
+                            "y2": 36300.0,
+                            "layer": "",
+                            "net": "CMPO_B",
+                            "name": "cut_M2M4_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M4_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1445300,
+                            "y1": 31500,
+                            "x2": 1448300,
+                            "y2": 88500,
+                            "layer": "M4",
+                            "net": "CMPO_B"
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M4"
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "track",
+                                "axis": "x",
+                                "channel": "dband",
+                                "index": 4
+                            }
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "pin",
+                                "axis": "y",
+                                "instance": "xdig",
+                                "terminal": "CMPO_B"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 1445300,
+                    "y1": 3000,
+                    "x2": 1448300,
+                    "y2": 25000,
+                    "layer": "",
+                    "net": "VSS",
+                    "name": "VSS",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Rect",
+                            "x1": 1445300,
+                            "y1": 3000,
+                            "x2": 1448300,
+                            "y2": 25000,
+                            "layer": "M1",
+                            "net": "VSS"
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "y"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 1456900.0,
+                    "y1": 56700.0,
+                    "x2": 1460700.0,
+                    "y2": 176500,
+                    "layer": "",
+                    "net": "CMPO_A",
+                    "name": "CMPO_A",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 1456900.0,
+                            "y1": 56700.0,
+                            "x2": 1460700.0,
+                            "y2": 66300.0,
+                            "layer": "",
+                            "net": "CMPO_A",
+                            "name": "cut_M2M4_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M4_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 1457300,
+                            "y1": 61500,
+                            "x2": 1460300,
+                            "y2": 176500,
+                            "layer": "M4",
+                            "net": "CMPO_A"
+                        }
+                    ],
+                    "routeLayer": "M2",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": "M4"
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "track",
+                                "axis": "x",
+                                "channel": "dband",
+                                "index": 6
+                            }
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "pin",
+                                "axis": "y",
+                                "instance": "xdig",
+                                "terminal": "CMPO_A"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 1457300,
+                    "y1": 3000,
+                    "x2": 1460300,
+                    "y2": 55000,
+                    "layer": "",
+                    "net": "VSS",
+                    "name": "VSS",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Rect",
+                            "x1": 1457300,
+                            "y1": 3000,
+                            "x2": 1460300,
+                            "y2": 55000,
+                            "layer": "M1",
+                            "net": "VSS"
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "y"
+                            }
                         }
                     ]
                 },
