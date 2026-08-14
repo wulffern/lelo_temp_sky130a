@@ -3,22 +3,22 @@ tech sky130A
 magscale 1 2
 timestamp 1786658400
 << checkpaint >>
-rect 0 0 4434 4434
+rect 0 0 4474 4474
 << metal1 >>
-rect 1817 1817 2617 2617
-rect 417 3217 4017 4017
+rect 1837 1837 2637 2637
+rect 437 3237 4037 4037
 << locali >>
-rect 137 17 4277 257
+rect 157 37 4297 277
 use JNWBIAS_BIPOLAR xe1 ../JNW_BIAS_SKY130A
-transform 1 0 117 0 1 117
-box 117 117 4551 4551
+transform 1 0 137 0 1 137
+box 137 137 4611 4611
 << labels >>
-flabel metal1 s 1817 1817 2617 2617 0 FreeSans 400 0 0 0 VD1
+flabel metal1 s 1837 1837 2637 2637 0 FreeSans 400 0 0 0 VD1
 port 1 nsew signal bidirectional
-flabel metal1 s 417 3217 4017 4017 0 FreeSans 400 0 0 0 VD2
+flabel metal1 s 437 3237 4037 4037 0 FreeSans 400 0 0 0 VD2
 port 2 nsew signal bidirectional
-flabel locali s 137 17 4277 257 0 FreeSans 400 0 0 0 VSS
+flabel locali s 157 37 4297 277 0 FreeSans 400 0 0 0 VSS
 port 3 nsew ground bidirectional
 << properties >>
-string FIXED_BBOX 0 0 4434 4434
+string FIXED_BBOX 0 0 4474 4474
 << end >>

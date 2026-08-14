@@ -8,7 +8,7 @@ rect 0 0 19200 21292
 rect 14180 13582 14356 13650
 rect 18564 6562 18740 6630
 rect 10072 6570 18660 6630
-rect 1691 6330 19200 6390
+rect 1711 6330 19200 6390
 << via2 >>
 rect 14192 13588 14248 13644
 rect 14288 13588 14344 13644
@@ -54,7 +54,7 @@ flabel metal4 s 18960 17420 19200 17540 0 FreeSans 400 0 0 0 PWRUP_B_1V8
 port 5 nsew power bidirectional
 flabel metal4 s 18960 14280 19200 14400 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 6 nsew power bidirectional
-flabel metal2 s 1691 6330 19200 6390 0 FreeSans 400 0 0 0 VC
+flabel metal2 s 1711 6330 19200 6390 0 FreeSans 400 0 0 0 VC
 port 7 nsew signal bidirectional
 flabel locali s 0 21100 19200 21280 0 FreeSans 400 0 0 0 VDD_1V8
 port 8 nsew power bidirectional
