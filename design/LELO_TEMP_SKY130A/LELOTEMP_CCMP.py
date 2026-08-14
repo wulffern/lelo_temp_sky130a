@@ -48,7 +48,7 @@ class LELOTEMP_CCMP(SidecarCell):
         """Five MiM caps on IBP_1U<0> at the 2 um pitch gap the cap
         cell's own spacing rules want. The A rail STARTS OVER the
         first mimcap (inset 2 um): a rail stub standing beside a
-        mimcap is "unrelated metal3" to capm.11, and the plate's own
+        mimcap is unrelated M4 to capm.11, and the plate's own
         continuity carries the net down to the pin bar."""
         match = r'^xd1<\d+>$'
         group = "caps"
@@ -99,7 +99,7 @@ class LELOTEMP_CCMP(SidecarCell):
     #- one. The drops are discovered: a subcell exposing the net gets
     #- one.
     #- THE BAR STOPS SHORT OF THE CAPS. A MiM claims 1.34 um from
-    #- unrelated metal3 (capm.11) and counts anything under its halo,
+    #- unrelated M4 (capm.11) and counts anything under its halo,
     #- so a bar running the cell's full width in the band below picks
     #- up the whole cap bank. The bank's drop is skipped here and told
     #- as a story instead -- west of the caps, then up and in on the

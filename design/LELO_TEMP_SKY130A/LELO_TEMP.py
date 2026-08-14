@@ -22,6 +22,11 @@ log = logging.getLogger("LELO_TEMP")
 
 class LELO_TEMP(SidecarCell):
 
+    #- INERT ON THIS CELL, kept only so a reader does not add it back
+    #- expecting an effect. Both knobs are read by _placeStacks, which
+    #- returns at once for a cell that holds no stacks, and this cell
+    #- holds subcells. The gap between the assembled rows is `channel`
+    #- on the class (below), not this one.
     place = {"groupbreak": 2, "channel": 6}
 
     class bias(Stack):
@@ -440,7 +445,7 @@ class LELO_TEMP(SidecarCell):
         fill = False
         #- SEVEN MICRONS OFF THE PAIR, not four. The pair's east edge
         #- IS the cap bank, and a MiM claims 1.34 um from any
-        #- unrelated metal3 -- so at four the whole corridor between
+        #- unrelated M4 (capm.11) -- so at four the whole corridor
         #- the two blocks was inside the halo, and every lane a net
         #- came down cost capm.11 (150 boxes), met3.3d and met4.5b.
         #- At seven the corridor's first two lanes are the halo's and
@@ -1313,7 +1318,7 @@ class LELO_TEMP(SidecarCell):
     #- THE STRIP SITS ON THE PAIR, not beside it. Side by side, the
     #- only corridor between them is the 4 um gap at the pair's east
     #- edge -- and that edge is the cap bank, whose MiM claims 1.34 um
-    #- from any unrelated metal3. Every lane in that gap was inside
+    #- from any unrelated M4. Every lane in that gap was inside
     #- the halo: 150 capm.11 boxes, and met3.3d and met4.5b with them.
     #- Above the pair there is 26 um of empty tile, the strip is 18
     #- tall, and the nets it shares with the pair (CMPO_A/B, RST_A/B)
@@ -1329,15 +1334,15 @@ class LELO_TEMP(SidecarCell):
     #- SUBCELLS: hierarchy() splits the netlist, builds a cell per
     #- subcell, and the top instantiates them and routes between
     #- their ports. `routes` only declares the channel routes that
-    #- join them, and this top has none -- _signal_routes lays its
-    #- crossing nets instead.
+    #- join them, and this top has none -- _signals() lays its
+    #- crossing nets instead, as a hand lane plan.
     routes = []
 
     def afterPlace(self, layout):
         super().afterPlace(layout)
         #- DROP EVERY BLOCK 0.13 um, to buy the top band its
         #- clearance. The lanes over the bias block need 0.40 under
-        #- the first one (met4.5a/b, "attached to large metal4"), and
+        #- the first one (met4.5a/b, "large metal4" = cicpy M5), and
         #- between the block's top and the 111.52 um tile ceiling
         #- there was 2.76 where 2.89 was wanted. Everything else is
         #- already at its minimum, so the room comes from below --
@@ -1410,62 +1415,15 @@ class LELO_TEMP(SidecarCell):
         #- as routes grow the bbox, and a cut placed at the ring's
         #- beforeRoute position lands 8000 off the painted bar
         #- (measured)
-        import os as _os
-        if _os.environ.get("AUTOROUTE"):
-            #- AUTOROUTE=1 hands every top net to the maze router
-            #- instead of the lane plan below -- one
-            #- addConnectivityRoute per net and nothing else.
-            #-
-            #- IT LOSES, and the first measurement said otherwise
-            #- because it counted the wrong thing. Short COMPONENTS
-            #- flatter a build that merges everything: one component
-            #- can hold thirty nets.  Count the NETS caught in a short:
-            #-
-            #-                        shorts  nets shorted  worst
-            #-   lane plan (778 ln)     13         24        8 nets
-            #-   router, all on M5       6         29       24 nets
-            #-   router, M3/M4/M5        4         32       29 nets
-            #-   router, M4/M5 only      5         37       33 nets
-            #-
-            #- Every variant collapses into one giant component, and
-            #- the bridges say why: the top level has no idea which
-            #- layers the BLOCKS own. Routed on M3 it runs into
-            #- LELOTEMP_CMP's own VBP2; confined to M4/M5 it has two
-            #- layers for twenty nets and they cross each other.
-            #-
-            #- Which is exactly what the 778 lines encode -- a lane
-            #- budget and a layer reservation per band. Converting this
-            #- cell is not deleting them; it is saying the same thing
-            #- declaratively, as channels and tracks, so the search has
-            #- the constraints the hand plan carries in its head.
-            import re as _re
-            #- keep the hand-drawn PORT pins: they are the cell's
-            #- interface, not signal routing, and dropping them fails
-            #- LVS on pin matching for reasons that say nothing about
-            #- the router
-            _rt = _os.environ.get("RT")
-            _os.environ["RT"] = "misc"
-            try:
-                self._signal_routes(layout)
-            finally:
-                if _rt is None:
-                    _os.environ.pop("RT", None)
-                else:
-                    _os.environ["RT"] = _rt
-            #- ONE LAYER PER NET IS NOT A TEST OF THE ROUTER. Giving
-            #- every net "M5" put twenty of them on one plane, where
-            #- they crossed freely and merged into a single 24-net
-            #- component of 2293 rects -- which says nothing about
-            #- routing and everything about the question asked.
-            #- Spread them instead, and let the search do the rest.
-            _skip = {"VDD_1V8", "VSS"}
-            _layers = ["M4", "M5"]
-            _nets = [n for n in (getattr(layout, "nodeGraphList", []) or [])
-                     if n not in _skip]
-            for _i, _net in enumerate(sorted(_nets)):
-                layout.addConnectivityRoute(
-                    _layers[_i % len(_layers)],
-                    "^" + _re.escape(_net) + "$", "-|--", "", 2, "", "")
+        #- THE TOP'S SIGNAL NETS ARE A HAND LANE PLAN, not a search.
+        #- Handing every one of them to the maze router instead was
+        #- measured and lost: the top level does not know which layers
+        #- the BLOCKS own, so on M3 it ran into LELOTEMP_CMP's own
+        #- VBP2, and confined to M4/M5 it had two layers for twenty
+        #- nets that then crossed each other. Every variant collapsed
+        #- into one component holding thirty-odd nets. What _signals()
+        #- encodes is exactly what the search lacks -- a lane budget
+        #- and a layer reservation per band.
         self._supplies(layout)
         self._ibp(layout)
         if not __import__("os").environ.get("NOSIG"): self._signals(layout)
@@ -1683,7 +1641,7 @@ class LELO_TEMP(SidecarCell):
         #-     why the strip publishes its ports there.
         #-   * DBAND'S FIRST TWO LANES BELONG TO THE CAP BANK. The
         #-     pair's east edge is the bank, and a MiM claims 1.34 um
-        #-     from unrelated metal3, so the descents start at track 2.
+        #-     from unrelated M4, so the descents start at track 2.
         #-
         #- THE ORDER, WEST TO EAST BY RISER, WITH FALLING TRACKS.
         #- It was the other way round and the connectivity check named

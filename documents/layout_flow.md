@@ -24,11 +24,9 @@ design/<LIB>/<CELL>.py
 That file **is** the cell. It is a declaration, not a script.
 
 ```python
-from cicpy.sidecar import SidecarCell, Stack, DiffPair, Mirror
+from cicpy.sidecar import SidecarCell, Stack
 
 class LELO_TEMP(SidecarCell):
-
-    place = {"groupbreak": 2, "channel": 6}   # placement knobs
 
     class bias(Stack):                 # class name = piece name
         match = r'^x1_ibp$'            # which instances it claims
@@ -44,6 +42,11 @@ class LELO_TEMP(SidecarCell):
     supplies = []                      # rings and straps
     routes = []                        # how the pieces are joined
 ```
+
+A cell that places devices rather than subcells may also declare
+`place = {"groupbreak": N, "channel": N}`. Those knobs are read by
+`_placeStacks`, which returns immediately for a cell that holds no
+stacks, so on an assembled cell they do nothing.
 
 One class per cell, one nested class per piece. The classes are real:
 `Stack` subclasses the framework's own `StackGroup` and `SidecarCell`
@@ -153,12 +156,28 @@ unrouted behind exactly that.
 
 ## Debugging routes
 
-`make mag` prints a route-short report: the shorted nets, the route that
-created the short, and the Python `file:line` that asked for it. When a route
-raises instead, the build names the cell, the net, the layer and the route
-type, because a technology error like "could not create cut from 1 to M5" says
-nothing about which of a hundred routes asked for it -- and the answer is
-usually the one just added.
+Ask for the route-short report; a plain build does not print it:
+
+```bash
+make mag CELL=LELO_TEMP OPT=--check-connectivity
+```
+
+It names the shorted nets, the route that created the short, and the Python
+`file:line` that asked for it:
+
+```
+ROUTE SHORT component=12 nets=PWRUP_N_1V8,PWRUP_B_1V8 bounds=(...) rects=8
+      routes=RST_B[M5 -|-- ] at LELO_TEMP.py:1612
+```
+
+It sees shorts, not opens. An open still needs the netlist -- when the device
+counts match but the layout has one net *more* than the schematic, something
+is split, not shorted.
+
+When a route raises instead, the build names the cell, the net, the layer and
+the route type, because a technology error like "could not create cut from 1
+to M5" says nothing about which of a hundred routes asked for it -- and the
+answer is usually the one just added.
 
 ```bash
 cicpy checkroutes <cic> <tech> <cell>
@@ -245,13 +264,26 @@ physical-only instances.** Build a rectangle spanning every instance and use
 routes grow the bounding box, so a cut placed at the `beforeRoute` position
 ends up off by the difference.
 
-**Route over the standard cells, not beside them.** The JNWTR logic cells
-carry li, poly and their two M4 supply columns and nothing else, so M2, M3 and
-M5 are free the full height of a strip. A corridor beside the strip has a
-handful of lanes; the strip itself has as many columns as you need. Two traps
-go with it: the Y-pin column *is* the AVSS column, an M1-M4 cut stack in every
-cell, so a vertical there ties every output to AVSS; and the pin rows are
-4 um apart, so the stubs reaching them must run at minimum width.
+**Route over the standard cells, not beside them.** A corridor beside a JNWTR
+strip has a handful of lanes; the strip itself has as many columns as you
+need. **Cross on M3**, and mind what the strip does not show you:
+
+- **a JNWTR cell publishes only li, poly and its two M4 supply columns.** Its
+  M2 and M3 pads sit inside `use JNWTR_cut_M1M4_2x1`, and the magic reader
+  does not expand a `use` into the parent. `tracks`, `blockers` and
+  `checkroutes` therefore all report those two columns as free metal on every
+  layer, and they are not: the cut cell paints li, M2, M3 and M4 across its
+  full 0.44 um width. Treat the two columns as opaque. The GDS is the first
+  artefact that knows, so the loop is build → gds → drc.
+- **the Y-pin column *is* the AVSS column.** A vertical there ties every
+  output to AVSS.
+- **M5 is free of paint, but not usable.** An M2-M5 cut carries an M4 pad
+  10.8 um wide with its enclosure, and there is 18 um between the two M4
+  columns -- so a lane anywhere in that band lands the pad *on* a column.
+  Measured: RST_B on the middle lane came back shorted to VSS. The layer that
+  can use the band is the one that never reaches M4.
+- **the pin rows are 4 um apart**, so the stubs reaching them must run at
+  minimum width.
 
 **Give every riser the highest lane in its band.** A riser that climbs from
 its lane into a block passes through every lane above it.
@@ -261,27 +293,22 @@ east must be assigned right to left.
 
 ### Spacing the lanes
 
+**A DRC rule's name is one layer below what you drew.** Magic reports in the
+PDK's names, and `tech/cic/sky130A.tech` maps cicpy `M1`→li, `M2`→metal1,
+`M3`→metal2, `M4`→metal3, `M5`→metal4. So a `met4.*` violation is an **M5**
+problem and `capm.11` "unrelated metal3" means unrelated **M4**. The table
+below is in cicpy's names, because those are the names every cicpy command
+takes and prints.
+
 The pitches are set by rules that are easy to guess wrong:
 
-| Rule | What it actually asks |
-|:-----|:----------------------|
-| met4.5a/b | a long M4/M5 run is *large metal*: 0.4 um to its neighbours, not the 0.3 um of met4.2 |
-| met3.6, met4.4a | a via stack's pass-through pad is 0.19 um^2, under the 0.24 minimum; patch it long and narrow, never as a square wider than the lane |
-| met1.2 | the M2-M3 cut pad is 4.4 um, wider than a 3 um column |
-| capm.11 | a MiM cap claims 1.34 um from unrelated M4, including from outside its own cell |
-
-### The collision report
-
-`_signal_routes` in `LELO_TEMP.py` records every wire and via stack it draws
-and reports colliding nets by name, layer and coordinate at build time:
-
-```
-ERROR: ROUTE SHORT PWRUP_N_1V8 x PWRUP_B_1V8 on M5 at (1260600,19500)..(1266600,22500)
-```
-
-It sees shorts, not opens. An open still needs the netlist -- when the device
-counts match but the layout has one net *more* than the schematic, something
-is split, not shorted.
+| Rule | Layer | What it actually asks |
+|:-----|:------|:----------------------|
+| met4.5a/b | M5 | a long run is *large metal*: 0.4 um to metal attached to it, 3 um of run makes it large -- not the 0.3 um of met4.2 |
+| met3.6, met4.4a | M4, M5 | a via stack's pass-through pad is 0.19 um^2, under the 0.24 minimum; patch it long and narrow, never as a square wider than the lane |
+| met1.2, met2.2 | M2, M3 | 0.14 um between two pads -- two stubs leaving at their own pin rows ran 0.6 um apart and fired ten pairs of these |
+| li.3 | M1 | 0.17 um, more than the thin metals want; every pad has an M1 piece, so li.3 is what sets the row pitch |
+| capm.11 | M4 | a MiM claims 1.34 um from unrelated M4, including from outside its own cell |
 
 ## Where the flow stands
 
