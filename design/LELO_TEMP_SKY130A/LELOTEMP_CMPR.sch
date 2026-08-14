@@ -164,8 +164,8 @@ N 1590 -250 1650 -250 {lab=VSS}
 N 1650 -250 1650 -220 {lab=VSS}
 N 1590 -220 1650 -220 {lab=VSS}
 N 1550 -250 1500 -250 {lab=PWRUP_N_1V8}
-C {REY_ATR_SKY130A/REYATR_NCH_2C5F0.sym} 1550 -350 0 0 {name=xg_rst}
-C {REY_ATR_SKY130A/REYATR_NCH_2C5F0.sym} 1550 -250 0 0 {name=xg_pdn}
+C {REY_ATR_SKY130A/REYATR_NCH_2C5F0.sym} 1550 -350 0 0 {name=xg1}
+C {REY_ATR_SKY130A/REYATR_NCH_2C5F0.sym} 1550 -250 0 0 {name=xg4}
 C {devices/lab_wire.sym} 1650 -380 0 0 {name=p30 sig_type=std_logic lab=VIP}
 C {devices/lab_wire.sym} 1650 -320 0 0 {name=p31 sig_type=std_logic lab=VSS}
 C {devices/lab_wire.sym} 1650 -280 0 0 {name=p32 sig_type=std_logic lab=VIP}
