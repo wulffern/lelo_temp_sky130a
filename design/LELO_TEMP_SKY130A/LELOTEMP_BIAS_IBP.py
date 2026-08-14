@@ -139,16 +139,23 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
 
     class p_su(Stack):
         """Startup: xsu1 diode from VDD, xsu2 diode VD1 -> VSU."""
-        match = r'^(xsu\d+|xstack_p_su_(top|bot)|xfill_p_su_\d+)$'
+        match = r'^(xsu\d+|xstack_p_su_(top|bot)|xfill_p_su<\d+>)$'
         group = "pmos"
         channel = "su"
         order = ['xsu1', 'xsu2']
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (595200, 1854000, 'M1') to (559200, 1870000, 'M1'); closest approach (559200, 1870000, 'M3') (0 away)"),
-            ('VD1', 'blocked', "VD1: trunk 604200 lies outside the pins' common overlap 612800..616000"),
-            ('VSU', 'blocked', 'VSU: pins share only -9600 of column, a straight vertical cannot land'),
-        ]
-        wires_key = "095b78be0d58"
+        #- No wires block on purpose.
+        #-
+        #- wires_key fingerprints every member's instanceName, so making
+        #- the fills one vector instance (xfill_p_su_0 -> xfill_p_su<0>)
+        #- invalidated the old block. Searching afresh beat it: the three
+        #- routes it declared blocked -- VDD_1V8, VD1, VSU -- all route,
+        #- and the result is DRC and LVS clean.
+        #-
+        #- The block cicpy then suggested does NOT reproduce that result.
+        #- Pasting ('VDD_1V8', 'M2', '-|--', 'trunkx=-800') back in gives
+        #- two mcon.2 spacing errors, so the replay is not faithful here.
+        #- Letting the router search costs a little build time and is the
+        #- only version that verifies.
 
         def beforeRoute(self, entry):
             #- VSU: xsu1's tied bar to xsu2's source, adjacent rows;
@@ -162,7 +169,7 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
 
     class p_cc(Stack):
         """Decap column: every terminal on VDD_1V8, one strap."""
-        match = r'^(xcc<\d+>|xstack_p_cc_(top|bot)|xfill_p_cc_\d+)$'
+        match = r'^(xcc<\d+>|xstack_p_cc_(top|bot)|xfill_p_cc<\d+>)$'
         group = "pmos"
         channel = "cc"
         order = [r'xcc<\d+>']
