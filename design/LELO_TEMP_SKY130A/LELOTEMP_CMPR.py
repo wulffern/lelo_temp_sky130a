@@ -130,78 +130,86 @@ budget on nothing; the routing budget is in y, where the tile has
 WHERE THE ROUTING STANDS -- READ BEFORE TOUCHING _route_signals
 =====================================================================
 
-WHAT THIS CELL IS TODAY: placement, two supply rings and the guard
-connections. 0 DRC errors, 34.48 x 39.80 um. `_route_signals()` and
-`_port_edges()` below are written, are NOT called, and do not verify.
-They are kept because the analysis in them cost the measurements
-listed here, not because they are ready.
+WHAT THIS CELL IS TODAY: placed, supplied and ROUTED, with no shorts
+and every port matching -- and not yet LVS clean, because three nets
+are still OPEN. Measured on this commit:
 
-FIXED AND KEPT (these are real, and they verify):
+    checkroutes   0 shorts, 3 opens
+    make drc      38 errors   (63 on the cell this replaced)
+    netgen        "Cell pin lists are equivalent" -- all 9 ports
+                  match, and the port shorts are gone
+                  21 devices vs 18, 18 nets vs 13: the layout has
+                  MORE of both, which is what an open looks like
+                  after netgen merges parallel devices
 
-  1. The column order and every stack order, from the netlist. See
-     above. This is the part that was actually wrong with the old
-     cell.
-  2. THE SUPPLIES. The old cell said addPowerConnection, which copies
-     the PIN rect and stretches it to the ring on the pin's own layer.
-     On REY_ATR, whose pins overhang, that dragged M1 from an upper
-     device's source down across the drain and gate of everything
-     below it. On the BARE PLACEMENT, with no signal route anywhere,
-     checkroutes found two components of 31 rects:
-         VBN1,VBP2,VDD_1V8,VIN,VIP,VO,VO1,VS
-         IBP_1U,VBN1,VBP2,VIP,VO,VO1,VSS
-     -- every signal in the cell shorted to a supply before routing
-     began. addPowerGuardConnection + addPowerStrap(terminals=("B",))
-     is the REY_ATR answer and it is what is called now.
+WHAT CLOSED, and the measurement that found each one. Every one of
+these was a via COLUMN or a rail on a pin, never a same-layer crossing
+of two wires -- which is why `tracks` never showed them and only the
+bridge report did:
 
-STILL OPEN, with the last measurement:
+  - VIP's bar ran through VS's M1-M4 via column. The bridge report:
+    M3 (183200,240100)-(246900,243100) [VIP] touches VIA2
+    (215800,241400)-(218600,244200) [cut_M1M4_2x1]. Moved VIP from
+    r5,t0 to r5,t2.
+  - VBP2 had an M2 spine (304900,60700)-(307900,366300) down the whole
+    of p_mirr_tail, with VO's row-5 and VS's rows 2-4 drain stacks
+    inside it. It has a pin on every row of that column, so no channel
+    lane could help: it now takes an M1 rail on the GATE-TAB lane,
+    which is what routeMirror and LELOTEMP_OTAR's p_bias do.
+  - that tab rail then landed on xp_mirr_tail1<0>'s gate, which is
+    PWRUP_1V8 and not VBP2 (a 6-rect component at
+    (317700,59000)-(320700,263000)). tail1<0> is excluded from the
+    rail and its VBP2 drain picked up on the drain lane instead.
+  - PWRUP_N_1V8's row-6 gate via stack sat under VO's bar and beside
+    VO1's riser. xn_mirr_load4 and xn_mirr_load5 swap -- both are VO
+    drains, so the column's drain order is untouched -- which puts
+    VO1's gate at row 6 and PWRUP_N_1V8's at row 7.
 
-     checkroutes  1 short: PWRUP_N_1V8,VBP2,VIP,VO,VO1,VS
-     magic        Ports "PWRUP_N_1V8" and "VO" are electrically
-                  shorted / and "VIP"
-     netgen       18 devices vs 18, 13 nets vs 13, "Top level cell
-                  failed pin matching" -- the layout publishes 6 of
-                  the 9 ports; VIP, VO and PWRUP_N_1V8 are the three
-                  that are merged
-     make drc     50 errors (was 63 on the old cell)
+A bisection harness is left in place: CMPR_ONLY="VBN1,VS" builds only
+those signal routes. It is how the above were attributed. The useful
+result from it: no PAIR of the four M4 nets shorted, but any THREE
+did, which is the signature of a via column rather than a wire.
 
-WHAT IS ALREADY RULED OUT, so nobody pays for it twice:
+WHAT IS STILL OPEN, and what I would do about it:
 
-  - It is not the trunk lanes. vchannel/vtrack is honoured; M2 track
-    maps show the three seam trunks at 167800, 173800 and 179800 as
-    asked.
-  - It is not the bars either, on their own. Naming ONLY the trunk
-    left each bar where its own pins put it, and a bar leaving lane 0
-    rightwards runs through the trunks in lanes 1 and 2 (16 measured
-    VBN1 x VO1 pairs). Both axes are named now and VBN1 and IBP_1U
-    came clean.
-  - A via pad is 0.88 um tall and a lane is 0.6, so a row shared by
-    two nets does not have six free lanes. VO1 at r5,t4 landed inside
-    VBN1's gate pad on xn_mirr_load3, the device that carries both.
-  - It is not fixable by putting everything on M2: that build came
-    out 13 devices against 18 and 11 nets against 13, far worse.
-  - The three M4 flyers are each in a SEPARATE metal3 component (I
-    clustered the .mag), so the remaining merge is through M3/M2/M1
-    or a via column, NOT on M4.
+  1. VBP2 is in four components. Its two halves each aim at
+     hchannel=top,htrack=1 but each draws a bar spanning only its own
+     pins -- the bias bar is M3 (42000,366300)-(50800,369700), 0.88 um
+     of a 34 um cell -- and the p_mirr_tail2 bridge riser asked for
+     ctail lane 12 and was never drawn at all (no VBP2 geometry above
+     y=300000 anywhere right of x=264800). addChannelRoute lays a
+     full-width bar on that track but it did not join them either, so
+     check first whether addChannelRoute and _resolveChannelOptions
+     agree on the track coordinate: addChannelRoute passes layer=None
+     to channelTrackCoord and takes the widest lane in the stack,
+     which is NOT the same pitch the option string resolves with.
+     That mismatch would put the two bars a fraction of a lane apart
+     and explains the whole symptom.
+  2. VDD_1V8 is in three components. The ring and the guard rows are
+     not fully tied; this has been true since the guard change and is
+     independent of the signal routing.
+  3. RST has an unmatched anchor by design -- it has no edge port, it
+     is published where its pin is. LELOTEMP_CCMPR has to reach it.
 
-WHAT I WOULD DO NEXT, in this order:
-
-  1. Ask `blockers` for VIP, VO and PWRUP_N_1V8 over the load column
-     -- the merge is a via COLUMN, which is exactly what that tool
-     was written for and which no same-layer check can see.
-  2. Suspect _port_edges first. PWRUP_N_1V8's left port is drawn
-     "-|--" on M4 and lays a horizontal M4 bar the whole width of
-     n_mirr_bias at y 61000..64000; VIP's and VO's port risers stand
-     in the load drain lane 0.02 um from their own rails, which is a
-     met4 spacing error as well. Two of the three merged nets are
-     port routes and the third crosses them.
-  3. If that does not close it, stop hand-placing lanes and convert
-     this cell to a SidecarCell with one Stack per column, the way
-     LELOTEMP_OTAR and LELOTEMP_BIAS_IBP are written. The stack-level
-     maze router is space-aware and writes its conclusions back as
-     `wires`; the flat connectivity router is not, and every failure
-     above is a shape it drew without being able to see what was
-     already there.
+If (1) does not fall to one build, stop hand-placing lanes and convert
+this cell to a SidecarCell with one Stack per column, the way
+LELOTEMP_OTAR and LELOTEMP_BIAS_IBP are written. The stack-level maze
+router is space-aware and writes its conclusions back as `wires`; the
+flat connectivity router is not, and every failure above is a shape it
+drew without being able to see what was already there.
 """
+
+import os
+
+#- bisection harness: CMPR_ONLY="VBN1,VS" builds only those signal
+#- routes. Empty means all of them. Costs one line and saves a build
+#- per guess when a short has to be attributed to a route.
+_ONLY = [n for n in os.environ.get("CMPR_ONLY", "").split(",") if n]
+
+
+def _want(net):
+    return not _ONLY or net in _ONLY
+
 
 data = {
     "afterPaint": [
@@ -219,7 +227,7 @@ ORDER = {
                     "xn_mirr_bias2<2>", "xn_mirr_bias2<3>"],
     "n_mirr_load": ["xn_mirr_load0", "xg4", "xg1",
                     "xn_mirr_load1", "xn_mirr_load2", "xn_mirr_load3",
-                    "xn_mirr_load4", "xn_mirr_load5"],
+                    "xn_mirr_load5", "xn_mirr_load4"],
     "p_diff": ["xp_diff3<0>", "xp_diff3<1>", "xp_diff3<2>",
                "xp_diff3<3>", "xp_diff1", "xp_diff2"],
     "p_mirr_tail": ["xp_mirr_tail1<0>", "xp_mirr_tail1",
@@ -404,18 +412,13 @@ def beforeRoute(layout):
     #- 2-5 of that same column, which are VO's and VS's drains, and
     #- those are on M2. Two layers, no crossing.
     #- ---------------------------------------------------------------
-    #- STOPS HERE. Everything below is _route_signals(), which is
-    #- WRITTEN AND NOT CALLED. See "WHERE THE ROUTING STANDS" in the
-    #- docstring: the signal routing does not verify yet, and a cell
-    #- that half-routes is worse than one that does not, because the
-    #- next reader cannot tell which half to trust. The placement, the
-    #- rings and the guard connections above DO verify -- 0 DRC -- and
-    #- that is what this cell is.
-    return
+    #- and then the signals. See "WHERE THE ROUTING STANDS" in the
+    #- docstring for what verifies and what does not.
+    _route_signals(layout)
 
 
 def _route_signals(layout):
-    """The signal routing. NOT CALLED -- see the docstring."""
+    """The signal routing. 0 shorts; three nets still open."""
     #- MEASURED, and the reason this is not one route: the pair
     #-     addChannelRoute("M3", "VBP2", "top", track=1)
     #-     addRouteConnection("^VBP2$", "", "M4", "top", "")
@@ -427,11 +430,40 @@ def _route_signals(layout):
     #- crossed by a via stack on the way to a bar.
     #-
     #- So VBP2 is TWO trunks, one per group, and a bridge between them.
+    #- ONE bar, laid explicitly, because the two halves below are two
+    #- ROUTES and each would otherwise draw its own bar on this track
+    #- spanning only its own pins -- bias's over n_mirr_bias, tail's
+    #- over p_mirr_tail, never touching. checkroutes reported VBP2 in
+    #- four components for exactly that. addChannelRoute lays a bar the
+    #- full width of the cell on the track both of them aim at.
+    layout.addChannelRoute("M3", "VBP2", "top", track=1)
+
     conn0 = layout.addOrthogonalConnectivityRoute
-    conn0("M2", "M3", "^VBP2$", "vchannel=cbias,vtrack=4,hchannel=top,htrack=1",
+    if _want("VBP2"): conn0("M2", "M3", "^VBP2$", "vchannel=cbias,vtrack=4,hchannel=top,htrack=1",
           2, "", r"^xn_mirr_bias2")
-    conn0("M2", "M3", "^VBP2$", "vchannel=ctail,vtrack=6,hchannel=top,htrack=1",
-          2, "", r"^xp_mirr_tail")
+    #- p_mirr_tail gets an M1 rail on the GATE-TAB lane, not a spine
+    #- on a channel lane. VBP2 has a pin on every row 0-5 of this
+    #- column, so any vertical it owns spans the column -- measured,
+    #- M2 (304900,60700)-(307900,366300) -- and VO's row-5 drain stack
+    #- and VS's rows 2-4 stacks sit inside it. trunktab centres on the
+    #- rightmost narrow rect, which IS the tab lane, so the rail lies
+    #- on VBP2's own gates and nothing else. This is what routeMirror
+    #- and LELOTEMP_OTAR's p_bias do.
+    #- ...EXCEPT xp_mirr_tail1<0>, whose gate is PWRUP_1V8 and not
+    #- VBP2. It sits at row 0, so a tab rail spanning rows 0-5 lands on
+    #- it: measured, a 6-rect PWRUP_1V8|VBP2 component at
+    #- (317700,59000)-(320700,263000). The rail covers rows 1-5 and
+    #- tail1<0>'s VBP2 DRAIN is picked up below instead, beside
+    #- tail1's, on the drain lane at rows 0-1 -- under VS, which starts
+    #- at row 2.
+    layout.addConnectivityRoute("M1", "^VBP2$", "||", "trunktab", 2,
+                                r"^xp_mirr_tail1<0>$", r"^xp_mirr_tail")
+    layout.addConnectivityRoute("M1", "^VBP2$", "||", "trunkright", 2, "",
+                                r"^xp_mirr_tail1")
+    #- and ONE riser to the top bar, from p_mirr_tail2 at the top row,
+    #- on a ctail lane that carries no pin.
+    if _want("VBP2"): conn0("M2", "M3", "^VBP2$", "vchannel=ctail,vtrack=12,hchannel=top,htrack=1",
+          2, "", r"^xp_mirr_tail2$")
 
     #- The rest: one vertical trunk and one horizontal branch per pin,
     #- with the trunk lane stated per net. Read the lane table as a
@@ -519,8 +551,8 @@ def _route_signals(layout):
     #- overlap (VIP/VO1 and VBN1/VS), which is exactly when the index
     #- has to be said rather than left to the pins.
     conn = layout.addOrthogonalConnectivityRoute
-    conn("M2", "M3", "^IBP_1U$", "vchannel=cbias,vtrack=10,hchannel=r1,htrack=2", 2, "", "")
-    conn("M2", "M3", "^VBN1$", "vchannel=seam,vtrack=1,hchannel=r4,htrack=1", 2, "", "")
+    if _want("IBP_1U"): conn("M2", "M3", "^IBP_1U$", "vchannel=cbias,vtrack=10,hchannel=r1,htrack=2", 2, "", "")
+    if _want("VBN1"): conn("M2", "M3", "^VBN1$", "vchannel=seam,vtrack=1,hchannel=r4,htrack=1", 2, "", "")
     #- VO1's bar is in r6 and not in r5 with its own drain, because r5
     #- is xn_mirr_load3 and that device carries BOTH VO1 (drain) and
     #- VBN1 (gate). The gate via pad is 0.88 um tall and swallows lanes
@@ -528,15 +560,14 @@ def _route_signals(layout):
     #- 270400) sat inside VBN1's (137500,258600)-(140900,267400). A
     #- via pad is taller than a lane, so a row shared by two nets is
     #- not six free lanes, it is however many the pads leave.
-    conn("M2", "M3", "^VO1$", "vchannel=seam,vtrack=0,hchannel=r6,htrack=0", 2, "", "")
-    conn("M4", "M3", "^VIP$", "vchannel=seam,vtrack=2,hchannel=r5,htrack=0", 2, "", "")
-    conn("M4", "M3", "^PWRUP_N_1V8$", "vchannel=cload,vtrack=1,hchannel=r3,htrack=2", 2, "", "")
-    conn("M4", "M3", "^VO$", "vchannel=ctail,vtrack=2,hchannel=r6,htrack=4", 2, "", "")
-    conn("M4", "M3", "^VS$", "vchannel=ctail,vtrack=9,hchannel=r4,htrack=5", 2, "", "")
+    if _want("VO1"): conn("M2", "M3", "^VO1$", "vchannel=seam,vtrack=0,hchannel=r6,htrack=0", 2, "", "")
+    if _want("VIP"): conn("M4", "M3", "^VIP$", "vchannel=seam,vtrack=2,hchannel=r5,htrack=2", 2, "", "")
+    if _want("PWRUP_N_1V8"): conn("M4", "M3", "^PWRUP_N_1V8$", "vchannel=cload,vtrack=1,hchannel=r3,htrack=2", 2, "", "")
+    if _want("VO"): conn("M4", "M3", "^VO$", "vchannel=ctail,vtrack=2,hchannel=r6,htrack=5", 2, "", "")
+    if _want("VS"): conn("M4", "M3", "^VS$", "vchannel=ctail,vtrack=9,hchannel=r4,htrack=5", 2, "", "")
 
 
-def _port_edges(layout):
-    """The edge ports. NOT CALLED -- they need _route_signals()."""
+def afterPorts(layout):
     #- Port edges follow the column order, which changed: IBP_1U and
     #- PWRUP_N_1V8 are on the left because n_mirr_bias is now the left
     #- column and both have a pin in it; PWRUP_1V8 stays on the right
