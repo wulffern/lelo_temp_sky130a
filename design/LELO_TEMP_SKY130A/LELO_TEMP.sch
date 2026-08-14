@@ -109,8 +109,8 @@ C {JNW_TR_SKY130A/JNWTR_ORX1_CV.sym} 850 -750 0 0 {name=x7 }
 C {devices/lab_pin.sym} 910 -720 0 1 {name=l9 sig_type=std_logic lab=VSS}
 C {devices/lab_pin.sym} 910 -800 0 1 {name=l10 sig_type=std_logic lab=VDD_1V8}
 C {devices/lab_wire.sym} 850 -700 3 0 {name=p34 sig_type=std_logic lab=PWRUP_N_1V8}
-C {LELO_TEMP_SKY130A/LELOTEMP_CCMP.sym} 660 -710 0 0 {name=x3_ccmp}
-C {LELO_TEMP_SKY130A/LELOTEMP_CCMP.sym} 660 -450 0 0 {name=x2_ccmp}
+C {LELO_TEMP_SKY130A/LELOTEMP_CCMPR.sym} 660 -710 0 0 {name=x3_ccmp}
+C {LELO_TEMP_SKY130A/LELOTEMP_CCMPR.sym} 660 -450 0 0 {name=x2_ccmp}
 C {devices/lab_wire.sym} 480 -750 0 0 {name=p11 sig_type=std_logic lab=IBP_1U[1:0]}
 C {devices/lab_wire.sym} 480 -490 0 0 {name=p12 sig_type=std_logic lab=IBP_1U[3:2]}
 C {devices/lab_wire.sym} 480 -510 0 0 {name=p13 sig_type=std_logic lab=VDD_1V8}

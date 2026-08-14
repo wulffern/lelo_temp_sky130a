@@ -1,0 +1,59 @@
+#<name>:
+#  src:
+#    - <paramters>
+#  typ: <typical spec value>
+#  name: <long name>
+#  min: <minimum spec value>
+#  max: <maximum spec value>
+#  scale: <scale, multiply result by scale>
+#  digits: <significant digits>
+#  unit: Unit
+
+t_delay:
+  src:
+    - t_delay
+  desc: Delay from the ramp crossing VC to VO switching
+  #- Mismatch offset can trip the comparator before the ramp reaches VC,
+  #- which is a real early crossing, not a measurement artefact: -45 mV
+  #- of offset on a 4 V/us ramp is -11 ns. Hence a symmetric band.
+  typ: 4.5
+  min: -20
+  max: 20
+  scale: 1e9
+  digits: 3
+  unit: ns
+
+v_overshoot:
+  src:
+    - v_overshoot
+  desc: How far past VC the ramp travels before VO responds
+  #- Negative when mismatch offset trips the comparator early; this is
+  #- the offset itself, seen through the ramp.
+  typ: 18
+  min: -80
+  max: 80
+  scale: 1e3
+  digits: 3
+  unit: mV
+
+t_rise:
+  src:
+    - t_rise
+  desc: Output 10-90 rise time
+  typ: 1.7
+  min: 0
+  max: 10
+  scale: 1e9
+  digits: 3
+  unit: ns
+
+idd:
+  src:
+    - idd_avg
+  desc: Average supply current including the injected bias
+  typ: 13.8
+  min: 4
+  max: 30
+  scale: 1e6
+  digits: 3
+  unit: uA
