@@ -1334,7 +1334,7 @@
                             "VSS"
                         ],
                         "properties": {},
-                        "subcktName": "JNWBIAS_BIPOLAR",
+                        "subcktName": "LELOTEMP_BIPOLAR",
                         "groupName": "xe",
                         "deviceName": "subckt",
                         "groupTag": "1"
@@ -1350,7 +1350,7 @@
                     "y2": 223700.0,
                     "layer": "",
                     "net": "",
-                    "name": "JNWBIAS_BIPOLAR",
+                    "name": "LELOTEMP_BIPOLAR",
                     "has_pr": false,
                     "ckt": {},
                     "children": [
@@ -1390,8 +1390,8 @@
                     ],
                     "instanceName": "xe1",
                     "angle": "",
-                    "cell": "JNWBIAS_BIPOLAR",
-                    "libpath": "JNW_BIAS_SKY130A",
+                    "cell": "LELOTEMP_BIPOLAR",
+                    "libpath": "LELO_TEMP_SKY130A",
                     "xcell": 6850,
                     "ycell": 6850
                 },

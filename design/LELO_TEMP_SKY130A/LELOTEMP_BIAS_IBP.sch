@@ -237,7 +237,7 @@ C {REY_ATR_SKY130A/REYATR_CAPX1.sym} 830 -960 2 1 {name=xd1[9:0]}
 C {LELO_TEMP_SKY130A/LELOTEMP_OTAR.sym} 800 -710 1 1 {name=xad6}
 C {REY_ATR_SKY130A/REYATR_PCH_4C5F0.sym} 1140 -890 0 0 {name=xca3[3:0]}
 C {cborder/border_xs.sym} 250 -40 0 0 {user="Carsten Wulff" company="Carsten Wulff Software"}
-C {JNW_BIAS_SKY130A/JNWBIAS_BIPOLAR.sym} 800 -110 0 0 {name=xe1}
+C {LELO_TEMP_SKY130A/LELOTEMP_BIPOLAR.sym} 800 -110 0 0 {name=xe1}
 C {REY_ATR_SKY130A/REYATR_NCH_4C5F0.sym} 1050 -370 0 0 {name=xg1 }
 C {devices/lab_pin.sym} 1120 -370 0 1 {name=l1 sig_type=std_logic lab=VSS}
 C {REY_ATR_SKY130A/REYATR_PCH_4C5F0.sym} 1300 -890 0 0 {name=xcc[4:0]}
