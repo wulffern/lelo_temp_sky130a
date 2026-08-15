@@ -306,6 +306,21 @@ class LELO_TEMP(SidecarCell):
                 if net == "PWRUP_B_1V8":
                     self._pwrupb_col = lay.channelTrackCoord(net, lane)
 
+            #- VC: THE SEAM GAP, AND NOTHING ELSE. Both halves put VC
+            #- on the edge that meets at the seam, so the two pads are
+            #- at the same x facing each other -- but `stack(ygap=2um)`
+            #- holds the halves 2 um apart for capm.2a, so they do not
+            #- touch. Without this jumper VC extracted as the local
+            #- node `x3_ccmp/VC`. On M2, which is what the pads are,
+            #- and one step: the gap is the whole story.
+            lo, hi = pins("VC")
+            if lo is not None and hi is not None:
+                p = lay.path("VC", "M2", start=[lo], stop=[hi],
+                             options=narrow)
+                p.start()
+                p.movey(p.landing("y"))
+                p.end()
+
             #- AND PWRUP_B LEAVES THE PAIR HERE, on a pad at the east
             #- edge. Its pin is in the middle of a comparator row and
             #- the row east of it is the other comparator's PWRUP_N bar
@@ -351,7 +366,21 @@ class LELO_TEMP(SidecarCell):
                 r.setNet(net)
                 return r
 
-            for net, x in ():
+            #- VDD ONLY, AND THAT IS THE MIRROR'S DOING. The caps and
+            #- the VSS ring share LELOTEMP_CCMPR's bottom edge, so
+            #- bringing the banks together at the seam brought the two
+            #- VSS rings with them -- they abut there and need nothing
+            #- drawn. It is VDD that is now split, one ring at the
+            #- pair's top and one at its bottom, and without this the
+            #- upper comparator's supply is not connected to the pair
+            #- at all: it extracted as the local node
+            #- `x3_ccmp/VDD_1V8`, and at the top it floated into VSS
+            #- and took the whole VDD network with it.
+            #-
+            #- The run crosses both VSS rings at the seam, which is
+            #- safe because it crosses them on M2 with no via -- the
+            #- rails are M1.
+            for net, x in (("VDD_1V8", int(a.x1) + 186000),):
                 lo, hi = pins(net)
                 if lo is None or hi is None:
                     log.error(f"ccmp: {net} is not on both comparators")
@@ -1562,27 +1591,44 @@ class LELO_TEMP(SidecarCell):
             #- ending a layer short of what it came for.
             p.down("M1")
 
-        #- and the comparators' VDD slides east along the bar it is
-        #- already on -- same net, same layer -- to climb the 4 um gap
-        #- between the pair and the strip, which holds nothing else
+        #- and the comparators' VDD climbs the 4 um gap between the
+        #- pair and the strip.
+        #-
+        #- IT LEAVES THE BAR ON M2, IT DOES NOT SLIDE ALONG IT.
+        #- Sliding east on M1 to reach the column is the one thing
+        #- this file already warns against twice, and it did it here:
+        #- the run crossed the row east of the pair's top ring and
+        #- tied the WHOLE VDD network into VSS -- both comparators,
+        #- both tapcells' AVDD, all thirteen JNWTR_PCHDL bulks and the
+        #- bias block. Nothing in checkroutes named it (the bridges it
+        #- printed were all VSS to VSS) and no DRC rule catches a
+        #- short. netgen did: `Net: VSS` came back with
+        #- LELOTEMP_CCMPR/VDD_1V8 in it.
+        #-
+        #- So the story starts on a SLICE of the bar at its own east
+        #- end, rises to M3 there, and travels in the air.
         bar = self._port(ccmp, "VDD_1V8", top)
         if bar is not None:
-            p = layout.path("VDD_1V8", "M1", start=[bar], stop=[rt])
+            from cicpy.core.rect import Rect as _RS
+            seed = _RS(bar.layer, int(bar.x2) - 9000, int(bar.y1), 3000,
+                       int(bar.y2) - int(bar.y1))
+            seed.setNet("VDD_1V8")
+            p = layout.path("VDD_1V8", "M1", start=[seed], stop=[rt])
             p.start()
-            #- TRACK 3, NOT 1: the pair's east edge is its cap bank,
+            p.up()                       #- M2
+            p.up()                       #- M3, and east in the air
+            #- TRACK 8, NOT 1: the pair's east edge is its cap bank,
             #- and a MiM claims 1.34 um from unrelated M4 (capm.11) --
             #- including metal outside its own cell. The riser stood
             #- 0.75 um off it on the first track and 1.22 on the
             #- second, where the wire cleared but the via pad, half
             #- again as wide, did not.
             p.movex(p.track("dband", 8))
-            p.up()
-            p.up()
-            p.up()
+            p.up()                       #- M4, up the gap
             p.movey(p.landing("y"))
             p.down()
             p.down()
-            p.down()
+            p.down()                     #- M1, onto the ring
 
     def _signals(self, layout):
         """The nets that leave one block for another, told out.
