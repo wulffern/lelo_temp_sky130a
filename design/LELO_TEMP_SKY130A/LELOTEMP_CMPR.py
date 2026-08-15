@@ -491,7 +491,7 @@ class LELOTEMP_CMPR(SidecarCell):
     #- and two cuts tall on VBN1's bar overhung it in y for four more.
     #- "" lets cicpy fit the largest cut that fits, which is right
     #- whenever the pin is not the odd shape.
-    #- (net, from, to, cuts, vertical layer, crossing layer)
+    #- (net, from, to, cuts, vertical layer, crossing layer, leg order)
     #-
     #- Each crossing net has exactly two pins, one per subcell, so each
     #- is one story: up out of the pin, along the column to the target
@@ -512,17 +512,28 @@ class LELOTEMP_CMPR(SidecarCell):
     #- drain bar is 2.24 um and takes the opposite. "" lets cicpy fit
     #- the largest that fits, which is right for every ordinary pin.
     CROSSINGS = [
-        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load", "1cuts,2vcuts", "M2", "M3"),
-        ("VBN1", "xn_mirr_load", "xp_diff", "", "M2", "M3"),
-        ("VO1", "xn_mirr_load", "xp_diff", "", "M2", "M3"),
-        ("VS", "xp_diff", "xp_mirr_tail", "", "M2", "M3"),
+        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load", "1cuts,2vcuts", "M2", "M3", "vh"),
+        ("VBN1", "xn_mirr_load", "xp_diff", "", "M2", "M3", "vh"),
+        ("VO1", "xn_mirr_load", "xp_diff", "", "M2", "M3", "vh"),
+        ("VS", "xp_diff", "xp_mirr_tail", "", "M2", "M3", "vh"),
         #- VIP goes up. Its two pins are 12 um apart in y, so its
         #- vertical leg runs most of n_mirr_load -- and on M2 that is
         #- the column's drain lane, straight through VBN1's and VO1's
         #- landings (M2 (124900,139000)-(127900,264500) cutting both).
         #- On M3 the crossing leg hit VS's via pad instead. M4 and M5
         #- are empty here and this is the net that needs them.
-        ("VIP", "xn_mirr_load", "xp_diff", "1cuts,2vcuts", "M4", "M5"),
+        ("VIP", "xn_mirr_load", "xp_diff", "1cuts,2vcuts", "M4", "M5", "vh"),
+        #- VO crosses at its SOURCE row, not its target's. Its target is
+        #- tail row 2 at y 257000..261000 and VIP's via stack in p_diff
+        #- sits at 258200..267400 -- 2 um away and M1 to M5 tall, so it
+        #- blocks every layer at that y. VO's source is at y 337000..
+        #- 341000, ABOVE both pmos columns (they end at 303000), so
+        #- crossing there passes over empty cell and descends in
+        #- p_mirr_tail where nothing else is.
+        ("VO", "xn_mirr_load", "xp_mirr_tail", "", "M2", "M5", "hv"),
+        #- VBP2 is the full-width one, n_mirr_bias to p_mirr_tail, and
+        #- it crosses BOTH middle columns.
+        ("VBP2", "xn_mirr_bias", "xp_mirr_tail", "", "M2", "M5", "vh"),
     ]
 
     _UPS = {"M2": 1, "M3": 2, "M4": 3, "M5": 4}
@@ -543,7 +554,7 @@ class LELOTEMP_CMPR(SidecarCell):
 
     def beforeRoute(self, layout):
         super().beforeRoute(layout)
-        for net, a_inst, b_inst, cuts, vlayer, xlayer in self.CROSSINGS:
+        for net, a_inst, b_inst, cuts, vlayer, xlayer, shape in self.CROSSINGS:
             a = self._pin(layout, a_inst, net)
             b = self._pin(layout, b_inst, net)
             if a is None or b is None:
@@ -553,11 +564,21 @@ class LELOTEMP_CMPR(SidecarCell):
             q.start()
             for _ in range(v):
                 q.up()
-            q.movey(q.landing("y"))
+            #- "vh" climbs the SOURCE column to the target row and then
+            #- crosses; "hv" crosses at the source row and climbs the
+            #- TARGET column. Which is right is a question about where
+            #- each column is empty, not a style: a net crosses on the
+            #- row where the columns it passes have nothing.
+            if shape == "vh":
+                q.movey(q.landing("y"))
             for _ in range(x - v):
                 q.up()
             q.movex(q.landing("x"))
-            for _ in range(x):
+            for _ in range(x - v):
+                q.down()
+            if shape == "hv":
+                q.movey(q.landing("y"))
+            for _ in range(v):
                 q.down()
             q.end()
 
