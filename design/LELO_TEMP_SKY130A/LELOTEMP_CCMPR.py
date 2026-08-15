@@ -159,6 +159,44 @@ class LELOTEMP_CCMPR(SidecarCell):
             log.error("CCMPR: the cap bank and the core are both needed")
             return
 
+        #- RST: A PORT ON THE EDGE, AND A PATH TO IT.
+        #-
+        #- Raising the port in place was tried and abandoned: a stack
+        #- driven onto the subcell's own pin rect lands a second mcon
+        #- beside the one already there, and publishing a pad computed
+        #- from the story's endsAt left RST and VSS out of the
+        #- extracted port list entirely. An edge port is simpler and it
+        #- is also what CCMP did -- its RST sat at y 0..4000, on the
+        #- bottom edge, which is where the level above comes for it.
+        #-
+        #- The port rect is MADE here and the path is drawn to it, both
+        #- in the routing phase; afterPorts only publishes it. A path
+        #- created in afterPorts never routes -- the phase is over.
+        from cicpy.core.rect import Rect as _Rect
+        self._edge_ports = {}
+        #- THE PAD GOES IN THE SEAM, not under the pin. Straight down
+        #- from the pin is the comparator's gate-tab lane, and
+        #- PWRUP_N_1V8's own via stack is in it: M2 (137300,199000)-
+        #- (140700,207800) against the descent. The 2 um gap between
+        #- the nmos and pmos halves carries nothing, so the story jogs
+        #- there on M3 first and descends in the clear.
+        r = self._port(cmp_i, "RST")
+        if r is not None:
+            seam = int(cmp_i.x1) + 170000
+            pad = _Rect("M2", seam, int(layout.y1), 3200, 4000)
+            pad.setNet("RST")
+            layout.add(pad)
+            p = layout.path("RST", "M1", start=[r], stop=[pad],
+                            options="1cuts,2vcuts")
+            p.start()
+            p.up()                      #- M2
+            p.up()                      #- M3, east into the seam
+            p.movex(p.landing("x"))
+            p.down()                    #- M2, and down the seam
+            p.movey(p.landing("y"))
+            p.end()
+            self._edge_ports["RST"] = pad
+
         #- IBP_1U<0>: the plate rail to the comparator's own input.
         #- ON M4, and up the DRAIN LANE. The comparator publishes this
         #- pin 13.7 um inside its own footprint, at the load column's
@@ -184,6 +222,12 @@ class LELOTEMP_CCMPR(SidecarCell):
             p.movex(p.landing("x"))
             p.movey(p.landing("y"))
             p.end()
+
+    def afterPorts(self, layout):
+        """Publish the edge ports _crossings drew."""
+        super().afterPorts(layout)
+        for net, pad in (getattr(self, "_edge_ports", {}) or {}).items():
+            layout.updatePort(net, pad, routeLayer=pad.layer)
 
     #- ROUTES SO FAR. The placement is verified on its own first, the
     #- way LELOTEMP_CMPR's was: the crossing nets go in one at a time,

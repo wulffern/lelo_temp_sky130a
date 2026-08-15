@@ -108,6 +108,106 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
+            "x2": 3400,
+            "y2": 8800,
+            "layer": "",
+            "net": "",
+            "name": "cut_M2M3_1x2",
+            "has_pr": false,
+            "ckt": {},
+            "children": [
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3400,
+                    "y2": 8800,
+                    "layer": "M2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 600,
+                    "x2": 3100,
+                    "y2": 3400,
+                    "layer": "VIA2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 5400,
+                    "x2": 3100,
+                    "y2": 8200,
+                    "layer": "VIA2",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3400,
+                    "y2": 8800,
+                    "layer": "M3",
+                    "net": ""
+                }
+            ]
+        },
+        {
+            "class": "Cut",
+            "x1": 0,
+            "y1": 0,
+            "x2": 3400,
+            "y2": 8800,
+            "layer": "",
+            "net": "",
+            "name": "cut_M1M2_1x2",
+            "has_pr": false,
+            "ckt": {},
+            "children": [
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3200,
+                    "y2": 8400,
+                    "layer": "M1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 600,
+                    "x2": 2900,
+                    "y2": 3200,
+                    "layer": "VIA1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 300,
+                    "y1": 5200,
+                    "x2": 2900,
+                    "y2": 7800,
+                    "layer": "VIA1",
+                    "net": ""
+                },
+                {
+                    "class": "Rect",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 3400,
+                    "y2": 8800,
+                    "layer": "M2",
+                    "net": ""
+                }
+            ]
+        },
+        {
+            "class": "Cut",
+            "x1": 0,
+            "y1": 0,
             "x2": 9600,
             "y2": 9600,
             "layer": "",
@@ -1614,6 +1714,140 @@
                     ]
                 },
                 {
+                    "class": "Rect",
+                    "x1": 170000,
+                    "y1": 0,
+                    "x2": 173200,
+                    "y2": 4000,
+                    "layer": "M2",
+                    "net": "RST"
+                },
+                {
+                    "class": "Path",
+                    "x1": 137500.0,
+                    "y1": 500,
+                    "x2": 173300.0,
+                    "y2": 245400.0,
+                    "layer": "",
+                    "net": "RST",
+                    "name": "RST",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 137500.0,
+                            "y1": 236600.0,
+                            "x2": 140900.0,
+                            "y2": 245400.0,
+                            "layer": "",
+                            "net": "RST",
+                            "name": "cut_M1M2_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 137500.0,
+                            "y1": 236600.0,
+                            "x2": 140900.0,
+                            "y2": 245400.0,
+                            "layer": "",
+                            "net": "RST",
+                            "name": "cut_M2M3_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 139200,
+                            "y1": 239500,
+                            "x2": 173100,
+                            "y2": 242500,
+                            "layer": "M3",
+                            "net": "RST"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 169900.0,
+                            "y1": 236600.0,
+                            "x2": 173300.0,
+                            "y2": 245400.0,
+                            "layer": "",
+                            "net": "RST",
+                            "name": "cut_M2M3_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 170100,
+                            "y1": 500,
+                            "x2": 173100,
+                            "y2": 241000,
+                            "layer": "M2",
+                            "net": "RST"
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "x"
+                            }
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "y"
+                            }
+                        },
+                        {
+                            "step": "end"
+                        }
+                    ]
+                },
+                {
                     "class": "Path",
                     "x1": 27000,
                     "y1": 25000,
@@ -1756,11 +1990,11 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 137600.0,
-                    "y1": 239000.0,
-                    "x2": 140800.0,
-                    "y2": 243000.0,
-                    "layer": "M1",
+                    "x1": 170000,
+                    "y1": 0,
+                    "x2": 173200,
+                    "y2": 4000,
+                    "layer": "M2",
                     "net": "",
                     "name": "RST",
                     "spicePort": true
