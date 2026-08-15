@@ -1787,11 +1787,11 @@
                     "ycell": 0
                 },
                 {
-                    "class": "Route",
-                    "x1": 14400.0,
-                    "y1": 50000.0,
+                    "class": "Path",
+                    "x1": 25700,
+                    "y1": 50000,
                     "x2": 28700,
-                    "y2": 84000.0,
+                    "y2": 86000,
                     "layer": "",
                     "net": "R1<0>",
                     "name": "R1<0>",
@@ -1801,30 +1801,33 @@
                         {
                             "class": "Rect",
                             "x1": 25700,
-                            "y1": 52000.0,
+                            "y1": 50000,
                             "x2": 28700,
-                            "y2": 84000.0,
+                            "y2": 86000,
                             "layer": "M1",
                             "net": "R1<0>"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Text",
-                            "x1": 14400.0,
-                            "y1": 50000.0,
-                            "x2": 14400.0,
-                            "y2": 50000.0,
-                            "layer": "TXT",
-                            "net": "R1<0>",
-                            "name": "R1<0>"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunktab"
+                            }
                         }
                     ]
                 },
                 {
-                    "class": "Route",
-                    "x1": 14400.0,
-                    "y1": 90000.0,
+                    "class": "Path",
+                    "x1": 25700,
+                    "y1": 90000,
                     "x2": 28700,
-                    "y2": 124000.0,
+                    "y2": 126000,
                     "layer": "",
                     "net": "R1<1>",
                     "name": "R1<1>",
@@ -1834,30 +1837,33 @@
                         {
                             "class": "Rect",
                             "x1": 25700,
-                            "y1": 92000.0,
+                            "y1": 90000,
                             "x2": 28700,
-                            "y2": 124000.0,
+                            "y2": 126000,
                             "layer": "M1",
                             "net": "R1<1>"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Text",
-                            "x1": 14400.0,
-                            "y1": 90000.0,
-                            "x2": 14400.0,
-                            "y2": 90000.0,
-                            "layer": "TXT",
-                            "net": "R1<1>",
-                            "name": "R1<1>"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunktab"
+                            }
                         }
                     ]
                 },
                 {
-                    "class": "Route",
-                    "x1": 14400.0,
-                    "y1": 130000.0,
+                    "class": "Path",
+                    "x1": 25700,
+                    "y1": 130000,
                     "x2": 28700,
-                    "y2": 164000.0,
+                    "y2": 166000,
                     "layer": "",
                     "net": "R1<2>",
                     "name": "R1<2>",
@@ -1867,30 +1873,33 @@
                         {
                             "class": "Rect",
                             "x1": 25700,
-                            "y1": 132000.0,
+                            "y1": 130000,
                             "x2": 28700,
-                            "y2": 164000.0,
+                            "y2": 166000,
                             "layer": "M1",
                             "net": "R1<2>"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Text",
-                            "x1": 14400.0,
-                            "y1": 130000.0,
-                            "x2": 14400.0,
-                            "y2": 130000.0,
-                            "layer": "TXT",
-                            "net": "R1<2>",
-                            "name": "R1<2>"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunktab"
+                            }
                         }
                     ]
                 },
                 {
-                    "class": "Route",
-                    "x1": 14400.0,
-                    "y1": 170000.0,
+                    "class": "Path",
+                    "x1": 25700,
+                    "y1": 170000,
                     "x2": 28700,
-                    "y2": 204000.0,
+                    "y2": 206000,
                     "layer": "",
                     "net": "R1<3>",
                     "name": "R1<3>",
@@ -1900,30 +1909,33 @@
                         {
                             "class": "Rect",
                             "x1": 25700,
-                            "y1": 172000.0,
+                            "y1": 170000,
                             "x2": 28700,
-                            "y2": 204000.0,
+                            "y2": 206000,
                             "layer": "M1",
                             "net": "R1<3>"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Text",
-                            "x1": 14400.0,
-                            "y1": 170000.0,
-                            "x2": 14400.0,
-                            "y2": 170000.0,
-                            "layer": "TXT",
-                            "net": "R1<3>",
-                            "name": "R1<3>"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunktab"
+                            }
                         }
                     ]
                 },
                 {
-                    "class": "Route",
-                    "x1": 14400.0,
-                    "y1": 210000.0,
+                    "class": "Path",
+                    "x1": 25700,
+                    "y1": 210000,
                     "x2": 28700,
-                    "y2": 244000.0,
+                    "y2": 246000,
                     "layer": "",
                     "net": "R1<4>",
                     "name": "R1<4>",
@@ -1933,21 +1945,24 @@
                         {
                             "class": "Rect",
                             "x1": 25700,
-                            "y1": 212000.0,
+                            "y1": 210000,
                             "x2": 28700,
-                            "y2": 244000.0,
+                            "y2": 246000,
                             "layer": "M1",
                             "net": "R1<4>"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Text",
-                            "x1": 14400.0,
-                            "y1": 210000.0,
-                            "x2": 14400.0,
-                            "y2": 210000.0,
-                            "layer": "TXT",
-                            "net": "R1<4>",
-                            "name": "R1<4>"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunktab"
+                            }
                         }
                     ]
                 },

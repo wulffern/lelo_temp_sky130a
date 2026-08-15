@@ -22,6 +22,8 @@ per plate, drawn by the stack's own hook with `plateRail`.
 """
 import logging
 
+from cicpy.core.path import (PITCH, SPACE, left_of_pins, pin,
+                             right_of_pins, tab_lane, track)
 from cicpy.sidecar import SidecarCell, Stack
 
 log = logging.getLogger("LELOTEMP_BIAS_IBP")
@@ -59,15 +61,18 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         channel = "res"
         fill = False
         order = [r'xd3<\d+>']
-        wires = [
-            ('VSS', 'blocked', "no path for VSS from (1040900, 1098000, 'M1') to (1040900, 1138000, 'M1'); closest approach (1040900, 1098000, 'M1') (40000 away)"),
-            ('R1<0>', 'M1', '||', 'trunktab'),
-            ('R1<1>', 'M1', '||', 'trunktab'),
-            ('R1<2>', 'M1', '||', 'trunktab'),
-            ('R1<3>', 'M1', '||', 'trunktab'),
-            ('R1<4>', 'M1', '||', 'trunktab'),
+        blocked = [
+            ('VSS', 'the guard carries it; the search wanted a rail '
+                    'from (1040900,1098000) to (1040900,1138000), '
+                    '40000 short'),
         ]
-        wires_key = "6dad32574c7a"
+        #- The ladder taps: one M1 rail each on its own tab lane. Five
+        #- lines that differ only in the net, which is what a ladder
+        #- is -- and each anchor is that net's OWN pins, so a rung
+        #- added or removed changes nothing here but the list.
+        paths = [dict(net=f"R1<{i}>", layer="M1",
+                      steps=[("trunk", tab_lane())])
+                 for i in range(5)]
 
     class n_g(Stack):
         """xg1: nmos diode VR1 -> VD2."""
@@ -75,10 +80,12 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "nmos"
         xspace = 2
         order = ['xg1']
-        wires = [
-            ('VR1', 'blocked', "VR1: trunk 1005900 lies outside the pins' common overlap 1017700..1020900"),
+        blocked = [
+            ('VR1', "the search's trunk (1005900) lay outside the pins' "
+                    "own overlap (1017700..1020900), so it was a "
+                    "coordinate this file may not carry; the net is "
+                    "joined at the level above"),
         ]
-        wires_key = "a123dc0963bc"
 
     #- row 1 -----------------------------------------------------
 
@@ -97,12 +104,26 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "src"
         order = ['xca2', r'xca3<\d+>', r'xca1<\d+>']
-        wires = [
-            ('VDD_1V8', 'M2', '-|--', 'trunktab'),
-            ('LPI', 'M1', '||', 'trunktab'),
-            ('VBD1', 'blocked', "path for VBD1 is not a shape route.py can draw (13 nodes, layers ['M1', 'M2'])"),
+        #- VDD_1V8 was ('M2', '-|--', 'trunktab') and is now blocked.
+        #- READ THE PINS: xca2, xca3<0..3>, xca1<0..7>, every one of
+        #- them S or B and nothing else. The node is the supply and
+        #- addPowerGuardConnection has already tied it beside every
+        #- source; the wire was the search obliging a request to route
+        #- every net. Same shape and same story as LELOTEMP_OTAR's
+        #- n_load_a VSS, which shorted four nets when it was converted
+        #- as the rail it looks like.
+        blocked = [
+            ('VDD_1V8', 'the guard carries it -- every pin on this net '
+                        'in this column is a source or a bulk'),
+            ('VBD1', "routed by this class's beforeRoute, scoped to "
+                     "xca1 -- the search returned 13 nodes over two "
+                     "layers and no shape"),
         ]
-        wires_key = "a295e31e2fcc"
+        #- LPI on M1 here; the hook lays its M2 companion.
+        paths = [
+            dict(net="LPI", layer="M1",
+                 steps=[("trunk", tab_lane())]),
+        ]
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -119,13 +140,20 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "cas"
         order = ['xca4', r'xca2<\d+>', r'xca5<\d+>']
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (479200, 1470000, 'M1') to (479200, 1510000, 'M1'); closest approach (479200, 1470000, 'M1') (40000 away)"),
-            ('VBD1', 'M1', '||', 'trunkleft'),
-            ('VCP', 'M1', '||', 'trunktab'),
-            ('VD1', 'blocked', "path for VD1 is not a shape route.py can draw (15 nodes, layers ['M1', 'M2'])"),
+        blocked = [
+            ('VDD_1V8', 'the guard carries it; the search wanted a rail '
+                        'from (479200,1470000) to (479200,1510000), '
+                        '40000 short'),
+            ('VD1', "routed by this class's beforeRoute, scoped to "
+                    "xca5 -- the search returned 15 nodes over two "
+                    "layers and no shape"),
         ]
-        wires_key = "caa71805a52e"
+        paths = [
+            dict(net="VBD1", layer="M1",
+                 steps=[("trunk", left_of_pins())]),
+            dict(net="VCP", layer="M1",
+                 steps=[("trunk", tab_lane())]),
+        ]
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -143,25 +171,28 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         group = "pmos"
         channel = "su"
         order = ['xsu1', 'xsu2']
-        #- Kept as declarations, not coordinates.
-        #-
         #- These three nets are not for the maze router to draw: left to
         #- it, VDD_1V8 shorts to VSU (measured -- LVS reports VDD_1V8 and
         #- VSU as one node). The reasons still quote the coordinates the
         #- router reported at the time, but the declaration itself is
         #- just "not this net, not here", which no placement can staleen.
         #-
-        #- wires_key no longer has to match for them to survive: a
-        #- mismatch now drops only the wires that declare a coordinate.
-        #- That is what lets the fills become a vector instance -- the
-        #- fingerprint covers every member's name, so the rename moves
-        #- the key while these three stay true.
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (595200, 1854000, 'M1') to (559200, 1870000, 'M1'); closest approach (559200, 1870000, 'M3') (0 away)"),
-            ('VD1', 'blocked', "VD1: trunk 604200 lies outside the pins' common overlap 612800..616000"),
-            ('VSU', 'blocked', 'VSU: pins share only -9600 of column, a straight vertical cannot land'),
+        #- AND NOW THERE IS NO KEY AT ALL. This block used to need
+        #- wires_key to survive, and the guard was relaxed once already
+        #- -- a mismatch drops only the wires declaring a coordinate --
+        #- precisely so that collapsing the fills to a vector instance
+        #- would not take these three with it. `blocked` carries no
+        #- geometry, so it has nothing to guard and no key to move.
+        blocked = [
+            ('VDD_1V8', 'the search wanted a rail from (595200,1854000) '
+                        'to (559200,1870000) and shorts it to VSU if it '
+                        'is allowed to draw one; the guard carries it'),
+            ('VD1', "the search's trunk (604200) lay outside the pins' "
+                    "own overlap (612800..616000) -- a coordinate this "
+                    "file may not carry"),
+            ('VSU', 'the pins share only -9600 of column, so no straight '
+                    'vertical lands; the hook below draws the L'),
         ]
-        wires_key = "095b78be0d58"
 
         def beforeRoute(self, entry):
             #- VSU: xsu1's tied bar to xsu2's source, adjacent rows;
