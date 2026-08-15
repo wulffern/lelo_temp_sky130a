@@ -296,13 +296,15 @@ class LELOTEMP_CMPR(SidecarCell):
             #- it: addPowerGuardConnection ties every source to the
             #- guard column beside it and the tap cells carry it.
             ('VSS', 'blocked', 'supplies go to the guard, not to a rail in the stack'),
-            #- EVERY WIRE AS LOW AS IT WILL GO, because the parent has
-            #- to route over this cell and each layer a subcell takes is
-            #- one the band above cannot use. Swept, with the rest of
-            #- the cell fixed:
-            #-   PWRUP_N  M2 M3 M4   x   VO1  M1 M2
-            #-   only (M3,M2) and (M4,M2) come out clean, so M3 and M2
-            #-   are the answers and M4 stays free for the parent.
+            #- LOW, BUT NOT ONTO M3. Swept with the rest of the cell
+            #- fixed, only (PWRUP_N=M3, VO1=M2) and (M4, M2) verify --
+            #- and M3 is the wrong one of the two, because this rail
+            #- spans the whole column height and M3 is the layer the
+            #- TOP crosses on. Four of the seven crossing nets have to
+            #- pass through this column, and on M3 the first of them
+            #- (VBN1) shorted straight into this rail. M4 costs the
+            #- subcell nothing and leaves M3 clear for the parent:
+            #- lowest is a rule about the cell, not about the design.
             #- VO1 cannot reach M1: every M1 attempt shorts, because its
             #- two pins are on different terminals with no common x.
             #-
@@ -315,7 +317,7 @@ class LELOTEMP_CMPR(SidecarCell):
             #- other net that has to land on a tab shorted to it. Above
             #- it, the rail flies over and touches down only at its own
             #- three.
-            ('PWRUP_N_1V8', 'M3', '||', 'trunktab,2cuts'),
+            ('PWRUP_N_1V8', 'M4', '||', 'trunktab,2cuts'),
             ('VIP', 'M1', '||', 'trunkright'),
             #- VIP and VO both take trunkright, which is the RIGHT
             #- EDGE of their own pins' overlap -- x 46600..49600. That
@@ -481,8 +483,17 @@ class LELOTEMP_CMPR(SidecarCell):
     #-     VBP2          32.64      bias  -> tail
     #-
     #- Added in that order, one build and one short check each.
+    #- (net, from, to, cut options). THE CUT SHAPE FOLLOWS THE PIN and
+    #- cannot be one setting for the cell: a gate TAB is 0.32 um across
+    #- and takes one cut wide and two tall, a drain BAR is 2.24 um and
+    #- takes the opposite. Measured both ways round -- two cuts side by
+    #- side on PWRUP_N_1V8's tab reached 2.2 um past it (li.3, li.c2),
+    #- and two cuts tall on VBN1's bar overhung it in y for four more.
+    #- "" lets cicpy fit the largest cut that fits, which is right
+    #- whenever the pin is not the odd shape.
     CROSSINGS = [
-        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load"),
+        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load", "1cuts,2vcuts"),
+        ("VBN1", "xn_mirr_load", "xp_diff", ""),
     ]
 
     @staticmethod
@@ -501,7 +512,7 @@ class LELOTEMP_CMPR(SidecarCell):
 
     def beforeRoute(self, layout):
         super().beforeRoute(layout)
-        for net, a_inst, b_inst in self.CROSSINGS:
+        for net, a_inst, b_inst, cuts in self.CROSSINGS:
             a = self._pin(layout, a_inst, net)
             b = self._pin(layout, b_inst, net)
             if a is None or b is None:
@@ -518,7 +529,7 @@ class LELOTEMP_CMPR(SidecarCell):
             #- cuts fits the tab, and two of them vertically keeps it
             #- off the 1x1 that is the last resort here.
             q = layout.path(net, "M1", start=[a], stop=[b],
-                            options="1cuts,2vcuts")
+                            options=cuts)
             q.start()
             q.up()                      #- M2
             q.movey(q.landing("y"))
