@@ -359,6 +359,12 @@ class LELOTEMP_CMPR(SidecarCell):
             if d is not None:
                 self.layout.addRoutingChannel("vo1lane", int(d.x1),
                                               int(d.x2), horizontal=False)
+
+            #- and the guard connection the supplies list excluded --
+            #- the 1F2 cells, and only those -- shifted half a wire
+            #- clear of their contact column
+            self.layout.addPowerGuardConnection(
+                "VSS", includeInstances=r"C1F2$", options="offsetlow")
             return None
 
 
@@ -434,8 +440,18 @@ class LELOTEMP_CMPR(SidecarCell):
     #- across the block -- which is exactly the case the opt-in is for.
     supplies = [{"net": "VDD_1V8", "ring": "t", "strap": "top",
                  "pin_strap": True},
+                #- THE 1F2 CELLS ONLY. The exclusion is keyed on the
+                #- CELL name, not on an instance name: what needs the
+                #- offset is the device TYPE. REYATR_*_2C1F2 is L=0.22,
+                #- so its poly bars are 2.2 um where every other cell's
+                #- are 9.4, and its poly contact column reaches the row
+                #- the guard jog is centred on and ties the gate to the
+                #- supply. Every other device keeps the plain jog.
+                #- (The scope regex is matched against the instance
+                #- name AND the cell name, so C1F2$ selects the type.)
                 {"net": "VSS", "ring": "b", "strap": "bottom",
-                 "pin_strap": True}]
+                 "pin_strap": True,
+                 "guard_exclude": r"C1F2$"}]
 
     #- Every net with pins in more than one column, one bar each on its
     #- own track of "band" -- the empty strip above the columns, which
