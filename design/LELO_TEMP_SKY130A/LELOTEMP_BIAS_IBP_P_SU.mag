@@ -23,7 +23,7 @@ rect 896 9640 924 9700
 rect 924 9640 984 10180
 rect 0 9320 704 9400
 rect 672 10440 1120 10520
-rect 0 10440 96 10520
+rect -96 10440 96 10520
 use REYATR_PCH_2C5F0D xsu1 ../REY_ATR_SKY130A
 transform 1 0 0 0 1 9280
 box 0 9280 1600 10080
@@ -72,7 +72,7 @@ box 0 10880 1600 11360
 << labels >>
 flabel locali s 672 10440 1120 10520 0 FreeSans 400 0 0 0 VD1
 port 1 nsew signal bidirectional
-flabel locali s 0 10440 96 10520 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 10440 96 10520 0 FreeSans 400 0 0 0 VDD_1V8
 port 2 nsew power bidirectional
 << properties >>
 string FIXED_BBOX 0 0 1600 11360

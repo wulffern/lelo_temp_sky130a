@@ -12,7 +12,7 @@ rect 514 3440 574 4080
 rect 514 4240 574 4880
 rect 288 840 800 920
 rect 288 5000 800 5080
-rect 0 1080 96 1160
+rect -96 1080 96 1160
 use REYATR_RES_36C2F0 xd3<0> ../REY_ATR_SKY130A
 transform 1 0 0 0 1 480
 box 0 480 3200 1280
@@ -42,7 +42,7 @@ flabel locali s 288 840 800 920 0 FreeSans 400 0 0 0 VD2
 port 1 nsew signal bidirectional
 flabel locali s 288 5000 800 5080 0 FreeSans 400 0 0 0 VR1
 port 2 nsew signal bidirectional
-flabel locali s 0 1080 96 1160 0 FreeSans 400 0 0 0 VSS
+flabel locali s -96 1080 96 1160 0 FreeSans 400 0 0 0 VSS
 port 3 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 0 3200 5760

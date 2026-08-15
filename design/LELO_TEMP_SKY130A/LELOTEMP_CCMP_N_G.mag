@@ -7,7 +7,7 @@ rect 0 0 1024 2560
 << locali >>
 rect 0 1080 384 1160
 rect 0 1880 384 1960
-rect 0 840 96 920
+rect -96 840 96 920
 << metal1 >>
 rect 676 560 736 1360
 rect 544 520 736 600
@@ -32,7 +32,7 @@ flabel metal1 s 160 1640 224 1720 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 2 nsew power bidirectional
 flabel metal1 s 160 840 224 920 0 FreeSans 400 0 0 0 RST
 port 3 nsew signal bidirectional
-flabel locali s 0 840 96 920 0 FreeSans 400 0 0 0 VSS
+flabel locali s -96 840 96 920 0 FreeSans 400 0 0 0 VSS
 port 4 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 0 1024 2560

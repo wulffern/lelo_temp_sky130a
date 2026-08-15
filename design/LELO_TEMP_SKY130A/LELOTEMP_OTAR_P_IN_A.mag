@@ -24,7 +24,7 @@ rect 288 2160 348 4560
 rect 288 1360 348 2160
 rect 416 2440 1312 2520
 rect 416 1640 1312 1720
-rect 0 4840 96 4920
+rect -96 4840 96 4920
 rect 1376 1720 1440 1800
 rect 288 1320 1184 1400
 use REYATR_LVT_PCH_11C5F0 xbl4 ../REY_ATR_SKY130A
@@ -56,7 +56,7 @@ flabel locali s 416 2440 1312 2520 0 FreeSans 400 0 0 0 VD1
 port 1 nsew signal bidirectional
 flabel locali s 416 1640 1312 1720 0 FreeSans 400 0 0 0 VD3
 port 2 nsew signal bidirectional
-flabel locali s 0 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
 port 3 nsew power bidirectional
 flabel locali s 1376 1720 1440 1800 0 FreeSans 400 0 0 0 VIN
 port 4 nsew signal bidirectional

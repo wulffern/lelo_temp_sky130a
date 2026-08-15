@@ -22,7 +22,7 @@ rect 932 2480 992 3280
 rect 932 2480 992 4080
 rect 1056 920 1120 1000
 rect 672 1640 1120 1720
-rect 0 4840 96 4920
+rect -96 4840 96 4920
 rect 672 4840 992 4920
 rect 672 2440 992 2520
 use REYATR_PCH_2C5F0 xp_mirr_tail1<0> ../REY_ATR_SKY130A
@@ -54,7 +54,7 @@ flabel locali s 1056 920 1120 1000 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 1 nsew power bidirectional
 flabel locali s 672 1640 1120 1720 0 FreeSans 400 0 0 0 VBP2
 port 2 nsew signal bidirectional
-flabel locali s 0 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
 port 3 nsew power bidirectional
 flabel locali s 672 4840 992 4920 0 FreeSans 400 0 0 0 VO
 port 4 nsew signal bidirectional

@@ -63,7 +63,7 @@ rect 480 4680 928 4760
 rect 480 680 928 760
 rect 1120 1720 1184 1800
 rect 608 4840 1056 4920
-rect 0 10440 96 10520
+rect -96 10440 96 10520
 rect 608 840 1056 920
 << viali >>
 rect 1124 1732 1176 1784
@@ -188,7 +188,7 @@ flabel locali s 1120 1720 1184 1800 0 FreeSans 400 0 0 0 VCP
 port 11 nsew signal bidirectional
 flabel locali s 608 4840 1056 4920 0 FreeSans 400 0 0 0 VD1
 port 12 nsew signal bidirectional
-flabel locali s 0 10440 96 10520 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 10440 96 10520 0 FreeSans 400 0 0 0 VDD_1V8
 port 13 nsew power bidirectional
 flabel locali s 608 840 1056 920 0 FreeSans 400 0 0 0 VR1
 port 14 nsew signal bidirectional

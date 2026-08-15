@@ -3,12 +3,12 @@ tech sky130A
 magscale 1 2
 timestamp 1786744800
 << checkpaint >>
-rect 0 0 8000 13720
+rect 0 0 8096 13720
 << locali >>
-rect 0 13540 8000 13720
-rect 0 13540 8000 13720
-rect 0 0 8000 180
-rect 0 0 8000 180
+rect 0 13540 8096 13720
+rect 0 13540 8096 13720
+rect 0 0 8096 180
+rect 0 0 8096 180
 rect 3976 8506 4144 8570
 rect 5088 2106 5256 2170
 rect 1118 5172 1182 5340
@@ -292,29 +292,29 @@ transform 1 0 0 0 1 300
 box 0 300 1696 6060
 use LELOTEMP_OTAR_N_LOAD_B xn_load_b 
 transform 1 0 1600 0 1 300
-box 1600 300 3200 6060
+box 1600 300 3296 6060
 use LELOTEMP_OTAR_N_MIRR xn_mirr 
 transform 1 0 3200 0 1 300
-box 3200 300 4800 6060
+box 3200 300 4896 6060
 use LELOTEMP_OTAR_P_BIAS xp_bias 
 transform 1 0 3200 0 1 7660
-box 3200 7660 4800 13420
+box 3200 7660 4896 13420
 use LELOTEMP_OTAR_P_IN_A xp_in_a 
 transform 1 0 0 0 1 7660
 box 0 7660 1696 13420
 use LELOTEMP_OTAR_P_IN_B xp_in_b 
 transform 1 0 1600 0 1 7660
-box 1600 7660 3200 13420
+box 1600 7660 3296 13420
 use LELOTEMP_OTAR_P_SW xp_sw 
 transform 1 0 4800 0 1 7660
 box 4800 7660 6496 13420
 use LELOTEMP_OTAR_R_DEG xr_deg 
 transform 1 0 4800 0 1 300
-box 4800 300 8000 2860
+box 4800 300 8096 2860
 << labels >>
-flabel locali s 0 13540 8000 13720 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 13540 8096 13720 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
-flabel locali s 0 0 8000 180 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 0 8096 180 0 FreeSans 400 0 0 0 VSS
 port 5 nsew ground bidirectional
 flabel metal2 s 2284 6330 3868 6390 0 FreeSans 400 0 0 0 VO
 port 3 nsew signal bidirectional
@@ -329,5 +329,5 @@ port 4 nsew signal bidirectional
 flabel locali s 4576 10180 4640 10260 0 FreeSans 400 0 0 0 PWRUP_1V8
 port 6 nsew power bidirectional
 << properties >>
-string FIXED_BBOX 0 0 8000 13720
+string FIXED_BBOX 0 0 8096 13720
 << end >>

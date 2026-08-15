@@ -61,7 +61,7 @@ rect 1250 880 1310 2960
 rect 1250 880 1310 3280
 rect 352 3760 412 4560
 rect 480 4040 1184 4120
-rect 0 4840 96 4920
+rect -96 4840 96 4920
 rect 1248 4120 1312 4200
 rect 1248 4920 1312 5000
 rect 480 4840 1184 4920
@@ -93,7 +93,7 @@ box 0 5280 1600 5760
 << labels >>
 flabel locali s 480 4040 1184 4120 0 FreeSans 400 0 0 0 VBN1
 port 1 nsew signal bidirectional
-flabel locali s 0 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
 port 2 nsew power bidirectional
 flabel locali s 1248 4120 1312 4200 0 FreeSans 400 0 0 0 VIN
 port 3 nsew signal bidirectional

@@ -42,7 +42,7 @@ rect 1122 1680 1182 4960
 rect 1120 920 1184 1000
 rect 608 4840 1056 4920
 rect 1120 4920 1184 5000
-rect 0 840 96 920
+rect -96 840 96 920
 << viali >>
 rect -84 1646 -32 1698
 rect 8 1646 60 1698
@@ -125,7 +125,7 @@ flabel locali s 608 4840 1056 4920 0 FreeSans 400 0 0 0 VBP
 port 2 nsew signal bidirectional
 flabel locali s 1120 4920 1184 5000 0 FreeSans 400 0 0 0 VD1
 port 3 nsew signal bidirectional
-flabel locali s 0 840 96 920 0 FreeSans 400 0 0 0 VSS
+flabel locali s -96 840 96 920 0 FreeSans 400 0 0 0 VSS
 port 4 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 0 1600 5760
