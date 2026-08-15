@@ -99,6 +99,13 @@ class LELOTEMP_CCMPR(SidecarCell):
     #- caps first: rows are bottom to top
     rows = [[caps], [cmp]]
 
+    #- the gap between the cap row and the core. `place: channel` is
+    #- the FLAT recipe's knob and does nothing here -- placeHier reads
+    #- this one, and its default 8 um is what left the two so far
+    #- apart. capm.11 is the floor: a MiM claims 1.34 um from
+    #- unrelated M4, so the gap cannot close past that.
+    channel = 2
+
     supplies = [{"net": "VDD_1V8", "strap": "top"},
                 {"net": "VSS", "strap": "bottom"}]
 

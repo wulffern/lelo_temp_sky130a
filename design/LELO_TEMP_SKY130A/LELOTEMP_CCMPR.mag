@@ -3,22 +3,22 @@ tech sky130A
 magscale 1 2
 timestamp 1786744800
 << checkpaint >>
-rect 0 0 7000 11420
+rect 0 0 7000 10220
 << locali >>
-rect 0 11240 7000 11420
-rect 0 11240 7000 11420
-rect 96 10940 6992 11420
+rect 0 10040 7000 10220
+rect 0 10040 7000 10220
+rect 96 9740 6992 10220
 rect 0 0 7000 180
 rect 0 0 7000 180
 rect 444 0 612 168
-rect 96 0 6992 3340
-rect 2494 5852 2558 6020
-rect 768 4300 1088 4380
-rect 1152 4380 1216 4460
-rect 6352 4380 6416 4460
-rect 2368 9900 2688 9980
-rect 4944 7580 5008 7660
-rect 2752 5980 2816 6060
+rect 96 0 6992 2140
+rect 2494 4652 2558 4820
+rect 768 3100 1088 3180
+rect 1152 3180 1216 3260
+rect 6352 3180 6416 3260
+rect 2368 8700 2688 8780
+rect 4944 6380 5008 6460
+rect 2752 4780 2816 4860
 << metal4 >>
 rect 0 0 1080 580
 rect 444 0 636 192
@@ -27,33 +27,33 @@ rect 456 12 508 64
 rect 456 104 508 156
 rect 548 12 600 64
 rect 548 104 600 156
-rect 2500 5864 2552 5916
-rect 2500 5956 2552 6008
+rect 2500 4664 2552 4716
+rect 2500 4756 2552 4808
 << metal1 >>
 rect 444 0 620 176
-rect 2494 5852 2562 6028
+rect 2494 4652 2562 4828
 << via1 >>
 rect 456 12 512 68
 rect 456 108 512 164
 rect 552 12 608 68
 rect 552 108 608 164
-rect 2500 5864 2556 5920
-rect 2500 5960 2556 6016
+rect 2500 4664 2556 4720
+rect 2500 4760 2556 4816
 << metal2 >>
 rect 444 0 620 176
-rect 2494 5852 2562 6028
+rect 2494 4652 2562 4828
 << via2 >>
 rect 456 12 512 68
 rect 456 108 512 164
 rect 552 12 608 68
 rect 552 108 608 164
-rect 2500 5864 2556 5920
-rect 2500 5960 2556 6016
+rect 2500 4664 2556 4720
+rect 2500 4760 2556 4816
 << metal3 >>
 rect 444 0 636 192
 rect 540 500 2558 560
-rect 2498 530 2558 5970
-rect 2494 5852 2570 6044
+rect 2498 530 2558 4770
+rect 2494 4652 2570 4844
 rect 0 480 1080 580
 << via3 >>
 rect 456 12 520 76
@@ -64,27 +64,27 @@ use LELOTEMP_CCMPR_CAPS xcaps
 transform 1 0 0 0 1 480
 box 0 480 7000 1560
 use LELOTEMP_CCMPR_CMP xcmp 
-transform 1 0 0 0 1 3160
-box 0 3160 6992 11120
+transform 1 0 0 0 1 1960
+box 0 1960 6992 9920
 << labels >>
-flabel locali s 0 11240 7000 11420 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 10040 7000 10220 0 FreeSans 400 0 0 0 VDD_1V8
 port 3 nsew power bidirectional
 flabel locali s 0 0 7000 180 0 FreeSans 400 0 0 0 VSS
 port 9 nsew ground bidirectional
-flabel locali s 768 4300 1088 4380 0 FreeSans 400 0 0 0 IBP_1U<1>
+flabel locali s 768 3100 1088 3180 0 FreeSans 400 0 0 0 IBP_1U<1>
 port 1 nsew signal bidirectional
 flabel metal3 s 0 480 1080 580 0 FreeSans 400 0 0 0 IBP_1U<0>
 port 2 nsew signal bidirectional
-flabel locali s 1152 4380 1216 4460 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel locali s 1152 3180 1216 3260 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 4 nsew power bidirectional
-flabel locali s 6352 4380 6416 4460 0 FreeSans 400 0 0 0 PWRUP_B_1V8
+flabel locali s 6352 3180 6416 3260 0 FreeSans 400 0 0 0 PWRUP_B_1V8
 port 5 nsew power bidirectional
-flabel locali s 2368 9900 2688 9980 0 FreeSans 400 0 0 0 CMPO
+flabel locali s 2368 8700 2688 8780 0 FreeSans 400 0 0 0 CMPO
 port 6 nsew signal bidirectional
-flabel locali s 4944 7580 5008 7660 0 FreeSans 400 0 0 0 VC
+flabel locali s 4944 6380 5008 6460 0 FreeSans 400 0 0 0 VC
 port 7 nsew signal bidirectional
-flabel locali s 2752 5980 2816 6060 0 FreeSans 400 0 0 0 RST
+flabel locali s 2752 4780 2816 4860 0 FreeSans 400 0 0 0 RST
 port 8 nsew signal bidirectional
 << properties >>
-string FIXED_BBOX 0 0 7000 11420
+string FIXED_BBOX 0 0 7000 10220
 << end >>
