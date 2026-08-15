@@ -119,20 +119,25 @@ class LELO_TEMP(SidecarCell):
             horizontal one, because these two are stacked.
             """
             lay = self.layout
-            up = lay.getInstanceFromInstanceName("x3_ccmp")
-            if up is not None:
-                #- setAngle leaves the instance position in the
-                #- mirrored frame, so pin it back where it was
-                x, y = int(up.x1), int(up.y1)
-                up.setAngle("MX")
-                up.moveTo(x, y)
-                up.updateBoundingRect()
-                self.updateBoundingRect()
-            down = lay.getInstanceFromInstanceName("x2_ccmp")
-            if up is None or down is None:
+            #- THE LOWER ONE IS THE MIRRORED ONE, so that the two cap
+            #- banks -- which live at LELOTEMP_CCMPR's bottom -- meet
+            #- at the seam. They are the matched pair's matched
+            #- element and they belong beside each other; mirroring
+            #- the upper half instead put them at the tile's extreme
+            #- top and bottom, 100 um apart.
+            lower = lay.getInstanceFromInstanceName("x2_ccmp")
+            upper = lay.getInstanceFromInstanceName("x3_ccmp")
+            if lower is None or upper is None:
                 log.error("ccmp: both comparators are needed to route")
                 return None
-            self._crossSeam(lay, down, up)
+            #- setAngle leaves the instance position in the mirrored
+            #- frame, so pin it back where it was
+            x, y = int(lower.x1), int(lower.y1)
+            lower.setAngle("MX")
+            lower.moveTo(x, y)
+            lower.updateBoundingRect()
+            self.updateBoundingRect()
+            self._crossSeam(lay, lower, upper)
             #- TRUE CLAIMS THE PAIR. Left to the built-in router this
             #- cell came out with two straps that no rule catches and
             #- LVS does: an M1 riser up the right edge tying VDD to

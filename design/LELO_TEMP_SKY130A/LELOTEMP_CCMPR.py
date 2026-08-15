@@ -112,24 +112,29 @@ class LELOTEMP_CCMPR(SidecarCell):
     #- (net, layer, x of the descent lane relative to the core, edge)
     _EDGE_PORTS = [
         #- WHICH EDGE IS DECIDED BY THE MIRROR ABOVE, NOT BY THE PIN.
-        #- LELO_TEMP stacks two of these and mirrors the upper one MX,
-        #- so the two TOP edges meet at the seam and the two BOTTOM
-        #- edges become the pair's outer faces. A net that is SHARED
-        #- between the halves therefore wants the top edge -- its two
-        #- pads come out adjacent at the seam -- and a net that is
-        #- PER-HALF (RST_A/RST_B, CMPO_A/CMPO_B upstairs) wants the
-        #- bottom, where the level above can still see it.
-        ("RST", "M2", 170000, "bottom"),
-        #- VC is the shared one: to the seam.
-        ("VC", "M2", 264000, "top"),
-        #- CMPO is per-half, so it goes to the BOTTOM even though its
-        #- pin is near the top -- 43 um of lane, but the alternative
-        #- puts CMPO_A's pad in the seam where nothing can reach it.
+        #- LELO_TEMP stacks two of these and mirrors the LOWER one MX,
+        #- so that the two CAP BANKS meet at the seam -- they are the
+        #- matched pair's matched element and they belong beside each
+        #- other. The caps live at this cell's BOTTOM, so it is the
+        #- two BOTTOM edges that meet at the seam and the two TOP
+        #- edges that become the pair's outer faces.
+        #-
+        #- Which inverts the rule from the first arrangement: a net
+        #- that is SHARED between the halves wants the BOTTOM edge --
+        #- its two pads come out adjacent at the seam -- and a net
+        #- that is PER-HALF (RST_A/RST_B, CMPO_A/CMPO_B upstairs)
+        #- wants the TOP, where the level above can still see it.
+        ("RST", "M2", 170000, "top"),
+        #- VC is the shared one: to the seam, which is now the bottom.
+        ("VC", "M2", 264000, "bottom"),
+        #- CMPO is per-half, so it goes to the TOP -- which is also
+        #- where its pin already is, so the 43 um lane the previous
+        #- arrangement cost it is gone.
         #- WEST of the pin, not east: the pin is VO's, and VO's own M3
         #- crossing leaves it eastward at the same y, so an eastward
         #- hop runs met2.2 against it whatever lane it is aimed at.
         #- West of x 118400 the row is clear.
-        ("CMPO", "M2", 100000, "bottom"),
+        ("CMPO", "M2", 100000, "top"),
         #- IBP_1U<1> is per-half too and its pin is already 38 um from
         #- the WEST edge, which is the side the bias block is on. Left
         #- mid-row the top reached it with an 87 um M4 bar that ran
