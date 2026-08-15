@@ -315,15 +315,29 @@ class LELOTEMP_CCMPR(SidecarCell):
         ci = self._port(caps, "IBP_1U<0>")
         ni = self._port(cmp_i, "IBP_1U<0>")
         if ci is not None and ni is not None:
-            #- THE SAME CUT SHAPE THE CORE USED. LELOTEMP_CMPR lands
-            #- this pin with cut_M1M4_1x2 -- one cut wide, two tall,
-            #- because it is a gate tab -- and the default here is
-            #- cut_M1M4_2x1, two wide and one tall. The two overlap
-            #- PARTIALLY at the same pin, which is exactly what magic
-            #- means by "this layer can't abut or partially overlap
-            #- between subcells": not a spacing rule, a hierarchy one.
+            #- NO END CUT AT ALL, which is the rest of that argument.
+            #-
+            #- Matching the core's cut SHAPE (cut_M1M4_1x2, one wide and
+            #- two tall, because it is a gate tab) stopped magic
+            #- complaining -- "this layer can't abut or partially
+            #- overlap between subcells" is a hierarchy rule and the
+            #- tiles resolved once the shapes agreed. It did not stop
+            #- KLAYOUT, which reads the flattened GDS: the parent's
+            #- stack and the child's still sat 0.02 x 0.04 um apart, and
+            #- two 0.2 um squares that far off union into a notched
+            #- polygon where a via must be square. Two via2.1a, in this
+            #- cell and again at the top, and NOT fixable by moving:
+            #- measured, the two stacks' viali and via1 already coincide
+            #- exactly, so any shift that aligns via2 breaks those.
+            #-
+            #- The parent does not need a stack here. LELOTEMP_CMPR
+            #- already brings this net M1 -> M4 at this pin; arriving on
+            #- M4 IS the connection, and a second stack on top of the
+            #- first was only ever the default doing its job. Same
+            #- reasoning as VBP landing cutless on the subcell's own M4
+            #- pad in LELOTEMP_OTAR.
             p = layout.path("IBP_1U<0>", "M4", start=[ci], stop=[ni],
-                            options="1cuts,2vcuts")
+                            options="1cuts,2vcuts,noendcut")
             p.start()
             p.movex(p.landing("x"))
             p.movey(p.landing("y"))

@@ -4,110 +4,6 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
-            "x2": 3800,
-            "y2": 9600,
-            "layer": "",
-            "net": "",
-            "name": "cut_M1M4_1x2",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3200,
-                    "y2": 8400,
-                    "layer": "M1",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 600,
-                    "x2": 2900,
-                    "y2": 3200,
-                    "layer": "VIA1",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 5200,
-                    "x2": 2900,
-                    "y2": 7800,
-                    "layer": "VIA1",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3400,
-                    "y2": 8800,
-                    "layer": "M2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 600,
-                    "x2": 3100,
-                    "y2": 3400,
-                    "layer": "VIA2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 5400,
-                    "x2": 3100,
-                    "y2": 8200,
-                    "layer": "VIA2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3400,
-                    "y2": 8800,
-                    "layer": "M3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 600,
-                    "x2": 3100,
-                    "y2": 3400,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 5400,
-                    "x2": 3100,
-                    "y2": 8200,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3800,
-                    "y2": 9600,
-                    "layer": "M4",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
             "x2": 3400,
             "y2": 8800,
             "layer": "",
@@ -2388,8 +2284,8 @@
                     "class": "Path",
                     "x1": 27000,
                     "y1": 25000,
-                    "x2": 128500.0,
-                    "y2": 242200.0,
+                    "x2": 127900,
+                    "y2": 238500,
                     "layer": "",
                     "net": "IBP_1U<0>",
                     "name": "IBP_1U<0>",
@@ -2413,29 +2309,10 @@
                             "y2": 238500,
                             "layer": "M4",
                             "net": "IBP_1U<0>"
-                        },
-                        {
-                            "class": "InstanceCut",
-                            "x1": 124700.0,
-                            "y1": 232600.0,
-                            "x2": 128500.0,
-                            "y2": 242200.0,
-                            "layer": "",
-                            "net": "IBP_1U<0>",
-                            "name": "cut_M1M4_1x2",
-                            "has_pr": false,
-                            "ckt": {},
-                            "children": [],
-                            "instanceName": "",
-                            "angle": "",
-                            "cell": "cut_M1M4_1x2",
-                            "libpath": "",
-                            "xcell": 0,
-                            "ycell": 0
                         }
                     ],
                     "routeLayer": "M4",
-                    "options": "1cuts,2vcuts",
+                    "options": "1cuts,2vcuts,noendcut",
                     "steps": [
                         {
                             "step": "start"
