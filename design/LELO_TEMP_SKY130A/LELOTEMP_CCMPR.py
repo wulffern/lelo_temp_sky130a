@@ -111,16 +111,25 @@ class LELOTEMP_CCMPR(SidecarCell):
 
     #- (net, layer, x of the descent lane relative to the core, edge)
     _EDGE_PORTS = [
+        #- WHICH EDGE IS DECIDED BY THE MIRROR ABOVE, NOT BY THE PIN.
+        #- LELO_TEMP stacks two of these and mirrors the upper one MX,
+        #- so the two TOP edges meet at the seam and the two BOTTOM
+        #- edges become the pair's outer faces. A net that is SHARED
+        #- between the halves therefore wants the top edge -- its two
+        #- pads come out adjacent at the seam -- and a net that is
+        #- PER-HALF (RST_A/RST_B, CMPO_A/CMPO_B upstairs) wants the
+        #- bottom, where the level above can still see it.
         ("RST", "M2", 170000, "bottom"),
-        #- VC descends EAST of the cap row, which ends at x 215000.
-        ("VC", "M2", 248000, "bottom"),
-        #- CMPO leaves at the TOP: its pin is in the comparator's top
-        #- rows and the level above takes it from there. WEST of the
-        #- pin, not east: the pin is VO's, and VO's own M3 crossing
-        #- leaves it eastward at the same y, so an eastward hop runs
-        #- met2.2 against it whatever lane it is aimed at. West of
-        #- x 118400 the row is clear.
-        ("CMPO", "M2", 100000, "top"),
+        #- VC is the shared one: to the seam.
+        ("VC", "M2", 264000, "top"),
+        #- CMPO is per-half, so it goes to the BOTTOM even though its
+        #- pin is near the top -- 43 um of lane, but the alternative
+        #- puts CMPO_A's pad in the seam where nothing can reach it.
+        #- WEST of the pin, not east: the pin is VO's, and VO's own M3
+        #- crossing leaves it eastward at the same y, so an eastward
+        #- hop runs met2.2 against it whatever lane it is aimed at.
+        #- West of x 118400 the row is clear.
+        ("CMPO", "M2", 100000, "bottom"),
     ]
 
     def beforeRoute(self, layout):
