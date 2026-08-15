@@ -491,10 +491,41 @@ class LELOTEMP_CMPR(SidecarCell):
     #- and two cuts tall on VBN1's bar overhung it in y for four more.
     #- "" lets cicpy fit the largest cut that fits, which is right
     #- whenever the pin is not the odd shape.
+    #- (net, from, to, cuts, vertical layer, crossing layer)
+    #-
+    #- Each crossing net has exactly two pins, one per subcell, so each
+    #- is one story: up out of the pin, along the column to the target
+    #- row, across, down onto the other pin.
+    #-
+    #- THE TWO LAYERS ARE THE WHOLE DESIGN. A vertical leg rides the
+    #- source column and a horizontal leg crosses the cell, and each
+    #- has to be on a layer that is free where it runs:
+    #-   M2 vertical   fine unless the column's shared terminal lane
+    #-                 already carries another net's landings
+    #-   M3 crossing   fine unless a subcell owns M3 down that column,
+    #-                 or another net has landed at that y
+    #-   M4/M5         empty in this cell, for the net that cannot use
+    #-                 the cheap pair
+    #-
+    #- The cut shape follows the PIN and cannot be one setting: a gate
+    #- tab is 0.32 um across and takes one cut wide and two tall, a
+    #- drain bar is 2.24 um and takes the opposite. "" lets cicpy fit
+    #- the largest that fits, which is right for every ordinary pin.
     CROSSINGS = [
-        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load", "1cuts,2vcuts"),
-        ("VBN1", "xn_mirr_load", "xp_diff", ""),
+        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load", "1cuts,2vcuts", "M2", "M3"),
+        ("VBN1", "xn_mirr_load", "xp_diff", "", "M2", "M3"),
+        ("VO1", "xn_mirr_load", "xp_diff", "", "M2", "M3"),
+        ("VS", "xp_diff", "xp_mirr_tail", "", "M2", "M3"),
+        #- VIP goes up. Its two pins are 12 um apart in y, so its
+        #- vertical leg runs most of n_mirr_load -- and on M2 that is
+        #- the column's drain lane, straight through VBN1's and VO1's
+        #- landings (M2 (124900,139000)-(127900,264500) cutting both).
+        #- On M3 the crossing leg hit VS's via pad instead. M4 and M5
+        #- are empty here and this is the net that needs them.
+        ("VIP", "xn_mirr_load", "xp_diff", "1cuts,2vcuts", "M4", "M5"),
     ]
+
+    _UPS = {"M2": 1, "M3": 2, "M4": 3, "M5": 4}
 
     @staticmethod
     def _pin(layout, instname, net):
@@ -512,31 +543,22 @@ class LELOTEMP_CMPR(SidecarCell):
 
     def beforeRoute(self, layout):
         super().beforeRoute(layout)
-        for net, a_inst, b_inst, cuts in self.CROSSINGS:
+        for net, a_inst, b_inst, cuts, vlayer, xlayer in self.CROSSINGS:
             a = self._pin(layout, a_inst, net)
             b = self._pin(layout, b_inst, net)
             if a is None or b is None:
                 continue
-            #- up out of the pin, across on the horizontal layer, down
-            #- onto the other pin. M2 carries the vertical leg and M3
-            #- the horizontal one, which is the way the technology
-            #- prefers them (ROUTE.directions: M2 v, M3 h).
-            #- 1cuts,2vcuts: ONE cut wide, TWO tall. These pins are
-            #- gate tabs 0.32 um across and the default pad is two cuts
-            #- side by side, 0.72 um of cut plus enclosure -- measured,
-            #- the bias-side via reached x 55400 on a pin starting at
-            #- 57600 and took li.3 and li.c2 with it. A single column of
-            #- cuts fits the tab, and two of them vertically keeps it
-            #- off the 1x1 that is the last resort here.
-            q = layout.path(net, "M1", start=[a], stop=[b],
-                            options=cuts)
+            v, x = self._UPS[vlayer], self._UPS[xlayer]
+            q = layout.path(net, "M1", start=[a], stop=[b], options=cuts)
             q.start()
-            q.up()                      #- M2
+            for _ in range(v):
+                q.up()
             q.movey(q.landing("y"))
-            q.up()                      #- M3
+            for _ in range(x - v):
+                q.up()
             q.movex(q.landing("x"))
-            q.down()                    #- M2
-            q.down()                    #- M1
+            for _ in range(x):
+                q.down()
             q.end()
 
     def afterPlace(self, layout):

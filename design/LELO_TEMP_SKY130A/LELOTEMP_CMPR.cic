@@ -6334,6 +6334,542 @@
                     ]
                 },
                 {
+                    "class": "Path",
+                    "x1": 134800.0,
+                    "y1": 257300.0,
+                    "x2": 230800.0,
+                    "y2": 304700.0,
+                    "layer": "",
+                    "net": "VO1",
+                    "name": "VO1",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 137300.0,
+                            "y1": 301300.0,
+                            "x2": 146100.0,
+                            "y2": 304700.0,
+                            "layer": "",
+                            "net": "VO1",
+                            "name": "cut_M1M2_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 137700.0,
+                            "y1": 257500,
+                            "x2": 140700.0,
+                            "y2": 303000,
+                            "layer": "M2",
+                            "net": "VO1"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 134800.0,
+                            "y1": 257300.0,
+                            "x2": 143600.0,
+                            "y2": 260700.0,
+                            "layer": "",
+                            "net": "VO1",
+                            "name": "cut_M2M3_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 139200.0,
+                            "y1": 257500,
+                            "x2": 227900.0,
+                            "y2": 260500,
+                            "layer": "M3",
+                            "net": "VO1"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 222000.0,
+                            "y1": 257300.0,
+                            "x2": 230800.0,
+                            "y2": 260700.0,
+                            "layer": "",
+                            "net": "VO1",
+                            "name": "cut_M2M3_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 222000.0,
+                            "y1": 257300.0,
+                            "x2": 230800.0,
+                            "y2": 260700.0,
+                            "layer": "",
+                            "net": "VO1",
+                            "name": "cut_M1M2_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "y"
+                            }
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "x"
+                            }
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "end"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 215600.0,
+                    "y1": 137300.0,
+                    "x2": 310800.0,
+                    "y2": 204700.0,
+                    "layer": "",
+                    "net": "VS",
+                    "name": "VS",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 215600.0,
+                            "y1": 201300.0,
+                            "x2": 224400.0,
+                            "y2": 204700.0,
+                            "layer": "",
+                            "net": "VS",
+                            "name": "cut_M1M2_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 218500.0,
+                            "y1": 137500,
+                            "x2": 221500.0,
+                            "y2": 203000,
+                            "layer": "M2",
+                            "net": "VS"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 215600.0,
+                            "y1": 137300.0,
+                            "x2": 224400.0,
+                            "y2": 140700.0,
+                            "layer": "",
+                            "net": "VS",
+                            "name": "cut_M2M3_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 220000.0,
+                            "y1": 137500,
+                            "x2": 307900.0,
+                            "y2": 140500,
+                            "layer": "M3",
+                            "net": "VS"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 302000.0,
+                            "y1": 137300.0,
+                            "x2": 310800.0,
+                            "y2": 140700.0,
+                            "layer": "",
+                            "net": "VS",
+                            "name": "cut_M2M3_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 302000.0,
+                            "y1": 137300.0,
+                            "x2": 310800.0,
+                            "y2": 140700.0,
+                            "layer": "",
+                            "net": "VS",
+                            "name": "cut_M1M2_2x1",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_2x1",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "y"
+                            }
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "x"
+                            }
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "end"
+                        }
+                    ]
+                },
+                {
+                    "class": "Path",
+                    "x1": 124000.0,
+                    "y1": 134200.0,
+                    "x2": 251200.0,
+                    "y2": 267800.0,
+                    "layer": "",
+                    "net": "VIP",
+                    "name": "VIP",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "InstanceCut",
+                            "x1": 124700.0,
+                            "y1": 134600.0,
+                            "x2": 128100.0,
+                            "y2": 143400.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M1M2_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 124700.0,
+                            "y1": 134600.0,
+                            "x2": 128100.0,
+                            "y2": 143400.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M2M3_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 124500.0,
+                            "y1": 134200.0,
+                            "x2": 128300.0,
+                            "y2": 143800.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M3M4_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M3M4_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 124900.0,
+                            "y1": 139000,
+                            "x2": 127900.0,
+                            "y2": 264500,
+                            "layer": "M4",
+                            "net": "VIP"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 124000.0,
+                            "y1": 258200.0,
+                            "x2": 128800.0,
+                            "y2": 267800.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M4M5_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M4M5_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 126400.0,
+                            "y1": 261500,
+                            "x2": 250300.0,
+                            "y2": 264500,
+                            "layer": "M5",
+                            "net": "VIP"
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 246400.0,
+                            "y1": 258200.0,
+                            "x2": 251200.0,
+                            "y2": 267800.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M4M5_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M4M5_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 246900.0,
+                            "y1": 258200.0,
+                            "x2": 250700.0,
+                            "y2": 267800.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M3M4_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M3M4_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 247100.0,
+                            "y1": 258600.0,
+                            "x2": 250500.0,
+                            "y2": 267400.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M2M3_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M2M3_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        },
+                        {
+                            "class": "InstanceCut",
+                            "x1": 247100.0,
+                            "y1": 258600.0,
+                            "x2": 250500.0,
+                            "y2": 267400.0,
+                            "layer": "",
+                            "net": "VIP",
+                            "name": "cut_M1M2_1x2",
+                            "has_pr": false,
+                            "ckt": {},
+                            "children": [],
+                            "instanceName": "",
+                            "angle": "",
+                            "cell": "cut_M1M2_1x2",
+                            "libpath": "",
+                            "xcell": 0,
+                            "ycell": 0
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "start"
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movey",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "y"
+                            }
+                        },
+                        {
+                            "step": "up",
+                            "layer": null
+                        },
+                        {
+                            "step": "movex",
+                            "anchor": {
+                                "kind": "landing",
+                                "axis": "x"
+                            }
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "down",
+                            "layer": null
+                        },
+                        {
+                            "step": "end"
+                        }
+                    ]
+                },
+                {
                     "class": "Port",
                     "x1": 118400.0,
                     "y1": 137000.0,
