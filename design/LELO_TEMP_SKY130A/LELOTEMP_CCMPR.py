@@ -109,6 +109,20 @@ class LELOTEMP_CCMPR(SidecarCell):
     supplies = [{"net": "VDD_1V8", "strap": "top"},
                 {"net": "VSS", "strap": "bottom"}]
 
+    #- (net, layer, x of the descent lane relative to the core, edge)
+    _EDGE_PORTS = [
+        ("RST", "M2", 170000, "bottom"),
+        #- VC descends EAST of the cap row, which ends at x 215000.
+        ("VC", "M2", 248000, "bottom"),
+        #- CMPO leaves at the TOP: its pin is in the comparator's top
+        #- rows and the level above takes it from there. WEST of the
+        #- pin, not east: the pin is VO's, and VO's own M3 crossing
+        #- leaves it eastward at the same y, so an eastward hop runs
+        #- met2.2 against it whatever lane it is aimed at. West of
+        #- x 118400 the row is clear.
+        ("CMPO", "M2", 100000, "top"),
+    ]
+
     def beforeRoute(self, layout):
         """The rings, then the recipe.
 
@@ -174,28 +188,35 @@ class LELOTEMP_CCMPR(SidecarCell):
         #- created in afterPorts never routes -- the phase is over.
         from cicpy.core.rect import Rect as _Rect
         self._edge_ports = {}
-        #- THE PAD GOES IN THE SEAM, not under the pin. Straight down
-        #- from the pin is the comparator's gate-tab lane, and
-        #- PWRUP_N_1V8's own via stack is in it: M2 (137300,199000)-
-        #- (140700,207800) against the descent. The 2 um gap between
-        #- the nmos and pmos halves carries nothing, so the story jogs
-        #- there on M3 first and descends in the clear.
-        r = self._port(cmp_i, "RST")
-        if r is not None:
-            seam = int(cmp_i.x1) + 170000
-            pad = _Rect("M2", seam, int(layout.y1), 3200, 4000)
-            pad.setNet("RST")
+        #- EACH SEAM PORT: a pad MADE at an edge, and a path to it.
+        #- (net, edge layer, x of the descent, which edge)
+        #-
+        #- THE DESCENT LANE IS THE DESIGN. Straight down from a pin is
+        #- usually the comparator's gate-tab lane, and PWRUP_N_1V8's
+        #- own via stack lives there -- M2 (137300,199000)-(140700,
+        #- 207800) took RST's first attempt. The 2 um seam between the
+        #- nmos and pmos halves carries nothing, and east of the cap
+        #- row (which ends at x 215000) is clear to the bottom.
+        for net, lay_, xlane, edge in self._EDGE_PORTS:
+            r = self._port(cmp_i, net)
+            if r is None:
+                log.error(f"{net}: the core does not publish it")
+                continue
+            x = int(cmp_i.x1) + xlane
+            y = int(layout.y1) if edge == "bottom" else int(layout.y2) - 4000
+            pad = _Rect(lay_, x, y, 3200, 4000)
+            pad.setNet(net)
             layout.add(pad)
-            p = layout.path("RST", "M1", start=[r], stop=[pad],
+            p = layout.path(net, "M1", start=[r], stop=[pad],
                             options="1cuts,2vcuts")
             p.start()
             p.up()                      #- M2
-            p.up()                      #- M3, east into the seam
+            p.up()                      #- M3, across to the lane
             p.movex(p.landing("x"))
-            p.down()                    #- M2, and down the seam
+            p.down()                    #- M2, and down it
             p.movey(p.landing("y"))
             p.end()
-            self._edge_ports["RST"] = pad
+            self._edge_ports[net] = pad
 
         #- IBP_1U<0>: the plate rail to the comparator's own input.
         #- ON M4, and up the DRAIN LANE. The comparator publishes this
