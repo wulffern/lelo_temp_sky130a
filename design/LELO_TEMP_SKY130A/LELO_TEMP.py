@@ -97,6 +97,22 @@ class LELO_TEMP(SidecarCell):
         xspace = 5
         order = ['x2_ccmp', 'x3_ccmp']
 
+        #- THE SEAM IS A GAP, NOT AN ABUTMENT. beforePlace opens 2 um
+        #- between the halves for capm.2a, and their VSS straps land at
+        #- y 502000..511000 and 531000..540000 -- 20 um apart, joined
+        #- by nothing. The wrapper published a pin between them and
+        #- every level above assumed the pin meant metal: measured,
+        #- VSS inside this cell is two components, and it was the last
+        #- split in the whole tile's VSS. One vertical at the straps'
+        #- own centre closes it; everything that crosses the seam does
+        #- so well away from mid-width.
+        paths = [
+            dict(net="VSS", layer="M1",
+                 start=("x2_ccmp", "VSS"), stop=("x3_ccmp", "VSS"),
+                 steps=[("movey", pin("x3_ccmp", "VSS", "y")),
+                        ("end",)]),
+        ]
+
         def beforePlace(self, entry):
             """SPACE FOR THE CAPS AT THE SEAM.
 
@@ -1361,7 +1377,7 @@ class LELO_TEMP(SidecarCell):
     #- approach 38000 away" and leaves a stub at (1475900, 153500);
     #- the top-level path lands correctly. PWRUP_N_1V8's second leg
     #- reaches the strip but the strip's side is not closed either.
-    paths_only = ("RST_A", "PWRUP_N_1V8", "VC", "CMPO_A", "CMPO_B")
+    paths_only = ("RST_A", "PWRUP_N_1V8", "VC", "CMPO_A", "CMPO_B", "VSS", "RST_B")
 
     #- THE CROSSING NETS, DECLARED. Each is the same shape: out of a
     #- pin, into a corridor, along it, and down into the pin at the
@@ -1658,33 +1674,42 @@ class LELO_TEMP(SidecarCell):
         #- Three legs, west to east, each landing on the next pin:
         #- bias to diode B, diode B to diode A, and diode A up to the
         #- strip.
-        dict(net="VSS", layer="M1", at="e",
-             start=("xbias", "VSS"), stop=("xant_cmpo_b", "VSS"),
-             steps=[("movey", pin("xant_cmpo_b", "VSS", "y")),
-                    ("movex", pin("xant_cmpo_b", "VSS", "x")),
-                    ("end",)]),
-        dict(net="VSS", layer="M1",
-             start=("xant_cmpo_b", "VSS"), stop=("xant_cmpo_a", "VSS"),
-             steps=[("movey", pin("xant_cmpo_a", "VSS", "y")),
-                    ("movex", pin("xant_cmpo_a", "VSS", "x")),
-                    ("end",)]),
-        #- and the one leg that cannot stay on M1: the strip publishes
-        #- VSS on M4, up its own supply column.
-        dict(net="VSS",
-             start=("xant_cmpo_a", "VSS"), stop=("xdig", "VSS"),
-             steps=[("up", "M4"),
+        #- VSS HAS NO ENTRIES HERE, and that is a finding, not an
+        #- omission. The supplies phase already draws a ring leg to
+        #- every VSS pin the flight lines showed apart: ring to xbias
+        #- (M1 x 488100), ring to each antenna diode (M1 x 1399900 and
+        #- 1411900), and ring to the strip's M4 pin (x 1478800, y
+        #- 3000..179000 -- proof, incidentally, that the strip's VSS
+        #- column is ridable on M4). Three declared ring legs were
+        #- written here and changed the component count by exactly
+        #- nothing; a fourth leg to the strip crossed VDD's own
+        #- full-height M4 riser in dband (x 1423900..1426900, y
+        #- 19500..1091600 -- checkroutes' own chain) and shorted.
+        #- The two components that remained, found by flooding the
+        #- built .cic with the ring metal included:
+        #-
+        #-   * the supply phase's own riser to the strip is M4 from
+        #-     y 3000 -- OVER the M1 ring, with no via at the ring
+        #-     end. It floats. The first entry below is the same
+        #-     riser said as a story, whose `up` puts the via ON the
+        #-     ring; the two then merge along the column.
+        #-   * the pair's SEAM pin -- both halves' VSS straps meet at
+        #-     y 517000..526000 and publish one M1 bar that nothing
+        #-     touches. The second entry walks it west into lband
+        #-     (which is empty on M1; every story there rides M3 and
+        #-     above) and down to the ring on the supply's own layer.
+        dict(net="VSS", layer="M1", at="w",
+             start=("xccmp", "VSS"), stop="ring_b_VSS",
+             steps=[("movex", track("lband", 0) + SPACE),
                     ("movey", landing("y")),
-                    ("movex", landing("x")),
                     ("end",)]),
-
-        dict(net="RST_B", at="s",
+        dict(net="RST_B", at="s", options="1cuts,2vcuts",
              start=("xccmp", "RST_B"), stop=("xdig", "RST_B"),
              steps=[("up", "M3"),
-                    ("movey", track("fband", 0)),
-                    ("movex", track("dband", 8)),
+                    ("movey", track("fband", 0) - PITCH),
+                    ("movex", pin("xdig", "RST_B", "x") + 2 * PITCH),
                     ("up", "M4"),
                     ("movey", landing("y")),
-                    ("up", "M5"),
                     ("movex", landing("x")),
                     ("end",)]),
     ]
