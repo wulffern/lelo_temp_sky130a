@@ -1361,7 +1361,7 @@ class LELO_TEMP(SidecarCell):
     #- approach 38000 away" and leaves a stub at (1475900, 153500);
     #- the top-level path lands correctly. PWRUP_N_1V8's second leg
     #- reaches the strip but the strip's side is not closed either.
-    paths_only = ("RST_A", "PWRUP_N_1V8", "VC")
+    paths_only = ("RST_A", "PWRUP_N_1V8", "VC", "CMPO_A", "CMPO_B")
 
     #- THE CROSSING NETS, DECLARED. Each is the same shape: out of a
     #- pin, into a corridor, along it, and down into the pin at the
@@ -1478,6 +1478,135 @@ class LELO_TEMP(SidecarCell):
                     ("up", "M5"),
                     ("movex", landing("x")),
                     ("end",)]),
+
+        #- CMPO_A AND CMPO_B: the pair's outputs to the strip, and the
+        #- antenna diode on each one.
+        #-
+        #- THE LANE IS ALREADY CHOSEN. afterPlace stands each diode at
+        #- the foot of a dband track -- CMPO_B on 4, CMPO_A on 6 --
+        #- precisely so the net that has to reach it descends that same
+        #- lane and the riser out of the diode never leaves it. Naming
+        #- the track here and there is the statement that they are one
+        #- lane; the diodes were placed for these two stories before
+        #- the stories existed.
+        #-
+        #- OUT OF THE FLOOR, NOT ACROSS THE PAIR. Both pins are on the
+        #- pair's BOTTOM edge (y 15000..19000) and the strip is 33 um
+        #- east, so the leg has to cross the pair's whole width. Over
+        #- it means through the cap banks and every net the pair
+        #- publishes; under it is `fband`, where the only metal is
+        #- VDD_1V8's two M1 ring bars. So: south out of the pin, up to
+        #- M4 where those bars cannot be touched, east along the floor,
+        #- and north up the net's own lane.
+        #-
+        #- M4 for the crossing and the riser, M5 only at the end: the
+        #- strip publishes these two on M5, and `end()` makes that one
+        #- transition where it lands.
+        dict(net="CMPO_A", at="s",
+             start=("xccmp", "CMPO_A"), stop=("xdig", "CMPO_A"),
+             steps=[("up", "M4"),
+                    ("movey", track("fband", 0)),
+                    ("movex", track("dband", 6)),
+                    ("movey", landing("y")),
+                    ("up", "M5"),
+                    ("movex", landing("x")),
+                    ("end",)]),
+        #- and the diode up to the same lane. A second story on one
+        #- net, sharing the lane end to end: two shapes of one net that
+        #- overlap are not a short, and this is the one that makes the
+        #- diode part of the net rather than a third component.
+        dict(net="CMPO_A",
+             start=("xant_cmpo_a", "CMPO_A"), stop=("xdig", "CMPO_A"),
+             steps=[("up", "M4"),
+                    ("movex", track("dband", 6)),
+                    ("movey", landing("y")),
+                    ("up", "M5"),
+                    ("movex", landing("x")),
+                    ("end",)]),
+
+        #- CMPO_B LEAVES BY THE TOP, not the floor. The pair is
+        #- mirrored MX, so the two halves publish these on opposite
+        #- edges: CMPO_A at y 15000 and CMPO_B at 1053000. Same story,
+        #- the other way up -- north out of the pin into `cband`, which
+        #- is what RST_A already uses, then down its own lane. Its
+        #- diode still stands at the foot of that lane, 100 um below.
+        #- AND IT CROSSES cband ON M5, not on M4 or M3.
+        #-
+        #- Both of the cheap layers are already spoken for by RST_A,
+        #- which leaves the pair by this same band: its M3 rises at its
+        #- own pin's column through cband 0..8 and then runs east on M3
+        #- to dband 2, where it turns UP ONTO M4 and descends -- so a
+        #- leg crossing this band eastward meets RST_A's M3 vertical on
+        #- M3 and its M4 riser on M4, whichever track it picks.
+        #- Measured on M4 at cband 4: CMPO_B and RST_A in one component
+        #- of 289 rects.
+        #-
+        #- M5 crosses over both. The only other M5 in this band is
+        #- PWRUP_N's second leg at track 20, and RST_A's own M5 exists
+        #- only at its landing row beside the strip -- 13 um east of
+        #- where this turns down.
+        dict(net="CMPO_B", at="n",
+             start=("xccmp", "CMPO_B"), stop=("xdig", "CMPO_B"),
+             steps=[("up", "M5"),
+                    ("movey", track("cband", 4)),
+                    ("movex", track("dband", 4)),
+                    ("down", "M4"),
+                    ("movey", landing("y")),
+                    ("up", "M5"),
+                    ("movex", landing("x")),
+                    ("end",)]),
+        dict(net="CMPO_B",
+             start=("xant_cmpo_b", "CMPO_B"), stop=("xdig", "CMPO_B"),
+             steps=[("up", "M4"),
+                    ("movex", track("dband", 4)),
+                    ("movey", landing("y")),
+                    ("up", "M5"),
+                    ("movex", landing("x")),
+                    ("end",)]),
+
+        #- RST_B: the pair's other reset, published on the same bottom
+        #- edge as CMPO_A and leaving the same way -- south out of the
+        #- pin, east along the floor, north up its own dband lane.
+        #-
+        #- DECLARED AND GATED OFF: this one does not close yet. It is
+        #- left here rather than deleted so that turning it on is one
+        #- name in `paths_only`, the same as PWRUP_B_1V8.
+        #-
+        #- THE FLOOR HAS ROOM FOR ONE LANE, and CMPO_A has it. Track 1
+        #- sits at y 24000 and diode B's guard starts at 25000, so
+        #- anything crossing x 1394900..1407900 up there takes met3.2
+        #- (measured: 4). Track 0 is CMPO_A's, and one SPACE above it
+        #- is not a lane -- an M4 leg is 3000 wide, so track 0 + SPACE
+        #- abuts CMPO_A's own metal and track 0 + PITCH is track 1
+        #- again.
+        #-
+        #- SO IT WAS TRIED ON ANOTHER LAYER, three times, and the fault
+        #- did not move -- every one merged RST_B, RST_A and VDD_1V8
+        #- into a single component of ~8000 rects:
+        #-
+        #-     M5 floor leg   shorts=1  DRC 6
+        #-     M3 floor leg   shorts=1  DRC 8
+        #-     M4 floor leg   is CMPO_A's lane; shorts by construction
+        #-
+        #- That the fault survives the layer says it is not the floor
+        #- leg. The suspect is the EAST END: this lands on the strip's
+        #- M5 port and rides M5 over the sliver to get there, and the
+        #- `dig` class already records that exact hazard for this exact
+        #- net -- "the walk ends up("M5"), and RST_B's own rungs cross
+        #- the sliver on M5 at two heights, so the pad landed on
+        #- RST_B". The next thing to try is the strip's own `exit`
+        #- channels (dig registers one per free M4 column) rather than
+        #- a straight run in at the landing row.
+        dict(net="RST_B", at="s",
+             start=("xccmp", "RST_B"), stop=("xdig", "RST_B"),
+             steps=[("up", "M3"),
+                    ("movey", track("fband", 0)),
+                    ("movex", track("dband", 8)),
+                    ("up", "M4"),
+                    ("movey", landing("y")),
+                    ("up", "M5"),
+                    ("movex", landing("x")),
+                    ("end",)]),
     ]
 
     #- PWRUP_B is a SEARCH, not a story, and cannot become one. dband's
@@ -1546,6 +1675,19 @@ class LELO_TEMP(SidecarCell):
                                  horizontal=False)
         layout.addRoutingChannel("cband", int(cc.y2), int(bi.y2))
         layout.addRoutingChannel("sband", int(dg.y2), int(bi.y2))
+        #- AND THE FLOOR. `cband` is the band ABOVE the pair and it is
+        #- what RST_A and PWRUP_N leave by; the nets published on the
+        #- pair's BOTTOM edge -- CMPO_A, CMPO_B, RST_B -- had no
+        #- corridor named at all, which is most of why they had no
+        #- story. The strip below the blocks is the same kind of fact
+        #- about the same floorplan.
+        #-
+        #- Measured before registering it (`blockers`, CMPO_A over
+        #- 1120000..1450000 by 0..16000): the only pin spans in it are
+        #- VDD_1V8's own ring bars at y 12000 and 16000, which are M1.
+        #- A leg that crosses on M3 or above clears them, and nothing
+        #- else is down there.
+        layout.addRoutingChannel("fband", int(layout.y1), int(cc.y1))
         #- and the lane in front of the strip's own pins, measured off
         #- the westmost of them. Lost in a rewrite once, and the story
         #- that aimed at it did not fail -- the anchor resolved to
