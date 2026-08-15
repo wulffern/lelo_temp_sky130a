@@ -247,21 +247,26 @@ class LELOTEMP_CMPR(SidecarCell):
     #- but a via PAD is 0.88, so neighbouring bars whose drops land
     #- near each other overlap even though the wires do not -- measured
     #- on the flat version, VO1's bar inside VBN1's gate pad.
-    #- cuts: 1 on every drop. A two-cut pad is 0.88 um wide and the
-    #- drop lanes inside a column are 0.6 apart, so a centred 2x1 pad
-    #- overhangs into BOTH neighbours -- measured, VO1's pad
-    #- M2 (125800,257300)-(134600,260700) lying across VBN1's drop at
-    #- 123300..126300 and PWRUP_N_1V8's at 132900..135900, which merged
-    #- all seven crossing nets. The bars were never the problem; they
-    #- sit 1.2 um apart on their own tracks and always did.
+    #- NO `cuts: 1` HERE. A lone 1x1 via is the last resort in this
+    #- technology and a design does not get to ask for one: cut
+    #- selection already walks 2x1 -> 1x2 -> 1x1 and takes the first
+    #- that fits, so forcing 1 only removes the two good options.
+    #- Tried it -- a two-cut pad is 0.88 um against a 0.6 um drop lane,
+    #- so a centred pad overhangs into both neighbours (VO1's pad
+    #- M2 (125800,257300)-(134600,260700) across VBN1's drop lane at
+    #- 123300..126300 and PWRUP_N_1V8's at 132900..135900) -- and
+    #- narrowing the pad did NOT fix it, because the real overlap is
+    #- two nets sharing one lane end to end, not two pads touching.
+    #- The bars were never the problem; they sit 1.2 um apart on their
+    #- own tracks and always did.
     routes = [
-        {"net": "VBN1", "channel": "band", "track": 0, "cuts": 1},
-        {"net": "VO1", "channel": "band", "track": 2, "cuts": 1},
-        {"net": "VIP", "channel": "band", "track": 4, "cuts": 1},
-        {"net": "VO", "channel": "band", "track": 6, "cuts": 1},
-        {"net": "VS", "channel": "band", "track": 8, "cuts": 1},
-        {"net": "VBP2", "channel": "band", "track": 10, "cuts": 1},
-        {"net": "PWRUP_N_1V8", "channel": "band", "track": 12, "cuts": 1},
+        {"net": "VBN1", "channel": "band", "track": 0},
+        {"net": "VO1", "channel": "band", "track": 2},
+        {"net": "VIP", "channel": "band", "track": 4},
+        {"net": "VO", "channel": "band", "track": 6},
+        {"net": "VS", "channel": "band", "track": 8},
+        {"net": "VBP2", "channel": "band", "track": 10},
+        {"net": "PWRUP_N_1V8", "channel": "band", "track": 12},
     ]
 
     def afterPlace(self, layout):
