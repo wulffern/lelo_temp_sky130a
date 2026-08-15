@@ -149,6 +149,55 @@ cannot land on a pin, because the channel is where there are none.
 The placement above is unchanged and was verified flat -- the column
 order, every stack order, and the port plan are the same decisions,
 now stated as `order` and `rows` instead of as an afterPlace.
+
+STATE: builds as five cells (four columns and the top). 1 short,
+8 opens, 31 DRC errors. NOT VERIFIED.
+
+WHERE THE DRC IS, measured by building with `routes = []` and
+subtracting:
+
+    LELOTEMP_CMPR_N_MIRR_BIAS      0
+    LELOTEMP_CMPR_P_DIFF           0
+    LELOTEMP_CMPR_P_MIRR_TAIL      0
+    LELOTEMP_CMPR_N_MIRR_LOAD     12   met1.2, mcon.2
+    the top, routes = []          12   so the tiling, the rings and
+                                       the guard connections add NONE
+    the top, routes as declared   31   the band adds 19
+
+The floorplan is clean. Two things are not: n_mirr_load's own metal,
+and the crossing-net band.
+
+n_mirr_load is the column that carries xg1/xg4 as well as its own six,
+and the only one holding two device LENGTHS (xn_mirr_load5 is 2C1F2 at
+L=0.22 against L=0.94 for the rest). Its errors are on routed metal at
+the guard edge rather than on the devices, and the same device order
+measured 0 DRC in the flat build -- but that column had no guard of
+its own, so treat that as evidence and not as proof.
+
+WHERE THE SHORT IS: not the bars. Seven of them, own tracks, 1.2 um
+apart. The DROPS. Every net whose pins sit on one terminal of a column
+publishes its port at the same x, so VIP (rows 1-2) and VO (rows 6-7)
+both drop in n_mirr_load's drain lane and VIP's drop has to pass VO's
+rows to reach the band:
+
+    VIP  M2 (120100,139000)-(123100,410000)
+    VO   M2 (120100,299000)-(123100,422000)
+
+the same lane, overlapping over 11 um. No cut size reaches that --
+`cuts: 1` was tried, is not allowed in this technology anyway, and has
+been removed.
+
+That is the price of putting the band ABOVE the columns: every
+crossing net in a column then shares that column's terminal lane on
+the way up. Three ways out, cheapest first:
+
+  - give the drops explicit `align` (left/right) so two nets on one
+    terminal lean to opposite sides of the pin, which is what the
+    `drops:` overrides are for;
+  - publish each subcell's boundary ports at distinct x rather than on
+    the pin they came from;
+  - register a second band BELOW the columns and send half the nets
+    down, so no column carries more than one drop per lane.
 """
 import logging
 
