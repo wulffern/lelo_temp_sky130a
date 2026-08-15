@@ -933,7 +933,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 42000.0,
                             "x2": 56000.0,
@@ -941,10 +941,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 46000.0,
                             "x2": 56000.0,
@@ -952,10 +953,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 26000.0,
                             "x2": 43200.0,
@@ -963,10 +965,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 42000.0,
                             "x2": 4800.0,
@@ -974,7 +977,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xn_mirr_load0",
@@ -997,7 +1001,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 82000.0,
                             "x2": 49600.0,
@@ -1005,10 +1009,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 86000.0,
                             "x2": 56000.0,
@@ -1016,10 +1021,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_N_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 66000.0,
                             "x2": 43200.0,
@@ -1027,10 +1033,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 82000.0,
                             "x2": 4800.0,
@@ -1038,7 +1045,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xg4",
@@ -1061,7 +1069,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 122000.0,
                             "x2": 49600.0,
@@ -1069,10 +1077,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 126000.0,
                             "x2": 56000.0,
@@ -1080,10 +1089,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "RST",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 106000.0,
                             "x2": 43200.0,
@@ -1091,10 +1101,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 122000.0,
                             "x2": 4800.0,
@@ -1102,7 +1113,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xg1",
@@ -1125,7 +1137,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 162000.0,
                             "x2": 49600.0,
@@ -1133,10 +1145,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBN1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 166000.0,
                             "x2": 56000.0,
@@ -1144,10 +1157,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_N_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 146000.0,
                             "x2": 43200.0,
@@ -1155,10 +1169,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 162000.0,
                             "x2": 4800.0,
@@ -1166,7 +1181,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xn_mirr_load1",
@@ -1189,7 +1205,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 202000.0,
                             "x2": 56000.0,
@@ -1197,10 +1213,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBN1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 206000.0,
                             "x2": 56000.0,
@@ -1208,10 +1225,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBN1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 186000.0,
                             "x2": 43200.0,
@@ -1219,10 +1237,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 202000.0,
                             "x2": 4800.0,
@@ -1230,7 +1249,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xn_mirr_load2",
@@ -1253,7 +1273,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 242000.0,
                             "x2": 49600.0,
@@ -1261,10 +1281,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VO1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 246000.0,
                             "x2": 56000.0,
@@ -1272,10 +1293,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBN1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 226000.0,
                             "x2": 43200.0,
@@ -1283,10 +1305,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 242000.0,
                             "x2": 4800.0,
@@ -1294,7 +1317,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xn_mirr_load3",
@@ -1317,7 +1341,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 282000.0,
                             "x2": 49600.0,
@@ -1325,10 +1349,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VO",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 286000.0,
                             "x2": 56000.0,
@@ -1336,10 +1361,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VO1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 274000.0,
                             "x2": 43200.0,
@@ -1347,10 +1373,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 282000.0,
                             "x2": 4800.0,
@@ -1358,7 +1385,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xn_mirr_load5",
@@ -1381,7 +1409,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 322000.0,
                             "x2": 49600.0,
@@ -1389,10 +1417,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VO",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 326000.0,
                             "x2": 56000.0,
@@ -1400,10 +1429,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_N_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 306000.0,
                             "x2": 43200.0,
@@ -1411,10 +1441,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 322000.0,
                             "x2": 4800.0,
@@ -1422,7 +1453,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xn_mirr_load4",

@@ -288,11 +288,19 @@ class LELOTEMP_OTAR(SidecarCell):
         [p_in_a, p_in_b, p_bias, p_sw],
     ]
 
+    #- pin_strap: this cell is an ASSEMBLY, so its ring reaches the
+    #- subcells through their PUBLISHED supply rects, and that is
+    #- addPowerConnection -- which is opt-in now, because on a library
+    #- whose pins overhang their abutment box it drags the pin's layer
+    #- across everything between. These children's do not overhang,
+    #- and without this the ring is connected to nothing: measured,
+    #- LVS went from "Circuits match uniquely" to "Top level cell
+    #- failed pin matching".
     supplies = [
         {"net": "VDD_1V8", "ring": "t", "guard_exclude": "^xbs6$",
-         "strap": "top"},
+         "strap": "top", "pin_strap": True},
         {"net": "VSS", "ring": "b", "strap": "bottom",
-         "strap_exclude": "^xd2<[1-9]"},
+         "strap_exclude": "^xd2<[1-9]", "pin_strap": True},
     ]
 
     #- The top, from the same declarations: rows reused, one track

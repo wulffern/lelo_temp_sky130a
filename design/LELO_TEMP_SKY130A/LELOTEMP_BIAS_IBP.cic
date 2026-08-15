@@ -1355,7 +1355,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 21850.0,
                             "y1": 161850.0,
                             "x2": 201850.0,
@@ -1363,10 +1363,11 @@
                             "layer": "M2",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD2"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 91850.0,
                             "y1": 91850.0,
                             "x2": 131850.0,
@@ -1374,10 +1375,11 @@
                             "layer": "M2",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 7850.0,
                             "y1": 1850.0,
                             "x2": 214850.0,
@@ -1385,7 +1387,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         }
                     ],
                     "instanceName": "xe1",
@@ -1665,7 +1668,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 50000.0,
                             "x2": 40000.0,
@@ -1673,10 +1676,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "N"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 42000.0,
                             "x2": 40000.0,
@@ -1684,10 +1688,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "P"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 54000.0,
                             "x2": 4800.0,
@@ -1695,7 +1700,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd3<0>",
@@ -1718,7 +1724,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 90000.0,
                             "x2": 40000.0,
@@ -1726,10 +1732,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "N"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 82000.0,
                             "x2": 40000.0,
@@ -1737,10 +1744,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "P"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 94000.0,
                             "x2": 4800.0,
@@ -1748,7 +1756,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd3<1>",
@@ -1771,7 +1780,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 130000.0,
                             "x2": 40000.0,
@@ -1779,10 +1788,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "N"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 122000.0,
                             "x2": 40000.0,
@@ -1790,10 +1800,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "P"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 134000.0,
                             "x2": 4800.0,
@@ -1801,7 +1812,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd3<2>",
@@ -1824,7 +1836,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 170000.0,
                             "x2": 40000.0,
@@ -1832,10 +1844,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "N"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 162000.0,
                             "x2": 40000.0,
@@ -1843,10 +1856,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "P"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 174000.0,
                             "x2": 4800.0,
@@ -1854,7 +1868,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd3<3>",
@@ -1877,7 +1892,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 210000.0,
                             "x2": 40000.0,
@@ -1885,10 +1900,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<4>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "N"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 202000.0,
                             "x2": 40000.0,
@@ -1896,10 +1912,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "P"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 214000.0,
                             "x2": 4800.0,
@@ -1907,7 +1924,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd3<4>",
@@ -1930,7 +1948,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 250000.0,
                             "x2": 40000.0,
@@ -1938,10 +1956,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "N"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 242000.0,
                             "x2": 40000.0,
@@ -1949,10 +1968,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "R1<4>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "P"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 254000.0,
                             "x2": 4800.0,
@@ -1960,7 +1980,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd3<5>",
@@ -2358,7 +2379,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 42000.0,
                             "x2": 59200.0,
@@ -2366,10 +2387,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 46000.0,
                             "x2": 59200.0,
@@ -2377,10 +2399,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 26000.0,
                             "x2": 46400.0,
@@ -2388,10 +2411,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 42000.0,
                             "x2": 4800.0,
@@ -2399,7 +2423,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xg1",
@@ -2579,7 +2604,7 @@
             "class": "SidecarCell",
             "x1": 0,
             "y1": 0,
-            "x2": 404800,
+            "x2": 409600,
             "y2": 686000,
             "layer": "",
             "net": "",
@@ -2627,7 +2652,7 @@
                     "class": "Instance",
                     "x1": 0,
                     "y1": 0,
-                    "x2": 404800.0,
+                    "x2": 409600.0,
                     "y2": 686000.0,
                     "layer": "PR",
                     "net": "",
@@ -2636,92 +2661,100 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
-                            "x1": 0.0,
+                            "class": "InstancePort",
+                            "x1": 4800.0,
                             "y1": 677000.0,
-                            "x2": 404800.0,
+                            "x2": 409600.0,
                             "y2": 686000.0,
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         },
                         {
-                            "class": "Port",
-                            "x1": 151800.0,
+                            "class": "InstancePort",
+                            "x1": 156600.0,
                             "y1": 0.0,
-                            "x2": 155000.0,
+                            "x2": 159800.0,
                             "y2": 4000.0,
                             "layer": "M2",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VIP"
                         },
                         {
-                            "class": "Port",
-                            "x1": 114200.0,
+                            "class": "InstancePort",
+                            "x1": 119000.0,
                             "y1": 316500.0,
-                            "x2": 193400.0,
+                            "x2": 198200.0,
                             "y2": 319500.0,
                             "layer": "M3",
                             "net": "",
                             "name": "LPO",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VO"
                         },
                         {
-                            "class": "Port",
-                            "x1": 71800.0,
+                            "class": "InstancePort",
+                            "x1": 76600.0,
                             "y1": 0.0,
-                            "x2": 75000.0,
+                            "x2": 79800.0,
                             "y2": 4000.0,
                             "layer": "M2",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VIN"
                         },
                         {
-                            "class": "Port",
-                            "x1": 0.0,
+                            "class": "InstancePort",
+                            "x1": 4800.0,
                             "y1": 0.0,
-                            "x2": 404800.0,
+                            "x2": 409600.0,
                             "y2": 9000.0,
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         },
                         {
-                            "class": "Port",
-                            "x1": 228800.0,
+                            "class": "InstancePort",
+                            "x1": 233600.0,
                             "y1": 509000.0,
-                            "x2": 232000.0,
+                            "x2": 236800.0,
                             "y2": 513000.0,
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "PWRUP_1V8"
                         },
                         {
-                            "class": "Port",
-                            "x1": 49700.0,
+                            "class": "InstancePort",
+                            "x1": 54500.0,
                             "y1": 352500.0,
-                            "x2": 240500.0,
+                            "x2": 245300.0,
                             "y2": 355500.0,
                             "layer": "M3",
                             "net": "",
                             "name": "PWRUP_N_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "PWRUP_N_1V8"
                         },
                         {
-                            "class": "Port",
-                            "x1": 184500.0,
+                            "class": "InstancePort",
+                            "x1": 189300.0,
                             "y1": 334500.0,
-                            "x2": 305000.0,
+                            "x2": 309800.0,
                             "y2": 337500.0,
                             "layer": "M3",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VCP"
                         }
                     ],
                     "instanceName": "xad6",
@@ -2733,9 +2766,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 114200.0,
+                    "x1": 119000.0,
                     "y1": 316500.0,
-                    "x2": 193400.0,
+                    "x2": 198200.0,
                     "y2": 319500.0,
                     "layer": "M3",
                     "net": "",
@@ -2744,9 +2777,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 228800.0,
+                    "x1": 233600.0,
                     "y1": 509000.0,
-                    "x2": 232000.0,
+                    "x2": 236800.0,
                     "y2": 513000.0,
                     "layer": "M1",
                     "net": "",
@@ -2755,9 +2788,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 49700.0,
+                    "x1": 54500.0,
                     "y1": 352500.0,
-                    "x2": 240500.0,
+                    "x2": 245300.0,
                     "y2": 355500.0,
                     "layer": "M3",
                     "net": "",
@@ -2766,9 +2799,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 184500.0,
+                    "x1": 189300.0,
                     "y1": 334500.0,
-                    "x2": 305000.0,
+                    "x2": 309800.0,
                     "y2": 337500.0,
                     "layer": "M3",
                     "net": "",
@@ -2777,9 +2810,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 71800.0,
+                    "x1": 76600.0,
                     "y1": 0.0,
-                    "x2": 75000.0,
+                    "x2": 79800.0,
                     "y2": 4000.0,
                     "layer": "M2",
                     "net": "",
@@ -2788,9 +2821,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 0.0,
+                    "x1": 4800.0,
                     "y1": 677000.0,
-                    "x2": 404800.0,
+                    "x2": 409600.0,
                     "y2": 686000.0,
                     "layer": "M1",
                     "net": "",
@@ -2799,9 +2832,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 151800.0,
+                    "x1": 156600.0,
                     "y1": 0.0,
-                    "x2": 155000.0,
+                    "x2": 159800.0,
                     "y2": 4000.0,
                     "layer": "M2",
                     "net": "",
@@ -2810,9 +2843,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 0.0,
+                    "x1": 4800.0,
                     "y1": 0.0,
-                    "x2": 404800.0,
+                    "x2": 409600.0,
                     "y2": 9000.0,
                     "layer": "M1",
                     "net": "",
@@ -2830,16 +2863,16 @@
                     "bbox": {
                         "x1": 0,
                         "y1": 0,
-                        "x2": 404800.0,
+                        "x2": 409600.0,
                         "y2": 686000.0,
                         "layer": "",
                         "net": ""
                     },
                     "ports": [
                         {
-                            "x1": 114200.0,
+                            "x1": 119000.0,
                             "y1": 316500.0,
-                            "x2": 193400.0,
+                            "x2": 198200.0,
                             "y2": 319500.0,
                             "layer": "M3",
                             "net": "LPO",
@@ -2849,9 +2882,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 228800.0,
+                            "x1": 233600.0,
                             "y1": 509000.0,
-                            "x2": 232000.0,
+                            "x2": 236800.0,
                             "y2": 513000.0,
                             "layer": "M1",
                             "net": "PWRUP_1V8",
@@ -2861,9 +2894,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 49700.0,
+                            "x1": 54500.0,
                             "y1": 352500.0,
-                            "x2": 240500.0,
+                            "x2": 245300.0,
                             "y2": 355500.0,
                             "layer": "M3",
                             "net": "PWRUP_N_1V8",
@@ -2873,9 +2906,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 184500.0,
+                            "x1": 189300.0,
                             "y1": 334500.0,
-                            "x2": 305000.0,
+                            "x2": 309800.0,
                             "y2": 337500.0,
                             "layer": "M3",
                             "net": "VCP",
@@ -2885,9 +2918,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 71800.0,
+                            "x1": 76600.0,
                             "y1": 0.0,
-                            "x2": 75000.0,
+                            "x2": 79800.0,
                             "y2": 4000.0,
                             "layer": "M2",
                             "net": "VD1",
@@ -2897,9 +2930,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 0.0,
+                            "x1": 4800.0,
                             "y1": 677000.0,
-                            "x2": 404800.0,
+                            "x2": 409600.0,
                             "y2": 686000.0,
                             "layer": "M1",
                             "net": "VDD_1V8",
@@ -2909,9 +2942,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 151800.0,
+                            "x1": 156600.0,
                             "y1": 0.0,
-                            "x2": 155000.0,
+                            "x2": 159800.0,
                             "y2": 4000.0,
                             "layer": "M2",
                             "net": "VR1",
@@ -2921,9 +2954,9 @@
                             "spicePort": false
                         },
                         {
-                            "x1": 0.0,
+                            "x1": 4800.0,
                             "y1": 0.0,
-                            "x2": 404800.0,
+                            "x2": 409600.0,
                             "y2": 9000.0,
                             "layer": "M1",
                             "net": "VSS",
@@ -2941,16 +2974,16 @@
                             "bbox": {
                                 "x1": 0,
                                 "y1": 0,
-                                "x2": 404800.0,
+                                "x2": 409600.0,
                                 "y2": 686000.0,
                                 "layer": "",
                                 "net": ""
                             },
                             "ports": [
                                 {
-                                    "x1": 114200.0,
+                                    "x1": 119000.0,
                                     "y1": 316500.0,
-                                    "x2": 193400.0,
+                                    "x2": 198200.0,
                                     "y2": 319500.0,
                                     "layer": "M3",
                                     "net": "LPO",
@@ -2960,9 +2993,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 228800.0,
+                                    "x1": 233600.0,
                                     "y1": 509000.0,
-                                    "x2": 232000.0,
+                                    "x2": 236800.0,
                                     "y2": 513000.0,
                                     "layer": "M1",
                                     "net": "PWRUP_1V8",
@@ -2972,9 +3005,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 49700.0,
+                                    "x1": 54500.0,
                                     "y1": 352500.0,
-                                    "x2": 240500.0,
+                                    "x2": 245300.0,
                                     "y2": 355500.0,
                                     "layer": "M3",
                                     "net": "PWRUP_N_1V8",
@@ -2984,9 +3017,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 184500.0,
+                                    "x1": 189300.0,
                                     "y1": 334500.0,
-                                    "x2": 305000.0,
+                                    "x2": 309800.0,
                                     "y2": 337500.0,
                                     "layer": "M3",
                                     "net": "VCP",
@@ -2996,9 +3029,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 71800.0,
+                                    "x1": 76600.0,
                                     "y1": 0.0,
-                                    "x2": 75000.0,
+                                    "x2": 79800.0,
                                     "y2": 4000.0,
                                     "layer": "M2",
                                     "net": "VD1",
@@ -3008,9 +3041,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 0.0,
+                                    "x1": 4800.0,
                                     "y1": 677000.0,
-                                    "x2": 404800.0,
+                                    "x2": 409600.0,
                                     "y2": 686000.0,
                                     "layer": "M1",
                                     "net": "VDD_1V8",
@@ -3020,9 +3053,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 151800.0,
+                                    "x1": 156600.0,
                                     "y1": 0.0,
-                                    "x2": 155000.0,
+                                    "x2": 159800.0,
                                     "y2": 4000.0,
                                     "layer": "M2",
                                     "net": "VR1",
@@ -3032,9 +3065,9 @@
                                     "spicePort": false
                                 },
                                 {
-                                    "x1": 0.0,
+                                    "x1": 4800.0,
                                     "y1": 0.0,
-                                    "x2": 404800.0,
+                                    "x2": 409600.0,
                                     "y2": 9000.0,
                                     "layer": "M1",
                                     "net": "VSS",
@@ -3292,7 +3325,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 42000.0,
                             "x2": 52800.0,
@@ -3300,10 +3333,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 46000.0,
                             "x2": 59200.0,
@@ -3311,10 +3345,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 26000.0,
                             "x2": 46400.0,
@@ -3322,10 +3357,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 42000.0,
                             "x2": 4800.0,
@@ -3333,7 +3369,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca2",
@@ -3356,7 +3393,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 82000.0,
                             "x2": 52800.0,
@@ -3364,10 +3401,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 86000.0,
                             "x2": 59200.0,
@@ -3375,10 +3413,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 66000.0,
                             "x2": 46400.0,
@@ -3386,10 +3425,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 82000.0,
                             "x2": 4800.0,
@@ -3397,7 +3437,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca3<0>",
@@ -3420,7 +3461,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 122000.0,
                             "x2": 52800.0,
@@ -3428,10 +3469,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 126000.0,
                             "x2": 59200.0,
@@ -3439,10 +3481,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 106000.0,
                             "x2": 46400.0,
@@ -3450,10 +3493,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 122000.0,
                             "x2": 4800.0,
@@ -3461,7 +3505,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca3<1>",
@@ -3484,7 +3529,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 162000.0,
                             "x2": 52800.0,
@@ -3492,10 +3537,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 166000.0,
                             "x2": 59200.0,
@@ -3503,10 +3549,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 146000.0,
                             "x2": 46400.0,
@@ -3514,10 +3561,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 162000.0,
                             "x2": 4800.0,
@@ -3525,7 +3573,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca3<2>",
@@ -3548,7 +3597,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 202000.0,
                             "x2": 52800.0,
@@ -3556,10 +3605,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 206000.0,
                             "x2": 59200.0,
@@ -3567,10 +3617,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 186000.0,
                             "x2": 46400.0,
@@ -3578,10 +3629,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 202000.0,
                             "x2": 4800.0,
@@ -3589,7 +3641,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca3<3>",
@@ -3612,7 +3665,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 242000.0,
                             "x2": 52800.0,
@@ -3620,10 +3673,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 246000.0,
                             "x2": 59200.0,
@@ -3631,10 +3685,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 226000.0,
                             "x2": 46400.0,
@@ -3642,10 +3697,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 242000.0,
                             "x2": 4800.0,
@@ -3653,7 +3709,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<0>",
@@ -3676,7 +3733,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 282000.0,
                             "x2": 52800.0,
@@ -3684,10 +3741,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 286000.0,
                             "x2": 59200.0,
@@ -3695,10 +3753,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 266000.0,
                             "x2": 46400.0,
@@ -3706,10 +3765,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 282000.0,
                             "x2": 4800.0,
@@ -3717,7 +3777,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<1>",
@@ -3740,7 +3801,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 322000.0,
                             "x2": 52800.0,
@@ -3748,10 +3809,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 326000.0,
                             "x2": 59200.0,
@@ -3759,10 +3821,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 306000.0,
                             "x2": 46400.0,
@@ -3770,10 +3833,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 322000.0,
                             "x2": 4800.0,
@@ -3781,7 +3845,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<2>",
@@ -3804,7 +3869,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 362000.0,
                             "x2": 52800.0,
@@ -3812,10 +3877,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 366000.0,
                             "x2": 59200.0,
@@ -3823,10 +3889,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 346000.0,
                             "x2": 46400.0,
@@ -3834,10 +3901,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 362000.0,
                             "x2": 4800.0,
@@ -3845,7 +3913,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<3>",
@@ -3868,7 +3937,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 402000.0,
                             "x2": 52800.0,
@@ -3876,10 +3945,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 406000.0,
                             "x2": 59200.0,
@@ -3887,10 +3957,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 386000.0,
                             "x2": 46400.0,
@@ -3898,10 +3969,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 402000.0,
                             "x2": 4800.0,
@@ -3909,7 +3981,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<4>",
@@ -3932,7 +4005,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 442000.0,
                             "x2": 52800.0,
@@ -3940,10 +4013,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 446000.0,
                             "x2": 59200.0,
@@ -3951,10 +4025,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 426000.0,
                             "x2": 46400.0,
@@ -3962,10 +4037,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 442000.0,
                             "x2": 4800.0,
@@ -3973,7 +4049,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<5>",
@@ -3996,7 +4073,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 482000.0,
                             "x2": 52800.0,
@@ -4004,10 +4081,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 486000.0,
                             "x2": 59200.0,
@@ -4015,10 +4093,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 466000.0,
                             "x2": 46400.0,
@@ -4026,10 +4105,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 482000.0,
                             "x2": 4800.0,
@@ -4037,7 +4117,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<6>",
@@ -4060,7 +4141,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 522000.0,
                             "x2": 52800.0,
@@ -4068,10 +4149,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 526000.0,
                             "x2": 59200.0,
@@ -4079,10 +4161,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 506000.0,
                             "x2": 46400.0,
@@ -4090,10 +4173,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 522000.0,
                             "x2": 4800.0,
@@ -4101,7 +4185,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca1<7>",
@@ -6207,7 +6292,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 42000.0,
                             "x2": 52800.0,
@@ -6215,10 +6300,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 46000.0,
                             "x2": 59200.0,
@@ -6226,10 +6312,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 34000.0,
                             "x2": 46400.0,
@@ -6237,10 +6324,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 42000.0,
                             "x2": 4800.0,
@@ -6248,7 +6336,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca4",
@@ -6271,7 +6360,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 82000.0,
                             "x2": 52800.0,
@@ -6279,10 +6368,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 86000.0,
                             "x2": 59200.0,
@@ -6290,10 +6380,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 74000.0,
                             "x2": 46400.0,
@@ -6301,10 +6392,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 82000.0,
                             "x2": 4800.0,
@@ -6312,7 +6404,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca2<0>",
@@ -6335,7 +6428,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 122000.0,
                             "x2": 52800.0,
@@ -6343,10 +6436,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 126000.0,
                             "x2": 59200.0,
@@ -6354,10 +6448,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 114000.0,
                             "x2": 46400.0,
@@ -6365,10 +6460,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 122000.0,
                             "x2": 4800.0,
@@ -6376,7 +6472,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca2<1>",
@@ -6399,7 +6496,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 162000.0,
                             "x2": 52800.0,
@@ -6407,10 +6504,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 166000.0,
                             "x2": 59200.0,
@@ -6418,10 +6516,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 154000.0,
                             "x2": 46400.0,
@@ -6429,10 +6528,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 162000.0,
                             "x2": 4800.0,
@@ -6440,7 +6540,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca2<2>",
@@ -6463,7 +6564,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 202000.0,
                             "x2": 52800.0,
@@ -6471,10 +6572,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 206000.0,
                             "x2": 59200.0,
@@ -6482,10 +6584,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 194000.0,
                             "x2": 46400.0,
@@ -6493,10 +6596,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 202000.0,
                             "x2": 4800.0,
@@ -6504,7 +6608,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca2<3>",
@@ -6527,7 +6632,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 242000.0,
                             "x2": 52800.0,
@@ -6535,10 +6640,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 246000.0,
                             "x2": 59200.0,
@@ -6546,10 +6652,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 234000.0,
                             "x2": 46400.0,
@@ -6557,10 +6664,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 242000.0,
                             "x2": 4800.0,
@@ -6568,7 +6676,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<0>",
@@ -6591,7 +6700,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 282000.0,
                             "x2": 52800.0,
@@ -6599,10 +6708,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 286000.0,
                             "x2": 59200.0,
@@ -6610,10 +6720,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 274000.0,
                             "x2": 46400.0,
@@ -6621,10 +6732,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 282000.0,
                             "x2": 4800.0,
@@ -6632,7 +6744,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<1>",
@@ -6655,7 +6768,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 322000.0,
                             "x2": 52800.0,
@@ -6663,10 +6776,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 326000.0,
                             "x2": 59200.0,
@@ -6674,10 +6788,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 314000.0,
                             "x2": 46400.0,
@@ -6685,10 +6800,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 322000.0,
                             "x2": 4800.0,
@@ -6696,7 +6812,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<2>",
@@ -6719,7 +6836,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 362000.0,
                             "x2": 52800.0,
@@ -6727,10 +6844,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 366000.0,
                             "x2": 59200.0,
@@ -6738,10 +6856,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 354000.0,
                             "x2": 46400.0,
@@ -6749,10 +6868,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 362000.0,
                             "x2": 4800.0,
@@ -6760,7 +6880,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<3>",
@@ -6783,7 +6904,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 402000.0,
                             "x2": 52800.0,
@@ -6791,10 +6912,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 406000.0,
                             "x2": 59200.0,
@@ -6802,10 +6924,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 394000.0,
                             "x2": 46400.0,
@@ -6813,10 +6936,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 402000.0,
                             "x2": 4800.0,
@@ -6824,7 +6948,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<4>",
@@ -6847,7 +6972,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 442000.0,
                             "x2": 52800.0,
@@ -6855,10 +6980,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 446000.0,
                             "x2": 59200.0,
@@ -6866,10 +6992,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 434000.0,
                             "x2": 46400.0,
@@ -6877,10 +7004,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 442000.0,
                             "x2": 4800.0,
@@ -6888,7 +7016,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<5>",
@@ -6911,7 +7040,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 482000.0,
                             "x2": 52800.0,
@@ -6919,10 +7048,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 486000.0,
                             "x2": 59200.0,
@@ -6930,10 +7060,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 474000.0,
                             "x2": 46400.0,
@@ -6941,10 +7072,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 482000.0,
                             "x2": 4800.0,
@@ -6952,7 +7084,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<6>",
@@ -6975,7 +7108,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 522000.0,
                             "x2": 52800.0,
@@ -6983,10 +7116,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 526000.0,
                             "x2": 59200.0,
@@ -6994,10 +7128,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 514000.0,
                             "x2": 46400.0,
@@ -7005,10 +7140,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 522000.0,
                             "x2": 4800.0,
@@ -7016,7 +7152,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xca5<7>",
@@ -8592,7 +8729,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 482000.0,
                             "x2": 56000.0,
@@ -8600,10 +8737,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSU",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 486000.0,
                             "x2": 56000.0,
@@ -8611,10 +8749,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSU",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 466000.0,
                             "x2": 43200.0,
@@ -8622,10 +8761,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 482000.0,
                             "x2": 4800.0,
@@ -8633,7 +8773,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xsu1",
@@ -8656,7 +8797,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 522000.0,
                             "x2": 56000.0,
@@ -8664,10 +8805,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 526000.0,
                             "x2": 56000.0,
@@ -8675,10 +8817,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 506000.0,
                             "x2": 43200.0,
@@ -8686,10 +8829,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSU",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 522000.0,
                             "x2": 4800.0,
@@ -8697,7 +8841,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xsu2",
@@ -9490,7 +9635,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 362000.0,
                             "x2": 59200.0,
@@ -9498,10 +9643,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 366000.0,
                             "x2": 59200.0,
@@ -9509,10 +9655,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 346000.0,
                             "x2": 46400.0,
@@ -9520,10 +9667,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 362000.0,
                             "x2": 4800.0,
@@ -9531,7 +9679,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xcc<0>",
@@ -9554,7 +9703,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 402000.0,
                             "x2": 59200.0,
@@ -9562,10 +9711,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 406000.0,
                             "x2": 59200.0,
@@ -9573,10 +9723,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 386000.0,
                             "x2": 46400.0,
@@ -9584,10 +9735,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 402000.0,
                             "x2": 4800.0,
@@ -9595,7 +9747,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xcc<1>",
@@ -9618,7 +9771,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 442000.0,
                             "x2": 59200.0,
@@ -9626,10 +9779,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 446000.0,
                             "x2": 59200.0,
@@ -9637,10 +9791,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 426000.0,
                             "x2": 46400.0,
@@ -9648,10 +9803,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 442000.0,
                             "x2": 4800.0,
@@ -9659,7 +9815,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xcc<2>",
@@ -9682,7 +9839,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 482000.0,
                             "x2": 59200.0,
@@ -9690,10 +9847,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 486000.0,
                             "x2": 59200.0,
@@ -9701,10 +9859,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 466000.0,
                             "x2": 46400.0,
@@ -9712,10 +9871,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 482000.0,
                             "x2": 4800.0,
@@ -9723,7 +9883,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xcc<3>",
@@ -9746,7 +9907,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 522000.0,
                             "x2": 59200.0,
@@ -9754,10 +9915,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 526000.0,
                             "x2": 59200.0,
@@ -9765,10 +9927,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 506000.0,
                             "x2": 46400.0,
@@ -9776,10 +9939,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 522000.0,
                             "x2": 4800.0,
@@ -9787,7 +9951,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xcc<4>",
@@ -10434,7 +10599,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 0.0,
                             "x2": 76000.0,
@@ -10442,10 +10607,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 0.0,
                             "x2": 76000.0,
@@ -10453,7 +10619,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<0>",
@@ -10476,7 +10643,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 80000.0,
                             "x2": 76000.0,
@@ -10484,10 +10651,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 80000.0,
                             "x2": 76000.0,
@@ -10495,7 +10663,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<1>",
@@ -10518,7 +10687,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 160000.0,
                             "x2": 76000.0,
@@ -10526,10 +10695,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 160000.0,
                             "x2": 76000.0,
@@ -10537,7 +10707,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<2>",
@@ -10560,7 +10731,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 240000.0,
                             "x2": 76000.0,
@@ -10568,10 +10739,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 240000.0,
                             "x2": 76000.0,
@@ -10579,7 +10751,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<3>",
@@ -10602,7 +10775,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 320000.0,
                             "x2": 76000.0,
@@ -10610,10 +10783,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 320000.0,
                             "x2": 76000.0,
@@ -10621,7 +10795,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<4>",
@@ -10844,7 +11019,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 0.0,
                             "x2": 76000.0,
@@ -10852,10 +11027,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 0.0,
                             "x2": 76000.0,
@@ -10863,7 +11039,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<5>",
@@ -10886,7 +11063,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 80000.0,
                             "x2": 76000.0,
@@ -10894,10 +11071,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 80000.0,
                             "x2": 76000.0,
@@ -10905,7 +11083,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<6>",
@@ -10928,7 +11107,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 160000.0,
                             "x2": 76000.0,
@@ -10936,10 +11115,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 160000.0,
                             "x2": 76000.0,
@@ -10947,7 +11127,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<7>",
@@ -10970,7 +11151,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 240000.0,
                             "x2": 76000.0,
@@ -10978,10 +11159,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 240000.0,
                             "x2": 76000.0,
@@ -10989,7 +11171,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<8>",
@@ -11012,7 +11195,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 320000.0,
                             "x2": 76000.0,
@@ -11020,10 +11203,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 320000.0,
                             "x2": 76000.0,
@@ -11031,7 +11215,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<9>",
@@ -11228,7 +11413,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 0.0,
                             "x2": 76000.0,
@@ -11236,10 +11421,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 0.0,
                             "x2": 76000.0,
@@ -11247,7 +11433,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd2<0>",
@@ -11270,7 +11457,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 80000.0,
                             "x2": 76000.0,
@@ -11278,10 +11465,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 80000.0,
                             "x2": 76000.0,
@@ -11289,7 +11477,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd2<1>",
@@ -11312,7 +11501,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 160000.0,
                             "x2": 76000.0,
@@ -11320,10 +11509,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4000.0,
                             "y1": 160000.0,
                             "x2": 76000.0,
@@ -11331,7 +11521,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd2<2>",
@@ -11455,7 +11646,7 @@
             "class": "LELOTEMP_BIAS_IBP",
             "x1": 0.0,
             "y1": 0,
-            "x2": 969600.0,
+            "x2": 974400.0,
             "y2": 1064600.0,
             "layer": "",
             "net": "",
@@ -11665,7 +11856,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 96650.0,
                             "y1": 106850.0,
                             "x2": 136650.0,
@@ -11673,10 +11864,11 @@
                             "layer": "M2",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 26650.0,
                             "y1": 176850.0,
                             "x2": 206650.0,
@@ -11684,10 +11876,11 @@
                             "layer": "M2",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD2"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 12650.0,
                             "y1": 16850.0,
                             "x2": 219650.0,
@@ -11695,7 +11888,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         }
                     ],
                     "instanceName": "xbip",
@@ -11718,7 +11912,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 328800.0,
                             "y1": 363000.0,
                             "x2": 400800.0,
@@ -11726,10 +11920,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "LPI"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 328800.0,
                             "y1": 683000.0,
                             "x2": 400800.0,
@@ -11737,7 +11932,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         }
                     ],
                     "instanceName": "xcap_lpi_a",
@@ -11760,7 +11956,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 408800.0,
                             "y1": 363000.0,
                             "x2": 480800.0,
@@ -11768,10 +11964,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "LPI"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 408800.0,
                             "y1": 683000.0,
                             "x2": 480800.0,
@@ -11779,7 +11976,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         }
                     ],
                     "instanceName": "xcap_lpi_b",
@@ -11802,7 +12000,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 488800.0,
                             "y1": 363000.0,
                             "x2": 560800.0,
@@ -11810,10 +12008,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VCP"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 488800.0,
                             "y1": 523000.0,
                             "x2": 560800.0,
@@ -11821,7 +12020,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         }
                     ],
                     "instanceName": "xcap_vcp",
@@ -11844,7 +12044,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 272500.0,
                             "y1": 41000.0,
                             "x2": 294900.0,
@@ -11852,10 +12052,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD2"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 304500.0,
                             "y1": 61000.0,
                             "x2": 307700.0,
@@ -11863,10 +12064,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VR1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 243700.0,
                             "y1": 57000.0,
                             "x2": 253300.0,
@@ -11874,7 +12076,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         }
                     ],
                     "instanceName": "xn_g",
@@ -11888,7 +12091,7 @@
                     "class": "Instance",
                     "x1": 564800.0,
                     "y1": 363000,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 1049000.0,
                     "layer": "",
                     "net": "",
@@ -11897,92 +12100,100 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
-                            "x1": 679000.0,
+                            "class": "InstancePort",
+                            "x1": 683800.0,
                             "y1": 679500.0,
-                            "x2": 758200.0,
+                            "x2": 763000.0,
                             "y2": 682500.0,
                             "layer": "M3",
                             "net": "",
                             "name": "LPO",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "LPO"
                         },
                         {
-                            "class": "Port",
-                            "x1": 793600.0,
+                            "class": "InstancePort",
+                            "x1": 798400.0,
                             "y1": 872000.0,
-                            "x2": 796800.0,
+                            "x2": 801600.0,
                             "y2": 876000.0,
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "PWRUP_1V8"
                         },
                         {
-                            "class": "Port",
-                            "x1": 614500.0,
+                            "class": "InstancePort",
+                            "x1": 619300.0,
                             "y1": 715500.0,
-                            "x2": 805300.0,
+                            "x2": 810100.0,
                             "y2": 718500.0,
                             "layer": "M3",
                             "net": "",
                             "name": "PWRUP_N_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "PWRUP_N_1V8"
                         },
                         {
-                            "class": "Port",
-                            "x1": 749300.0,
+                            "class": "InstancePort",
+                            "x1": 754100.0,
                             "y1": 697500.0,
-                            "x2": 869800.0,
+                            "x2": 874600.0,
                             "y2": 700500.0,
                             "layer": "M3",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VCP"
                         },
                         {
-                            "class": "Port",
-                            "x1": 636600.0,
+                            "class": "InstancePort",
+                            "x1": 641400.0,
                             "y1": 363000.0,
-                            "x2": 639800.0,
+                            "x2": 644600.0,
                             "y2": 367000.0,
                             "layer": "M2",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD1"
                         },
                         {
-                            "class": "Port",
-                            "x1": 564800.0,
+                            "class": "InstancePort",
+                            "x1": 569600.0,
                             "y1": 1040000.0,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 1049000.0,
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         },
                         {
-                            "class": "Port",
-                            "x1": 716600.0,
+                            "class": "InstancePort",
+                            "x1": 721400.0,
                             "y1": 363000.0,
-                            "x2": 719800.0,
+                            "x2": 724600.0,
                             "y2": 367000.0,
                             "layer": "M2",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VR1"
                         },
                         {
-                            "class": "Port",
-                            "x1": 564800.0,
+                            "class": "InstancePort",
+                            "x1": 569600.0,
                             "y1": 363000.0,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 372000.0,
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         }
                     ],
                     "instanceName": "xota",
@@ -12005,7 +12216,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 108800.0,
                             "y1": 437000.0,
                             "x2": 131200.0,
@@ -12013,10 +12224,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<0>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 108800.0,
                             "y1": 477000.0,
                             "x2": 131200.0,
@@ -12024,10 +12236,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<1>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 108800.0,
                             "y1": 517000.0,
                             "x2": 131200.0,
@@ -12035,10 +12248,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<2>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 108800.0,
                             "y1": 557000.0,
                             "x2": 131200.0,
@@ -12046,10 +12260,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<3>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 115200.0,
                             "y1": 445000.0,
                             "x2": 137600.0,
@@ -12057,10 +12272,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBP_1U<0>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 115200.0,
                             "y1": 485000.0,
                             "x2": 137600.0,
@@ -12068,10 +12284,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBP_1U<1>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 115200.0,
                             "y1": 525000.0,
                             "x2": 137600.0,
@@ -12079,10 +12296,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBP_1U<2>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 115200.0,
                             "y1": 565000.0,
                             "x2": 137600.0,
@@ -12090,10 +12308,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBP_1U<3>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 108800.0,
                             "y1": 597000.0,
                             "x2": 131200.0,
@@ -12101,10 +12320,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VBD1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 108800.0,
                             "y1": 397000.0,
                             "x2": 131200.0,
@@ -12112,10 +12332,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VBD2"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 140800.0,
                             "y1": 449000.0,
                             "x2": 144000.0,
@@ -12123,10 +12344,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VCP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VCP"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 115200.0,
                             "y1": 605000.0,
                             "x2": 137600.0,
@@ -12134,10 +12356,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 80000.0,
                             "y1": 885000.0,
                             "x2": 89600.0,
@@ -12145,10 +12368,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 115200.0,
                             "y1": 405000.0,
                             "x2": 137600.0,
@@ -12156,7 +12380,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VR1"
                         }
                     ],
                     "instanceName": "xp_cas",
@@ -12179,7 +12404,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 240000.0,
                             "y1": 885000.0,
                             "x2": 249600.0,
@@ -12187,7 +12412,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         }
                     ],
                     "instanceName": "xp_cc",
@@ -12210,7 +12436,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 35200.0,
                             "y1": 445000.0,
                             "x2": 57600.0,
@@ -12218,10 +12444,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<0>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 35200.0,
                             "y1": 485000.0,
                             "x2": 57600.0,
@@ -12229,10 +12456,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<1>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 35200.0,
                             "y1": 525000.0,
                             "x2": 57600.0,
@@ -12240,10 +12468,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<2>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<2>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 35200.0,
                             "y1": 565000.0,
                             "x2": 57600.0,
@@ -12251,10 +12480,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBD<3>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBD<3>"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 60800.0,
                             "y1": 609000.0,
                             "x2": 64000.0,
@@ -12262,10 +12492,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "LPI",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "LPI"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 35200.0,
                             "y1": 605000.0,
                             "x2": 57600.0,
@@ -12273,10 +12504,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VBD1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 35200.0,
                             "y1": 405000.0,
                             "x2": 57600.0,
@@ -12284,10 +12516,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VBD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VBD2"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 885000.0,
                             "x2": 9600.0,
@@ -12295,7 +12528,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         }
                     ],
                     "instanceName": "xp_src",
@@ -12318,7 +12552,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 198400.0,
                             "y1": 885000.0,
                             "x2": 220800.0,
@@ -12326,10 +12560,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 160000.0,
                             "y1": 885000.0,
                             "x2": 169600.0,
@@ -12337,7 +12572,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         }
                     ],
                     "instanceName": "xp_su",
@@ -12360,7 +12596,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 342900.0,
                             "y1": 57000.0,
                             "x2": 368500.0,
@@ -12368,10 +12604,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VD2"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 342900.0,
                             "y1": 265000.0,
                             "x2": 368500.0,
@@ -12379,10 +12616,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VR1"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 323700.0,
                             "y1": 69000.0,
                             "x2": 333300.0,
@@ -12390,7 +12628,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         }
                     ],
                     "instanceName": "xr_lad",
@@ -12404,7 +12643,7 @@
                     "class": "Port",
                     "x1": 4800.0,
                     "y1": 1055000.0,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 1064000.0,
                     "layer": "M1",
                     "net": "",
@@ -12415,7 +12654,7 @@
                     "class": "RouteRing",
                     "x1": 0.0,
                     "y1": 523000.0,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 1064600.0,
                     "layer": "",
                     "net": "",
@@ -12427,7 +12666,7 @@
                             "class": "Rect",
                             "x1": 4800.0,
                             "y1": 1055000.0,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 1064000.0,
                             "layer": "M1",
                             "net": ""
@@ -12518,9 +12757,9 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 564800.0,
+                            "x1": 569600.0,
                             "y1": 1040000.0,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 1064000.0,
                             "layer": "M1",
                             "net": "VDD_1V8"
@@ -12567,7 +12806,7 @@
                     "class": "Port",
                     "x1": 4800.0,
                     "y1": 0,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 9000,
                     "layer": "M1",
                     "net": "",
@@ -12578,7 +12817,7 @@
                     "class": "RouteRing",
                     "x1": 4800.0,
                     "y1": 0,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 372000.0,
                     "layer": "",
                     "net": "",
@@ -12590,7 +12829,7 @@
                             "class": "Rect",
                             "x1": 4800.0,
                             "y1": 0,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 9000,
                             "layer": "M1",
                             "net": ""
@@ -12615,9 +12854,9 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 564800.0,
+                            "x1": 569600.0,
                             "y1": 0,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 372000.0,
                             "layer": "M1",
                             "net": "VSS"
@@ -13258,18 +13497,18 @@
                 },
                 {
                     "class": "Rect",
-                    "x1": 792200.0,
+                    "x1": 797000.0,
                     "y1": 871000,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 877000,
                     "layer": "M5",
                     "net": "PWRUP_1V8"
                 },
                 {
                     "class": "InstanceCut",
-                    "x1": 792800.0,
+                    "x1": 797600.0,
                     "y1": 871600.0,
-                    "x2": 797600.0,
+                    "x2": 802400.0,
                     "y2": 876400.0,
                     "layer": "",
                     "net": "",
@@ -13286,27 +13525,27 @@
                 },
                 {
                     "class": "Rect",
-                    "x1": 792200.0,
+                    "x1": 797000.0,
                     "y1": 871000,
-                    "x2": 798200.0,
+                    "x2": 803000.0,
                     "y2": 877000,
                     "layer": "M3",
                     "net": "PWRUP_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 792200.0,
+                    "x1": 797000.0,
                     "y1": 871000,
-                    "x2": 798200.0,
+                    "x2": 803000.0,
                     "y2": 877000,
                     "layer": "M4",
                     "net": "PWRUP_1V8"
                 },
                 {
                     "class": "Port",
-                    "x1": 957600.0,
+                    "x1": 962400.0,
                     "y1": 871000,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 877000,
                     "layer": "M5",
                     "net": "",
@@ -13315,18 +13554,18 @@
                 },
                 {
                     "class": "Rect",
-                    "x1": 616000.0,
+                    "x1": 620800.0,
                     "y1": 714000,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 720000,
                     "layer": "M5",
                     "net": "PWRUP_N_1V8"
                 },
                 {
                     "class": "InstanceCut",
-                    "x1": 617500.0,
+                    "x1": 622300.0,
                     "y1": 714800.0,
-                    "x2": 622300.0,
+                    "x2": 627100.0,
                     "y2": 719600.0,
                     "layer": "",
                     "net": "",
@@ -13343,27 +13582,27 @@
                 },
                 {
                     "class": "Rect",
-                    "x1": 616000.0,
+                    "x1": 620800.0,
                     "y1": 714000,
-                    "x2": 622000.0,
+                    "x2": 626800.0,
                     "y2": 720000,
                     "layer": "M3",
                     "net": "PWRUP_N_1V8"
                 },
                 {
                     "class": "Rect",
-                    "x1": 616000.0,
+                    "x1": 620800.0,
                     "y1": 714000,
-                    "x2": 622000.0,
+                    "x2": 626800.0,
                     "y2": 720000,
                     "layer": "M4",
                     "net": "PWRUP_N_1V8"
                 },
                 {
                     "class": "Port",
-                    "x1": 957600.0,
+                    "x1": 962400.0,
                     "y1": 714000,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 720000,
                     "layer": "M5",
                     "net": "",
@@ -13519,7 +13758,7 @@
                     "class": "ChannelRoute",
                     "x1": 119000.0,
                     "y1": 58600.0,
-                    "x2": 725600.0,
+                    "x2": 730400.0,
                     "y2": 408700.0,
                     "layer": "",
                     "net": "",
@@ -13531,7 +13770,7 @@
                             "class": "Rect",
                             "x1": 119000.0,
                             "y1": 310500,
-                            "x2": 725600.0,
+                            "x2": 730400.0,
                             "y2": 313500,
                             "layer": "M3",
                             "net": ""
@@ -13585,18 +13824,18 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 716700.0,
+                            "x1": 721500.0,
                             "y1": 312000,
-                            "x2": 719700.0,
+                            "x2": 724500.0,
                             "y2": 365000,
                             "layer": "M2",
                             "net": "VR1"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 713800.0,
+                            "x1": 718600.0,
                             "y1": 310300.0,
-                            "x2": 722600.0,
+                            "x2": 727400.0,
                             "y2": 313700.0,
                             "layer": "",
                             "net": "",
@@ -13711,7 +13950,7 @@
                     "class": "Port",
                     "x1": 90350.0,
                     "y1": 316500,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 319500,
                     "layer": "M3",
                     "net": "",
@@ -13722,7 +13961,7 @@
                     "class": "ChannelRoute",
                     "x1": 90350.0,
                     "y1": 122050.0,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 888700.0,
                     "layer": "",
                     "net": "",
@@ -13734,7 +13973,7 @@
                             "class": "Rect",
                             "x1": 90350.0,
                             "y1": 316500,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 319500,
                             "layer": "M3",
                             "net": ""
@@ -13788,18 +14027,18 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 636700.0,
+                            "x1": 641500.0,
                             "y1": 318000,
-                            "x2": 639700.0,
+                            "x2": 644500.0,
                             "y2": 365000,
                             "layer": "M2",
                             "net": "VD1"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 633800.0,
+                            "x1": 638600.0,
                             "y1": 316300.0,
-                            "x2": 642600.0,
+                            "x2": 647400.0,
                             "y2": 319700.0,
                             "layer": "",
                             "net": "",
@@ -13867,7 +14106,7 @@
                     "class": "ChannelRoute",
                     "x1": 135000.0,
                     "y1": 322300.0,
-                    "x2": 816950.0,
+                    "x2": 821750.0,
                     "y2": 700700.0,
                     "layer": "",
                     "net": "",
@@ -13879,7 +14118,7 @@
                             "class": "Rect",
                             "x1": 135000.0,
                             "y1": 322500,
-                            "x2": 816950.0,
+                            "x2": 821750.0,
                             "y2": 325500,
                             "layer": "M3",
                             "net": ""
@@ -13933,18 +14172,18 @@
                         },
                         {
                             "class": "Rect",
-                            "x1": 808050.0,
+                            "x1": 812850.0,
                             "y1": 324000,
-                            "x2": 811050.0,
+                            "x2": 815850.0,
                             "y2": 699000,
                             "layer": "M2",
                             "net": "VCP"
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 805150.0,
+                            "x1": 809950.0,
                             "y1": 697300.0,
-                            "x2": 813950.0,
+                            "x2": 818750.0,
                             "y2": 700700.0,
                             "layer": "",
                             "net": "",
@@ -13961,9 +14200,9 @@
                         },
                         {
                             "class": "InstanceCut",
-                            "x1": 805150.0,
+                            "x1": 809950.0,
                             "y1": 322300.0,
-                            "x2": 813950.0,
+                            "x2": 818750.0,
                             "y2": 325700.0,
                             "layer": "",
                             "net": "",
@@ -14031,7 +14270,7 @@
                     "class": "Port",
                     "x1": 55000.0,
                     "y1": 328500,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 331500,
                     "layer": "M3",
                     "net": "",
@@ -14042,7 +14281,7 @@
                     "class": "ChannelRoute",
                     "x1": 55000.0,
                     "y1": 328300.0,
-                    "x2": 969600.0,
+                    "x2": 974400.0,
                     "y2": 617800.0,
                     "layer": "",
                     "net": "",
@@ -14054,7 +14293,7 @@
                             "class": "Rect",
                             "x1": 55000.0,
                             "y1": 328500,
-                            "x2": 969600.0,
+                            "x2": 974400.0,
                             "y2": 331500,
                             "layer": "M3",
                             "net": ""
@@ -14528,9 +14767,9 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 679000.0,
+                    "x1": 683800.0,
                     "y1": 679500.0,
-                    "x2": 758200.0,
+                    "x2": 763000.0,
                     "y2": 682500.0,
                     "layer": "M3",
                     "net": "",

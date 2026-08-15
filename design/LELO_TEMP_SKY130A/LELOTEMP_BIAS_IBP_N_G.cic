@@ -1356,7 +1356,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 30400.0,
                             "y1": 42000.0,
                             "x2": 59200.0,
@@ -1364,10 +1364,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 56000.0,
                             "y1": 46000.0,
                             "x2": 59200.0,
@@ -1375,10 +1376,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VR1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 24000.0,
                             "y1": 26000.0,
                             "x2": 46400.0,
@@ -1386,10 +1388,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 42000.0,
                             "x2": 4800.0,
@@ -1397,7 +1400,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xg1",

@@ -370,7 +370,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4800.0,
                             "y1": 389000.0,
                             "x2": 349600.0,
@@ -378,10 +378,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VDD_1V8"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 118400.0,
                             "y1": 137000.0,
                             "x2": 134400.0,
@@ -389,10 +390,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VIP"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 118400.0,
                             "y1": 337000.0,
                             "x2": 134400.0,
@@ -400,10 +402,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "CMPO",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VO"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 247200.0,
                             "y1": 221000.0,
                             "x2": 250400.0,
@@ -411,10 +414,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VC",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VIN"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 4800.0,
                             "y1": 0.0,
                             "x2": 349600.0,
@@ -422,10 +426,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "VSS"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 317600.0,
                             "y1": 61000.0,
                             "x2": 320800.0,
@@ -433,10 +438,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_B_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "PWRUP_1V8"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 57600.0,
                             "y1": 61000.0,
                             "x2": 60800.0,
@@ -444,10 +450,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "PWRUP_N_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "PWRUP_N_1V8"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 38400.0,
                             "y1": 57000.0,
                             "x2": 54400.0,
@@ -455,10 +462,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "IBP_1U<1>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "IBP_1U"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 137600.0,
                             "y1": 141000.0,
                             "x2": 140800.0,
@@ -466,7 +474,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "RST",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "RST"
                         }
                     ],
                     "instanceName": "x1_cmp",
