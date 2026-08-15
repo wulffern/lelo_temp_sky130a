@@ -281,18 +281,22 @@ class LELO_TEMP(SidecarCell):
                 if lo is None or hi is None:
                     log.error(f"ccmp: {net} is not on both comparators")
                     continue
-                p = lay.path(net, "M1", start=[lo], stop=[hi],
+                #- START ON M3, WHICH IS WHERE THE PIN IS. The path's
+                #- layer argument does not win over the start rect's
+                #- own layer, so `path(net, "M1", ...)` on a pin
+                #- LELOTEMP_CCMPR lifted to M3 climbed to M4 and M5
+                #- instead of M2 and M3 -- a 72 um M4 riser straight
+                #- through the cap bank, and three nets in one
+                #- component. Nothing said so; the riser was just on
+                #- the wrong layer.
+                p = lay.path(net, "M3", start=[lo], stop=[hi],
                              options=narrow)
                 p.start()
-                p.up()                              #- M2
-                p.up()                              #- M3, out to the
-                p.movex(p.track(net, lane))         #- column
+                p.movex(p.track(net, lane))         #- M3, to the col
                 p.down()                            #- M2, up it past
                 p.movey(p.landing("y"))             #- the seam
                 p.up()                              #- M3, back in
                 p.movex(p.landing("x"))
-                p.down()                            #- M2
-                p.down()                            #- M1, on the pin
                 p.end()
                 if net == "PWRUP_B_1V8":
                     self._pwrupb_col = lay.channelTrackCoord(net, lane)
@@ -342,8 +346,7 @@ class LELO_TEMP(SidecarCell):
                 r.setNet(net)
                 return r
 
-            for net, x in (("VDD_1V8", int(a.x1) + 186000),
-                           ("VSS", int(a.x1) + 198000)):
+            for net, x in ():
                 lo, hi = pins(net)
                 if lo is None or hi is None:
                     log.error(f"ccmp: {net} is not on both comparators")
@@ -1290,6 +1293,13 @@ class LELO_TEMP(SidecarCell):
     #- their ports. `routes` only declares the channel routes that
     #- join them, and this top has none -- _signals() lays its
     #- crossing nets instead, as a hand lane plan.
+    #- WHICH ROUTING RUNS. Both of these exist to bisect a short:
+    #- take routing away until it goes, then put it back one at a
+    #- time with DRC and LVS between each.
+    _PHASES = ("supplies","ibp","antenna")
+    #- see _signals: None draws every story in the phase
+    _ONLY = ()
+
     routes = []
 
     def afterPlace(self, layout):
@@ -1428,10 +1438,10 @@ class LELO_TEMP(SidecarCell):
         #- into one component holding thirty-odd nets. What _signals()
         #- encodes is exactly what the search lacks -- a lane budget
         #- and a layer reservation per band.
-        self._supplies(layout)
-        self._ibp(layout)
-        self._antenna(layout)
-        if not __import__("os").environ.get("NOSIG"): self._signals(layout)
+        #- ONE PHASE AT A TIME, same reason as `_ONLY` below: a short
+        #- is found by taking routing AWAY until it goes.
+        for name in self._PHASES:
+            getattr(self, "_" + name)(layout)
         super().beforeRoute(layout)
 
     def afterPorts(self, layout):
@@ -1614,7 +1624,16 @@ class LELO_TEMP(SidecarCell):
                                      min(int(r.x1) for r in west),
                                      horizontal=False)
 
+        #- ONE STORY AT A TIME. `_ONLY` names the nets whose stories
+        #- are drawn; None draws them all. A short is found by taking
+        #- routes AWAY until it goes, and then put back one at a time
+        #- with DRC and LVS between each -- `path` is the one choke
+        #- point every story goes through, so the gate lives here.
+        only = self._ONLY
+
         def path(net, a, b, layer=None, at=None):
+            if only is not None and net not in only:
+                return None
             if a is None or b is None:
                 log.error(f"top: {net} is not on both blocks")
                 return None
@@ -2041,9 +2060,34 @@ class LELO_TEMP(SidecarCell):
         #- west of the pair, two carry on over it
         for i, net in enumerate(nets):
             p = b.member(net)
-            p.movex(p.track("lband", 2 + i * 2) if i < 2
-                    else p.landing("x"))
-            p.movey(p.landing("y"))
+            #- THREE TURN IN LBAND NOW, not two. IBP_1U<1>'s pin has
+            #- moved to the pair's WEST edge, so carrying on over the
+            #- pair to reach it means descending ON the block -- and
+            #- the mirrored half puts its cap bank exactly there: the
+            #- riser at x 1024900 landed on JNWTR_CAPX1's M4 plate.
+            #- ALL FOUR TURN IN LBAND NOW. IBP_1U<1>'s pin has moved
+            #- to the pair's WEST edge and IBP_1U<0>'s cap-plate pin
+            #- was always at x1=0, so carrying on OVER the pair to
+            #- reach either means descending ON the block -- and the
+            #- mirrored half puts its cap bank and its VSS ring
+            #- exactly there. Measured: <1>'s riser at x 1024900
+            #- landed on JNWTR_CAPX1's M4 plate, and <0>'s
+            #- cut_M1M5_2x2 at (1046600,1017400) on the ring's VIA4.
+            p.movex(p.track("lband", 2 + i * 2))
+            #- AND DOWN TO M2 FOR THE ONE THAT LANDS ON M3. capm.11
+            #- keeps a MiM 1.34 um from UNRELATED metal3 -- cicpy M4 --
+            #- and the mirrored half puts its cap bank at the pair's
+            #- top, exactly where IBP_1U<1>'s west-edge pad is. On M4
+            #- the descent broke it at (1026400,1001300); on M2 the
+            #- rule does not apply. IBP_1U<0> stays on M4 because the
+            #- MiM plate IS its pin -- related metal, not unrelated.
+            if net == "IBP_1U<1>":
+                p.down("M2")
+                p.movey(p.landing("y"))
+                p.up("M3")
+                p.movex(p.landing("x"))
+            else:
+                p.movey(p.landing("y"))
             p.down(stops[i].layer)
             p.movex(p.landing("x"))
             p.end()
