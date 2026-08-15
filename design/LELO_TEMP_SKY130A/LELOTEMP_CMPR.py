@@ -150,6 +150,24 @@ The placement above is unchanged and was verified flat -- the column
 order, every stack order, and the port plan are the same decisions,
 now stated as `order` and `rows` instead of as an afterPlace.
 
+RETRACTED, and left here because the mistake is instructive: the one
+short remaining in n_mirr_load is NOT a defect in REYATR_NCH_2C1F2.
+I claimed 12 of its 20 poly contacts had no poly under them, having
+counted coverage against the layer named `PO` alone. `POB` is the SAME
+PHYSICAL LAYER -- both are GDS 66/20, material poly, in
+tech/cic/sky130A.tech -- and the POB rects at (20800,14000)-(24000,
+26000) and (52800,14000)-(56000,26000) cover the PCO column exactly.
+Counting PO+POB, ZERO contacts are orphaned, in that cell and in
+REYATR_NCH_2C5F0 both. The library is fine; I read one of its two
+names for poly.
+
+The cause of that short is therefore still unknown. What IS known: it
+is real (magic's extraction drops VO1 from the port list too, so it is
+not a checkroutes artifact), it appears only in context (the cell
+checks clean standalone), and it ties VO1 -- xn_mirr_load5's gate -- to
+VSS. Do not start from a geometry claim about the library again
+without checking every alias of the layer first.
+
 STATE: builds as five cells (four columns and the top). 1 short,
 8 opens, 31 DRC errors. NOT VERIFIED.
 
