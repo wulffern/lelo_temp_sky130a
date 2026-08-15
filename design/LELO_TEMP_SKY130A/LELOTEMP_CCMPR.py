@@ -75,10 +75,13 @@ class LELOTEMP_CCMPR(SidecarCell):
             #- cap's A plate (magic m3) is M4, its B plate (magic m4)
             #- is M5. The old CCMP pycell railed IBP on M5 and shorted
             #- the pads into the VSS plates.
+            #- direction="h": these five sit in a ROW, so the bar runs
+            #- across them. The default vertical bar joined the middle
+            #- cap to nothing and left the net in four components.
             self.layout._caps_ibp_rail = self.plateRail(
-                "IBP_1U<0>", "M4", inset=20000)
+                "IBP_1U<0>", "M4", inset=20000, direction="h")
             self.layout._caps_vss_rail = self.plateRail(
-                "VSS", "M5", inset=20000)
+                "VSS", "M5", inset=20000, direction="h")
             return True
 
     class cmp(Stack):
@@ -110,6 +113,16 @@ class LELOTEMP_CCMPR(SidecarCell):
         layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3,
                             spacemult=2)
         layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=5)
+        #- and the connection to them. The `supplies` list above
+        #- carries no `ring`, so the assembly recipe straps to a ring
+        #- it does not make and does nothing at all here -- the rings
+        #- are made by hand just above, so the connection is too.
+        #- addPowerConnection is the right call for an assembly: what
+        #- it stretches are the children's PUBLISHED supply rects,
+        #- which are their guard columns and rings at the edges, not
+        #- pins in the middle of a device row.
+        layout.addPowerConnection("VDD_1V8", "", "top")
+        layout.addPowerConnection("VSS", "", "bottom")
         #- the band between the ground ring and the cells' base, which
         #- is where anything reaching the cap bank turns. Registered
         #- here rather than in afterPlace because the ring bounds it.
@@ -118,8 +131,54 @@ class LELOTEMP_CCMPR(SidecarCell):
         if rb is not None:
             layout.addRoutingChannel("base", int(rb.y2), 0)
         super().beforeRoute(layout)
+        self._crossings(layout)
 
-    #- NO ROUTES YET. The placement is verified on its own first, the
+    @staticmethod
+    def _port(inst, net):
+        rs = [c.get() for c in getattr(inst, "children", []) or []
+              if getattr(c, "name", "") == net and hasattr(c, "get")]
+        rs = [r for r in rs if r is not None]
+        return rs[0] if rs else None
+
+    def _crossings(self, layout):
+        """The nets that cross between the cap bank and the core.
+
+        One at a time, shortest first, each checked for shorts before
+        the next -- the way LELOTEMP_CMPR's seven were done.
+        """
+        caps = layout.getInstanceFromInstanceName("xcaps")
+        cmp_i = layout.getInstanceFromInstanceName("xcmp")
+        if None in (caps, cmp_i):
+            log.error("CCMPR: the cap bank and the core are both needed")
+            return
+
+        #- IBP_1U<0>: the plate rail to the comparator's own input.
+        #- ON M4, and up the DRAIN LANE. The comparator publishes this
+        #- pin 13.7 um inside its own footprint, at the load column's
+        #- row 2 -- but the net's own M4 vertical already runs down
+        #- that column to y 139000 (cell frame), so arriving on M4 at
+        #- the same x merges with it instead of crossing anything. The
+        #- rows below are load0's VSS bar and the net's own two switch
+        #- drains, and the subcell's only other M4 is PWRUP_N_1V8's
+        #- rail over on the gate-tab lane.
+        ci = self._port(caps, "IBP_1U<0>")
+        ni = self._port(cmp_i, "IBP_1U<0>")
+        if ci is not None and ni is not None:
+            #- THE SAME CUT SHAPE THE CORE USED. LELOTEMP_CMPR lands
+            #- this pin with cut_M1M4_1x2 -- one cut wide, two tall,
+            #- because it is a gate tab -- and the default here is
+            #- cut_M1M4_2x1, two wide and one tall. The two overlap
+            #- PARTIALLY at the same pin, which is exactly what magic
+            #- means by "this layer can't abut or partially overlap
+            #- between subcells": not a spacing rule, a hierarchy one.
+            p = layout.path("IBP_1U<0>", "M4", start=[ci], stop=[ni],
+                            options="1cuts,2vcuts")
+            p.start()
+            p.movex(p.landing("x"))
+            p.movey(p.landing("y"))
+            p.end()
+
+    #- ROUTES SO FAR. The placement is verified on its own first, the
     #- way LELOTEMP_CMPR's was: the crossing nets go in one at a time,
     #- shortest first, each written as a path and checked for shorts
     #- before the next.

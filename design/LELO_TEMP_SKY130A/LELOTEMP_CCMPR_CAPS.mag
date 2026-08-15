@@ -5,10 +5,10 @@ timestamp 1786744800
 << checkpaint >>
 rect 0 0 7000 1080
 << metal3 >>
-rect 3410 400 3590 680
+rect 400 450 6600 630
 rect 0 0 1080 100
 << metal4 >>
-rect 3410 400 3590 680
+rect 400 450 6600 630
 rect 0 0 1080 100
 use JNWTR_CAPX1 xd1<0> ../JNW_TR_SKY130A
 transform 1 0 0 0 1 0
