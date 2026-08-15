@@ -227,6 +227,57 @@ class LELOTEMP_CCMPR(SidecarCell):
             p.end()
             self._edge_ports[net] = pad
 
+        #- PWRUP_N_1V8 AND PWRUP_B_1V8: LIFTED IN PLACE, NOT MOVED.
+        #-
+        #- These two stay mid-row -- LELO_TEMP's seam stories anchor on
+        #- them where the core publishes them -- but they cannot stay
+        #- on M1. The pin is 3200 x 4000 and every M1M2 cut is bigger
+        #- than that in one direction: 1cuts,2vcuts overhangs 4400 in
+        #- y, the default 2cuts,1vcuts overhangs 5200 in x, and either
+        #- way the parent's own via pad lands on the neighbouring
+        #- device (measured: PWRUP_N's pad at (1081900,891600) touched
+        #- REYATR_NCH_2C5F0's M1, and PWRUP_B's the pmos next door --
+        #- two LVS shorts at the top and nothing wrong down here).
+        #-
+        #- So the cut is made HERE, where the cell knows its own row,
+        #- and the port is published on the M3 above it. The parent
+        #- then arrives on metal with room around it and draws no cut
+        #- at the pin at all. This is what LELOTEMP_CCMP did too -- its
+        #- seam stories start `lay.path(..., "M3", ...)`.
+        #-
+        #- IBP_1U<1> HAS THE SAME SYMPTOM AND IS NOT THE SAME BUG, so
+        #- it is NOT lifted here. The top reaches it with a
+        #- cut_M1M4_2x1 that landed on REYATR_NCH_2C5F0's M1 at
+        #- (1066000,898100) -- but that pin is a 16000-wide bar, wide
+        #- enough for any cut, and the pad sits 2900 BELOW it and
+        #- overlaps by 300. That is the top aiming low, not the pin
+        #- being too small, and lifting it here just moved the fault
+        #- (2 met2.2 in this cell, top unchanged).
+        self._lifted = {}
+        for net in ("PWRUP_N_1V8", "PWRUP_B_1V8"):
+            r = self._port(cmp_i, net)
+            if r is None:
+                log.error(f"{net}: the core does not publish it")
+                continue
+            #- THE PAD IS THE PIN, LIFTED -- not a fixed 8000 stub.
+            #- IBP_1U<1>'s pin is a 16000-wide bar and a stub beside
+            #- it ran met2.2 against the block's own M3 (4 errors);
+            #- over it, the pad is inside geometry that is already
+            #- legal. The 8000 floor is for the 3200-wide gate tabs,
+            #- which need a via to fit.
+            w = max(8000, int(r.x2) - int(r.x1))
+            pad = _Rect("M3", int(r.x1) - (w - (int(r.x2) - int(r.x1))) // 2,
+                        int(r.y1), w, 4000)
+            pad.setNet(net)
+            p = layout.path(net, "M1", start=[r], stop=[pad],
+                            options="1cuts,2vcuts")
+            p.start()
+            p.up()                      #- M2
+            p.up()                      #- M3, and stop: the pad is at
+            p.end()                     #- the pin's own x and y
+            layout.add(pad)
+            self._lifted[net] = pad
+
         #- IBP_1U<0>: the plate rail to the comparator's own input.
         #- ON M4, and up the DRAIN LANE. The comparator publishes this
         #- pin 13.7 um inside its own footprint, at the load column's
@@ -257,6 +308,8 @@ class LELOTEMP_CCMPR(SidecarCell):
         """Publish the edge ports _crossings drew."""
         super().afterPorts(layout)
         for net, pad in (getattr(self, "_edge_ports", {}) or {}).items():
+            layout.updatePort(net, pad, routeLayer=pad.layer)
+        for net, pad in (getattr(self, "_lifted", {}) or {}).items():
             layout.updatePort(net, pad, routeLayer=pad.layer)
 
     #- ROUTES SO FAR. The placement is verified on its own first, the

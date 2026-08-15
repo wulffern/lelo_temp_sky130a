@@ -230,12 +230,27 @@ class LELO_TEMP(SidecarCell):
             rs = [r for r in rs if r is not None]
             return rs[0] if rs else None
 
+        #- THE COLUMNS THE PAIR CROSSES IN, measured off the block's
+        #- own M2 track map (cicpy tracks ... --layer M2). Two pins
+        #- are left in the middle of the row by LELOTEMP_CCMPR and
+        #- each has a column free the full height of the block within
+        #- a few microns of it, so neither has to travel:
+        #-
+        #-   PWRUP_N pin @57600  -> the band 60000..99000
+        #-   PWRUP_B pin @317600 -> the band 312000..350000
+        #-
+        #- (net, the column, the lane the M3 hop takes off the pin)
+        SEAM = (("PWRUP_N_1V8", 66000, 0),
+                ("PWRUP_B_1V8", 330000, 0))
+
         def _crossSeam(self, lay, a, b):
-            col = self._emptyColumn(a)
-            if col is None:
-                log.error("ccmp: no empty column to cross the seam in")
-                return
-            lay.addRoutingChannel("cross", col[0], col[1], horizontal=False)
+            #- A STEP TAKES SOMETHING NAMED IN THE DESIGN, NEVER A
+            #- COORDINATE -- so each column is registered as a channel
+            #- and the story asks for its track.
+            for net, colx, _ in self.SEAM:
+                lay.addRoutingChannel(net, int(a.x1) + colx,
+                                      int(a.x1) + colx + 12000,
+                                      horizontal=False)
 
             def pins(net):
                 return self._port(a, net), self._port(b, net)
@@ -248,119 +263,67 @@ class LELO_TEMP(SidecarCell):
             #- side the same two cuts fit inside the pin.
             narrow = "1cuts,2vcuts"
 
-            #- VC: an M2 pin at the bottom edge. Up to M3, DOWN one
-            #- lane to the free row under the pin (the rows at the
-            #- pin's own y are full), east into the column, and the
-            #- mirror of all that at the top.
-            lo, hi = pins("VC")
-            if lo is not None and hi is not None:
-                p = lay.path("VC", "M2", start=[lo], stop=[hi],
+            #- VC, RST AND CMPO ARE NOT HERE ANY MORE, AND THAT IS THE
+            #- POINT. LELOTEMP_CCMPR now puts them on its own edges,
+            #- and the mirror sorts them out for free: VC leaves at the
+            #- block's TOP, so the two halves' VC pads meet AT the seam
+            #- and abut with nothing drawn; RST and CMPO leave at the
+            #- BOTTOM, which the mirror turns into the pair's outer
+            #- faces, which is exactly where RST_A/RST_B and
+            #- CMPO_A/CMPO_B want them. Three stories deleted, not
+            #- rewritten.
+            #-
+            #- What is left is the pair that CANNOT move: PWRUP_N and
+            #- PWRUP_B are published mid-row because LELO_TEMP.sch and
+            #- the CCMP port list say so.
+            for net, colx, lane in self.SEAM:
+                lo, hi = pins(net)
+                if lo is None or hi is None:
+                    log.error(f"ccmp: {net} is not on both comparators")
+                    continue
+                p = lay.path(net, "M1", start=[lo], stop=[hi],
                              options=narrow)
                 p.start()
-                #- DOWN FIRST, THEN UP. Taking M3 at the pin and
-                #- riding it down to the row put a 3 um M3 leg beside
-                #- the pin and two met2.2 errors with it; on M2 the
-                #- same leg is the pin's own lane continued.
-                p.movey(p.pin("x2_ccmp", "VC", "y") - p.PITCH)
-                p.up()                                    #- M3, east
-                p.movex(p.track("cross", 1))
-                p.down()                                  #- M2, up the
-                p.movey(p.pin("x3_ccmp", "VC", "y") + p.PITCH)
-                p.up()                                    #- column
+                p.up()                              #- M2
+                p.up()                              #- M3, out to the
+                p.movex(p.track(net, lane))         #- column
+                p.down()                            #- M2, up it past
+                p.movey(p.landing("y"))             #- the seam
+                p.up()                              #- M3, back in
                 p.movex(p.landing("x"))
-                p.down()                                  #- M2 again
+                p.down()                            #- M2
+                p.down()                            #- M1, on the pin
                 p.end()
+                if net == "PWRUP_B_1V8":
+                    self._pwrupb_col = lay.channelTrackCoord(net, lane)
 
-            #- PWRUP_B: an M3 pin with the tap row under it, so its
-            #- free row is one lane ABOVE. The step up is on M2, which
-            #- is free right there and nowhere else nearby.
-            lo, hi = pins("PWRUP_B_1V8")
-            if lo is not None and hi is not None:
-                p = lay.path("PWRUP_B_1V8", "M3", start=[lo],
-                             stop=[hi], options=narrow)
-                p.start()
-                p.down()                                  #- M2
-                p.movey(p.pin("x2_ccmp", "PWRUP_B_1V8", "y") + p.PITCH)
-                p.up()                                    #- M3, east
-                p.movex(p.track("cross", 3))
-                p.down()                                  #- M2, up the
-                p.movey(p.pin("x3_ccmp", "PWRUP_B_1V8", "y") - p.PITCH)
-                p.up()                                    #- column
-                p.movex(p.landing("x"))
-                p.end()
-
-            #- PWRUP_N: its own M4 lane, two stubs east of the pin.
-            #- The trip to the empty column would cross the whole cell
-            #- twice for a net that has a free lane 5 um away -- and
-            #- the lane stays free because the comparator takes its
-            #- own PWRUP_N up on cuts turned on their side, inside the
-            #- pin, rather than on a leg out to the east.
-            lo, hi = pins("PWRUP_N_1V8")
-            if lo is not None and hi is not None:
-                p = lay.path("PWRUP_N_1V8", "M3", start=[lo],
-                             stop=[hi], options=narrow)
-                p.start()
-                #- TWO lanes east, not one: at one the M4 riser sits
-                #- 0.2 um from the comparator's own M4 and met3.2
-                #- wants 0.3.
-                p.movex(p.pin("x2_ccmp", "PWRUP_N_1V8", "x")
-                        + 2 * p.PITCH)
-                p.up()                           #- M4, free top to
-                p.movey(p.landing("y"))          #- bottom at this x
-                p.down()
-                p.end()
-
-            #- AND PWRUP_B LEAVES THE PAIR HERE. Its pin is in the
-            #- middle of the core's row, and that row east of it is
-            #- the other comparator's PWRUP_N bar on M5 -- so nothing
-            #- the level above sends down can land on the pin, and
-            #- this was the one pin of this pair it could not reach.
-            #- The same first half as the story above, and then
-            #- straight up to M5 in the column: the port is on metal
-            #- this cell drew, in the one corridor that is clear top
-            #- to bottom.
-            #- the sliver at the block's east edge, which is where
-            #- the pair's neighbour can meet it
-            lay.addRoutingChannel("eastedge", int(lay.x2) - 12000,
-                                  int(lay.x2), horizontal=False)
+            #- AND PWRUP_B LEAVES THE PAIR HERE, on a pad at the east
+            #- edge. Its pin is in the middle of a comparator row and
+            #- the row east of it is the other comparator's PWRUP_N bar
+            #- on M5, so nothing the level above sends down can land on
+            #- the pin -- this was the one pin of the pair it could not
+            #- reach. A port in the middle of a block cannot be left
+            #- without crossing the block, so it is carried to the edge
+            #- here and published in afterPorts.
+            from cicpy.core.rect import Rect as _Rect
             lo, _hi = pins("PWRUP_B_1V8")
-            if lo is not None:
-                p = lay.path("PWRUP_B_1V8", "M3", start=[lo], stop=[lo],
-                             options=narrow)
+            col = getattr(self, "_pwrupb_col", None)
+            if lo is not None and col is not None:
+                #- the row: one lane above the pin, which is where the
+                #- crossing story already proved the block is clear.
+                pad = _Rect("M3", int(lay.x2) - 4000,
+                            int(lo.y1) + 6000, 4000, 3400)
+                pad.setNet("PWRUP_B_1V8")
+                lay.add(pad)
+                p = lay.path("PWRUP_B_1V8", "M2", start=[
+                    _Rect("M2", col - 1700, int(lo.y1), 3400, 4000)],
+                    stop=[pad], options=narrow)
                 p.start()
-                p.down()
-                p.movey(p.pin("x2_ccmp", "PWRUP_B_1V8", "y") + p.PITCH)
-                p.up()
-                p.movex(p.track("cross", 3))
-                #- AND UP THE COLUMN, PAST THE SEAM, before leaving.
-                #- Rising where the story arrives puts the port at the
-                #- seam, and this cell's VDD ring is there -- 1345200
-                #- in the parent's frame, which is this very lane, so
-                #- a parent coming down onto the port lands on VDD and
-                #- the whole tile becomes one net. The column is clear
-                #- its full height; four lanes above the upper pin is
-                #- inside the upper comparator, above every ring and
-                #- below the top edge's own.
-                #- AND EAST UNDER THE CAPS, ON M3, TO THE EDGE.
-                #- Ending in the column leaves the port a third of the
-                #- way into the block and seven eighths up, inside its
-                #- own routing -- nothing above can reach it, and the
-                #- search that finally routed this net end to end came
-                #- out of that port onto CMPO_A and a diffpair source.
-                #- A port in the middle of a block cannot be left
-                #- without crossing the block.
-                #-
-                #- UNDER the cap bank is empty. A MiM lives on the
-                #- upper metals -- the caps own M4 from 339300 and M5
-                #- from 355800, and mirrored they cover this row -- but
-                #- M2 and M3 below them carry one via stack in the
-                #- whole bank, down at the VSS rail. On M3 this row is
-                #- clear from the column to the east edge, so the port
-                #- goes there and stays on M3: rising to M4 or M5 at
-                #- the edge would land on the cap plate itself.
-                p.movex(p.track("eastedge", 0))
-                #- and the port goes where THIS ends (see afterPorts)
-                self._pwrupb = p
+                p.up()                              #- M3, east
+                p.movey(p.landing("y"))
+                p.movex(p.landing("x"))
+                p.end()
+                self._pwrupb_pad = pad
 
             #- VDD and VSS: RISE IN THE COLUMN, DO NOT TRAVEL TO IT.
             #- The rails are full width, so sliding along one on M1 to
@@ -379,13 +342,11 @@ class LELO_TEMP(SidecarCell):
                 r.setNet(net)
                 return r
 
-            for net, lane in (("VDD_1V8", 5), ("VSS", 7)):
+            for net, x in (("VDD_1V8", int(a.x1) + 186000),
+                           ("VSS", int(a.x1) + 198000)):
                 lo, hi = pins(net)
                 if lo is None or hi is None:
                     log.error(f"ccmp: {net} is not on both comparators")
-                    continue
-                x = lay.channelTrackCoord("cross", lane)
-                if x is None:
                     continue
                 p = lay.path(net, "M1", start=[_on_rail(lo, x, net)],
                              stop=[_on_rail(hi, x, net)])
@@ -395,29 +356,22 @@ class LELO_TEMP(SidecarCell):
                 p.down()
                 p.end()
 
-        def afterPorts(self, entry):
-            """PWRUP_B, published on the M5 its own story left.
 
-            The story above ends with a cut up to M5 in the free
-            column; this finds that metal and makes it the port. It
-            does not DRAW -- a path added in afterPorts never routes,
-            the phase is over, and the pad it was meant to sit on came
-            out as a port rect with nothing under it (measured: the
-            pair's port matched nothing at all).
+        def afterPorts(self, entry):
+            """PWRUP_B, published on the pad its own story drew.
+
+            The pad is MADE and routed to in the routing phase; this
+            only names it. A path added in afterPorts never routes --
+            the phase is over -- and a port computed from a story's
+            endsAt came out as a port rect with nothing under it
+            (measured: the pair's port matched nothing at all).
             """
-            lay = self.layout
-            story = getattr(self, "_pwrupb", None)
-            ends = getattr(story, "endsAt", None) if story else None
-            if not ends or ends[0] is None:
-                log.error("ccmp: PWRUP_B's story did not end anywhere")
+            pad = getattr(self, "_pwrupb_pad", None)
+            if pad is None:
+                log.error("ccmp: PWRUP_B has no pad to publish")
                 return
-            from cicpy.core.rect import Rect as _R
-            from cicpy.core.rules import Rules as _Ru
-            x, y, layer = ends
-            w = int(_Ru.getInstance().get(layer, "width"))
-            pad = _R(layer, int(x) - w, int(y) - w, 2 * w, 2 * w)
-            pad.setNet("PWRUP_B_1V8")
-            lay.updatePort("PWRUP_B_1V8", pad, routeLayer=layer)
+            self.layout.updatePort("PWRUP_B_1V8", pad,
+                                   routeLayer=pad.layer)
 
         @staticmethod
         def _netRects(layout, net, layer):
