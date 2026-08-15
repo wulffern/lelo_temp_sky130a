@@ -296,15 +296,26 @@ class LELOTEMP_CMPR(SidecarCell):
             #- it: addPowerGuardConnection ties every source to the
             #- guard column beside it and the tap cells carry it.
             ('VSS', 'blocked', 'supplies go to the guard, not to a rail in the stack'),
-            #- PWRUP_N_1V8 ON M4, not M2. Its three gates are on
+            #- EVERY WIRE AS LOW AS IT WILL GO, because the parent has
+            #- to route over this cell and each layer a subcell takes is
+            #- one the band above cannot use. Swept, with the rest of
+            #- the cell fixed:
+            #-   PWRUP_N  M2 M3 M4   x   VO1  M1 M2
+            #-   only (M3,M2) and (M4,M2) come out clean, so M3 and M2
+            #-   are the answers and M4 stays free for the parent.
+            #- VO1 cannot reach M1: every M1 attempt shorts, because its
+            #- two pins are on different terminals with no common x.
+            #-
+            #- PWRUP_N_1V8 ABOVE M2. Its three gates are on
             #- non-adjacent rows, so its rail spans the whole column on
             #- the gate-tab lane -- and in the full-hierarchy view that
             #- lane is the busiest in the cell: every REYATR cell puts
             #- its own M1 gate tab at x 52800..56000. On M2 the rail
             #- ran y 88000..328000 right above that column and every
-            #- other net that has to land on a tab shorted to it. On M4
-            #- it flies over and touches down only at its own three.
-            ('PWRUP_N_1V8', 'M4', '||', 'trunktab,2cuts'),
+            #- other net that has to land on a tab shorted to it. Above
+            #- it, the rail flies over and touches down only at its own
+            #- three.
+            ('PWRUP_N_1V8', 'M3', '||', 'trunktab,2cuts'),
             ('VIP', 'M1', '||', 'trunkright'),
             #- VIP and VO both take trunkright, which is the RIGHT
             #- EDGE of their own pins' overlap -- x 46600..49600. That
