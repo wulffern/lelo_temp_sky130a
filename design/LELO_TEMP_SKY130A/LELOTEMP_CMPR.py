@@ -200,6 +200,7 @@ the way up. Three ways out, cheapest first:
     down, so no column carries more than one drop per lane.
 """
 import logging
+import re
 
 from cicpy.sidecar import SidecarCell, Stack
 
@@ -242,6 +243,50 @@ class LELOTEMP_CMPR(SidecarCell):
                  'xn_mirr_load2', 'xn_mirr_load3', 'xn_mirr_load4',
                  'xn_mirr_load5']
 
+        #- ROUTER-GENERATED, then edited. The search gave VIP and VO
+        #- the SAME anchor -- both ('M1', '||', 'trunkright') -- which
+        #- is two rails on one terminal 0.12 um apart, and that is 12
+        #- met1.2/mcon.2 errors and the only dirty subcell in the cell.
+        #- They are the two nets that leave on opposite edges, so they
+        #- take opposite sides of the pin: VIP left, VO right.
+        wires = [
+            #- VSS is BLOCKED, not routed. The search drew it as a
+            #- rail at trunkx=-800 -- a coordinate outside the cell --
+            #- and it landed on the bottom tap row's own M1 at y=4.5,
+            #- which was the other 6 errors. The supply does not need
+            #- it: addPowerGuardConnection ties every source to the
+            #- guard column beside it and the tap cells carry it.
+            ('VSS', 'blocked', 'supplies go to the guard, not to a rail in the stack'),
+            ('PWRUP_N_1V8', 'M2', '||', 'trunktab,2cuts'),
+            ('VIP', 'M1', '||', 'trunkright'),
+            ('VO', 'M1', '||', 'trunktab'),
+            ('VO1', 'M1', '||', 'trunkright'),
+        ]
+        wires_key = "68e8d342a26b"
+
+        def beforeRoute(self, entry):
+            """Strap the netlist's OWN supply devices.
+
+            routeSupplyDevices defaults to the layout-generated
+            xfill_* and this schematic carries its fills explicitly,
+            so they are named like any other instance and the default
+            misses them -- their D/G/S is left floating against the
+            guard. Measured: VDD_1V8 split into 2 components here and
+            VSS into 8 in n_mirr_load, and these were the only two of
+            the four columns that failed LVS.
+
+            Done here and not in cicpy's default on purpose: adding
+            these instances to the default took LELOTEMP_CMP from 0
+            opens to 2, so it is not a safe change to a shared
+            library. The call already accepts the instances; nothing
+            was passing them.
+            """
+            self.routeSupplyDevices(instances=[
+                i for i in self.instances
+                if re.fullmatch(r"xn_mirr_load0", getattr(i, "instanceName", "") or "")])
+            return None
+
+
     class p_diff(Stack):
         """D: VDD x4 | VBN1 | VO1        G: VDD x4 | VIN | VIP
 
@@ -256,6 +301,29 @@ class LELOTEMP_CMPR(SidecarCell):
         #- the smallest clean value in the spacing table.
         xspace = 2
         order = [r'xp_diff3<\d+>', 'xp_diff1', 'xp_diff2']
+
+        def beforeRoute(self, entry):
+            """Strap the netlist's OWN supply devices.
+
+            routeSupplyDevices defaults to the layout-generated
+            xfill_* and this schematic carries its fills explicitly,
+            so they are named like any other instance and the default
+            misses them -- their D/G/S is left floating against the
+            guard. Measured: VDD_1V8 split into 2 components here and
+            VSS into 8 in n_mirr_load, and these were the only two of
+            the four columns that failed LVS.
+
+            Done here and not in cicpy's default on purpose: adding
+            these instances to the default took LELOTEMP_CMP from 0
+            opens to 2, so it is not a safe change to a shared
+            library. The call already accepts the instances; nothing
+            was passing them.
+            """
+            self.routeSupplyDevices(instances=[
+                i for i in self.instances
+                if re.fullmatch(r"xp_diff3<\d+>", getattr(i, "instanceName", "") or "")])
+            return None
+
 
     class p_mirr_tail(Stack):
         """D: VBP2 VBP2 | VS VS VS | VO   G: PWRUP_1V8 | VBP2 x5
