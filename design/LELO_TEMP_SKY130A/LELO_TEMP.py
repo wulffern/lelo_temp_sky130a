@@ -848,8 +848,16 @@ class LELO_TEMP(SidecarCell):
                        or getattr(inst, "_cell_obj", None))
                 if sub is None or not hasattr(sub, "blockCell"):
                     continue
-                for r in sub.blockCell().rects(int(inst.x1),
-                                               int(inst.y1)):
+                #- THE INSTANCE, NOT ITS CORNER. `rects()` used to take
+                #- (dx, dy) and this passed inst.x1, inst.y1; it takes
+                #- the INSTANCE CHAIN now, and composes each instance's
+                #- own transform -- which is the only form that carries
+                #- a mirror. Left as two ints it raised "'int' object is
+                #- not reversible", the whole ladder below never ran,
+                #- and the strip came out unrouted: 7 nets the maze
+                #- router then failed on and 7 open nets at the top,
+                #- none of which looked like a crash.
+                for r in sub.blockCell().rects((inst,)):
                     blocked.setdefault(r.layer, []).append(
                         (int(r.x1), int(r.y1), int(r.x2), int(r.y2)))
             m1 = blocked.get("M1", [])
