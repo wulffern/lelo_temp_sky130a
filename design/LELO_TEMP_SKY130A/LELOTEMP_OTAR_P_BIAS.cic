@@ -1567,6 +1567,42 @@
                     ]
                 },
                 {
+                    "class": "Path",
+                    "x1": 62600,
+                    "y1": 82000,
+                    "x2": 65600,
+                    "y2": 126000,
+                    "layer": "",
+                    "net": "VO",
+                    "name": "VO",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Rect",
+                            "x1": 62600,
+                            "y1": 82000,
+                            "x2": 65600,
+                            "y2": 126000,
+                            "layer": "M1",
+                            "net": "VO"
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunkright"
+                            }
+                        }
+                    ]
+                },
+                {
                     "class": "Rect",
                     "x1": 0,
                     "y1": 26000,
@@ -1619,39 +1655,6 @@
                     "y2": 70000,
                     "layer": "M1",
                     "net": "VDD_1V8"
-                },
-                {
-                    "class": "Route",
-                    "x1": 20800.0,
-                    "y1": 84000.0,
-                    "x2": 65600,
-                    "y2": 124000.0,
-                    "layer": "",
-                    "net": "VO",
-                    "name": "VO",
-                    "has_pr": false,
-                    "ckt": {},
-                    "children": [
-                        {
-                            "class": "Rect",
-                            "x1": 62600,
-                            "y1": 84000.0,
-                            "x2": 65600,
-                            "y2": 124000.0,
-                            "layer": "M1",
-                            "net": "VO"
-                        },
-                        {
-                            "class": "Text",
-                            "x1": 20800.0,
-                            "y1": 122000.0,
-                            "x2": 20800.0,
-                            "y2": 122000.0,
-                            "layer": "TXT",
-                            "net": "VO",
-                            "name": "VO"
-                        }
-                    ]
                 },
                 {
                     "class": "Port",

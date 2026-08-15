@@ -31,6 +31,8 @@ group-scoped; `self.layout.addConnectivityRoute` is parent-scoped.
 """
 import logging
 
+from cicpy.core.path import (PITCH, SPACE, left_of_pins, pin,
+                             right_of_pins, tab_lane, track)
 from cicpy.sidecar import SidecarCell, Stack, Mirror
 
 log = logging.getLogger("LELOTEMP_OTAR")
@@ -45,36 +47,46 @@ class LELOTEMP_OTAR(SidecarCell):
         group = "pmos"
         channel = "in_a"
         order = ['xbl4', r'xbl1<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'M1', '||', 'trunktab'),
-            ('VD1', 'M1', '||', 'trunkright'),
-            ('VIN', 'M1', '||', 'trunktab'),
-            ('VS', 'M1', '||', 'trunkleft'),
+        #- FOUR RAILS, each on the lane its own pins define. Was a
+        #- router-generated `wires` block and a wires_key; the anchors
+        #- are the same anchors, recomputed every build instead of
+        #- fingerprinted.
+        paths = [
+            dict(net="VDD_1V8", layer="M1",
+                 steps=[("trunk", tab_lane())]),
+            dict(net="VD1", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+            dict(net="VIN", layer="M1",
+                 steps=[("trunk", tab_lane())]),
+            dict(net="VS", layer="M1",
+                 steps=[("trunk", left_of_pins())]),
         ]
-        wires_key = "4f9492b9c6c6"
 
     class p_in_b(Stack):
         match = r'^(xbl5|xbl2<\d+>|xstack_p_in_b_(top|bot)|xfill_p_in_b_\d+)$'
         group = "pmos"
         channel = "in_b"
         order = ['xbl5', r'xbl2<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (159200, 446000, 'M1') to (159200, 486000, 'M1'); closest approach (159200, 446000, 'M1') (40000 away)"),
-            ('VD2', 'M1', '||', 'trunkright'),
-            ('VIP', 'M1', '||', 'trunktab'),
-            ('VS', 'M1', '||', 'trunkleft'),
+        #- p_in_a's four, mirrored. VDD_1V8 is the one that differs:
+        #- the search could not join its two pins inside this column
+        #- and said so, and the reason it does not matter is the same
+        #- one as everywhere else -- the supply reaches every source
+        #- through the guard, on M1, and a rail in the column is a
+        #- second path to a node that already has one.
+        blocked = [
+            ('VDD_1V8', "no path inside the column (the search's own "
+                        "words: from (159200,446000) to (159200,486000), "
+                        "closest approach 40000 away) -- and none is "
+                        "wanted: the guard carries it"),
         ]
-        wires_key = "81f6802f0dd3"
+        paths = [
+            dict(net="VD2", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+            dict(net="VIP", layer="M1",
+                 steps=[("trunk", tab_lane())]),
+            dict(net="VS", layer="M1",
+                 steps=[("trunk", left_of_pins())]),
+        ]
 
     class p_bias(Stack):
         """Route VBP and PWRUP_1V8, which the stack router declines.
@@ -98,18 +110,30 @@ class LELOTEMP_OTAR(SidecarCell):
         group = "pmos"
         channel = "bias"
         order = ['xba1', 'xba8', 'xba2', 'xba6', 'xba7', 'xba3']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (278200, 350000, 'M1') to (239200, 366000, 'M1'); closest approach (239200, 366000, 'M3') (0 away)"),
-            ('PWRUP_1V8', 'blocked', "path for PWRUP_1V8 is not a shape route.py can draw (47 nodes, layers ['M1', 'M2', 'M3'])"),
-            ('VBP', 'blocked', "path for VBP is not a shape route.py can draw (15 nodes, layers ['M1', 'M2', 'M3'])"),
-            ('VO', 'M1', '||', 'trunkright'),
+        #- VDD_1V8 the guard carries, as everywhere. PWRUP_1V8 and VBP
+        #- the search could not SHAPE -- "not a shape route.py can
+        #- draw", 47 and 15 nodes over three layers -- which is the
+        #- fault a path exists to fix: a polyline needs no canned shape.
+        #- They are still routed by the hook below rather than declared
+        #- here, because each is several scoped rails and not one story.
+        blocked = [
+            ('VDD_1V8', 'the guard carries it; the search wanted a rail '
+                        'from (278200,350000) to (239200,366000) and '
+                        'the node is already tied'),
+            ('PWRUP_1V8', 'routed by this class\'s beforeRoute, scoped '
+                          'to xba2/xba3/xba7 -- the search returned 47 '
+                          'nodes over three layers and no shape'),
+            ('VBP', 'routed by this class\'s beforeRoute in two scoped '
+                    'rails -- the search returned 15 nodes over three '
+                    'layers and no shape'),
         ]
-        wires_key = "bb829ffad027"
+
+        #- VO: xba8 and xba2's drains, adjacent rows once `order` puts
+        #- them there, one M1 rail on their right edge.
+        paths = [
+            dict(net="VO", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+        ]
 
         def beforeRoute(self, entry):
             conn = self.layout.addConnectivityRoute
@@ -131,16 +155,17 @@ class LELOTEMP_OTAR(SidecarCell):
         group = "pmos"
         channel = "sw"
         order = ['xbs6', 'xbs1', 'xbs2', 'xbs4', 'xbs7', 'xbs8']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VDD_1V8', 'blocked', "no path for VDD_1V8 from (319200, 406000, 'M1') to (319200, 446000, 'M1'); closest approach (319200, 406000, 'M1') (40000 away)"),
-            ('VCP', 'blocked', "path for VCP is not a shape route.py can draw (11 nodes, layers ['M1'])"),
+        #- Both are the hook's below, which claims the whole stack
+        #- (`return True`). VCP is a LADDER -- 11 nodes on M1 and no
+        #- canned shape -- and the hook draws it as one scoped rail per
+        #- internal net rather than as one wire.
+        blocked = [
+            ('VDD_1V8', 'the guard carries it; the search wanted a rail '
+                        'from (319200,406000) to (319200,446000), 40000 '
+                        'short'),
+            ('VCP', "routed by this class's beforeRoute -- the search "
+                    "returned 11 nodes on M1 and no shape"),
         ]
-        wires_key = "6b36e69797ce"
 
         def beforeRoute(self, entry):
             """Route this stack's internal nets through route.py.
@@ -198,15 +223,27 @@ class LELOTEMP_OTAR(SidecarCell):
         match = r'^(xnd1<\d+>|xnd3|xns1|xstack_n_load_a_(top|bot)|xfill_n_load_a_\d+)$'
         group = "nmos"
         order = ['xns1', r'xnd1<\d+>', 'xnd3']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VSS', 'M2', '-|--', 'trunktab'),
+        #- VSS BLOCKED, which is what its three sibling columns already
+        #- said and what this one should have said all along. Its pins
+        #- here are the SOURCE and BULK of every device -- read them:
+        #- xns1, xnd1<0..3> and xnd3, S and B, and nothing else -- so
+        #- the node is the supply and addPowerGuardConnection has
+        #- already tied it, on M1, beside every source.
+        #-
+        #- It was ('VSS', 'M2', '-|--', 'trunktab'): the search asked
+        #- to route every net, so it routed this one too, and the shape
+        #- it found was the smallest dogleg that joined two of the pins.
+        #- MEASURED while converting, by writing it as the rail it looks
+        #- like (M2 trunk on the tab lane plus taps): PWRUP_N_1V8, VBP,
+        #- VD1 and VSS merged into one component of 1953 rects, VBP
+        #- opened, 17 DRC. A full-height rail on the gate-tab lane
+        #- touches every gate tab it passes, which is the whole reason
+        #- CMPR's PWRUP_N_1V8 flies on M4. The lesson is not about the
+        #- layer: this net wanted no wire at all.
+        blocked = [
+            ('VSS', 'the guard carries it -- every pin on this net in '
+                    'this column is a source or a bulk'),
         ]
-        wires_key = "31185f64694d"
 
 
     class n_load_b(Stack):
@@ -220,15 +257,11 @@ class LELOTEMP_OTAR(SidecarCell):
         match = r'^(xnd2<\d+>|xnd4|xns2|xstack_n_load_b_(top|bot)|xfill_n_load_b_\d+)$'
         group = "nmos"
         order = ['xns2', r'xnd2<\d+>', 'xnd4']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VSS', 'blocked', "no path for VSS from (595200, 42000, 'M1') to (559200, 58000, 'M1'); closest approach (559200, 58000, 'M3') (0 away)"),
+        #- VSS as in n_load_a: sources and bulks, carried by the guard.
+        blocked = [
+            ('VSS', 'the guard carries it -- every pin on this net in '
+                    'this column is a source or a bulk'),
         ]
-        wires_key = "b93a03294cde"
 
 
     class n_mirr(Mirror):
@@ -272,16 +305,15 @@ class LELOTEMP_OTAR(SidecarCell):
         channel = "res"
         fill = False
         order = [r'xd2<\d+>']
-        #- ROUTER-GENERATED (pasted from the build's
-        #- .routes.py): ordinary addConnectivityRoute
-        #- arguments, edit freely; a stale wires_key
-        #- falls back to the search and prints a fresh
-        #- block
-        wires = [
-            ('VSS', 'blocked', "no path for VSS from (719200, 34000, 'M1') to (719200, 74000, 'M1'); closest approach (719200, 34000, 'M1') (40000 away)"),
-            ('R1<0>', 'M1', '||', 'trunktab'),
+        blocked = [
+            ('VSS', 'the guard carries it; the search wanted a rail '
+                    'from (719200,34000) to (719200,74000), 40000 short'),
         ]
-        wires_key = "ca19e31a456f"
+        #- R1<0>: the ladder tap, one M1 rail on the tab lane.
+        paths = [
+            dict(net="R1<0>", layer="M1",
+                 steps=[("trunk", tab_lane())]),
+        ]
 
     rows = [
         [n_load_a, n_load_b, n_mirr, r_deg],
