@@ -3,14 +3,14 @@ tech sky130A
 magscale 1 2
 timestamp 1786744800
 << checkpaint >>
-rect 0 0 6896 9194
+rect 0 0 6800 9194
 << locali >>
-rect 0 7780 6896 7960
-rect 0 7780 6896 7960
+rect 0 7780 6800 7960
+rect 0 7780 6800 7960
 rect 3600 5140 3696 7960
 rect 5200 5140 5296 7960
-rect 0 0 6896 180
-rect 0 0 6896 180
+rect 0 0 6800 180
+rect 0 0 6800 180
 rect 0 0 96 1220
 rect 1600 0 1696 1220
 rect 2408 4346 2576 4410
@@ -159,7 +159,7 @@ rect 2612 9132 2668 9188
 rect 2708 9132 2764 9188
 use LELOTEMP_CMPR_N_MIRR_BIAS xn_mirr_bias 
 transform 1 0 0 0 1 300
-box 0 300 1696 6060
+box 0 300 1600 6060
 use LELOTEMP_CMPR_N_MIRR_LOAD xn_mirr_load 
 transform 1 0 1600 0 1 300
 box 1600 300 3200 7660
@@ -168,11 +168,11 @@ transform 1 0 3600 0 1 300
 box 3600 300 5296 6060
 use LELOTEMP_CMPR_P_MIRR_TAIL xp_mirr_tail 
 transform 1 0 5200 0 1 300
-box 5200 300 6896 6060
+box 5200 300 6800 6060
 << labels >>
-flabel locali s 0 7780 6896 7960 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 0 7780 6800 7960 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
-flabel locali s 0 0 6896 180 0 FreeSans 400 0 0 0 VSS
+flabel locali s 0 0 6800 180 0 FreeSans 400 0 0 0 VSS
 port 5 nsew ground bidirectional
 flabel metal2 s 2284 8170 5028 8230 0 FreeSans 400 0 0 0 VIP
 port 2 nsew signal bidirectional
@@ -189,5 +189,5 @@ port 8 nsew signal bidirectional
 flabel locali s 2656 2820 2720 2900 0 FreeSans 400 0 0 0 RST
 port 9 nsew signal bidirectional
 << properties >>
-string FIXED_BBOX 0 0 6896 9194
+string FIXED_BBOX 0 0 6800 9194
 << end >>

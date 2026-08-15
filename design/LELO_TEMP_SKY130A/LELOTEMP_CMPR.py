@@ -222,6 +222,17 @@ class LELOTEMP_CMPR(SidecarCell):
         channel = "cbias"
         order = ['xn_mirr_bias3', 'xn_mirr_bias1', r'xn_mirr_bias2<\d+>']
 
+        #- VSS BLOCKED. The search drew it as an M2 rail at
+        #- trunkx=-800, outside the cell -- an unnecessary second path
+        #- to a node addPowerGuardConnection has already tied to the
+        #- guard column beside every source, on M1, with the tap cells
+        #- carrying it up, down and across.
+        wires = [
+            ('VSS', 'blocked', 'the supply reaches the guard on M1; a stack does not need an M2 rail for it, and the search only drew one because it was asked to route every net'),
+            ('VBP2', 'M1', '||', 'trunkright'),
+        ]
+        wires_key = "cfcf038bff4d"
+
     class n_mirr_load(Stack):
         """D: VSS | VIP VIP | VBN1 VBN1 | VO1 | VO VO
 
@@ -338,6 +349,13 @@ class LELOTEMP_CMPR(SidecarCell):
         channel = "ctail"
         order = ['xp_mirr_tail1<0>', 'xp_mirr_tail1', r'xp_mirr_tail3<\d+>',
                  'xp_mirr_tail2']
+
+        #- VDD_1V8 BLOCKED, same reason as VSS in n_mirr_bias.
+        wires = [
+            ('VDD_1V8', 'blocked', 'the supply reaches the guard on M1; a stack does not need an M2 rail for it, and the search only drew one because it was asked to route every net'),
+            ('VS', 'M1', '||', 'trunkright'),
+        ]
+        wires_key = "b94e2dec7047"
 
     #- ONE row: the four columns side by side, in the order the
     #- netlist asked for (see WHY THE COLUMNS SIT IN THIS ORDER).
