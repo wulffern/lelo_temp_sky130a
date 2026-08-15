@@ -229,9 +229,14 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
     ]
 
     supplies = [
-        {"net": "VDD_1V8", "ring": "t", "strap": "top",
+        #- pin_strap: this cell is an ASSEMBLY, so its ring is tied to
+        #- the children's published supply rects by addPowerConnection,
+        #- which is opt-in since it shorts a block whose pins overhang
+        #- their abutment box. These children's do not, and the cell is
+        #- verified with it; without it VDD_1V8 and VSS lose the ring.
+        {"net": "VDD_1V8", "ring": "t", "strap": "top", "pin_strap": True,
          "guard_exclude": r"^(xe1|xg1|xd3<\d+>|xd1<\d+>|xd2<\d+>|xad6)$"},
-        {"net": "VSS", "ring": "b", "strap": "bottom",
+        {"net": "VSS", "ring": "b", "strap": "bottom", "pin_strap": True,
          "strap_exclude": r"^(xd3<[1-9]|xad6|xd1|xd2|xe1)",
          "guard_exclude": r"^(xca|xsu|xcc|xd1<\d+>|xd2<\d+>|xad6|xfill_p)"},
     ]
