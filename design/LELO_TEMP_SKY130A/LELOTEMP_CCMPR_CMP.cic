@@ -1,0 +1,532 @@
+{
+    "cells": [
+        {
+            "class": "SidecarCell",
+            "x1": 0,
+            "y1": 0,
+            "x2": 349600,
+            "y2": 398000,
+            "layer": "",
+            "net": "",
+            "name": "LELOTEMP_CCMPR_CMP",
+            "has_pr": false,
+            "ckt": {
+                "class": "",
+                "name": "LELOTEMP_CCMPR_CMP",
+                "nodes": [
+                    "CMPO",
+                    "IBP_1U<0>",
+                    "IBP_1U<1>",
+                    "PWRUP_B_1V8",
+                    "PWRUP_N_1V8",
+                    "RST",
+                    "VC",
+                    "VDD_1V8",
+                    "VSS"
+                ],
+                "properties": {},
+                "devices": [],
+                "instances": [
+                    {
+                        "class": "",
+                        "name": "x1_cmp",
+                        "nodes": [
+                            "VDD_1V8",
+                            "IBP_1U<0>",
+                            "CMPO",
+                            "VC",
+                            "VSS",
+                            "PWRUP_B_1V8",
+                            "PWRUP_N_1V8",
+                            "IBP_1U<1>",
+                            "RST"
+                        ],
+                        "properties": {},
+                        "subcktName": "LELOTEMP_CMPR",
+                        "groupName": "x",
+                        "deviceName": "subckt",
+                        "groupTag": "1_cmp"
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "class": "Instance",
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 349600.0,
+                    "y2": 398000.0,
+                    "layer": "PR",
+                    "net": "",
+                    "name": "LELOTEMP_CMPR",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Port",
+                            "x1": 4800.0,
+                            "y1": 389000.0,
+                            "x2": 349600.0,
+                            "y2": 398000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VDD_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 118400.0,
+                            "y1": 137000.0,
+                            "x2": 134400.0,
+                            "y2": 141000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "IBP_1U<0>",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 118400.0,
+                            "y1": 337000.0,
+                            "x2": 134400.0,
+                            "y2": 341000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "CMPO",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 247200.0,
+                            "y1": 221000.0,
+                            "x2": 250400.0,
+                            "y2": 225000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VC",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 4800.0,
+                            "y1": 0.0,
+                            "x2": 349600.0,
+                            "y2": 9000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "VSS",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 317600.0,
+                            "y1": 61000.0,
+                            "x2": 320800.0,
+                            "y2": 65000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_B_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 57600.0,
+                            "y1": 61000.0,
+                            "x2": 60800.0,
+                            "y2": 65000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "PWRUP_N_1V8",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 38400.0,
+                            "y1": 57000.0,
+                            "x2": 54400.0,
+                            "y2": 61000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "IBP_1U<1>",
+                            "spicePort": true
+                        },
+                        {
+                            "class": "Port",
+                            "x1": 137600.0,
+                            "y1": 141000.0,
+                            "x2": 140800.0,
+                            "y2": 145000.0,
+                            "layer": "M1",
+                            "net": "",
+                            "name": "RST",
+                            "spicePort": true
+                        }
+                    ],
+                    "instanceName": "x1_cmp",
+                    "angle": "",
+                    "cell": "LELOTEMP_CMPR",
+                    "libpath": "LELO_TEMP_SKY130A",
+                    "xcell": 0,
+                    "ycell": 0
+                },
+                {
+                    "class": "Port",
+                    "x1": 118400.0,
+                    "y1": 337000.0,
+                    "x2": 134400.0,
+                    "y2": 341000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "CMPO",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 118400.0,
+                    "y1": 137000.0,
+                    "x2": 134400.0,
+                    "y2": 141000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "IBP_1U<0>",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 38400.0,
+                    "y1": 57000.0,
+                    "x2": 54400.0,
+                    "y2": 61000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "IBP_1U<1>",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 317600.0,
+                    "y1": 61000.0,
+                    "x2": 320800.0,
+                    "y2": 65000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "PWRUP_B_1V8",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 57600.0,
+                    "y1": 61000.0,
+                    "x2": 60800.0,
+                    "y2": 65000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "PWRUP_N_1V8",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 137600.0,
+                    "y1": 141000.0,
+                    "x2": 140800.0,
+                    "y2": 145000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "RST",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 247200.0,
+                    "y1": 221000.0,
+                    "x2": 250400.0,
+                    "y2": 225000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VC",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 4800.0,
+                    "y1": 389000.0,
+                    "x2": 349600.0,
+                    "y2": 398000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VDD_1V8",
+                    "spicePort": true
+                },
+                {
+                    "class": "Port",
+                    "x1": 4800.0,
+                    "y1": 0.0,
+                    "x2": 349600.0,
+                    "y2": 9000.0,
+                    "layer": "M1",
+                    "net": "",
+                    "name": "VSS",
+                    "spicePort": true
+                }
+            ],
+            "useHalfHeight": false,
+            "alternateGroup": false,
+            "noPowerRoute": true,
+            "cellgroups": [
+                {
+                    "class": "CellGroup",
+                    "name": "cmp",
+                    "bbox": {
+                        "x1": 0,
+                        "y1": 0,
+                        "x2": 349600.0,
+                        "y2": 398000.0,
+                        "layer": "",
+                        "net": ""
+                    },
+                    "ports": [
+                        {
+                            "x1": 118400.0,
+                            "y1": 337000.0,
+                            "x2": 134400.0,
+                            "y2": 341000.0,
+                            "layer": "M1",
+                            "net": "CMPO",
+                            "name": "CMPO",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 118400.0,
+                            "y1": 137000.0,
+                            "x2": 134400.0,
+                            "y2": 141000.0,
+                            "layer": "M1",
+                            "net": "IBP_1U<0>",
+                            "name": "IBP_1U<0>",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 38400.0,
+                            "y1": 57000.0,
+                            "x2": 54400.0,
+                            "y2": 61000.0,
+                            "layer": "M1",
+                            "net": "IBP_1U<1>",
+                            "name": "IBP_1U<1>",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 317600.0,
+                            "y1": 61000.0,
+                            "x2": 320800.0,
+                            "y2": 65000.0,
+                            "layer": "M1",
+                            "net": "PWRUP_B_1V8",
+                            "name": "PWRUP_B_1V8",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 57600.0,
+                            "y1": 61000.0,
+                            "x2": 60800.0,
+                            "y2": 65000.0,
+                            "layer": "M1",
+                            "net": "PWRUP_N_1V8",
+                            "name": "PWRUP_N_1V8",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 137600.0,
+                            "y1": 141000.0,
+                            "x2": 140800.0,
+                            "y2": 145000.0,
+                            "layer": "M1",
+                            "net": "RST",
+                            "name": "RST",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 247200.0,
+                            "y1": 221000.0,
+                            "x2": 250400.0,
+                            "y2": 225000.0,
+                            "layer": "M1",
+                            "net": "VC",
+                            "name": "VC",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 4800.0,
+                            "y1": 389000.0,
+                            "x2": 349600.0,
+                            "y2": 398000.0,
+                            "layer": "M1",
+                            "net": "VDD_1V8",
+                            "name": "VDD_1V8",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        },
+                        {
+                            "x1": 4800.0,
+                            "y1": 0.0,
+                            "x2": 349600.0,
+                            "y2": 9000.0,
+                            "layer": "M1",
+                            "net": "VSS",
+                            "name": "VSS",
+                            "routeLayer": "M1",
+                            "side": "boundary",
+                            "spicePort": false
+                        }
+                    ],
+                    "stacks": [
+                        {
+                            "class": "StackGroup",
+                            "name": "cmp",
+                            "kind": "stack",
+                            "bbox": {
+                                "x1": 0,
+                                "y1": 0,
+                                "x2": 349600.0,
+                                "y2": 398000.0,
+                                "layer": "",
+                                "net": ""
+                            },
+                            "ports": [
+                                {
+                                    "x1": 118400.0,
+                                    "y1": 337000.0,
+                                    "x2": 134400.0,
+                                    "y2": 341000.0,
+                                    "layer": "M1",
+                                    "net": "CMPO",
+                                    "name": "CMPO",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 118400.0,
+                                    "y1": 137000.0,
+                                    "x2": 134400.0,
+                                    "y2": 141000.0,
+                                    "layer": "M1",
+                                    "net": "IBP_1U<0>",
+                                    "name": "IBP_1U<0>",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 38400.0,
+                                    "y1": 57000.0,
+                                    "x2": 54400.0,
+                                    "y2": 61000.0,
+                                    "layer": "M1",
+                                    "net": "IBP_1U<1>",
+                                    "name": "IBP_1U<1>",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 317600.0,
+                                    "y1": 61000.0,
+                                    "x2": 320800.0,
+                                    "y2": 65000.0,
+                                    "layer": "M1",
+                                    "net": "PWRUP_B_1V8",
+                                    "name": "PWRUP_B_1V8",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 57600.0,
+                                    "y1": 61000.0,
+                                    "x2": 60800.0,
+                                    "y2": 65000.0,
+                                    "layer": "M1",
+                                    "net": "PWRUP_N_1V8",
+                                    "name": "PWRUP_N_1V8",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 137600.0,
+                                    "y1": 141000.0,
+                                    "x2": 140800.0,
+                                    "y2": 145000.0,
+                                    "layer": "M1",
+                                    "net": "RST",
+                                    "name": "RST",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 247200.0,
+                                    "y1": 221000.0,
+                                    "x2": 250400.0,
+                                    "y2": 225000.0,
+                                    "layer": "M1",
+                                    "net": "VC",
+                                    "name": "VC",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 4800.0,
+                                    "y1": 389000.0,
+                                    "x2": 349600.0,
+                                    "y2": 398000.0,
+                                    "layer": "M1",
+                                    "net": "VDD_1V8",
+                                    "name": "VDD_1V8",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                },
+                                {
+                                    "x1": 4800.0,
+                                    "y1": 0.0,
+                                    "x2": 349600.0,
+                                    "y2": 9000.0,
+                                    "layer": "M1",
+                                    "net": "VSS",
+                                    "name": "VSS",
+                                    "routeLayer": "M1",
+                                    "side": "boundary",
+                                    "spicePort": false
+                                }
+                            ],
+                            "preserve_order": true,
+                            "instances": [
+                                "x1_cmp"
+                            ],
+                            "tap_instances": [],
+                            "route_bundles": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
