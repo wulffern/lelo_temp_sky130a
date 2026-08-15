@@ -1377,7 +1377,7 @@ class LELO_TEMP(SidecarCell):
     #- approach 38000 away" and leaves a stub at (1475900, 153500);
     #- the top-level path lands correctly. PWRUP_N_1V8's second leg
     #- reaches the strip but the strip's side is not closed either.
-    paths_only = ("RST_A", "PWRUP_N_1V8", "VC", "CMPO_A", "CMPO_B", "VSS", "RST_B")
+    paths_only = ("RST_A", "PWRUP_N_1V8", "VC", "CMPO_A", "CMPO_B", "VSS", "RST_B", "PWRUP_B_1V8")
 
     #- THE CROSSING NETS, DECLARED. Each is the same shape: out of a
     #- pin, into a corridor, along it, and down into the pin at the
@@ -1446,11 +1446,19 @@ class LELO_TEMP(SidecarCell):
         #- AND IT STOPS ON THE PAIR'S OWN BAR: the pin's row east of
         #- it is that comparator's PWRUP_N on M5, this same net, so
         #- the leg lands on metal the net already owns.
+        #- AND IT COMES DOWN. This story used to stop after the last
+        #- movex, on the claim that the pin's row east of it was the
+        #- pair's own PWRUP_N on M5 and landing there was landing on
+        #- the net. Measured against the pair as built today: nothing
+        #- of this net is on M5 at that row, the leg flew over its own
+        #- M3 pin two layers up, and the net stood in two components.
+        #- `end()` is the drop the claim used to stand in for.
         dict(net="PWRUP_N_1V8", layer="M5",
              start=("xbias", "PWRUP_N_1V8"), stop=("xccmp", "PWRUP_N_1V8"),
              steps=[("movex", track("lband", 1)),
                     ("movey", landing("y")),
-                    ("movex", landing("x"))]),
+                    ("movex", landing("x")),
+                    ("end",)]),
 
         #- and up to the strip. IT STAYS ON M4 TO THE PIN, rising only
         #- in end(): coming up to M5 for the last leg put this net's
@@ -1727,11 +1735,46 @@ class LELO_TEMP(SidecarCell):
     #- at 136..138 um, which is that edge. Without it, none.
     #- leg 2, pair -> strip: M3/M4. Both ports are low and on M3, and
     #- there is no MiM between them.
-    mazes = [
-        dict(net="PWRUP_B_1V8", layers=("M2", "M3", "M5"),
-             between=[("xbias", "PWRUP_B_1V8"), ("xccmp", "PWRUP_B_1V8")]),
-        dict(net="PWRUP_B_1V8", layers=("M3", "M4"),
-             between=[("xccmp", "PWRUP_B_1V8"), ("xdig", "PWRUP_B_1V8")]),
+    #- PWRUP_B WAS THE ONE MAZE LEFT, and converting it is what
+    #- finished the cell. The search genuinely earned its keep here --
+    #- it discovered that the pair's INTERIOR is crossable (nothing in
+    #- the lane plan knew that) -- but its output could not be kept:
+    #- the descent x was a bare coordinate, its landing at the bias
+    #- pin wanted an M3M5 cut that does not exist (nothing was drawn,
+    #- the net stayed split, and the log said links=1/1), and its
+    #- drawn staircase left 3 met2.2 slivers at the pair's pin. The
+    #- topology it found, told as two stories: every x is a pin, a
+    #- measured channel, or a lane offset, and the via stack at the
+    #- bias pin goes through M4 -- which the maze's layer budget
+    #- forbade globally because of capm.11 at the PAIR's east edge, a
+    #- rule about a place this stack is nowhere near.
+    mazes = []
+    paths = paths + [
+        dict(net="PWRUP_B_1V8",
+             start=("xbias", "PWRUP_B_1V8"), stop=("xccmp", "PWRUP_B_1V8"),
+             steps=[("down", "M4"),
+                    ("down", "M3"),
+                    #- two lanes INTO the measured column, so the via
+                    #- pads at its two corners stand clear of the metal
+                    #- that bounds it -- the column's edge is where the
+                    #- neighbour's metal begins
+                    ("movex", track("pband", 0) + 2 * PITCH),
+                    ("down", "M2"),
+                    ("movey", landing("y")),
+                    ("up", "M3"),
+                    ("movex", landing("x")),
+                    ("end",)]),
+        dict(net="PWRUP_B_1V8", at="e", options="1cuts,2vcuts",
+             start=("xccmp", "PWRUP_B_1V8"), stop=("xdig", "PWRUP_B_1V8"),
+             steps=[#- one SPACE past the track: the 1x2 pad is wider
+                    #- than the wire and its west edge stood 1.1 um
+                    #- from the pin where met2.2 wants 1.4
+                    ("movex", track("dband", 0) + SPACE),
+                    ("up", "M4"),
+                    ("movey", landing("y")),
+                    ("down", "M3"),
+                    ("movex", landing("x")),
+                    ("end",)]),
     ]
 
     routes = []
@@ -1904,6 +1947,38 @@ class LELO_TEMP(SidecarCell):
         #- is found by taking routing AWAY until it goes.
         for name in self._PHASES:
             getattr(self, "_" + name)(layout)
+        #- PWRUP_B's corridor THROUGH the pair, measured off the pair
+        #- itself. The maze found this topology -- across at the bias
+        #- pin's row, down through the pair's interior, across again at
+        #- the pair's own pin row -- and could not be allowed to keep
+        #- it: its descent x was a coordinate, and its bias-pin landing
+        #- needed an M5-M3 cut this library does not have (drawVia drew
+        #- nothing, silently, and the net stayed split while the maze
+        #- reported links=1/1). The descent column is a MEASUREMENT:
+        #- the pair's free M2 columns over exactly the span the leg
+        #- runs, asked of its block view, registered here because a
+        #- channel is a fact about the placement.
+        cc = layout.getInstanceFromInstanceName("xccmp")
+        ccell = (getattr(cc, "layoutcell", None)
+                 or getattr(cc, "_cell_obj", None)) if cc is not None else None
+        if ccell is not None and hasattr(ccell, "freeColumns"):
+            a = self.declaredPort(layout, "xccmp", "PWRUP_B_1V8")
+            b = self.declaredPort(layout, "xbias", "PWRUP_B_1V8")
+            if a is not None and b is not None:
+                span = (int(a.y2) - int(cc.y1), int(b.y1) - int(cc.y1))
+                cols = ccell.freeColumns("M2", span=span,
+                                         net="PWRUP_B_1V8")
+                if cols:
+                    #- the widest column, so the wire and its two via
+                    #- pads all fit inside what was measured
+                    x1, x2 = max(cols, key=lambda c: c[1] - c[0])
+                    layout.addRoutingChannel(
+                        "pband", int(cc.x1) + int(x1),
+                        int(cc.x1) + int(x2), horizontal=False)
+                else:
+                    layout.log.error(
+                        "pband: the pair has no free M2 column over "
+                        "PWRUP_B's span; the leg will not draw")
         super().beforeRoute(layout)
 
     def afterPorts(self, layout):
