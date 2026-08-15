@@ -1588,15 +1588,95 @@ class LELO_TEMP(SidecarCell):
         #-     M3 floor leg   shorts=1  DRC 8
         #-     M4 floor leg   is CMPO_A's lane; shorts by construction
         #-
-        #- That the fault survives the layer says it is not the floor
-        #- leg. The suspect is the EAST END: this lands on the strip's
-        #- M5 port and rides M5 over the sliver to get there, and the
-        #- `dig` class already records that exact hazard for this exact
-        #- net -- "the walk ends up("M5"), and RST_B's own rungs cross
-        #- the sliver on M5 at two heights, so the pad landed on
-        #- RST_B". The next thing to try is the strip's own `exit`
-        #- channels (dig registers one per free M4 column) rather than
-        #- a straight run in at the landing row.
+        #- THE EAST END WAS THE WRONG SUSPECT. It looked like one,
+        #- because `dig` records exactly this hazard for exactly this
+        #- net. It is the FLOOR LEG, and VSS above says why: the pair's
+        #- bottom nine microns are a VDD_1V8 guard (the lower half is
+        #- mirrored MX, so its VDD strap is the floor), and `fband`
+        #- track 0 resolves to y 18000, inside it. Every attempt put
+        #- this leg in the VDD strap -- which is why all three merged
+        #- RST_B, RST_A and VDD_1V8 rather than failing differently,
+        #- and why the layer never mattered.
+        #-
+        #- Fix `fband` first -- the 6 um slot between the ring's top and
+        #- the blocks' floor, measured off named_rects["rail_b_VSS"] in
+        #- beforeRoute -- and try this again before touching the east
+        #- end at all.
+        #- VSS: ON M1, AND IT TURNS. The one net in this cell for which
+        #- the preferred-direction convention is the wrong rule.
+        #-
+        #- M1 is what the supply IS in this library -- the rings are M1,
+        #- every block's guard is M1, and three of the five VSS pins are
+        #- M1 bars. A leg that runs horizontally on it is not crossing a
+        #- plane it has to share; it is lying on the same metal the net
+        #- already owns everywhere, and every guard it passes is another
+        #- pin of itself. Nothing above M1 needs to be spent, which is
+        #- the whole reason this is worth doing on the busiest cell in
+        #- the design.
+        #-
+        #- The gap is real and it is a floorplan fact: the bottom ring
+        #- runs y 0..9000 and xbias publishes VSS at 15000..24000, so
+        #- the two never touch -- 6 um of nothing between a supply ring
+        #- and the block it rings.
+        #-
+        #- DECLARED AND GATED OFF, one measurement short of working.
+        #-
+        #- THE PAIR'S FLOOR IS VDD, NOT VSS. That is the fact the whole
+        #- bottom of this cell turns on, and it was assumed the other
+        #- way round for a long time. LELOTEMP_CCMPR straps VSS at the
+        #- bottom and VDD at the top; the pair mirrors the LOWER half
+        #- MX, so that half's VDD strap is now the FLOOR. Asked
+        #- directly (`blockers` VSS over 1024400..1374400 by
+        #- 15000..30000):
+        #-
+        #-     VDD_1V8  at 16000  span 1024400..1374400
+        #-     VDD_1V8  at 20000  span 1024400..1374400
+        #-     VDD_1V8  at 24000  span 1024400..1374400
+        #-
+        #- Nine microns of VDD guard, the pair's full width. An M1 leg
+        #- crossing under the pair lands on it: measured, VSS, VDD_1V8,
+        #- CMPO_A and PWRUP_N in one component of 10451 rects.
+        #-
+        #- AND IT EXPLAINS RST_B, whose three failures were blamed on
+        #- the east end. They were not. `fband` as registered runs
+        #- layout.y1..cc.y1 but its track 0 resolves to y 18000 --
+        #- INSIDE that guard -- so every RST_B attempt put its floor leg
+        #- in the VDD strap and merged RST_B, RST_A and VDD_1V8. CMPO_A
+        #- survives the same track only because it crosses on M4 and the
+        #- guard is M1.
+        #-
+        #- SO THE M1 IDEA IS RIGHT AND THE LANE IS WRONG. M1 is what the
+        #- supply IS here and a turning M1 leg costs no plane at all;
+        #- what it may not do is run at 15000..24000. The lane is the
+        #- 6 um slot between the bottom ring's top (9000) and the
+        #- blocks' floor (15000), and that is not a number to spell:
+        #- register `fband` off `named_rects["rail_b_VSS"]` in
+        #- beforeRoute, where the ring exists, exactly as LELOTEMP_CCMPR
+        #- registers its own "base" band. Then track 0 is the slot, and
+        #- both this and RST_B have a floor to cross on.
+        #-
+        #- Three legs, west to east, each landing on the next pin:
+        #- bias to diode B, diode B to diode A, and diode A up to the
+        #- strip.
+        dict(net="VSS", layer="M1", at="e",
+             start=("xbias", "VSS"), stop=("xant_cmpo_b", "VSS"),
+             steps=[("movey", pin("xant_cmpo_b", "VSS", "y")),
+                    ("movex", pin("xant_cmpo_b", "VSS", "x")),
+                    ("end",)]),
+        dict(net="VSS", layer="M1",
+             start=("xant_cmpo_b", "VSS"), stop=("xant_cmpo_a", "VSS"),
+             steps=[("movey", pin("xant_cmpo_a", "VSS", "y")),
+                    ("movex", pin("xant_cmpo_a", "VSS", "x")),
+                    ("end",)]),
+        #- and the one leg that cannot stay on M1: the strip publishes
+        #- VSS on M4, up its own supply column.
+        dict(net="VSS",
+             start=("xant_cmpo_a", "VSS"), stop=("xdig", "VSS"),
+             steps=[("up", "M4"),
+                    ("movey", landing("y")),
+                    ("movex", landing("x")),
+                    ("end",)]),
+
         dict(net="RST_B", at="s",
              start=("xccmp", "RST_B"), stop=("xdig", "RST_B"),
              steps=[("up", "M3"),
