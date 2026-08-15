@@ -150,26 +150,27 @@ The placement above is unchanged and was verified flat -- the column
 order, every stack order, and the port plan are the same decisions,
 now stated as `order` and `rows` instead of as an afterPlace.
 
-RETRACTED, and left here because the mistake is instructive: the one
-short remaining in n_mirr_load is NOT a defect in REYATR_NCH_2C1F2.
-I claimed 12 of its 20 poly contacts had no poly under them, having
-counted coverage against the layer named `PO` alone. `POB` is the SAME
-PHYSICAL LAYER -- both are GDS 66/20, material poly, in
-tech/cic/sky130A.tech -- and the POB rects at (20800,14000)-(24000,
-26000) and (52800,14000)-(56000,26000) cover the PCO column exactly.
-Counting PO+POB, ZERO contacts are orphaned, in that cell and in
-REYATR_NCH_2C5F0 both. The library is fine; I read one of its two
-names for poly.
+THE FOUR SUBCELLS ARE DONE: each is 0 DRC, 0 shorts, 0 opens and
+"Circuits match uniquely".
 
-The cause of that short is therefore still unknown. What IS known: it
-is real (magic's extraction drops VO1 from the port list too, so it is
-not a checkroutes artifact), it appears only in context (the cell
-checks clean standalone), and it ties VO1 -- xn_mirr_load5's gate -- to
-VSS. Do not start from a geometry claim about the library again
-without checking every alias of the layer first.
+The last short was the GUARD JOG, not the routing. addPowerGuardConnection
+centres its jog on the source pin, and REYATR_*_2C1F2's poly contact
+column reaches that row -- L=0.22 makes its poly bars 2.2 um where every
+other cell's are 9.4 -- so the jog tied xn_mirr_load5's GATE, which is
+VO1, to VSS. That is why VO1 was the one port of seven that would not
+publish, and why no anchor or layer change ever moved it: the geometry
+is inside the placed cell.
 
-STATE: builds as five cells (four columns and the top). 1 short,
-8 opens, 31 DRC errors. NOT VERIFIED.
+The fix lives in cicpy, not here. A cell that needs the offset asks for
+it by its name, so every design that instantiates a 1F2 gets it without
+having to know. Two earlier explanations for this same bridge were
+wrong -- PWRUP_N_1V8's M2 rail, then a supposed defect in the library --
+and the second was an accusation made off a single grep that missed
+`POB` being the same physical layer as `PO`. Check every alias of a
+layer before making a geometry claim about a library.
+
+STATE: the TOP is not finished -- the band routing between the
+columns still shorts. The four subcells are clean.
 
 WHERE THE DRC IS, measured by building with `routes = []` and
 subtracting:
@@ -360,11 +361,6 @@ class LELOTEMP_CMPR(SidecarCell):
                 self.layout.addRoutingChannel("vo1lane", int(d.x1),
                                               int(d.x2), horizontal=False)
 
-            #- and the guard connection the supplies list excluded --
-            #- the 1F2 cells, and only those -- shifted half a wire
-            #- clear of their contact column
-            self.layout.addPowerGuardConnection(
-                "VSS", includeInstances=r"C1F2$", options="offsetlow")
             return None
 
 
@@ -440,18 +436,8 @@ class LELOTEMP_CMPR(SidecarCell):
     #- across the block -- which is exactly the case the opt-in is for.
     supplies = [{"net": "VDD_1V8", "ring": "t", "strap": "top",
                  "pin_strap": True},
-                #- THE 1F2 CELLS ONLY. The exclusion is keyed on the
-                #- CELL name, not on an instance name: what needs the
-                #- offset is the device TYPE. REYATR_*_2C1F2 is L=0.22,
-                #- so its poly bars are 2.2 um where every other cell's
-                #- are 9.4, and its poly contact column reaches the row
-                #- the guard jog is centred on and ties the gate to the
-                #- supply. Every other device keeps the plain jog.
-                #- (The scope regex is matched against the instance
-                #- name AND the cell name, so C1F2$ selects the type.)
                 {"net": "VSS", "ring": "b", "strap": "bottom",
-                 "pin_strap": True,
-                 "guard_exclude": r"C1F2$"}]
+                 "pin_strap": True}]
 
     #- Every net with pins in more than one column, one bar each on its
     #- own track of "band" -- the empty strip above the columns, which
