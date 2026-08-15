@@ -450,36 +450,83 @@ class LELOTEMP_CMPR(SidecarCell):
                 {"net": "VSS", "ring": "b", "strap": "bottom",
                  "pin_strap": True}]
 
-    #- Every net with pins in more than one column, one bar each on its
-    #- own track of "band" -- the empty strip above the columns, which
-    #- afterPlace registers. Drops are DISCOVERED: a subcell that
-    #- publishes the net gets one.
+    #- NO TOP ROUTES YET. Deliberately empty: the four subcells verify
+    #- on their own and the tiling, the rings and the guard connections
+    #- add nothing, so this is the clean baseline every route is
+    #- measured against. They go back one at a time, shortest first,
+    #- written as PATHS -- one route, then check for shorts.
     #-
-    #- Tracks are two apart, not one. A lane is width+space, 0.6 um,
-    #- but a via PAD is 0.88, so neighbouring bars whose drops land
-    #- near each other overlap even though the wires do not -- measured
-    #- on the flat version, VO1's bar inside VBN1's gate pad.
-    #- NO `cuts: 1` HERE. A lone 1x1 via is the last resort in this
-    #- technology and a design does not get to ask for one: cut
-    #- selection already walks 2x1 -> 1x2 -> 1x1 and takes the first
-    #- that fits, so forcing 1 only removes the two good options.
-    #- Tried it -- a two-cut pad is 0.88 um against a 0.6 um drop lane,
-    #- so a centred pad overhangs into both neighbours (VO1's pad
-    #- M2 (125800,257300)-(134600,260700) across VBN1's drop lane at
-    #- 123300..126300 and PWRUP_N_1V8's at 132900..135900) -- and
-    #- narrowing the pad did NOT fix it, because the real overlap is
-    #- two nets sharing one lane end to end, not two pads touching.
-    #- The bars were never the problem; they sit 1.2 um apart on their
-    #- own tracks and always did.
-    routes = [
-        {"net": "VBN1", "channel": "band", "track": 0},
-        {"net": "VO1", "channel": "band", "track": 2},
-        {"net": "VIP", "channel": "band", "track": 4},
-        {"net": "VO", "channel": "band", "track": 6},
-        {"net": "VS", "channel": "band", "track": 8},
-        {"net": "VBP2", "channel": "band", "track": 10},
-        {"net": "PWRUP_N_1V8", "channel": "band", "track": 12},
+    #- What was here before: seven ChannelRoute bars on a "band" above
+    #- the columns. The bars were never the problem -- own tracks,
+    #- 1.2 um apart -- the DROPS were: every net whose pins sit on one
+    #- terminal of a column publishes at the same x, so two nets drop
+    #- in one lane and a 0.88 um via pad on a 0.6 um lane overhangs
+    #- both neighbours. Cut size did not reach it, because the overlap
+    #- is two nets sharing a lane end to end.
+    routes = []
+
+    #- ------------------------------------------------------------
+    #- THE CROSSING NETS, ONE AT A TIME, SHORTEST FIRST.
+    #-
+    #- Every one has exactly two pins, one per subcell, so each is a
+    #- single story rather than a bar with drops. Spans, measured off
+    #- the placement:
+    #-
+    #-     PWRUP_N_1V8   12.72 um   bias  -> load
+    #-     VBN1          12.96      load  -> diff
+    #-     VO1           15.44      load  -> diff
+    #-     VS            18.00      diff  -> tail
+    #-     VIP           26.00      load  -> diff
+    #-     VO            28.00      load  -> tail
+    #-     VBP2          32.64      bias  -> tail
+    #-
+    #- Added in that order, one build and one short check each.
+    CROSSINGS = [
+        ("PWRUP_N_1V8", "xn_mirr_bias", "xn_mirr_load"),
     ]
+
+    @staticmethod
+    def _pin(layout, instname, net):
+        """A subcell's published port rect, in the parent's frame."""
+        for inst in layout.iterInstances():
+            if getattr(inst, "instanceName", "") != instname:
+                continue
+            for ch in getattr(inst, "children", []):
+                if getattr(ch, "name", "") == net and hasattr(ch, "get"):
+                    r = ch.get()
+                    if r is not None:
+                        return r
+        log.warning(f"{net}: no published pin on {instname}")
+        return None
+
+    def beforeRoute(self, layout):
+        super().beforeRoute(layout)
+        for net, a_inst, b_inst in self.CROSSINGS:
+            a = self._pin(layout, a_inst, net)
+            b = self._pin(layout, b_inst, net)
+            if a is None or b is None:
+                continue
+            #- up out of the pin, across on the horizontal layer, down
+            #- onto the other pin. M2 carries the vertical leg and M3
+            #- the horizontal one, which is the way the technology
+            #- prefers them (ROUTE.directions: M2 v, M3 h).
+            #- 1cuts,2vcuts: ONE cut wide, TWO tall. These pins are
+            #- gate tabs 0.32 um across and the default pad is two cuts
+            #- side by side, 0.72 um of cut plus enclosure -- measured,
+            #- the bias-side via reached x 55400 on a pin starting at
+            #- 57600 and took li.3 and li.c2 with it. A single column of
+            #- cuts fits the tab, and two of them vertically keeps it
+            #- off the 1x1 that is the last resort here.
+            q = layout.path(net, "M1", start=[a], stop=[b],
+                            options="1cuts,2vcuts")
+            q.start()
+            q.up()                      #- M2
+            q.movey(q.landing("y"))
+            q.up()                      #- M3
+            q.movex(q.landing("x"))
+            q.down()                    #- M2
+            q.down()                    #- M1
+            q.end()
 
     def afterPlace(self, layout):
         """Register "band", the strip the crossing nets route in.
