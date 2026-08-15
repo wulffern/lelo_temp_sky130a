@@ -250,9 +250,18 @@ class LELOTEMP_CMPR(SidecarCell):
         match = r'^(xn_mirr_load\d+|xg\d+|xstack_n_mirr_load_(top|bot)|xfill_n_mirr_load_\d+)$'
         group = "nmos"
         channel = "cload"
+        #- xn_mirr_load5 BEFORE xn_mirr_load4, so VO1's two pins are
+        #- on ADJACENT rows. VO1 is the awkward net here: its pins are
+        #- on different terminals -- load3's drain (a wide M1 bar) and
+        #- load5's gate (a narrow tab 0.9 um to the right of it) -- and
+        #- with load4 between them any vertical joining the two had to
+        #- cross a whole row of VO's drain bar and PWRUP_N_1V8's tab
+        #- rail on the way. Swapping load4 and load5 costs nothing:
+        #- both carry VO on the drain, so the column's drain order is
+        #- untouched.
         order = ['xn_mirr_load0', 'xg4', 'xg1', 'xn_mirr_load1',
-                 'xn_mirr_load2', 'xn_mirr_load3', 'xn_mirr_load4',
-                 'xn_mirr_load5']
+                 'xn_mirr_load2', 'xn_mirr_load3', 'xn_mirr_load5',
+                 'xn_mirr_load4']
 
         #- ROUTER-GENERATED, then edited. The search gave VIP and VO
         #- the SAME anchor -- both ('M1', '||', 'trunkright') -- which
@@ -268,10 +277,25 @@ class LELOTEMP_CMPR(SidecarCell):
             #- it: addPowerGuardConnection ties every source to the
             #- guard column beside it and the tap cells carry it.
             ('VSS', 'blocked', 'supplies go to the guard, not to a rail in the stack'),
-            ('PWRUP_N_1V8', 'M2', '||', 'trunktab,2cuts'),
+            #- PWRUP_N_1V8 ON M4, not M2. Its three gates are on
+            #- non-adjacent rows, so its rail spans the whole column on
+            #- the gate-tab lane -- and in the full-hierarchy view that
+            #- lane is the busiest in the cell: every REYATR cell puts
+            #- its own M1 gate tab at x 52800..56000. On M2 the rail
+            #- ran y 88000..328000 right above that column and every
+            #- other net that has to land on a tab shorted to it. On M4
+            #- it flies over and touches down only at its own three.
+            ('PWRUP_N_1V8', 'M4', '||', 'trunktab,2cuts'),
             ('VIP', 'M1', '||', 'trunkright'),
-            ('VO', 'M1', '||', 'trunktab'),
-            ('VO1', 'M1', '||', 'trunkright'),
+            #- VIP and VO both take trunkright, which is the RIGHT
+            #- EDGE of their own pins' overlap -- x 46600..49600. That
+            #- is the only M1-safe vertical window in this library: the
+            #- drain bar spans 33600..49600 and the source bar
+            #- 27200..43200, so a rail anywhere in 33600..43200 crosses
+            #- both, and only 43200..49600 is drain-only. Their pin
+            #- spans do not overlap in y, so one lane serves both.
+            ('VO', 'M1', '||', 'trunkright'),
+            ('VO1', 'M2', '-|--', 'vchannel=vo1lane,vtrack=6'),
         ]
         wires_key = "68e8d342a26b"
 
@@ -295,6 +319,28 @@ class LELOTEMP_CMPR(SidecarCell):
             self.routeSupplyDevices(instances=[
                 i for i in self.instances
                 if re.fullmatch(r"xn_mirr_load0", getattr(i, "instanceName", "") or "")])
+
+            #- A LANE FOR VO1, because no pin anchor can exist for it.
+            #- trunkright/trunkleft resolve to the pins' COMMON x
+            #- overlap and VO1 has none: its two pins are
+            #- xn_mirr_load3's drain, a 1.6 um bar at x 33600..49600,
+            #- and xn_mirr_load5's gate, a 0.32 um tab at 52800..56000.
+            #- They do not overlap, so every anchor is undefined and
+            #- the search fell back to a raw trunkx -- which is what
+            #- this file may not carry. A channel is the form that
+            #- says the same thing without a coordinate: it is
+            #- measured off the drain bar itself, so it moves with the
+            #- placement and survives another technology.
+            d = None
+            for i in self.instances:
+                if (getattr(i, "instanceName", "") or "") != "xn_mirr_load3":
+                    continue
+                for ch in getattr(i, "children", []):
+                    if getattr(ch, "name", "") == "VO1":
+                        d = ch
+            if d is not None:
+                self.layout.addRoutingChannel("vo1lane", int(d.x1),
+                                              int(d.x2), horizontal=False)
             return None
 
 
