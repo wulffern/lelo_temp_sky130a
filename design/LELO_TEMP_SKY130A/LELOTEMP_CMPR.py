@@ -139,12 +139,29 @@ merged, then 5, then 2, then 1, over about twenty builds -- and not
 one of the shorts was two wires crossing on a layer. They were via
 COLUMNS and rails sitting on foreign pins, which no track map shows.
 
-As a SidecarCell each column is a CELL. Its internal nets are routed
-by the stack-level maze router, which is space-aware and writes its
-conclusions back as `wires`; only the nets that cross between columns
-are declared here, as one bar each on its own track of a channel that
-belongs to no column. That is the difference: a bar in a channel
-cannot land on a pin, because the channel is where there are none.
+As a SidecarCell each column is a CELL, and every wire in this file --
+inside a column and between them -- is DECLARED. Nothing searches.
+
+That is the change this file most recently carried. A column's own
+nets used to be `wires`: the stack-level maze router searched them,
+resolved its conclusion to a layer, a shape and an option string, and
+wrote a paste-ready block for a person to put back into the class,
+guarded by `wires_key`, a fingerprint of the column's placement. The
+guard is the problem. Change the placement and the key stops matching;
+the block is dropped, the net is searched afresh, and NOTHING SAYS the
+design no longer describes the layout. Measured here while converting:
+n_mirr_load's key had not matched for some time. Its wires replayed
+anyway -- a mismatch condemns only the wires holding a coordinate, and
+none of those did -- so the guard warned once and changed nothing. It
+was inert in the good case and silent in the bad one.
+
+A `paths` entry names pins and lanes instead. Every anchor in it is
+recomputed from the pins on every build, so there is no key, nothing
+to go stale, and a placement change MOVES the wire rather than
+invalidating it. Demonstrated, not assumed: widening the nmos-pmos
+seam by 1 um (`xspace` 2 -> 3) moves p_diff from x 3696 to 3896 and
+every route follows, still shorts=0 opens=0, DRC and LVS clean, with
+no line of this file touched but the 2.
 
 The placement above is unchanged and was verified flat -- the column
 order, every stack order, and the port plan are the same decisions,
@@ -169,11 +186,31 @@ and the second was an accusation made off a single grep that missed
 `POB` being the same physical layer as `PO`. Check every alias of a
 layer before making a geometry claim about a library.
 
-STATE: the TOP is not finished -- the band routing between the
-columns still shorts. The four subcells are clean.
+STATE: clean, on all four checks.
 
-WHERE THE DRC IS, measured by building with `routes = []` and
-subtracting:
+    checkroutes   shorts=0 opens=0 components=47 shapes=3158
+    magic drc     0
+    klayout drc   OK
+    lvs           Circuits match uniquely
+
+The band is gone. Seven crossing nets used to ride one ChannelRoute
+each on a "band" above the columns, and the bars were never the
+problem -- own tracks, 1.2 um apart -- the DROPS were. Every net whose
+pins sit on one terminal of a column publishes its port at the same x,
+so VIP (rows 1-2) and VO (rows 6-7) both dropped in n_mirr_load's
+drain lane and VIP's drop had to pass VO's rows to reach the band:
+
+    VIP  M2 (120100,139000)-(123100,410000)
+    VO   M2 (120100,299000)-(123100,422000)
+
+the same lane, overlapping over 11 um, which no cut size reaches. The
+crossing nets are stories now (see CROSSINGS below): each leaves its
+own pin, rides its own column and crosses on a row that is named as an
+anchor, so no two of them share a lane by construction rather than by
+luck.
+
+WHERE THE DRC USED TO BE, kept because the arithmetic is the method:
+build with the top's routes empty and subtract.
 
     LELOTEMP_CMPR_N_MIRR_BIAS      0
     LELOTEMP_CMPR_P_DIFF           0
@@ -181,46 +218,17 @@ subtracting:
     LELOTEMP_CMPR_N_MIRR_LOAD     12   met1.2, mcon.2
     the top, routes = []          12   so the tiling, the rings and
                                        the guard connections add NONE
-    the top, routes as declared   31   the band adds 19
+    the top, routes as declared   31   the band added 19
 
-The floorplan is clean. Two things are not: n_mirr_load's own metal,
-and the crossing-net band.
-
-n_mirr_load is the column that carries xg1/xg4 as well as its own six,
-and the only one holding two device LENGTHS (xn_mirr_load5 is 2C1F2 at
-L=0.22 against L=0.94 for the rest). Its errors are on routed metal at
-the guard edge rather than on the devices, and the same device order
-measured 0 DRC in the flat build -- but that column had no guard of
-its own, so treat that as evidence and not as proof.
-
-WHERE THE SHORT IS: not the bars. Seven of them, own tracks, 1.2 um
-apart. The DROPS. Every net whose pins sit on one terminal of a column
-publishes its port at the same x, so VIP (rows 1-2) and VO (rows 6-7)
-both drop in n_mirr_load's drain lane and VIP's drop has to pass VO's
-rows to reach the band:
-
-    VIP  M2 (120100,139000)-(123100,410000)
-    VO   M2 (120100,299000)-(123100,422000)
-
-the same lane, overlapping over 11 um. No cut size reaches that --
-`cuts: 1` was tried, is not allowed in this technology anyway, and has
-been removed.
-
-That is the price of putting the band ABOVE the columns: every
-crossing net in a column then shares that column's terminal lane on
-the way up. Three ways out, cheapest first:
-
-  - give the drops explicit `align` (left/right) so two nets on one
-    terminal lean to opposite sides of the pin, which is what the
-    `drops:` overrides are for;
-  - publish each subcell's boundary ports at distinct x rather than on
-    the pin they came from;
-  - register a second band BELOW the columns and send half the nets
-    down, so no column carries more than one drop per lane.
+Both numbers are 0 today. n_mirr_load's own 12 were two rails on one
+terminal 0.12 um apart -- the search had given VIP and VO the same
+anchor -- and they are on opposite sides of the pin now.
 """
 import logging
 import re
 
+from cicpy.core.path import (PITCH, SPACE, left_of_pins, pin,
+                             right_of_pins, tab_lane, track)
 from cicpy.sidecar import SidecarCell, Stack
 
 log = logging.getLogger("LELOTEMP_CMPR")
@@ -246,11 +254,28 @@ class LELOTEMP_CMPR(SidecarCell):
         #- to a node addPowerGuardConnection has already tied to the
         #- guard column beside every source, on M1, with the tap cells
         #- carrying it up, down and across.
-        wires = [
-            ('VSS', 'blocked', 'the supply reaches the guard on M1; a stack does not need an M2 rail for it, and the search only drew one because it was asked to route every net'),
-            ('VBP2', 'M1', '||', 'trunkright'),
+        #-
+        #- `blocked` and not a wires triple: this half of a wires block
+        #- never held geometry, so it needs no fingerprint to guard and
+        #- nothing in it can go stale.
+        blocked = [
+            ('VSS', 'the supply reaches the guard on M1; a stack does '
+                    'not need an M2 rail for it, and the search only '
+                    'drew one because it was asked to route every net'),
         ]
-        wires_key = "cfcf038bff4d"
+
+        #- VBP2: the four bias2 drains, one M1 rail on their right edge.
+        #-
+        #- WAS ('VBP2', 'M1', '||', 'trunkright') plus a wires_key. The
+        #- rail is the same rail; what is gone is the fingerprint. The
+        #- pins are COLLECTED rather than named, so `order` can be
+        #- rewritten and bias2 can grow a fifth device without touching
+        #- this line -- where the key would have stopped matching and
+        #- the block would have been discarded in silence.
+        paths = [
+            dict(net="VBP2", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+        ]
 
     class n_mirr_load(Stack):
         """D: VSS | VIP VIP | VBN1 VBN1 | VO1 | VO VO
@@ -282,54 +307,90 @@ class LELOTEMP_CMPR(SidecarCell):
                  'xn_mirr_load2', 'xn_mirr_load3', 'xn_mirr_load5',
                  'xn_mirr_load4']
 
-        #- ROUTER-GENERATED, then edited. The search gave VIP and VO
-        #- the SAME anchor -- both ('M1', '||', 'trunkright') -- which
-        #- is two rails on one terminal 0.12 um apart, and that is 12
-        #- met1.2/mcon.2 errors and the only dirty subcell in the cell.
-        #- They are the two nets that leave on opposite edges, so they
-        #- take opposite sides of the pin: VIP left, VO right.
-        wires = [
-            #- VSS is BLOCKED, not routed. The search drew it as a
-            #- rail at trunkx=-800 -- a coordinate outside the cell --
-            #- and it landed on the bottom tap row's own M1 at y=4.5,
-            #- which was the other 6 errors. The supply does not need
-            #- it: addPowerGuardConnection ties every source to the
-            #- guard column beside it and the tap cells carry it.
-            ('VSS', 'blocked', 'supplies go to the guard, not to a rail in the stack'),
-            #- LOW, BUT NOT ONTO M3. Swept with the rest of the cell
-            #- fixed, only (PWRUP_N=M3, VO1=M2) and (M4, M2) verify --
-            #- and M3 is the wrong one of the two, because this rail
-            #- spans the whole column height and M3 is the layer the
-            #- TOP crosses on. Four of the seven crossing nets have to
-            #- pass through this column, and on M3 the first of them
-            #- (VBN1) shorted straight into this rail. M4 costs the
-            #- subcell nothing and leaves M3 clear for the parent:
-            #- lowest is a rule about the cell, not about the design.
-            #- VO1 cannot reach M1: every M1 attempt shorts, because its
-            #- two pins are on different terminals with no common x.
-            #-
-            #- PWRUP_N_1V8 ABOVE M2. Its three gates are on
-            #- non-adjacent rows, so its rail spans the whole column on
-            #- the gate-tab lane -- and in the full-hierarchy view that
-            #- lane is the busiest in the cell: every REYATR cell puts
-            #- its own M1 gate tab at x 52800..56000. On M2 the rail
-            #- ran y 88000..328000 right above that column and every
-            #- other net that has to land on a tab shorted to it. Above
-            #- it, the rail flies over and touches down only at its own
-            #- three.
-            ('PWRUP_N_1V8', 'M4', '||', 'trunktab,2cuts'),
-            ('VIP', 'M1', '||', 'trunkright'),
-            #- VIP and VO both take trunkright, which is the RIGHT
-            #- EDGE of their own pins' overlap -- x 46600..49600. That
-            #- is the only M1-safe vertical window in this library: the
-            #- drain bar spans 33600..49600 and the source bar
-            #- 27200..43200, so a rail anywhere in 33600..43200 crosses
-            #- both, and only 43200..49600 is drain-only. Their pin
-            #- spans do not overlap in y, so one lane serves both.
-            ('VO', 'M1', '||', 'trunkright'),
-            ('VO1', 'M2', '-|--', 'vchannel=vo1lane,vtrack=6'),
+        #- VSS BLOCKED, not routed. The search drew it as a rail at
+        #- trunkx=-800 -- a coordinate outside the cell -- and it landed
+        #- on the bottom tap row's own M1 at y=4.5, which was 6 of the
+        #- 12 errors this column used to carry. The supply does not need
+        #- it: addPowerGuardConnection ties every source to the guard
+        #- column beside it and the tap cells carry it.
+        blocked = [
+            ('VSS', 'supplies go to the guard, not to a rail in the '
+                    'stack'),
         ]
-        wires_key = "68e8d342a26b"
+
+        #- WHAT THE wires BLOCK USED TO SAY, and what replaced it. The
+        #- old block was router output, hand-edited twice: the search
+        #- had given VIP and VO the SAME anchor, two rails on one
+        #- terminal 0.12 um apart, which was 12 met1.2/mcon.2 errors and
+        #- the only dirty subcell in the cell.
+        #-
+        #- MEASURED WHILE CONVERTING: its `wires_key` (68e8d342a26b) had
+        #- not matched the placement (f01a10fc0963) for some time, and
+        #- every wire in it replayed anyway -- a mismatch condemns only
+        #- the wires that carry a coordinate, and none of these did. So
+        #- the guard fired, warned once in a 200-line log, and changed
+        #- nothing. That is the good case. The bad one is a block that
+        #- DOES carry a coordinate: it is dropped, the net is searched
+        #- afresh, and nothing says the design no longer describes the
+        #- layout. A path has no key, because it has nothing to guard:
+        #- every anchor in it is recomputed from the pins each run.
+        #-
+        #- VIP and VO: rows 1-2's and rows 6-7's drains, one M1 rail
+        #- each on their right edge. trunkright is the RIGHT EDGE of
+        #- each net's own pins -- x 46600..49600 -- and that is the only
+        #- M1-safe vertical window in this library: the drain bar spans
+        #- 33600..49600 and the source bar 27200..43200, so a rail
+        #- anywhere in 33600..43200 crosses both, and only 43200..49600
+        #- is drain-only. Both nets take it and they do not meet,
+        #- because a trunk spans its OWN pins and their y spans are
+        #- disjoint.
+        paths = [
+            dict(net="VIP", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+            dict(net="VO", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+
+            #- PWRUP_N_1V8: a FLYOVER, and the two steps say so.
+            #-
+            #- Its three gates sit on non-adjacent rows, so its rail
+            #- spans the whole column on the gate-tab lane -- and in
+            #- the full-hierarchy view that lane is the busiest in the
+            #- cell: every REYATR cell puts its own M1 gate tab at
+            #- x 52800..56000. On M2 the rail ran right above that
+            #- column and every other net that has to land on a tab
+            #- shorted to it. On M4 it flies over and `taps` brings it
+            #- down at its own three pins and nowhere else.
+            #-
+            #- M4 and not M3, still: M3 is the layer the PARENT crosses
+            #- on, and four of the seven crossing nets pass through
+            #- this column. Lowest is a rule about the cell, not about
+            #- the design.
+            dict(net="PWRUP_N_1V8", layer="M4",
+                 steps=[("trunk", tab_lane()), ("taps",)]),
+
+            #- VO1: the one net in this column with NO common lane.
+            #- Its two pins are on different terminals of adjacent
+            #- rows -- xn_mirr_load3's drain, a 1.6 um M1 bar, and
+            #- xn_mirr_load5's gate, a 0.32 um tab 0.9 um to its right
+            #- -- so trunkright and trunkleft are both undefined and
+            #- the search fell back to a raw coordinate. It was carried
+            #- as a channel (`vchannel=vo1lane,vtrack=6`) with the
+            #- channel itself registered by hand in beforeRoute off
+            #- load3's drain rect, which is thirteen lines of hook to
+            #- say "a lane near that pin".
+            #-
+            #- As a story there is no lane to name at all. The two pins
+            #- ARE the specification: leave the drain by its east edge,
+            #- which is the side the tab is on, hop to M2, and cross to
+            #- the tab's own column. Nothing here is a coordinate and
+            #- nothing depends on the row order.
+            dict(net="VO1", at="e",
+                 start=("xn_mirr_load3", "VO1"),
+                 stop=("xn_mirr_load5", "VO1"),
+                 steps=[("up",),
+                        ("movex", pin("xn_mirr_load5", "VO1", "x")),
+                        ("end",)]),
+        ]
 
         def beforeRoute(self, entry):
             """Strap the netlist's OWN supply devices.
@@ -351,29 +412,11 @@ class LELOTEMP_CMPR(SidecarCell):
             self.routeSupplyDevices(instances=[
                 i for i in self.instances
                 if re.fullmatch(r"xn_mirr_load0", getattr(i, "instanceName", "") or "")])
-
-            #- A LANE FOR VO1, because no pin anchor can exist for it.
-            #- trunkright/trunkleft resolve to the pins' COMMON x
-            #- overlap and VO1 has none: its two pins are
-            #- xn_mirr_load3's drain, a 1.6 um bar at x 33600..49600,
-            #- and xn_mirr_load5's gate, a 0.32 um tab at 52800..56000.
-            #- They do not overlap, so every anchor is undefined and
-            #- the search fell back to a raw trunkx -- which is what
-            #- this file may not carry. A channel is the form that
-            #- says the same thing without a coordinate: it is
-            #- measured off the drain bar itself, so it moves with the
-            #- placement and survives another technology.
-            d = None
-            for i in self.instances:
-                if (getattr(i, "instanceName", "") or "") != "xn_mirr_load3":
-                    continue
-                for ch in getattr(i, "children", []):
-                    if getattr(ch, "name", "") == "VO1":
-                        d = ch
-            if d is not None:
-                self.layout.addRoutingChannel("vo1lane", int(d.x1),
-                                              int(d.x2), horizontal=False)
-
+            #- WHAT IS NO LONGER HERE: thirteen lines that walked the
+            #- instances to find xn_mirr_load3's VO1 rect and registered
+            #- a routing channel across it, so that VO1's wire had a
+            #- lane to name. VO1's path names the two pins instead, so
+            #- there is no lane to register and no hook to hold it.
             return None
 
 
@@ -391,6 +434,18 @@ class LELOTEMP_CMPR(SidecarCell):
         #- the smallest clean value in the spacing table.
         xspace = 2
         order = [r'xp_diff3<\d+>', 'xp_diff1', 'xp_diff2']
+
+        #- VS: the pair's two sources, one M1 rail on their LEFT edge --
+        #- the side facing p_mirr_tail's own VS rail across the seam.
+        #-
+        #- This is the net that was never in the file. It searched on
+        #- every build and its conclusion was written to
+        #- LELOTEMP_CMPR.routes.py for someone to paste back; declared,
+        #- the search does not run and there is nothing to paste.
+        paths = [
+            dict(net="VS", layer="M1",
+                 steps=[("trunk", left_of_pins())]),
+        ]
 
         def beforeRoute(self, entry):
             """Strap the netlist's OWN supply devices.
@@ -430,11 +485,19 @@ class LELOTEMP_CMPR(SidecarCell):
                  'xp_mirr_tail2']
 
         #- VDD_1V8 BLOCKED, same reason as VSS in n_mirr_bias.
-        wires = [
-            ('VDD_1V8', 'blocked', 'the supply reaches the guard on M1; a stack does not need an M2 rail for it, and the search only drew one because it was asked to route every net'),
-            ('VS', 'M1', '||', 'trunkright'),
+        blocked = [
+            ('VDD_1V8', 'the supply reaches the guard on M1; a stack '
+                        'does not need an M2 rail for it, and the '
+                        'search only drew one because it was asked to '
+                        'route every net'),
         ]
-        wires_key = "b94e2dec7047"
+
+        #- VS: the three tail3 sources, one M1 rail on their right edge,
+        #- facing p_diff's sources across the seam.
+        paths = [
+            dict(net="VS", layer="M1",
+                 steps=[("trunk", right_of_pins())]),
+        ]
 
     #- ONE row: the four columns side by side, in the order the
     #- netlist asked for (see WHY THE COLUMNS SIT IN THIS ORDER).

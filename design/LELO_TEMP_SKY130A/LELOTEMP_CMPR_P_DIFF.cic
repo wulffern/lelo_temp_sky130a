@@ -249,110 +249,6 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
-            "x2": 9600,
-            "y2": 3800,
-            "layer": "",
-            "net": "",
-            "name": "cut_M1M4_2x1",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 8400,
-                    "y2": 3200,
-                    "layer": "M1",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 300,
-                    "x2": 3200,
-                    "y2": 2900,
-                    "layer": "VIA1",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 5200,
-                    "y1": 300,
-                    "x2": 7800,
-                    "y2": 2900,
-                    "layer": "VIA1",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 8800,
-                    "y2": 3400,
-                    "layer": "M2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 300,
-                    "x2": 3400,
-                    "y2": 3100,
-                    "layer": "VIA2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 5400,
-                    "y1": 300,
-                    "x2": 8200,
-                    "y2": 3100,
-                    "layer": "VIA2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 8800,
-                    "y2": 3400,
-                    "layer": "M3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 300,
-                    "x2": 3400,
-                    "y2": 3100,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 5400,
-                    "y1": 300,
-                    "x2": 8200,
-                    "y2": 3100,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 9600,
-                    "y2": 3800,
-                    "layer": "M4",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
             "x2": 4000,
             "y2": 4000,
             "layer": "",
@@ -1381,6 +1277,42 @@
                     "net": "VDD_1V8"
                 },
                 {
+                    "class": "Path",
+                    "x1": 17600.0,
+                    "y1": 186000,
+                    "x2": 20600.0,
+                    "y2": 230000,
+                    "layer": "",
+                    "net": "VS",
+                    "name": "VS",
+                    "has_pr": false,
+                    "ckt": {},
+                    "children": [
+                        {
+                            "class": "Rect",
+                            "x1": 17600.0,
+                            "y1": 186000,
+                            "x2": 20600.0,
+                            "y2": 230000,
+                            "layer": "M1",
+                            "net": "VS"
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
+                        {
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunkleft"
+                            }
+                        }
+                    ]
+                },
+                {
                     "class": "Rect",
                     "x1": 0.0,
                     "y1": 26000,
@@ -1908,39 +1840,6 @@
                             "layer": "TXT",
                             "net": "VDD_1V8",
                             "name": "VDD_1V8"
-                        }
-                    ]
-                },
-                {
-                    "class": "Route",
-                    "x1": 17600.0,
-                    "y1": 186000.0,
-                    "x2": 20600.0,
-                    "y2": 228000.0,
-                    "layer": "",
-                    "net": "VS",
-                    "name": "VS",
-                    "has_pr": false,
-                    "ckt": {},
-                    "children": [
-                        {
-                            "class": "Rect",
-                            "x1": 17600.0,
-                            "y1": 188000.0,
-                            "x2": 20600.0,
-                            "y2": 228000.0,
-                            "layer": "M1",
-                            "net": "VS"
-                        },
-                        {
-                            "class": "Text",
-                            "x1": 17600.0,
-                            "y1": 186000.0,
-                            "x2": 17600.0,
-                            "y2": 186000.0,
-                            "layer": "TXT",
-                            "net": "VS",
-                            "name": "VS"
                         }
                     ]
                 },
