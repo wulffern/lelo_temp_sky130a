@@ -173,7 +173,6 @@ class LELOTEMP_CCMPR(SidecarCell):
             layout.addRoutingChannel("base", int(rb.y2), 0)
         super().beforeRoute(layout)
         self._crossings(layout)
-
     @staticmethod
     def _port(inst, net):
         rs = [c.get() for c in getattr(inst, "children", []) or []
