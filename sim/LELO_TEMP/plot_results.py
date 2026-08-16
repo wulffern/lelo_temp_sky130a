@@ -63,7 +63,10 @@ def process(name):
     with open(cname) as fi:
         calib = yaml.safe_load(fi)
 
-    temp = lt.KelvinFromFreq(freq, compensate=True)
+    #- the model is calibrated per netlist view (LELO_TEMP.FIT)
+    ltv = LELO_TEMP.LELO_TEMP(
+        view="Lay" if "Lay" in os.path.basename(name) else "Sch")
+    temp = ltv.KelvinFromFreq(freq, compensate=True)
     err1 = (temp + calib["one_offset"]) - xk
     err2 = (temp * calib["two_gain"] + calib["two_offset"]) - xk
 

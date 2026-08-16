@@ -24,7 +24,10 @@ def main(name,corner=None,show=False,ax=None):
   with open("replace.yaml") as fi:
     replace = yaml.safe_load(fi)
 
-  lt = LELO_TEMP.LELO_TEMP()
+  #- per-view model calibration (see LELO_TEMP.FIT)
+  import os
+  view = "Lay" if "Lay" in os.path.basename(name) else "Sch"
+  lt = LELO_TEMP.LELO_TEMP(view=view)
 
   x = [25,85]
 

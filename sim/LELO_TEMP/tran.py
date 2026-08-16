@@ -19,6 +19,10 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
   yamlfile = name + ".yaml"
   with open(yamlfile) as fi:
     obj = yaml.safe_load(fi)
+  #- the model is calibrated per netlist view (see LELO_TEMP.FIT);
+  #- the run name says which view produced these measurements
+  import os
+  view = "Lay" if "Lay" in os.path.basename(name) else "Sch"
 
   with open("replace.yaml") as fi:
     replace = yaml.safe_load(fi)
@@ -35,7 +39,7 @@ def main(name,corner=None,show=False,ax=None,redColor="red",blueColor="blue"):
     print(f"INFO: {t} {dt}")
     y.append(float(1/dt))
 
-    lt = LELO_TEMP.LELO_TEMP()
+    lt = LELO_TEMP.LELO_TEMP(view=view)
   xk = x + lt.T0
   freq = np.array(y)
 

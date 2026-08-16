@@ -1,0 +1,3 @@
+t_start: 2us
+t_stop: 7us
+temperatures: -40 25 85 125

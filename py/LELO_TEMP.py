@@ -45,7 +45,39 @@ import numpy as np
 
 class LELO_TEMP():
 
-    def __init__(self):
+    #- Effective oscillator capacitance and residual delay, per
+    #  netlist view, FITTED from the typical corner (GtKttTtVt) by
+    #  linear regression of the measured half period against the
+    #  model's own Vc(T)/I(T):  dt = C*(Vc/I) + delay.  The fit
+    #  explains both views to < 1 ns over -40..125 C, and the fitted
+    #  delay is ~0 -- the "unmodeled comparator delay" the error
+    #  curves suggested was capacitance all along:
+    #    * the hand value (53.8f*5 + 22f = 291 fF) was 28 fF short
+    #      of even the schematic (device junctions and comparator
+    #      input),
+    #    * extraction adds ~66 fF more, almost all of it wiring on
+    #      IBP_1U<0>/<2> -- the timing caps hang directly on the
+    #      PTAT distribution net, which crosses the whole tile.
+    #  With these, one-point calibration is within about +/-1 C on
+    #  both views (was +11.2/-8.2 C on Lay).  Silicon is the
+    #  extracted view, so "Lay" is the default.  To refit after a
+    #  layout or netlist change: regress dt against Vc/I over the
+    #  typical run's t1/t2 measurements (least squares, two terms).
+    #  The RC extraction ("LayR", make layr in sim/LELO_TEMP) holds
+    #  the SAME 1.57 pF total but distributes it along the wiring
+    #  resistance instead of lumping it on the ramp node, and loads
+    #  the oscillator ~8 % less: dt_RC/dt_C = 0.92, constant over
+    #  temperature and process corner (Ktt/Kss/Khh measured).
+    #  Silicon likely sits nearer the RC answer; "Lay" stays the
+    #  spec view, and the spread Lay..LayR (385..354 fF) is the
+    #  extraction uncertainty a 1-point calibration has to carry.
+    FIT = {
+        "Lay": (385.15e-15, -1.02e-9),
+        "LayR": (354.07e-15, -1.21e-9),
+        "Sch": (319.00e-15, -2.05e-9),
+    }
+
+    def __init__(self, view="Lay"):
 
 
         #- Bipolar size difference and current difference
@@ -57,8 +89,8 @@ class LELO_TEMP():
         #- Center of the -40C to 125C curve
         self.Tcenter = 42.5
 
-        #- Model comparator delay
-        self.cmp_delay = 0e-9
+        #- Comparator delay: the fitted residual, ~0 (see FIT)
+        self.cmp_delay = self.FIT[view][1]
 
         #- Simulation with 0.1 V across the resistor
         df = pd.read_csv(StringIO(resistor_model), sep=r"\s+")
@@ -76,10 +108,12 @@ class LELO_TEMP():
         #- Boltzmann's constatnt over the unit charge
         self.k_q = const.k/const.e
 
-        #- Parasitic capacitance
-        self.C_cmp = 22e-15
+        #- Parasitic capacitance beyond the five drawn caps: the
+        #  fitted effective C minus them (kept as a separate term so
+        #  the old C = caps + C_cmp reading still holds)
+        self.C_cmp = self.FIT[view][0] - 53.8e-15*5
 
-        #- Capacitance of the
+        #- Effective oscillator capacitance, fitted per view
         self.C = 53.8e-15*5 + self.C_cmp
 
         #- Diode voltage current factor (<https://analogicus.com/aic2026/diodes>)

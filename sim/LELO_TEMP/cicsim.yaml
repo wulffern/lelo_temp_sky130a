@@ -4,6 +4,8 @@ options:
 corner:
   Lay: ''
   Sch: ''
+  #- the RC extraction (make lper); no internal probes
+  LayR: ''
 ngspice:
   library: LELO_TEMP_SKY130A
   cell: LELO_TEMP

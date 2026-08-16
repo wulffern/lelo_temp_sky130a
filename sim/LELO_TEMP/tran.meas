@@ -22,7 +22,8 @@ meas tran t2_$vtemp WHEN v(osc_temp_1V8)=0.9 RISE=5 FROM={t_start}
 *- mismatch shows up here, as "no such vector as v(xdut.vc)".
 #ifdef Lay
 meas tran vc_$vtemp FIND V(xdut.xbias.vc) AT={t_stop}
-#else
+#endif
+#ifdef Sch
 meas tran vc_$vtemp FIND V(xdut.vc) AT={t_stop}
 #endif
 

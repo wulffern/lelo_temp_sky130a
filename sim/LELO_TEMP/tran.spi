@@ -2,9 +2,16 @@
 *----------------------------------------------------------------
 * Include
 *----------------------------------------------------------------
+*- three views, told FLAT: the cicsim preprocessor does not nest.
+*- LayR is the RC extraction (make lper): resistors split internal
+*- nodes, so it gets no internal probes below.
+#ifdef LayR
+.include ../../../work/lpe/LELO_TEMP_lper.spi
+#endif
 #ifdef Lay
 .include ../../../work/lpe/LELO_TEMP_lpe.spi
-#else
+#endif
+#ifdef Sch
 .include ../../../work/xsch/LELO_TEMP.spice
 #endif
 
@@ -55,7 +62,8 @@ VPWR  PWRUP_1V8  VSS  pwl 0 0 {t_start} 0 {{t_start} + 10p} {AVDD}
 .save v(xdut.xccmp.rst_a) v(xdut.xccmp.rst_b)
 .save v(xdut.xccmp.cmpo_a) v(xdut.xccmp.cmpo_b)
 .save v(xdut.xbias.x1_ibp.xr_lad.vr1) v(xdut.xbias.x1_ibp.xr_lad.vd2)
-#else
+#endif
+#ifdef Sch
 .save v(xdut.LPI) v(xdut.vc)
 .save v(xdut.ibp_1u<0>) v(xdut.ibp_1u<1>) v(xdut.ibp_1u<2>) v(xdut.ibp_1u<3>)
 .save v(xdut.rst_a) v(xdut.rst_b)

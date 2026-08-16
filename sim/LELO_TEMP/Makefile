@@ -41,6 +41,17 @@ cmc:
 plotall:
 	python3 plot_results.py
 
+#- The RC extraction, on the worst etc corners. `make lper` in work/
+#- first; fix_lper.py repairs what magic emits (duplicate device
+#- names, pm^2 diode areas). The lvsr check on that netlist fails
+#- STRUCTURALLY (the norc stripping leaves resistor fragments), so
+#- the netlist is verified by use, against the Lay view: dt_RC/dt_C
+#- = 0.92 flat over temperature and corner -- same total C, spread
+#- along the wiring instead of lumped on the ramp node.
+layr:
+	python3 fix_lper.py ../../work/lpe/LELO_TEMP_lper.spi
+	cicsim run --threads 3 ${PROGRESS} --replace replace_rc.yaml --name LayR_worst tran ${OPT} LayR Gt "Kss,Khh,Ktt" Tt Vt
+
 include ../../tech/make/sim.make
 
 test:
