@@ -1488,7 +1488,7 @@ class LELO_TEMP(SidecarCell):
                     #- what found it. Track 6 is one lane above
                     #- CMPO_B's crossing (4) and clear of its riser,
                     #- which tops out at the row below.
-                    ("movey", track("cband", 6)),
+                    ("movey", track("cband", 2)),
                     ("movex", track("dband", 10)),
                     ("down", "M4"),
                     ("movey", landing("y")),
@@ -1504,7 +1504,7 @@ class LELO_TEMP(SidecarCell):
              start=("xccmp", "RST_A"), stop=("xdig", "RST_A"),
              steps=[("movey", track("cband", 0)),
                     ("up", "M3"),
-                    ("movey", track("cband", 8)),
+                    ("movey", track("cband", 2)),
                     ("movex", track("dband", 2)),
                     ("up", "M4"),
                     ("movey", landing("y")),
@@ -1581,7 +1581,13 @@ class LELO_TEMP(SidecarCell):
         dict(net="CMPO_B", at="n",
              start=("xccmp", "CMPO_B"), stop=("xdig", "CMPO_B"),
              steps=[("up", "M5"),
-                    ("movey", track("cband", 4)),
+                    #- cband is 1040700..1063300: three legal tracks. 4, 8 and
+                    #- 20 were all indexes from a taller band, resolving
+                    #- ABOVE it -- 6.77, 110.7 and 118.0 um rows in a band
+                    #- that ends at 106.33. They verified, because no check
+                    #- knows a band's edge; the tt_um assembly needs the
+                    #- top strip empty and is what found them.
+                    ("movey", track("cband", 0)),
                     ("movex", track("dband", 4)),
                     ("down", "M4"),
                     ("movey", landing("y")),
