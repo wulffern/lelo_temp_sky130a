@@ -1479,7 +1479,16 @@ class LELO_TEMP(SidecarCell):
         dict(net="PWRUP_N_1V8", layer="M5",
              start=("xbias", "PWRUP_N_1V8"), stop=("xdig", "PWRUP_N_1V8"),
              steps=[("movex", track("lband", 1)),
-                    ("movey", track("cband", 20)),
+                    #- TRACK 6, NOT 20. cband is 1040700..1063300 now --
+                    #- three legal tracks -- and 20 was a stale index
+                    #- from a taller band: it resolved to y ~1180000,
+                    #- 6.6 um ABOVE the TinyTapeout tile ceiling
+                    #- (111.52 um). Every check passed, because no
+                    #- check knows the ceiling; the tt_um assembly is
+                    #- what found it. Track 6 is one lane above
+                    #- CMPO_B's crossing (4) and clear of its riser,
+                    #- which tops out at the row below.
+                    ("movey", track("cband", 6)),
                     ("movex", track("dband", 10)),
                     ("down", "M4"),
                     ("movey", landing("y")),
