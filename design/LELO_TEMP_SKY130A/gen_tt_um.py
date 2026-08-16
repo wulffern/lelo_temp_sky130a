@@ -111,14 +111,40 @@ labels.append(f"flabel metal4 480 0 880 {TOP} 1 FreeSans 800 0 0 0 VGND\n"
 #- ------------------------------------------------------------------
 #- the core, at the origin: the rails overlay only its M1 ring
 #- ------------------------------------------------------------------
-uses.append(("LELO_TEMP", "LELO_TEMP_0", "", 1, 0, 0, 0, 1, 0,
-             0, 0, 30904, 22200))
+#- HALF A MICRON IN FROM THE WEST EDGE. The core's guard nwell
+#- overhangs its own box by 0.44 um -- by design, it is the half an
+#- abutted neighbour would share -- and at x 0 the overhang crossed
+#- the tile edge, touched the VDPWR rail's boundary, and magic's LEF
+#- writer swept it into the pin: TT precheck refuses a power pin
+#- with an nwell port. Inboard, no shape crosses the tile edge and
+#- the pin is metal only.
+DX = 100
+uses.append(("LELO_TEMP", "LELO_TEMP_0", "", 1, 0, DX, 0, 1, 0,
+             DX, 0, 30904 + DX, 22200))
 
-#- power: one stack from each rail onto the core's own supply ring.
-#- VDD bar y 107..107.9 um under the VDPWR rail; VSS bar y 1.5..2.4
-#- under the VGND rail. Both bars are locali.
-stack(240, 21490, "metal4", "locali")
-stack(680, 390, "metal4", "locali")
+#- power: each rail lands on its ring as a WIDE stack -- metal pads
+#- over the whole rail-to-ring overlap with contact PAINT, which
+#- magic fractures into every cut the rules admit. A single-cut
+#- stack here was ~20 ohm in series (mcon 9.3 + via1 4.5 + via2 3.4
+#- + via3 3.4) feeding the whole tile; paint the size of the overlap
+#- is dozens of cuts per level. The met1 pad lands on the ring's own
+#- met1 strap, whose full-length viali paint carries into the locali
+#- ring -- so the stack stops at met1 and the worst resistor in the
+#- chain (a lone mcon) is not in it at all.
+def power_pad(x1, y1, x2, y2):
+    for lay in ("metal1", "metal2", "metal3", "metal4"):
+        rect(lay, x1, y1, x2, y2)
+    for cut in ("via1", "via2", "via3"):
+        rect(cut, x1 + 20, y1 + 20, x2 - 20, y2 - 20)
+
+#- ON THE RING ROWS -- not the blocks' own supply bars. The first
+#- version landed at the bars (y 107.4 / 1.95 um), which the old
+#- single stacks reached because they drilled to locali; a stack
+#- that stops at met1 must stand where the met1 STRAP is, and that
+#- is the ring rows themselves (measured: on the bars, VGND came
+#- out split, with the core's VSS on the substrate node).
+power_pad(30 + DX, 21727, 370, 21877)     # VDPWR rail onto the VDD ring row
+power_pad(510, 15, 850, 165)         # VGND rail onto the VSS ring row
 
 #- ------------------------------------------------------------------
 #- ui_in[0] -> PWRUP_1V8, all metal4
@@ -138,8 +164,8 @@ rect("metal4", ui - 30, 21984, 32030, 22044)            # top row
 #- then entered through its own bottom edge, the one side nothing
 #- else uses.
 rect("metal4", 31970, 110, 32030, 22044)                # east margin lane
-rect("metal4", 29184, 110, 32030, 170)                  # floor row, y 0.7 um
-rect("metal4", 29184, 110, 29244, 690)                  # up into PWRUP's bottom
+rect("metal4", 29184 + DX, 110, 32030, 170)                  # floor row, y 0.7 um
+rect("metal4", 29184 + DX, 110, 29244 + DX, 690)                  # up into PWRUP's bottom
 
 #- the antenna diode, tapped off ui's OWN margin lane. It sat at
 #- x 158.5 -- which the lane swap made the uo met3 lane -- and the
@@ -172,7 +198,7 @@ rect("metal3", 31670, 4150, 31730, 22044)               # margin lane (west of u
 rect("metal3", 31615, 4150, 31785, 4320)                # via pad
 rect("via3", 31665, 4200, 31735, 4270)
 rect("metal4", 31615, 4150, 31785, 4320)
-rect("metal4", 29770, 4190, 31785, 4250)                # met4 stub onto the pad
+rect("metal4", 29770 + DX, 4190, 31785, 4250)                # met4 stub onto the pad
 
 #- ------------------------------------------------------------------
 #- uio_oe[7:0] -> VGND, tied low through a res_generic_m4 each

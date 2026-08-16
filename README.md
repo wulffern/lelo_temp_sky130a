@@ -12,7 +12,7 @@ Carsten Wulff
 
 Example of a temperature sensor 
 
-# How
+# How it works
 
 One way to make a temperature sensor is to create a temperature dependent
 oscillator, and then measure the frequency of the oscillator. In Figure 0 we can
@@ -89,6 +89,18 @@ of the curve needs to be compensated for. See the python model for details.
 | Verilog TB      | sim/tb_lelo_temp/tb.v                  |
 | Analog top TB   | sim/LELO_TEMP/tran.spi                 |
 
+
+# How to test
+
+Power the tile (VDPWR = 1.8 V), then drive PWRUP_ANA (ui[0]) high to
+power the analog core up. The temperature-dependent oscillator output
+appears on OSC_TEMP (uo[0]); measure its frequency with a counter or a
+logic analyzer. The frequency tracks temperature -- sweep the ambient
+and record frequency versus temperature to calibrate. Drive PWRUP_ANA
+low and the core powers down to leakage.
+
+No external hardware is required beyond something that can measure a
+digital frequency.
 
 # Signal interface
 
