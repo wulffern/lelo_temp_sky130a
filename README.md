@@ -121,24 +121,43 @@ No external hardware is required beyond something that can measure frequency.
 
 # Simulation graphs
 
-Typical temperature error of the sensor is low, but I've calibrated the second
-order correction for typical conditions.   
+All result figures show both views: **Sch** is the schematic netlist,
+**Lay** the parasitic extraction of the finished layout. Points are
+colored by temperature, blue at -40 C to red at 125 C. In the error
+figures the left column is one-point calibration, the right column
+two-point; the dashed red lines are the industrial spec (-40 to 125 C,
+±15 C / ±10 C), the dotted box the commercial spec (0 to 70 C,
+±10 C / ±5 C), and each panel prints its worst positive and negative
+error.
 
-Over mismatch and extreme test condition (ETC) the temperature error increase. 
+The oscillator frequency itself shifts down about 20 % from Sch to Lay
+under the extracted parasitics -- the calibration absorbs most of it,
+which is the point of calibrating:
 
+![](sim/LELO_TEMP/tran_transfer.png)
 
-![](sim/LELO_TEMP/tran_Sch_typical.png)
+<sub> Figure 4: Oscillator frequency versus temperature, typical</sub>
 
-<sub> Figure 4: Typical simulation results of the oscillator</sub>
+Typical temperature error of the sensor is low, but I've calibrated the
+second order correction for typical *schematic* conditions, so the Lay
+one-point error carries the residual curvature the calibration no
+longer matches:
 
+![](sim/LELO_TEMP/tran_err_typical.png)
 
-![](sim/LELO_TEMP/tran_Sch_mc.png)
+<sub> Figure 5: Temperature error, typical</sub>
 
-<sub> Figure 5: Mismatch simulation of the oscillator</sub>
+Over the extreme test condition corners (ETC) and mismatch the
+temperature error increases:
 
+![](sim/LELO_TEMP/tran_err_etc.png)
 
+<sub> Figure 6: Temperature error, extreme test conditions (PVT)</sub>
 
-![](sim/LELO_TEMP/tran_Sch_etc.png)
+![](sim/LELO_TEMP/tran_err_mc.png)
 
-<sub> Figure 6: Extreme test conditions (PVT) simulation of oscillator </sub>
+<sub> Figure 7: Temperature error, mismatch (10 samples)</sub>
+
+The full result tables with spec checking are in
+[sim/LELO_TEMP/README.md](sim/LELO_TEMP/README.md).
 

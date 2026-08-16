@@ -14,6 +14,15 @@ all: report plotall
 
 runs: typical etc mc
 
+#- The same sets on the extracted netlist. Hours, not minutes.
+lay:
+	${MAKE} process VIEW=Lay TB=calibrate
+	${MAKE} mc      VIEW=Lay TB=calibrate
+	${MAKE} typical VIEW=Lay TB=calibrate
+	${MAKE} typical VIEW=Lay TB=tran
+	${MAKE} etc     VIEW=Lay TB=tran
+	${MAKE} mc      VIEW=Lay TB=tran
+
 report: calib runs summary
 
 calib: ctyp cproc cmc
@@ -25,10 +34,12 @@ cproc:
 cmc:
 	${MAKE} mc TB=calibrate OPT=${OPT}
 
+#- plot_results.py redoes the post-processing tran.py did (and writes
+#- the same derived values into the run yamls, so `make summary` agrees
+#- with the figures), then draws one figure per run-set with Sch and
+#- Lay as rows and the two calibrations as columns.
 plotall:
-	python3 tran.py tran_Sch_typical.run
-	python3 tran.py tran_Sch_etc.run
-	python3 tran.py tran_Sch_mc.run
+	python3 plot_results.py
 
 include ../../tech/make/sim.make
 
