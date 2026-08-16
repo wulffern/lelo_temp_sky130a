@@ -1999,7 +1999,8 @@
                                 },
                                 "instance": "x6",
                                 "terminal": "PWRUP_N_1V8"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2012,7 +2013,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 0
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2027,7 +2029,8 @@
                                     "rule": "space",
                                     "count": 0
                                 }
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2038,7 +2041,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2126,7 +2130,8 @@
                                 },
                                 "instance": "x2",
                                 "terminal": "PWRUP_N_1V8"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2139,7 +2144,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 0
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -2279,7 +2285,8 @@
                                 },
                                 "instance": "x3",
                                 "terminal": "RST_A"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2292,7 +2299,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 0
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2307,7 +2315,8 @@
                                     "rule": "space",
                                     "count": 0
                                 }
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2318,7 +2327,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2471,7 +2481,8 @@
                                 },
                                 "instance": "x7",
                                 "terminal": "net1"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2484,7 +2495,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 13
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2499,7 +2511,8 @@
                                     "rule": "space",
                                     "count": -2
                                 }
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2510,7 +2523,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2663,7 +2677,8 @@
                                 },
                                 "instance": "x1",
                                 "terminal": "net2"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2676,7 +2691,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 13
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2691,7 +2707,8 @@
                                     "rule": "space",
                                     "count": 2
                                 }
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2702,7 +2719,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2855,7 +2873,8 @@
                                 },
                                 "instance": "x3",
                                 "terminal": "RST_B"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2868,7 +2887,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 15
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2883,7 +2903,8 @@
                                     "rule": "space",
                                     "count": -2
                                 }
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -2894,7 +2915,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2991,7 +3013,8 @@
                                 },
                                 "instance": "x4",
                                 "terminal": "RST_B"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -3004,7 +3027,8 @@
                                 "axis": "x",
                                 "channel": "strip",
                                 "index": 15
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -3306,7 +3330,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -3372,7 +3397,8 @@
                                 },
                                 "instance": "x6",
                                 "terminal": "PWRUP_1V8"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -3544,7 +3570,8 @@
                                 "axis": "x",
                                 "channel": "exit0",
                                 "index": 2
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "movey",
@@ -3553,14 +3580,16 @@
                                 "axis": "x",
                                 "channel": "band_xtap_dig_1",
                                 "index": 1
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "movex",
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         }
                     ]
                 },

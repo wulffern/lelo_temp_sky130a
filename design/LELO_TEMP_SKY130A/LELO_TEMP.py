@@ -1727,9 +1727,15 @@ class LELO_TEMP(SidecarCell):
         #-     touches. The second entry walks it west into lband
         #-     (which is empty on M1; every story there rides M3 and
         #-     above) and down to the ring on the supply's own layer.
-        dict(net="VSS", layer="M1", at="w",
+        #- WIDE: the corridor is 5 um, empty on M1 by this file's own
+        #- survey, and the leg is half a millimetre of the cell's
+        #- ground return. 10000 leaves the corner extension inside the
+        #- band on both sides -- at `+ SPACE` the wide leg's west edge
+        #- sat 0.03 um off the bias block's own li (four li.3), so the
+        #- lane moved a pitch further into the band.
+        dict(net="VSS", layer="M1", at="w", width=10000,
              start=("xccmp", "VSS"), stop="ring_b_VSS",
-             steps=[("movex", track("lband", 0) + SPACE),
+             steps=[("movex", track("lband", 0) + 2 * PITCH),
                     ("movey", landing("y")),
                     ("end",)]),
         #- THE START CUT SITS AT THE PIN'S CENTRE, and the order is
@@ -2112,15 +2118,26 @@ class LELO_TEMP(SidecarCell):
         bot = lambda rs: min(rs, key=lambda r: int(r.y1))
 
         #- the bias block's own bars, straight up and straight down to
-        #- the rows above and below them
+        #- the rows above and below them.
+        #-
+        #- WIDE, BECAUSE NOTHING STOPS THEM. The tie is M1 onto an M1
+        #- ring -- no via, no lane, just metal across a gap the ring
+        #- generator left empty -- and at rule width it was a 0.3 um
+        #- thread carrying a block's whole supply. The width is a
+        #- design decision, so it is written here, not a rule; DRC owns
+        #- the ceiling. `noext=True` because nothing follows the leg:
+        #- the corner extension would push half the width past the
+        #- ring's centreline, and on the bottom tie that is geometry
+        #- below y=0.
         for net, ring, pick in (("VDD_1V8", rt, top), ("VSS", rb, bot)):
             bar = self._port(bias, net, pick)
             if bar is None:
                 log.error(f"top: the bias block has no {net} bar")
                 continue
-            p = layout.path(net, "M1", start=[bar], stop=[ring])
+            p = layout.path(net, "M1", start=[bar], stop=[ring],
+                            width=900000)
             p.start()
-            p.movey(p.landing("y"))
+            p.movey(p.landing("y"), noext=True)
 
         #- the strip's two columns are already M4 and already
         #- vertical: they only have to keep going, and nothing is
@@ -2130,9 +2147,12 @@ class LELO_TEMP(SidecarCell):
             if col is None:
                 log.error(f"top: the strip has no {net} column")
                 continue
-            p = layout.path(net, "M4", start=[col], stop=[ring])
+            #- 18000, not 20000: at 20000 the VDD riser's west edge sat
+            #- 0.22 um from RST_B's own M4 leg (met3.2 wants 0.3).
+            p = layout.path(net, "M4", start=[col], stop=[ring],
+                            width=18000)
             p.start()
-            p.movey(p.landing("y"))
+            p.movey(p.landing("y"), noext=True)
             #- ONE CUT TO THE RING'S OWN LAYER. A bare `down()` is one
             #- step, and one step from M4 is M3 -- 87 um of riser
             #- ending a layer short of what it came for.

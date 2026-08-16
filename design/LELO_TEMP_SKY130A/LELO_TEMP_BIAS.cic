@@ -1442,14 +1442,16 @@
                                 "axis": "x",
                                 "channel": "bias",
                                 "index": 155
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "movey",
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",

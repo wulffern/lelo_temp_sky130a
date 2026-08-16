@@ -1522,7 +1522,8 @@
                                 "axis": "x",
                                 "channel": "PWRUP_N_1V8",
                                 "index": 0
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -1533,7 +1534,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -1544,7 +1546,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -1642,7 +1645,8 @@
                                 "axis": "x",
                                 "channel": "PWRUP_B_1V8",
                                 "index": 0
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -1653,7 +1657,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -1664,7 +1669,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -1704,7 +1710,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -1785,14 +1792,16 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "movex",
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -1874,7 +1883,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -1920,7 +1930,8 @@
                                 "axis": "y",
                                 "instance": "x3_ccmp",
                                 "terminal": "VSS"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
