@@ -1535,7 +1535,13 @@ class LELO_TEMP(SidecarCell):
         #- M4 for the crossing and the riser, M5 only at the end: the
         #- strip publishes these two on M5, and `end()` makes that one
         #- transition where it lands.
-        dict(net="CMPO_A", at="s",
+        #- at="n", NOT "s": the start cut's met1 pad reaches half a
+        #- micron below the pin, and with the ring now STRAPPED with
+        #- met1 the pad's bottom edge sat 0.12 um from the strap where
+        #- met1.2 wants 0.14 (measured, this pin and RST_B's). From
+        #- the north edge the same cut clears it by half a micron, and
+        #- the story still reaches its floor row one lane below.
+        dict(net="CMPO_A", at="n",
              start=("xccmp", "CMPO_A"), stop=("xdig", "CMPO_A"),
              steps=[("up", "M4"),
                     ("movey", track("fband", 0)),
@@ -1726,9 +1732,18 @@ class LELO_TEMP(SidecarCell):
              steps=[("movex", track("lband", 0) + SPACE),
                     ("movey", landing("y")),
                     ("end",)]),
-        dict(net="RST_B", at="s", options="1cuts,2vcuts",
+        #- THE START CUT SITS AT THE PIN'S CENTRE, and the order is
+        #- move-then-climb. Three positions were measured: from the
+        #- south edge the cut's met1 pad sat 0.12 from the ring's new
+        #- met1 strap; from the north edge its met2 pad notched the
+        #- floor row by 0.07; one lane lower the row crossed the VSS
+        #- ring tie's own stack. At the centre the met1 pad clears the
+        #- strap by 0.32 and the met2 pad OVERLAPS the row -- same
+        #- net, which is a merge and not a rule.
+        dict(net="RST_B", at="n", options="1cuts,2vcuts",
              start=("xccmp", "RST_B"), stop=("xdig", "RST_B"),
-             steps=[("up", "M3"),
+             steps=[("movey", pin("xccmp", "RST_B", "y")),
+                    ("up", "M3"),
                     ("movey", track("fband", 0) - PITCH),
                     ("movex", pin("xdig", "RST_B", "x") + 2 * PITCH),
                     ("up", "M4"),
@@ -1941,10 +1956,24 @@ class LELO_TEMP(SidecarCell):
         x2 = max(int(i.x2) for i in boxes)
         y2 = max(int(i.y2) for i in boxes)
         full = _RR("M1", x1, y1, x2 - x1, y2 - y1)
+        #- STRAPPED, full length, met1 over the locali. Each bar is
+        #- 0.9 x 154.5 um of pin-layer metal: 172 squares at locali's
+        #- ~12.8 ohm/sq is 2.2 kilo-ohm end to end, and these two bars
+        #- are the whole tile's supply spine. met1 over them is 100x
+        #- lower and the stitch is one viali array the LENGTH of the
+        #- bar -- as many cuts as the cut layer's own width and space
+        #- rules admit. Full length is legal HERE and only here:
+        #- nothing crosses the top cell's own ring rows on M2 (the top
+        #- band above 109.3 um was measured empty, and the floor
+        #- crossings all ride M3/M4). A SUBCELL's ring may not do
+        #- this -- measured on LELOTEMP_CMPR, whose strap was clean
+        #- standalone and cut the pair's VC descent at the next level.
         layout.addRouteRingOnRect("M1", "VDD_1V8", full, "t",
-                                  widthmult=3, spacemult=2)
+                                  widthmult=3, spacemult=2,
+                                  straps=["M2"])
         layout.addRouteRingOnRect("M1", "VSS", full, "b",
-                                  widthmult=3, spacemult=2)
+                                  widthmult=3, spacemult=2,
+                                  straps=["M2"])
         #- ring attachments happen in beforePaint: the rings re-lay
         #- as routes grow the bbox, and a cut placed at the ring's
         #- beforeRoute position lands 8000 off the painted bar

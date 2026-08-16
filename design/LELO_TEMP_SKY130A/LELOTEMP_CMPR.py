@@ -510,6 +510,16 @@ class LELOTEMP_CMPR(SidecarCell):
     #- rects are the columns' own guard rings, already at the cell's
     #- top and bottom edges, so the stretch is a via and not a wire
     #- across the block -- which is exactly the case the opt-in is for.
+    #- NOT STRAPPED, though the ring is locali at ~12.8 ohm/sq and a
+    #- 38 um side is ~42 squares. Strapping was measured (met1 over
+    #- each ring, stitched full length): this cell verifies clean, and
+    #- the PARENT breaks -- LELOTEMP_CCMPR's VC descends through this
+    #- cell's bottom edge on M2, and the strap is a full-length M2 bar
+    #- across that edge. A via stack's intermediate metal is
+    #- continuous, so an M3 strap blocks the same crossings through
+    #- its M2 enclosure. A subcell's ring can only be strapped by
+    #- something that can see every crossing its parent makes -- see
+    #- the supply-impedance notes on the top cell.
     supplies = [{"net": "VDD_1V8", "ring": "t", "strap": "top",
                  "pin_strap": True},
                 {"net": "VSS", "ring": "b", "strap": "bottom",

@@ -114,11 +114,29 @@ labels.append(f"flabel metal4 480 0 880 {TOP} 1 FreeSans 800 0 0 0 VGND\n"
 uses.append(("LELO_TEMP", "LELO_TEMP_0", "", 1, 0, 0, 0, 1, 0,
              0, 0, 30904, 22200))
 
-#- power: one stack from each rail onto the core's own supply ring.
-#- VDD bar y 107..107.9 um under the VDPWR rail; VSS bar y 1.5..2.4
-#- under the VGND rail. Both bars are locali.
-stack(240, 21490, "metal4", "locali")
-stack(680, 390, "metal4", "locali")
+#- power: each rail lands on its ring as a WIDE stack -- metal pads
+#- over the whole rail-to-ring overlap with contact PAINT, which
+#- magic fractures into every cut the rules admit. A single-cut
+#- stack here was ~20 ohm in series (mcon 9.3 + via1 4.5 + via2 3.4
+#- + via3 3.4) feeding the whole tile; paint the size of the overlap
+#- is dozens of cuts per level. The met1 pad lands on the ring's own
+#- met1 strap, whose full-length viali paint carries into the locali
+#- ring -- so the stack stops at met1 and the worst resistor in the
+#- chain (a lone mcon) is not in it at all.
+def power_pad(x1, y1, x2, y2):
+    for lay in ("metal1", "metal2", "metal3", "metal4"):
+        rect(lay, x1, y1, x2, y2)
+    for cut in ("via1", "via2", "via3"):
+        rect(cut, x1 + 20, y1 + 20, x2 - 20, y2 - 20)
+
+#- ON THE RING ROWS -- not the blocks' own supply bars. The first
+#- version landed at the bars (y 107.4 / 1.95 um), which the old
+#- single stacks reached because they drilled to locali; a stack
+#- that stops at met1 must stand where the met1 STRAP is, and that
+#- is the ring rows themselves (measured: on the bars, VGND came
+#- out split, with the core's VSS on the substrate node).
+power_pad(30, 21727, 370, 21877)     # VDPWR rail onto the VDD ring row
+power_pad(510, 15, 850, 165)         # VGND rail onto the VSS ring row
 
 #- ------------------------------------------------------------------
 #- ui_in[0] -> PWRUP_1V8, all metal4
