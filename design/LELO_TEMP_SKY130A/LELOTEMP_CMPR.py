@@ -510,20 +510,31 @@ class LELOTEMP_CMPR(SidecarCell):
     #- rects are the columns' own guard rings, already at the cell's
     #- top and bottom edges, so the stretch is a via and not a wire
     #- across the block -- which is exactly the case the opt-in is for.
-    #- NOT STRAPPED, though the ring is locali at ~12.8 ohm/sq and a
-    #- 38 um side is ~42 squares. Strapping was measured (met1 over
-    #- each ring, stitched full length): this cell verifies clean, and
-    #- the PARENT breaks -- LELOTEMP_CCMPR's VC descends through this
-    #- cell's bottom edge on M2, and the strap is a full-length M2 bar
-    #- across that edge. A via stack's intermediate metal is
-    #- continuous, so an M3 strap blocks the same crossings through
-    #- its M2 enclosure. A subcell's ring can only be strapped by
-    #- something that can see every crossing its parent makes -- see
-    #- the supply-impedance notes on the top cell.
+    #- STRAPPED WITH GAPS. The ring is locali at ~12.8 ohm/sq and a
+    #- 38 um side is ~42 squares; met1 over it is 100x lower. A
+    #- full-length strap was measured earlier and broke the PARENT --
+    #- LELOTEMP_CCMPR's VC descends through this cell's bottom edge
+    #- on M2 -- so the strap is laid as segments between every span
+    #- something else owns on the ring rows. The spans are MEASURED
+    #- from the built tile (both pair placements agree): on the top
+    #- row the CMPO and RST pads (their nets continue in the parent
+    #- as CMPO_A/B and RST_A/B), on the bottom row PWRUP_N, PWRUP_B,
+    #- the parent's VDD seam ties, and the VC descent. Margins: 0.2
+    #- um for a pad that terminates on the row, 0.6 um for a net
+    #- descending THROUGH it -- a descent lands a via pad wider than
+    #- its wire, and spacing is measured to the pad. The [61500,
+    #- 93200] span also unions both positions the top's PWRUP
+    #- corridor has chosen for its descent (see LELOTEMP_CCMPR).
     supplies = [{"net": "VDD_1V8", "ring": "t", "strap": "top",
-                 "pin_strap": True},
+                 "pin_strap": True, "straps": ["M2"],
+                 "strap_gaps": {"top": [[94100, 109100],
+                                        [164100, 179100]]}},
                 {"net": "VSS", "ring": "b", "strap": "bottom",
-                 "pin_strap": True}]
+                 "pin_strap": True, "straps": ["M2"],
+                 "strap_gaps": {"bottom": [[61500, 93200],
+                                           [178500, 193500],
+                                           [258100, 273100],
+                                           [325500, 340500]]}}]
 
     #- NO TOP ROUTES YET. Deliberately empty: the four subcells verify
     #- on their own and the tiling, the rings and the guard connections

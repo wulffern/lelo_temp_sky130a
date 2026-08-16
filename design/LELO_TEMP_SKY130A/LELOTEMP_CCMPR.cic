@@ -1535,6 +1535,42 @@
                             "y2": 511000.0,
                             "layer": "M1",
                             "net": "VDD_1V8"
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 0,
+                            "y1": 502000,
+                            "x2": 93200,
+                            "y2": 511000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 700,
+                            "y1": 502700,
+                            "x2": 92500,
+                            "y2": 510300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 109100,
+                            "y1": 502000,
+                            "x2": 163900,
+                            "y2": 511000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 109800,
+                            "y1": 502700,
+                            "x2": 163200,
+                            "y2": 510300,
+                            "layer": "VIA1",
+                            "net": ""
                         }
                     ]
                 },
@@ -1606,6 +1642,96 @@
                             "y2": 107000.0,
                             "layer": "M1",
                             "net": "VSS"
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 0,
+                            "y1": 0,
+                            "x2": 61500,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 700,
+                            "y1": 700,
+                            "x2": 60800,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 93200,
+                            "y1": 0,
+                            "x2": 178500,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 93900,
+                            "y1": 700,
+                            "x2": 177800,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 193500,
+                            "y1": 0,
+                            "x2": 257900,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 194200,
+                            "y1": 700,
+                            "x2": 257200,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 273300,
+                            "y1": 0,
+                            "x2": 325500,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 274000,
+                            "y1": 700,
+                            "x2": 324800,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 340500,
+                            "y1": 0,
+                            "x2": 350000,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 341200,
+                            "y1": 700,
+                            "x2": 349300,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
                         }
                     ]
                 },
@@ -1725,7 +1851,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -1736,7 +1863,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -1859,7 +1987,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -1870,7 +1999,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -1993,7 +2123,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -2004,7 +2135,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -2108,14 +2240,16 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "movex",
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -2322,14 +2456,16 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "movey",
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"

@@ -151,9 +151,38 @@ class LELOTEMP_CCMPR(SidecarCell):
         for the same reason: this cell wants its own ring geometry,
         wider on the ground side, and the recipe's is not it.
         """
+        #- STRAPPED WITH GAPS: met1 over the locali bar is ~100x lower
+        #- (see the supply-impedance notes on the top cell), but a
+        #- ring row is also where this cell publishes CMPO and RST
+        #- (top) and VC (bottom) as M2 pads, and where the parent's
+        #- RST_A/B and CMPO_A/B arrive. The gap spans are MEASURED
+        #- from the built tile for BOTH pair placements (R0 and MX
+        #- agree within 0.05 um; the lists are the union). Margins: a
+        #- pad that TERMINATES on the row gets 0.2 um; a net that
+        #- descends THROUGH the row gets 0.6 um, because its via pad
+        #- is wider than its wire and spacing is measured to the pad
+        #- -- with 0.2 the PWRUP corridor no longer fit its own
+        #- column and the top re-searched it somewhere worse.
+        #- The VDD gap from 174000 on is different: the TOP lays its
+        #- 17.4 um wide VDD feed stack on this row there, and its
+        #- contact paint may not partially overlap the strap's own
+        #- (measured: 2 DRC). The feed is a lower impedance than the
+        #- strap, so the strap yields the whole span.
         layout.addRouteRing("M1", "VDD_1V8", "t", widthmult=3,
-                            spacemult=2)
-        layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=5)
+                            spacemult=2, straps=["M2"],
+                            strap_gaps={"top": [[93200, 109100],
+                                                [163900, 350000]]})
+        #- the [61500, 93200] span is the union of the PWRUP_N pads
+        #- and BOTH positions the PWRUP corridor has chosen for its
+        #- descent through this row (the choice is a freeColumns
+        #- search at the top, and the strap itself changes what that
+        #- search sees) -- covered either way.
+        layout.addRouteRing("M1", "VSS", "b", widthmult=3, spacemult=5,
+                            straps=["M2"],
+                            strap_gaps={"bottom": [[61500, 93200],
+                                                   [178500, 193500],
+                                                   [257900, 273300],
+                                                   [325500, 340500]]})
         #- and the connection to them. The `supplies` list above
         #- carries no `ring`, so the assembly recipe straps to a ring
         #- it does not make and does nothing at all here -- the rings

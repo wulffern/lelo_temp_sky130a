@@ -265,9 +265,19 @@ class LELOTEMP_BIAS_IBP(SidecarCell):
         #- which is opt-in since it shorts a block whose pins overhang
         #- their abutment box. These children's do not, and the cell is
         #- verified with it; without it VDD_1V8 and VSS lose the ring.
+        #- straps: met1 over the locali ring bar, stitched full
+        #- length (see the supply-impedance notes on the top cell).
+        #- FULL length is legal here and measured so: nothing foreign
+        #- touches either ring row on met1 -- this cell's edge ports
+        #- are M3/M5, the IBP risers cross the top row on M5 only,
+        #- and the parent's ring legs land on the rows on the same
+        #- net. The subcells' rings stay unstrapped (a subcell row
+        #- carries crossings only its parent can see).
         {"net": "VDD_1V8", "ring": "t", "strap": "top", "pin_strap": True,
+         "straps": ["M2"],
          "guard_exclude": r"^(xe1|xg1|xd3<\d+>|xd1<\d+>|xd2<\d+>|xad6)$"},
         {"net": "VSS", "ring": "b", "strap": "bottom", "pin_strap": True,
+         "straps": ["M2"],
          "strap_exclude": r"^(xd3<[1-9]|xad6|xd1|xd2|xe1)",
          "guard_exclude": r"^(xca|xsu|xcc|xd1<\d+>|xd2<\d+>|xad6|xfill_p)"},
     ]

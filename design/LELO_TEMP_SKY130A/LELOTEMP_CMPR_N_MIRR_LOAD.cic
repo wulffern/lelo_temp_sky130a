@@ -1671,7 +1671,8 @@
                                 "axis": "x",
                                 "instance": "xn_mirr_load5",
                                 "terminal": "VO1"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"

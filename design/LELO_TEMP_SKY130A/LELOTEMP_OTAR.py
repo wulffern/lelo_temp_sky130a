@@ -328,11 +328,24 @@ class LELOTEMP_OTAR(SidecarCell):
     #- and without this the ring is connected to nothing: measured,
     #- LVS went from "Circuits match uniquely" to "Top level cell
     #- failed pin matching".
+    #- straps: met1 over the locali ring bars (see the
+    #- supply-impedance notes on the LELO_TEMP top cell). The top row
+    #- is measured clear IN THE TILE (this cell sits inside
+    #- LELOTEMP_BIAS_IBP as xota/xad6); the bottom row carries the
+    #- VIN and VIP M2 pads AND the parent's VCP/VD1/VR1 descents --
+    #- a standalone measurement missed those two, and the first build
+    #- without them merged VCP into VSS (LVS: 25 nets vs 26). Each
+    #- span carries a 0.2 um margin (met1 space is 0.14).
     supplies = [
         {"net": "VDD_1V8", "ring": "t", "guard_exclude": "^xbs6$",
-         "strap": "top", "pin_strap": True},
+         "strap": "top", "pin_strap": True, "straps": ["M2"]},
         {"net": "VSS", "ring": "b", "strap": "bottom",
-         "strap_exclude": "^xd2<[1-9]", "pin_strap": True},
+         "strap_exclude": "^xd2<[1-9]", "pin_strap": True,
+         "straps": ["M2"],
+         "strap_gaps": {"bottom": [[69300, 85700],
+                                   [149300, 165700],
+                                   [242050, 257050],
+                                   [396100, 411100]]}},
     ]
 
     #- The top, from the same declarations: rows reused, one track

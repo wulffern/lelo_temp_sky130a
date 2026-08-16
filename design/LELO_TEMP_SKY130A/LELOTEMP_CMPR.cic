@@ -2625,7 +2625,8 @@
                                 "axis": "x",
                                 "instance": "xn_mirr_load5",
                                 "terminal": "VO1"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "end"
@@ -6003,6 +6004,60 @@
                             "y2": 398000.0,
                             "layer": "M1",
                             "net": "VDD_1V8"
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 4800,
+                            "y1": 389000,
+                            "x2": 94100,
+                            "y2": 398000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 5500,
+                            "y1": 389700,
+                            "x2": 93400,
+                            "y2": 397300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 109100,
+                            "y1": 389000,
+                            "x2": 164100,
+                            "y2": 398000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 109800,
+                            "y1": 389700,
+                            "x2": 163400,
+                            "y2": 397300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 179100,
+                            "y1": 389000,
+                            "x2": 349600,
+                            "y2": 398000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 179800,
+                            "y1": 389700,
+                            "x2": 348900,
+                            "y2": 397300,
+                            "layer": "VIA1",
+                            "net": ""
                         }
                     ]
                 },
@@ -6055,6 +6110,96 @@
                             "y2": 61000.0,
                             "layer": "M1",
                             "net": "VSS"
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 4800,
+                            "y1": 0,
+                            "x2": 61500,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 5500,
+                            "y1": 700,
+                            "x2": 60800,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 93200,
+                            "y1": 0,
+                            "x2": 178500,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 93900,
+                            "y1": 700,
+                            "x2": 177800,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 193500,
+                            "y1": 0,
+                            "x2": 258100,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 194200,
+                            "y1": 700,
+                            "x2": 257400,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 273100,
+                            "y1": 0,
+                            "x2": 325500,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 273800,
+                            "y1": 700,
+                            "x2": 324800,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 340500,
+                            "y1": 0,
+                            "x2": 349600,
+                            "y2": 9000,
+                            "layer": "M2",
+                            "net": ""
+                        },
+                        {
+                            "class": "Rect",
+                            "x1": 341200,
+                            "y1": 700,
+                            "x2": 348900,
+                            "y2": 8300,
+                            "layer": "VIA1",
+                            "net": ""
                         }
                     ]
                 },
@@ -6182,7 +6327,8 @@
                                 "axis": "y",
                                 "instance": "xn_mirr_load",
                                 "terminal": "PWRUP_N_1V8"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -6193,7 +6339,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6204,7 +6351,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6330,7 +6478,8 @@
                                 "axis": "y",
                                 "instance": "xp_diff",
                                 "terminal": "VBN1"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -6341,7 +6490,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6352,7 +6502,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6487,7 +6638,8 @@
                                 "axis": "y",
                                 "instance": "xp_diff",
                                 "terminal": "VO1"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -6498,7 +6650,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6509,7 +6662,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6644,7 +6798,8 @@
                                 "axis": "y",
                                 "instance": "xp_mirr_tail",
                                 "terminal": "VS"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -6655,7 +6810,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6666,7 +6822,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6898,7 +7055,8 @@
                                 },
                                 "instance": "xp_diff",
                                 "terminal": "VIP"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -6909,7 +7067,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -6920,7 +7079,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -7076,7 +7236,8 @@
                                 },
                                 "instance": "xn_mirr_load",
                                 "terminal": "VO"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -7087,7 +7248,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -7098,7 +7260,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -7246,7 +7409,8 @@
                                 },
                                 "instance": "xp_mirr_tail",
                                 "terminal": "VBP2"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "up",
@@ -7257,7 +7421,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "x"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
@@ -7268,7 +7433,8 @@
                             "anchor": {
                                 "kind": "landing",
                                 "axis": "y"
-                            }
+                            },
+                            "noext": false
                         },
                         {
                             "step": "down",
