@@ -1,0 +1,26 @@
+* Measure tt_um_lelo_temp_wulffern: does it start, and at what frequency
+.control
+echo "MEAS_START"
+
+set fend = .raw
+foreach vtemp -40 25 125
+
+load {cicname}_$vtemp$fend
+
+*- the oscillator through the wrapper: period between rising edges
+meas tran t1_$vtemp WHEN v(uo_out[0])=0.9 RISE=1 FROM={t_start}
+meas tran t2_$vtemp WHEN v(uo_out[0])=0.9 RISE=5 FROM={t_start}
+*- no `let freq_` here: a negative temperature makes t1_-40 parse
+*- as subtraction. t1/t2 land in the results; frequency is 4/(t2-t1)
+*- in post-processing.
+*- the tie-low resistors hold every uio as an input
+meas tran oe0_$vtemp FIND v(uio_oe[0]) AT={t_stop}
+meas tran oe7_$vtemp FIND v(uio_oe[7]) AT={t_stop}
+
+*- supply current, running and powered down
+meas tran idd_$vtemp AVG i(vdd) from={t_start} to={t_stop}
+meas tran iddq_$vtemp AVG i(vdd) from=0.5u to=1.5u
+
+end
+echo "MEAS_END"
+.endc

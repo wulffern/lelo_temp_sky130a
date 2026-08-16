@@ -1,0 +1,94 @@
+*TB tt_um_lelo_temp_wulffern: function, through the TinyTapeout pins
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/tt_um_lelo_temp_wulffern_lpe.spi
+#else
+.include ../../../work/xsch/tt_um_lelo_temp_wulffern.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-12 reltol=1e-4 method=gear
+.options sparse
+#ifdef Lay
+*- the extracted view: full RC, and nodes the wrapper's paint straps
+*- couple only capacitively. Without a shunt the solver collapses at
+*- the first PWRUP movement (timestep 1.25e-21 at exactly t_start,
+*- "trouble with node vdd#branch", all temperatures). 1 aF to ground
+*- on every node is far below any real node cap here and unsticks it.
+.option cshunt=1e-18
+#endif
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param TRF = 10p
+.param AVDD = {vdda}
+
+*-----------------------------------------------------------------
+* FORCE: the tile as the mux drives it
+*-----------------------------------------------------------------
+VSS   VGND   0     dc 0
+VDD   VDPWR  VGND  pwl 0 0 10n {AVDD}
+*- PWRUP_ANA arrives on ui_in[0] after the supply is up
+*- a 10 ns edge, not 10 ps: the extracted view carries the full RC of
+*- the tile and the hard step collapsed the timestep at t_start on all
+*- three temperatures ("trouble with node vdd#branch") -- and no pin
+*- mux switches in picoseconds anyway.
+VPWR  ui_in[0]  VGND  pwl 0 0 {t_start} 0 {{t_start} + 10n} {AVDD}
+*- every other digital input held low, as an idle mux would
+VU1   ui_in[1]  VGND dc 0
+VU2   ui_in[2]  VGND dc 0
+VU3   ui_in[3]  VGND dc 0
+VU4   ui_in[4]  VGND dc 0
+VU5   ui_in[5]  VGND dc 0
+VU6   ui_in[6]  VGND dc 0
+VU7   ui_in[7]  VGND dc 0
+VB0   uio_in[0] VGND dc 0
+VB1   uio_in[1] VGND dc 0
+VB2   uio_in[2] VGND dc 0
+VB3   uio_in[3] VGND dc 0
+VB4   uio_in[4] VGND dc 0
+VB5   uio_in[5] VGND dc 0
+VB6   uio_in[6] VGND dc 0
+VB7   uio_in[7] VGND dc 0
+VCLK  clk   VGND dc 0
+VENA  ena   VGND dc {AVDD}
+VRST  rst_n VGND dc 0
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+.include ../xdut.spi
+
+*----------------------------------------------------------------
+* PROBE
+*----------------------------------------------------------------
+.save v(vdpwr) v(vgnd) v(ui_in[0]) v(uo_out[0])
+.save v(uio_oe[0]) v(uio_oe[7])
+.save i(vdd)
+
+#ifdef Debug
+.option savecurrents
+.save all
+#endif
+*----------------------------------------------------------------
+* NGSPICE control
+*----------------------------------------------------------------
+.control
+unset askquit
+
+optran 0 0 0 1n 1u 0
+
+set fend = .raw
+foreach vtemp -40 25 125
+  option temp=$vtemp
+  tran 1n {t_stop}
+  write {cicname}_$vtemp$fend
+end
+
+quit
+.endc
+.end

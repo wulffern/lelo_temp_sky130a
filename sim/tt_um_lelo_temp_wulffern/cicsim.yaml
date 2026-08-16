@@ -1,0 +1,12 @@
+options:
+  useTmpDir: False
+  sha: True
+corner:
+  Lay: ''
+  Sch: ''
+ngspice:
+  library: LELO_TEMP_SKY130A
+  cell: tt_um_lelo_temp_wulffern
+temperatures: -40 25 125
+t_start: 2us
+t_stop: 7us
