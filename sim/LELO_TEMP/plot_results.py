@@ -108,7 +108,7 @@ def error_panel(ax, runs, cal):
     lim = max(ind, wmax, -wmin) + 3
     ax.set_ylim(-lim, lim)
     ax.set_xlim(TMIN - 5, TMAX + 5)
-    ax.grid(True, alpha=0.3)
+    ax.grid(True)
 
 
 def error_figure(runset):
@@ -151,7 +151,7 @@ def transfer_figure():
                     lw=1, marker="o", ms=3, label=view)
     ax.set_xlabel("Temperature [C]")
     ax.set_ylabel("Frequency [MHz]")
-    ax.grid(True, alpha=0.3)
+    ax.grid(True)
     ax.legend()
     fig.tight_layout()
     fig.savefig("tran_transfer.png", dpi=110)
