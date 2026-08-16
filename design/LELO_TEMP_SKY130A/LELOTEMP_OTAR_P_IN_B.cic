@@ -901,7 +901,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 20800.0,
                             "y1": 82000.0,
                             "x2": 65600.0,
@@ -909,10 +909,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD3",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 68800.0,
                             "y1": 86000.0,
                             "x2": 72000.0,
@@ -920,10 +921,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 66000.0,
                             "x2": 59200.0,
@@ -931,10 +933,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 82000.0,
                             "x2": 4800.0,
@@ -942,7 +945,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xbl5",
@@ -965,7 +969,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 20800.0,
                             "y1": 122000.0,
                             "x2": 65600.0,
@@ -973,10 +977,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 68800.0,
                             "y1": 126000.0,
                             "x2": 72000.0,
@@ -984,10 +989,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 106000.0,
                             "x2": 59200.0,
@@ -995,10 +1001,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 122000.0,
                             "x2": 4800.0,
@@ -1006,7 +1013,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xbl2<0>",
@@ -1029,7 +1037,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 20800.0,
                             "y1": 162000.0,
                             "x2": 65600.0,
@@ -1037,10 +1045,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 68800.0,
                             "y1": 166000.0,
                             "x2": 72000.0,
@@ -1048,10 +1057,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 146000.0,
                             "x2": 59200.0,
@@ -1059,10 +1069,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 162000.0,
                             "x2": 4800.0,
@@ -1070,7 +1081,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xbl2<1>",
@@ -1093,7 +1105,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 20800.0,
                             "y1": 202000.0,
                             "x2": 65600.0,
@@ -1101,10 +1113,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 68800.0,
                             "y1": 206000.0,
                             "x2": 72000.0,
@@ -1112,10 +1125,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 186000.0,
                             "x2": 59200.0,
@@ -1123,10 +1137,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 202000.0,
                             "x2": 4800.0,
@@ -1134,7 +1149,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xbl2<2>",
@@ -1157,7 +1173,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 20800.0,
                             "y1": 242000.0,
                             "x2": 65600.0,
@@ -1165,10 +1181,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD2",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 68800.0,
                             "y1": 246000.0,
                             "x2": 72000.0,
@@ -1176,10 +1193,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VIP",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 14400.0,
                             "y1": 226000.0,
                             "x2": 59200.0,
@@ -1187,10 +1205,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 242000.0,
                             "x2": 4800.0,
@@ -1198,7 +1217,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xbl2<3>",
@@ -1284,11 +1304,11 @@
                     "net": "VDD_1V8"
                 },
                 {
-                    "class": "Route",
-                    "x1": 20800.0,
-                    "y1": 122000.0,
+                    "class": "Path",
+                    "x1": 62600,
+                    "y1": 122000,
                     "x2": 65600,
-                    "y2": 244000.0,
+                    "y2": 246000,
                     "layer": "",
                     "net": "VD2",
                     "name": "VD2",
@@ -1298,48 +1318,33 @@
                         {
                             "class": "Rect",
                             "x1": 62600,
-                            "y1": 124000.0,
+                            "y1": 122000,
                             "x2": 65600,
-                            "y2": 164000.0,
+                            "y2": 246000,
                             "layer": "M1",
                             "net": "VD2"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Rect",
-                            "x1": 62600,
-                            "y1": 124000.0,
-                            "x2": 65600,
-                            "y2": 204000.0,
-                            "layer": "M1",
-                            "net": "VD2"
-                        },
-                        {
-                            "class": "Rect",
-                            "x1": 62600,
-                            "y1": 124000.0,
-                            "x2": 65600,
-                            "y2": 244000.0,
-                            "layer": "M1",
-                            "net": "VD2"
-                        },
-                        {
-                            "class": "Text",
-                            "x1": 20800.0,
-                            "y1": 122000.0,
-                            "x2": 20800.0,
-                            "y2": 122000.0,
-                            "layer": "TXT",
-                            "net": "VD2",
-                            "name": "VD2"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunkright"
+                            }
                         }
                     ]
                 },
                 {
-                    "class": "Route",
-                    "x1": 68800.0,
-                    "y1": 88000.0,
+                    "class": "Path",
+                    "x1": 68900,
+                    "y1": 86000,
                     "x2": 71900,
-                    "y2": 248000.0,
+                    "y2": 250000,
                     "layer": "",
                     "net": "VIP",
                     "name": "VIP",
@@ -1349,57 +1354,33 @@
                         {
                             "class": "Rect",
                             "x1": 68900,
-                            "y1": 128000.0,
+                            "y1": 86000,
                             "x2": 71900,
-                            "y2": 168000.0,
+                            "y2": 250000,
                             "layer": "M1",
                             "net": "VIP"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Rect",
-                            "x1": 68900,
-                            "y1": 128000.0,
-                            "x2": 71900,
-                            "y2": 208000.0,
-                            "layer": "M1",
-                            "net": "VIP"
-                        },
-                        {
-                            "class": "Rect",
-                            "x1": 68900,
-                            "y1": 128000.0,
-                            "x2": 71900,
-                            "y2": 248000.0,
-                            "layer": "M1",
-                            "net": "VIP"
-                        },
-                        {
-                            "class": "Rect",
-                            "x1": 68900,
-                            "y1": 88000.0,
-                            "x2": 71900,
-                            "y2": 128000.0,
-                            "layer": "M1",
-                            "net": "VIP"
-                        },
-                        {
-                            "class": "Text",
-                            "x1": 68800.0,
-                            "y1": 126000.0,
-                            "x2": 68800.0,
-                            "y2": 126000.0,
-                            "layer": "TXT",
-                            "net": "VIP",
-                            "name": "VIP"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunktab"
+                            }
                         }
                     ]
                 },
                 {
-                    "class": "Route",
+                    "class": "Path",
                     "x1": 14400,
-                    "y1": 68000.0,
+                    "y1": 66000,
                     "x2": 17400,
-                    "y2": 228000.0,
+                    "y2": 230000,
                     "layer": "",
                     "net": "VS",
                     "name": "VS",
@@ -1409,48 +1390,24 @@
                         {
                             "class": "Rect",
                             "x1": 14400,
-                            "y1": 108000.0,
+                            "y1": 66000,
                             "x2": 17400,
-                            "y2": 148000.0,
+                            "y2": 230000,
                             "layer": "M1",
                             "net": "VS"
-                        },
+                        }
+                    ],
+                    "routeLayer": "M1",
+                    "options": "1cuts,2vcuts",
+                    "steps": [
                         {
-                            "class": "Rect",
-                            "x1": 14400,
-                            "y1": 108000.0,
-                            "x2": 17400,
-                            "y2": 188000.0,
-                            "layer": "M1",
-                            "net": "VS"
-                        },
-                        {
-                            "class": "Rect",
-                            "x1": 14400,
-                            "y1": 108000.0,
-                            "x2": 17400,
-                            "y2": 228000.0,
-                            "layer": "M1",
-                            "net": "VS"
-                        },
-                        {
-                            "class": "Rect",
-                            "x1": 14400,
-                            "y1": 68000.0,
-                            "x2": 17400,
-                            "y2": 108000.0,
-                            "layer": "M1",
-                            "net": "VS"
-                        },
-                        {
-                            "class": "Text",
-                            "x1": 14400.0,
-                            "y1": 106000.0,
-                            "x2": 14400.0,
-                            "y2": 106000.0,
-                            "layer": "TXT",
-                            "net": "VS",
-                            "name": "VS"
+                            "step": "trunk",
+                            "direction": "v",
+                            "at": {
+                                "kind": "trunk",
+                                "axis": "x",
+                                "trunk": "trunkleft"
+                            }
                         }
                     ]
                 },
@@ -1478,7 +1435,7 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 0,
+                    "x1": -4800.0,
                     "y1": 242000.0,
                     "x2": 4800.0,
                     "y2": 246000.0,

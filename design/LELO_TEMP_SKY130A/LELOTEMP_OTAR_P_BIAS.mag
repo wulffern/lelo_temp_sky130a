@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786658400
+timestamp 1786744800
 << checkpaint >>
 rect 0 0 1600 5760
 << locali >>
@@ -12,18 +12,18 @@ rect 1376 1720 1440 1888
 rect 1368 2520 1444 2596
 rect 1368 4920 1444 4996
 rect 1368 4120 1444 4196
+rect 1252 1640 1312 2520
 rect 0 520 736 600
 rect 0 2120 736 2200
 rect 0 4520 736 4600
 rect 0 2920 736 3000
 rect 0 3720 736 3800
 rect 0 1320 736 1400
-rect 1252 1680 1312 2480
 rect 1376 2520 1440 2600
 rect 1376 920 1440 1000
 rect 1376 1720 1440 1800
 rect 416 4840 1312 4920
-rect 0 4840 96 4920
+rect -96 4840 96 4920
 rect 416 840 1312 920
 rect 416 1640 1312 1720
 << viali >>
@@ -94,7 +94,7 @@ flabel locali s 1376 1720 1440 1800 0 FreeSans 400 0 0 0 VBP
 port 3 nsew signal bidirectional
 flabel locali s 416 4840 1312 4920 0 FreeSans 400 0 0 0 VCP
 port 4 nsew signal bidirectional
-flabel locali s 0 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 4840 96 4920 0 FreeSans 400 0 0 0 VDD_1V8
 port 5 nsew power bidirectional
 flabel locali s 416 840 1312 920 0 FreeSans 400 0 0 0 VDS
 port 6 nsew signal bidirectional

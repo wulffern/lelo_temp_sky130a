@@ -17,7 +17,7 @@ C {devices/iopin.sym} 0 180 0 0 {name=p9 lab=RST_B}
 C {devices/iopin.sym} 0 200 0 0 {name=p10 lab=VC}
 C {devices/iopin.sym} 0 220 0 0 {name=p11 lab=VDD_1V8}
 C {devices/iopin.sym} 0 240 0 0 {name=p12 lab=VSS}
-C {LELO_TEMP_SKY130A/LELOTEMP_CCMP.sym} 400 0 0 0 {name=Xx2_ccmp}
+C {LELO_TEMP_SKY130A/LELOTEMP_CCMPR.sym} 400 0 0 0 {name=Xx2_ccmp}
 N 230.0 -40.0 250.0 -40.0 {lab=IBP_1U[3:2]}
 C {devices/lab_pin.sym} 230.0 -40.0 0 0 {name=l0 sig_type=std_logic lab=IBP_1U[3:2] }
 N 230.0 -60.0 250.0 -60.0 {lab=VDD_1V8}
@@ -34,7 +34,7 @@ N 230.0 40.0 250.0 40.0 {lab=RST_B}
 C {devices/lab_pin.sym} 230.0 40.0 0 0 {name=l6 sig_type=std_logic lab=RST_B }
 N 230.0 60.0 250.0 60.0 {lab=VSS}
 C {devices/lab_pin.sym} 230.0 60.0 0 0 {name=l7 sig_type=std_logic lab=VSS }
-C {LELO_TEMP_SKY130A/LELOTEMP_CCMP.sym} 400 220.0 0 0 {name=Xx3_ccmp}
+C {LELO_TEMP_SKY130A/LELOTEMP_CCMPR.sym} 400 220.0 0 0 {name=Xx3_ccmp}
 N 230.0 180.0 250.0 180.0 {lab=IBP_1U[1:0]}
 C {devices/lab_pin.sym} 230.0 180.0 0 0 {name=l8 sig_type=std_logic lab=IBP_1U[1:0] }
 N 230.0 160.0 250.0 160.0 {lab=VDD_1V8}

@@ -11,7 +11,11 @@
 *-----------------------------------------------------------------
 * OPTIONS
 *-----------------------------------------------------------------
-.option TNOM=27 GMIN=1e-15 reltol=1e-4 method=gear
+*- GMIN is the ngspice default 1e-12, not 1e-15. At 1e-15 the solver
+*- aborts at the PWRUP edge in the 125 C corner ("timestep too small,
+*- trouble with node vdd#branch") once the comparator carries the wider
+*- LVT input pair; 1e-12 runs every corner and does not move the result.
+.option TNOM=27 GMIN=1e-12 reltol=1e-4 method=gear
 .options sparse
 *-----------------------------------------------------------------
 * PARAMETERS

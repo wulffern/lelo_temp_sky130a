@@ -1,0 +1,30 @@
+#- Bias current pushed into IBP_1U. The top level feeds each comparator
+#- one leg of the bias block's IBP_1U<3:0>, which is 1uA by design.
+ibias: 1u
+
+#- Threshold on VIN. In LELO_TEMP this is VC, the bias block's control
+#- node, which sits near 0.74 V at 27 C (measured on the top-level tran).
+vcm: 0.75
+
+#- DC sweep resolution on VIP. 0.5 mV keeps the trip point quantisation
+#- well under the offset we are trying to resolve.
+vstep: 0.5m
+
+#- Top of the VIP sweep. Fixed rather than {AVDD} because .control is
+#- nutmeg, not spice, and does not evaluate brace expressions; 1.9 covers
+#- the Vh supply corner.
+vsweep_stop: 1.9
+
+#- Transient ramp on VIP. The real input is the CCMP integrating node:
+#- ibias into the 5x MIM cap, which slews at roughly 4 V/us. Ramping
+#- 0.5 V over 125 ns reproduces that slope, and the crossing of vcm
+#- lands at t_ramp_start + 50 ns.
+vramp_lo: 0.55
+vramp_hi: 1.05
+t_ramp_start: 50n
+t_ramp_stop: 175n
+t_stop: 300n
+
+#- Transient step. 50 ps resolves a delay in the tens of ns to well
+#- under a percent.
+t_step: 50p

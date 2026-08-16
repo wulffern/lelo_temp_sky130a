@@ -389,56 +389,6 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
-            "x2": 3400,
-            "y2": 8800,
-            "layer": "",
-            "net": "",
-            "name": "cut_M2M3_1x2",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3400,
-                    "y2": 8800,
-                    "layer": "M2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 600,
-                    "x2": 3100,
-                    "y2": 3400,
-                    "layer": "VIA2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 5400,
-                    "x2": 3100,
-                    "y2": 8200,
-                    "layer": "VIA2",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3400,
-                    "y2": 8800,
-                    "layer": "M3",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
             "x2": 8800,
             "y2": 3400,
             "layer": "",
@@ -747,147 +697,6 @@
             "class": "Cut",
             "x1": 0,
             "y1": 0,
-            "x2": 4400,
-            "y2": 4400,
-            "layer": "",
-            "net": "",
-            "name": "cut_M3M4_1x1",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 4000,
-                    "y2": 4000,
-                    "layer": "M3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 600,
-                    "x2": 3400,
-                    "y2": 3400,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 4400,
-                    "y2": 4400,
-                    "layer": "M4",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
-            "x2": 3800,
-            "y2": 9600,
-            "layer": "",
-            "net": "",
-            "name": "cut_M3M4_1x2",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3400,
-                    "y2": 8800,
-                    "layer": "M3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 600,
-                    "x2": 3100,
-                    "y2": 3400,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 5400,
-                    "x2": 3100,
-                    "y2": 8200,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3800,
-                    "y2": 9600,
-                    "layer": "M4",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
-            "x2": 9600,
-            "y2": 3800,
-            "layer": "",
-            "net": "",
-            "name": "cut_M3M4_2x1",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 8800,
-                    "y2": 3400,
-                    "layer": "M3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 300,
-                    "x2": 3400,
-                    "y2": 3100,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 5400,
-                    "y1": 300,
-                    "x2": 8200,
-                    "y2": 3100,
-                    "layer": "VIA3",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 9600,
-                    "y2": 3800,
-                    "layer": "M4",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
             "x2": 4800,
             "y2": 9600,
             "layer": "",
@@ -956,147 +765,6 @@
                     "y1": 0,
                     "x2": 4800,
                     "y2": 9600,
-                    "layer": "M5",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
-            "x2": 4800,
-            "y2": 4800,
-            "layer": "",
-            "net": "",
-            "name": "cut_M4M5_1x1",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 4400,
-                    "y2": 4400,
-                    "layer": "M4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 600,
-                    "x2": 3800,
-                    "y2": 3800,
-                    "layer": "VIA4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 4800,
-                    "y2": 4800,
-                    "layer": "M5",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
-            "x2": 4800,
-            "y2": 9600,
-            "layer": "",
-            "net": "",
-            "name": "cut_M4M5_1x2",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 3800,
-                    "y2": 9600,
-                    "layer": "M4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 600,
-                    "x2": 3500,
-                    "y2": 3800,
-                    "layer": "VIA4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 300,
-                    "y1": 5800,
-                    "x2": 3500,
-                    "y2": 9000,
-                    "layer": "VIA4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 4800,
-                    "y2": 9600,
-                    "layer": "M5",
-                    "net": ""
-                }
-            ]
-        },
-        {
-            "class": "Cut",
-            "x1": 0,
-            "y1": 0,
-            "x2": 9600,
-            "y2": 4800,
-            "layer": "",
-            "net": "",
-            "name": "cut_M4M5_2x1",
-            "has_pr": false,
-            "ckt": {},
-            "children": [
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 9600,
-                    "y2": 3800,
-                    "layer": "M4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 600,
-                    "y1": 300,
-                    "x2": 3800,
-                    "y2": 3500,
-                    "layer": "VIA4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 5800,
-                    "y1": 300,
-                    "x2": 9000,
-                    "y2": 3500,
-                    "layer": "VIA4",
-                    "net": ""
-                },
-                {
-                    "class": "Rect",
-                    "x1": 0,
-                    "y1": 0,
-                    "x2": 9600,
-                    "y2": 4800,
                     "layer": "M5",
                     "net": ""
                 }
@@ -1203,7 +871,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 0.0,
                             "x2": 54000.0,
@@ -1211,10 +879,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 0.0,
                             "x2": 54000.0,
@@ -1222,7 +891,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<0>",
@@ -1245,7 +915,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 74000.0,
                             "x2": 54000.0,
@@ -1253,10 +923,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 74000.0,
                             "x2": 54000.0,
@@ -1264,7 +935,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<1>",
@@ -1287,7 +959,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 148000.0,
                             "x2": 54000.0,
@@ -1295,10 +967,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 148000.0,
                             "x2": 54000.0,
@@ -1306,7 +979,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<2>",
@@ -1329,7 +1003,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 222000.0,
                             "x2": 54000.0,
@@ -1337,10 +1011,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 222000.0,
                             "x2": 54000.0,
@@ -1348,7 +1023,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<3>",
@@ -1371,7 +1047,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 296000.0,
                             "x2": 54000.0,
@@ -1379,10 +1055,11 @@
                             "layer": "M4",
                             "net": "",
                             "name": "IBP_1U<0>",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "A"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 0.0,
                             "y1": 296000.0,
                             "x2": 54000.0,
@@ -1390,7 +1067,8 @@
                             "layer": "M5",
                             "net": "",
                             "name": "VSS",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xd1<4>",

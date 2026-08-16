@@ -14,13 +14,13 @@ LIB=LELO_TEMP_SKY130A
 CELL=LELO_TEMP
 
 #- Provide cells you want to check for the lvsall drcall commands
-CELLS = LELOTEMP_CMP LELOTEMP_CCMP LELOTEMP_OTAR LELOTEMP_BIAS_IBP LELO_TEMP
+CELLS = LELOTEMP_CMPR LELOTEMP_CCMPR LELOTEMP_OTAR LELOTEMP_BIAS_IBP LELO_TEMP
 
 #- Leaf first, because each of these has a sidecar of its own and the
 #- one above it instantiates the result: CMP sits inside CCMP, OTAR
 #- inside BIAS_IBP, and both inside LELO_TEMP. `make rebuildall` walks
 #- this order and then checks every cell.
-MAGCELLS = LELOTEMP_CMP LELOTEMP_CCMP LELOTEMP_OTAR LELOTEMP_BIAS_IBP LELO_TEMP
+MAGCELLS = LELOTEMP_CMPR LELOTEMP_CCMPR LELOTEMP_OTAR LELOTEMP_BIAS_IBP LELO_TEMP
 
 include ../tech/make/core.make
 
@@ -43,6 +43,41 @@ mag:
 #- carry <> everywhere; netgen breaks symmetric-net ties by NAME, so
 #- the CDL must use the same delimiters (measured: four topologically
 #- identical IBP_1U outputs paired arbitrarily)
+#- $(CURDIR), NOT $(PWD). Make exports PWD as the directory it was
+#- INVOKED from, so under `make -C work cdl` -- which is how every
+#- check runs -- this wrote the netlist to <ip>/cdl/ while lvs reads
+#- work/cdl/. xschem then failed on the missing directory with exit
+#- 10, the `-` prefix swallowed it, and LVS compared the last netlist
+#- that happened to land in work/cdl/. Measured: work/cdl/LELO_TEMP.spice
+#- was four days stale while `make check` reported on it daily.
+#-
+#- AND THE GUARD IS THE ARTEFACT, NOT THE EXIT CODE. xschem exits 10
+#- on a successful headless netlist in this environment (measured: exit
+#- 10, netlist written, every time) -- which is why the `-` was here and
+#- why it hid the wrong-directory bug above. So: delete the netlist
+#- first, tolerate the exit code, then REQUIRE the file. A run that
+#- writes nothing now stops the build instead of leaving lvs to compare
+#- whatever was in the directory.
 cdl:
 	@test -d cdl || mkdir cdl
-	-xschem -q -x -b -s --tcl "set lvs_netlist 1; set netlist_dir $(PWD)/cdl/; set bus_replacement_char {<>};" -n ../design/$(LIB)/$(PRCELL).sch
+	@rm -f cdl/$(PRCELL).spice
+	-xschem -q -x -b -s --tcl "set lvs_netlist 1; set netlist_dir $(CURDIR)/cdl/; set bus_replacement_char {<>};" -n ../design/$(LIB)/$(PRCELL).sch
+	@test -s cdl/$(PRCELL).spice || { echo "cdl: xschem wrote no netlist for $(PRCELL); lvs would have compared a stale one"; exit 1; }
+
+#- The TT wrapper netlists with [] buses: its layout port labels are
+#- the TinyTapeout DEF names (ui_in[0], ...), and the <> replacement
+#- above exists for the CORE cells' sake -- REYATR nets against hand
+#- schematics -- which the wrapper never contains directly.
+#- <> FOR THE TREE, [] FOR THE TT PORTS. The whole hierarchy must
+#- netlist with <> -- that is what the core cells' labels use, and a
+#- [] run split LELOTEMP_BIAS_IBP's buses against the layout
+#- (measured: PWRUP_1V8 fanout 1 vs 2 and every connected pin
+#- scrambled). Only the wrapper's own ports are TinyTapeout names,
+#- which the DEF spells with [] -- so those five prefixes, and only
+#- those, are mapped back after the netlist is written.
+cdl_tt:
+	@test -d cdl || mkdir cdl
+	@rm -f cdl/tt_um_lelo_temp_wulffern.spice
+	-xschem -q -x -b -s --tcl "set lvs_netlist 1; set netlist_dir $(CURDIR)/cdl/; set bus_replacement_char {<>};" -n ../design/$(LIB)/tt_um_lelo_temp_wulffern.sch
+	@perl -pi -e 's/\b(ui_in|uio_in|uio_out|uio_oe|uo_out)<(\d+)>/$$1\[$$2\]/g' cdl/tt_um_lelo_temp_wulffern.spice
+	@test -s cdl/tt_um_lelo_temp_wulffern.spice || { echo "cdl_tt: no netlist"; exit 1; }

@@ -1,0 +1,48 @@
+* Measure LELOTEMP_CMP propagation delay
+.control
+
+load {cicname}.raw
+
+echo "MEAS_START"
+
+let vo = v(vo)
+let vo_low  = minimum(vo)
+let vo_high = maximum(vo)
+let vo_mid  = (vo_low + vo_high)/2
+
+*- When the ramp actually crosses the threshold. VIN is a fixed DC
+*- source, so vcm is the crossing level.
+meas tran t_cross when v(vip)={vcm} rise=1
+
+*- When the output responds, referred to its own midpoint so the supply
+*- corners do not move the reference.
+meas tran t_out when v(vo)=$&vo_mid rise=1
+
+*- The delay that is added to every oscillator half period.
+let t_delay = t_out - t_cross
+
+*- Same delay expressed as an input voltage: how far past VC the ramp has
+*- travelled before the comparator responds. This is the quantity that
+*- adds to the threshold and shifts the period, and it is directly
+*- comparable to the offset from the dc testbench.
+let v_overshoot = ({vramp_hi} - {vramp_lo})/({t_ramp_stop} - {t_ramp_start})*t_delay
+
+*- Output edge rate, to confirm the stage drives the following gate.
+*- 10/90 of the actual swing -- asking for the crossing at vo_low itself
+*- is the endpoint of the interval, and meas reports "out of interval".
+let v10 = vo_low + 0.1*(vo_high - vo_low)
+let v90 = vo_low + 0.9*(vo_high - vo_low)
+meas tran t_out10 when v(vo)=$&v10 rise=1
+meas tran t_out90 when v(vo)=$&v90 rise=1
+let t_rise = t_out90 - t_out10
+
+let idd = -i(vdd)
+let idd_avg = mean(idd)
+
+print t_delay
+print v_overshoot
+print t_rise
+print idd_avg
+
+echo "MEAS_END"
+.endc

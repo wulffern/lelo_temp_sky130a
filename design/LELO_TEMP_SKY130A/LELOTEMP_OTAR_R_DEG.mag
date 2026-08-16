@@ -1,14 +1,14 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786658400
+timestamp 1786744800
 << checkpaint >>
 rect 0 0 3200 2560
 << locali >>
-rect 514 1040 574 1680
+rect 514 1000 574 1720
 rect 288 1800 800 1880
 rect 288 840 800 920
-rect 0 1080 96 1160
+rect -96 1080 96 1160
 use REYATR_RES_36C2F0 xd2<0> ../REY_ATR_SKY130A
 transform 1 0 0 0 1 480
 box 0 480 3200 1280
@@ -26,7 +26,7 @@ flabel locali s 288 1800 800 1880 0 FreeSans 400 0 0 0 VDS
 port 1 nsew signal bidirectional
 flabel locali s 288 840 800 920 0 FreeSans 400 0 0 0 VS
 port 2 nsew signal bidirectional
-flabel locali s 0 1080 96 1160 0 FreeSans 400 0 0 0 VSS
+flabel locali s -96 1080 96 1160 0 FreeSans 400 0 0 0 VSS
 port 3 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 0 3200 2560

@@ -1,0 +1,85 @@
+*LELO_TEMP_SKY130A/LELOTEMP_CMPR
+*----------------------------------------------------------------
+* Propagation delay of the comparator at its real input slope.
+*
+* In LELO_TEMP the comparator is not driven by a step: VIP is the
+* CCMP integrating node, a ramp of ibias into the 5x MIM cap. The
+* delay from that ramp crossing VC to VO switching is added to every
+* half period of the oscillator, so it is a direct period error -- and
+* because it is set by the tail current and the load, it drifts with
+* temperature and process in a way the ramp itself does not.
+*
+* Driving with a ramp rather than a step is the point: a step measures
+* a delay the circuit never actually sees.
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/LELOTEMP_CMPR_lpe.spi
+#else
+.include ../../../work/xsch/LELOTEMP_CMPR.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-15 reltol=1e-4 method=gear
+
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param AVDD = {vdda}
+
+*-----------------------------------------------------------------
+* FORCE
+*-----------------------------------------------------------------
+VSS  VSS  0     dc 0
+VDD  VDD_1V8  0  dc {AVDD}
+
+VPWR  PWRUP_1V8    0 dc {AVDD}
+VPWRN PWRUP_N_1V8  0 dc 0
+
+*- CMPR owns the two reset switches on VIP. Hold both off so the
+*- comparator sees the driven ramp, the way it does between resets.
+VRST  RST 0 dc 0
+
+IBIAS VDD_1V8 IBP_1U dc {ibias}
+
+VIN VIN 0 dc {vcm}
+
+*- The ramp. Flat below the threshold long enough for the comparator to
+*- settle, then a constant slope through vcm.
+VIP VIP 0 pwl 0 {vramp_lo} {t_ramp_start} {vramp_lo} {t_ramp_stop} {vramp_hi}
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+.include ../xdut.spi
+
+*----------------------------------------------------------------
+* PROBE
+*----------------------------------------------------------------
+.save v(vip) v(vin) v(vo) v(vdd_1v8) i(vdd)
+.save v(xdut.vo1) v(xdut.vbn1) v(xdut.vbp2) v(xdut.vs)
+
+#ifdef Debug
+.option savecurrents
+.save all
+#endif
+
+*----------------------------------------------------------------
+* NGSPICE control
+*----------------------------------------------------------------
+.control
+unset askquit
+
+optran 0 0 0 1n 1u 0
+
+tran {t_step} {t_stop}
+
+write {cicname}.raw
+quit
+
+.endc
+
+.end

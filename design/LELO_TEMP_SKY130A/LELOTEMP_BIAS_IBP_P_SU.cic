@@ -1535,7 +1535,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 482000.0,
                             "x2": 56000.0,
@@ -1543,10 +1543,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSU",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 486000.0,
                             "x2": 56000.0,
@@ -1554,10 +1555,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSU",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 466000.0,
                             "x2": 43200.0,
@@ -1565,10 +1567,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 482000.0,
                             "x2": 4800.0,
@@ -1576,7 +1579,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xsu1",
@@ -1599,7 +1603,7 @@
                     "ckt": {},
                     "children": [
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 33600.0,
                             "y1": 522000.0,
                             "x2": 56000.0,
@@ -1607,10 +1611,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "D"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 52800.0,
                             "y1": 526000.0,
                             "x2": 56000.0,
@@ -1618,10 +1623,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VD1",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "G"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": 27200.0,
                             "y1": 506000.0,
                             "x2": 43200.0,
@@ -1629,10 +1635,11 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VSU",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "S"
                         },
                         {
-                            "class": "Port",
+                            "class": "InstancePort",
                             "x1": -4800.0,
                             "y1": 522000.0,
                             "x2": 4800.0,
@@ -1640,7 +1647,8 @@
                             "layer": "M1",
                             "net": "",
                             "name": "VDD_1V8",
-                            "spicePort": true
+                            "spicePort": true,
+                            "childName": "B"
                         }
                     ],
                     "instanceName": "xsu2",
@@ -2087,7 +2095,7 @@
                 },
                 {
                     "class": "Port",
-                    "x1": 0,
+                    "x1": -4800.0,
                     "y1": 522000.0,
                     "x2": 4800.0,
                     "y2": 526000.0,

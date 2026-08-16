@@ -1,65 +1,65 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786658400
+timestamp 1786831200
 << checkpaint >>
-rect 0 0 19200 21292
+rect 0 0 19488 21292
 << metal2 >>
-rect 14180 13582 14356 13650
+rect 14372 13582 14548 13650
 rect 18564 6562 18740 6630
-rect 10072 6570 18660 6630
-rect 1711 6330 19200 6390
+rect 10264 6570 18660 6630
+rect 1807 6330 19488 6390
 << via2 >>
-rect 14192 13588 14248 13644
-rect 14288 13588 14344 13644
+rect 14384 13588 14440 13644
+rect 14480 13588 14536 13644
 rect 18576 6568 18632 6624
 rect 18672 6568 18728 6624
 << metal3 >>
-rect 14180 13582 14372 13658
-rect 14180 13572 14372 13648
+rect 14372 13582 14564 13658
+rect 14372 13572 14564 13648
 rect 18564 6552 18756 6628
 rect 18564 6562 18756 6638
 << via3 >>
-rect 14192 13578 14256 13642
-rect 14296 13578 14360 13642
+rect 14384 13578 14448 13642
+rect 14488 13578 14552 13642
 rect 18576 6558 18640 6622
 rect 18680 6558 18744 6622
 << metal4 >>
-rect 14180 13572 14372 13668
-rect 14276 13590 18690 13650
+rect 14372 13572 14564 13668
+rect 14468 13590 18690 13650
 rect 18630 6570 18690 13620
 rect 18564 6552 18756 6648
-rect 3590 8794 3650 21292
-rect 3830 9594 3890 21292
-rect 4070 10394 4130 21292
-rect 4310 11194 4370 21292
-rect 18960 17420 19200 17540
-rect 18960 14280 19200 14400
+rect 3686 8794 3746 21292
+rect 3926 9594 3986 21292
+rect 4166 10394 4226 21292
+rect 4406 11194 4466 21292
+rect 19248 17420 19488 17540
+rect 19248 14280 19488 14400
 << locali >>
-rect 0 21100 19200 21280
-rect 0 0 19200 180
+rect 96 21100 19488 21280
+rect 96 0 19488 180
 use LELOTEMP_BIAS_IBP x1_ibp ../LELO_TEMP_SKY130A
 transform 1 0 0 0 1 0
-box 0 0 19200 21292
+box 0 0 19488 21292
 << labels >>
-flabel metal4 s 3590 8794 3650 21292 0 FreeSans 400 0 0 0 IBP_1U<0>
+flabel metal4 s 3686 8794 3746 21292 0 FreeSans 400 0 0 0 IBP_1U<0>
 port 1 nsew signal bidirectional
-flabel metal4 s 3830 9594 3890 21292 0 FreeSans 400 0 0 0 IBP_1U<1>
+flabel metal4 s 3926 9594 3986 21292 0 FreeSans 400 0 0 0 IBP_1U<1>
 port 2 nsew signal bidirectional
-flabel metal4 s 4070 10394 4130 21292 0 FreeSans 400 0 0 0 IBP_1U<2>
+flabel metal4 s 4166 10394 4226 21292 0 FreeSans 400 0 0 0 IBP_1U<2>
 port 3 nsew signal bidirectional
-flabel metal4 s 4310 11194 4370 21292 0 FreeSans 400 0 0 0 IBP_1U<3>
+flabel metal4 s 4406 11194 4466 21292 0 FreeSans 400 0 0 0 IBP_1U<3>
 port 4 nsew signal bidirectional
-flabel metal4 s 18960 17420 19200 17540 0 FreeSans 400 0 0 0 PWRUP_B_1V8
+flabel metal4 s 19248 17420 19488 17540 0 FreeSans 400 0 0 0 PWRUP_B_1V8
 port 5 nsew power bidirectional
-flabel metal4 s 18960 14280 19200 14400 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+flabel metal4 s 19248 14280 19488 14400 0 FreeSans 400 0 0 0 PWRUP_N_1V8
 port 6 nsew power bidirectional
-flabel metal2 s 1711 6330 19200 6390 0 FreeSans 400 0 0 0 VC
+flabel metal2 s 1807 6330 19488 6390 0 FreeSans 400 0 0 0 VC
 port 7 nsew signal bidirectional
-flabel locali s 0 21100 19200 21280 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s 96 21100 19488 21280 0 FreeSans 400 0 0 0 VDD_1V8
 port 8 nsew power bidirectional
-flabel locali s 0 0 19200 180 0 FreeSans 400 0 0 0 VSS
+flabel locali s 96 0 19488 180 0 FreeSans 400 0 0 0 VSS
 port 9 nsew ground bidirectional
 << properties >>
-string FIXED_BBOX 0 0 19200 21292
+string FIXED_BBOX 0 0 19488 21292
 << end >>

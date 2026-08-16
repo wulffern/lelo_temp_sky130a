@@ -1,0 +1,125 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786744800
+<< checkpaint >>
+rect 0 0 1600 7360
+<< locali >>
+rect 0 850 1600 910
+rect 770 240 830 880
+rect 932 1640 992 2520
+rect 932 5640 992 6520
+rect 1050 1664 1114 1832
+rect 1050 3264 1114 3432
+rect 1050 6464 1114 6632
+rect 958 4792 1022 4960
+rect 1054 5672 1118 5840
+rect 0 2120 704 2200
+rect 0 1320 704 1400
+rect 0 520 704 600
+rect 0 2920 704 3000
+rect 0 3720 704 3800
+rect 0 4520 704 4600
+rect 0 6120 704 6200
+rect 0 5420 704 5500
+rect 932 3280 992 4080
+rect 932 3280 992 4160
+rect 1058 4080 1118 4160
+rect 1058 4080 1118 4960
+rect 1056 1720 1120 1800
+rect 1056 2520 1120 2600
+rect 672 4040 1120 4120
+rect 672 2440 992 2520
+rect 672 6440 992 6520
+rect 1056 5720 1120 5800
+rect -96 840 96 920
+<< metal3 >>
+rect 1058 1720 1118 6600
+rect 1050 1664 1126 1856
+rect 1050 3264 1126 3456
+rect 1050 6464 1126 6656
+<< viali >>
+rect 1056 1676 1108 1728
+rect 1056 1768 1108 1820
+rect 1056 3276 1108 3328
+rect 1056 3368 1108 3420
+rect 1056 6476 1108 6528
+rect 1056 6568 1108 6620
+rect 964 4804 1016 4856
+rect 964 4896 1016 4948
+rect 1060 5684 1112 5736
+rect 1060 5776 1112 5828
+<< metal1 >>
+rect 1050 1664 1118 1840
+rect 1050 3264 1118 3440
+rect 1050 6464 1118 6640
+rect 958 4792 1026 4968
+rect 992 4850 1118 4910
+rect 1058 4880 1118 5790
+rect 1054 5672 1122 5848
+<< via1 >>
+rect 1056 1676 1112 1732
+rect 1056 1772 1112 1828
+rect 1056 3276 1112 3332
+rect 1056 3372 1112 3428
+rect 1056 6476 1112 6532
+rect 1056 6572 1112 6628
+<< metal2 >>
+rect 1050 1664 1118 1840
+rect 1050 3264 1118 3440
+rect 1050 6464 1118 6640
+<< via2 >>
+rect 1056 1676 1112 1732
+rect 1056 1772 1112 1828
+rect 1056 3276 1112 3332
+rect 1056 3372 1112 3428
+rect 1056 6476 1112 6532
+rect 1056 6572 1112 6628
+use REYATR_NCH_2C5F0D xn_mirr_load0 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 480
+box 0 480 1600 1280
+use REYATR_NCH_2C5F0 xg4 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 1280
+box 0 1280 1600 2080
+use REYATR_NCH_2C5F0 xg1 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 2080
+box 0 2080 1600 2880
+use REYATR_NCH_2C5F0 xn_mirr_load1 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 2880
+box 0 2880 1600 3680
+use REYATR_NCH_2C5F0D xn_mirr_load2 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 3680
+box 0 3680 1600 4480
+use REYATR_NCH_2C5F0 xn_mirr_load3 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 4480
+box 0 4480 1600 5280
+use REYATR_NCH_2C1F2 xn_mirr_load5 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 5280
+box 0 5280 1600 6080
+use REYATR_NCH_2C5F0 xn_mirr_load4 ../REY_ATR_SKY130A
+transform 1 0 0 0 1 6080
+box 0 6080 1600 6880
+use REYATR_NCH_2CTAPBOT xstack_n_mirr_load_bot ../REY_ATR_SKY130A
+transform 1 0 0 0 1 0
+box 0 0 1600 480
+use REYATR_NCH_2CTAPTOP xstack_n_mirr_load_top ../REY_ATR_SKY130A
+transform 1 0 0 0 1 6880
+box 0 6880 1600 7360
+<< labels >>
+flabel locali s 1056 1720 1120 1800 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+port 1 nsew power bidirectional
+flabel locali s 1056 2520 1120 2600 0 FreeSans 400 0 0 0 RST
+port 2 nsew signal bidirectional
+flabel locali s 672 4040 1120 4120 0 FreeSans 400 0 0 0 VBN1
+port 3 nsew signal bidirectional
+flabel locali s 672 2440 992 2520 0 FreeSans 400 0 0 0 VIP
+port 4 nsew signal bidirectional
+flabel locali s 672 6440 992 6520 0 FreeSans 400 0 0 0 VO
+port 5 nsew signal bidirectional
+flabel locali s 1056 5720 1120 5800 0 FreeSans 400 0 0 0 VO1
+port 6 nsew signal bidirectional
+flabel locali s -96 840 96 920 0 FreeSans 400 0 0 0 VSS
+port 7 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 0 1600 7360
+<< end >>

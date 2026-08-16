@@ -1,0 +1,41 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1786744800
+<< checkpaint >>
+rect 0 0 6992 7960
+<< locali >>
+rect 2368 6740 2688 6820
+rect 2368 2740 2688 2820
+rect 768 1140 1088 1220
+rect 6352 1220 6416 1300
+rect 1152 1220 1216 1300
+rect 2752 2820 2816 2900
+rect 4944 4420 5008 4500
+rect 96 7780 6992 7960
+rect 96 0 6992 180
+use LELOTEMP_CMPR x1_cmp ../LELO_TEMP_SKY130A
+transform 1 0 0 0 1 0
+box 0 0 6992 7960
+<< labels >>
+flabel locali s 2368 6740 2688 6820 0 FreeSans 400 0 0 0 CMPO
+port 1 nsew signal bidirectional
+flabel locali s 2368 2740 2688 2820 0 FreeSans 400 0 0 0 IBP_1U<0>
+port 2 nsew signal bidirectional
+flabel locali s 768 1140 1088 1220 0 FreeSans 400 0 0 0 IBP_1U<1>
+port 3 nsew signal bidirectional
+flabel locali s 6352 1220 6416 1300 0 FreeSans 400 0 0 0 PWRUP_B_1V8
+port 4 nsew power bidirectional
+flabel locali s 1152 1220 1216 1300 0 FreeSans 400 0 0 0 PWRUP_N_1V8
+port 5 nsew power bidirectional
+flabel locali s 2752 2820 2816 2900 0 FreeSans 400 0 0 0 RST
+port 6 nsew signal bidirectional
+flabel locali s 4944 4420 5008 4500 0 FreeSans 400 0 0 0 VC
+port 7 nsew signal bidirectional
+flabel locali s 96 7780 6992 7960 0 FreeSans 400 0 0 0 VDD_1V8
+port 8 nsew power bidirectional
+flabel locali s 96 0 6992 180 0 FreeSans 400 0 0 0 VSS
+port 9 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 0 6992 7960
+<< end >>

@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1786658400
+timestamp 1786744800
 << checkpaint >>
 rect 0 0 1600 11360
 << locali >>
@@ -33,7 +33,7 @@ rect 0 7720 704 7800
 rect 0 8520 704 8600
 rect 0 9320 704 9400
 rect 0 10120 704 10200
-rect 0 10440 96 10520
+rect -96 10440 96 10520
 use REYATR_PCH_4C5F0D xcc<0> ../REY_ATR_SKY130A
 transform 1 0 0 0 1 6880
 box 0 6880 1600 7680
@@ -80,7 +80,7 @@ use REYATR_PCH_4CTAPTOP xstack_p_cc_top ../REY_ATR_SKY130A
 transform 1 0 0 0 1 10880
 box 0 10880 1600 11360
 << labels >>
-flabel locali s 0 10440 96 10520 0 FreeSans 400 0 0 0 VDD_1V8
+flabel locali s -96 10440 96 10520 0 FreeSans 400 0 0 0 VDD_1V8
 port 1 nsew power bidirectional
 << properties >>
 string FIXED_BBOX 0 0 1600 11360

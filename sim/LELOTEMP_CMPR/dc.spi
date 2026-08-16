@@ -1,0 +1,88 @@
+*LELO_TEMP_SKY130A/LELOTEMP_CMPR
+*----------------------------------------------------------------
+* DC transfer of the comparator: trip point, offset and gain.
+*
+* LELOTEMP_CMPR is a PMOS-input diff pair (VIP -> xp_diff2, VIN ->
+* xp_diff1) with an NMOS mirror load, followed by a common-source
+* stage. VO therefore rises when VIP goes above VIN. In LELOTEMP_CCMP
+* VIP is the integrating ramp and VIN is the threshold VC, so the trip
+* point measured here is what sets the oscillator period, and the
+* offset is a direct temperature error.
+*----------------------------------------------------------------
+* Include
+*----------------------------------------------------------------
+#ifdef Lay
+.include ../../../work/lpe/LELOTEMP_CMPR_lpe.spi
+#else
+.include ../../../work/xsch/LELOTEMP_CMPR.spice
+#endif
+
+*-----------------------------------------------------------------
+* OPTIONS
+*-----------------------------------------------------------------
+.option TNOM=27 GMIN=1e-15 reltol=1e-4
+
+*-----------------------------------------------------------------
+* PARAMETERS
+*-----------------------------------------------------------------
+.param AVDD = {vdda}
+
+*-----------------------------------------------------------------
+* FORCE
+*-----------------------------------------------------------------
+VSS  VSS  0     dc 0
+VDD  VDD_1V8  0  dc {AVDD}
+
+*- Powered up. The block is wired PWRUP_1V8 <- PWRUP_B_1V8 in CCMP, so
+*- the enabled state is this port high and PWRUP_N_1V8 low; both of the
+*- power-down devices are then off.
+VPWR  PWRUP_1V8    0 dc {AVDD}
+VPWRN PWRUP_N_1V8  0 dc 0
+
+*- CMPR owns the two reset switches on VIP. Hold both off so the
+*- comparator sees the driven ramp, the way it does between resets.
+VRST  RST 0 dc 0
+
+*- IBP_1U is a current *input*: xn_mirr_bias1 is an NMOS diode to VSS,
+*- so the bias block pushes current in from a PMOS source. Mirror that
+*- from VDD so the current shows up in i(VDD) like it does in the top.
+IBIAS VDD_1V8 IBP_1U dc {ibias}
+
+*- VIN is the threshold (VC in the real circuit), VIP is swept.
+VIN VIN 0 dc {vcm}
+VIP VIP 0 dc 0
+
+*-----------------------------------------------------------------
+* DUT
+*-----------------------------------------------------------------
+.include ../xdut.spi
+
+*----------------------------------------------------------------
+* PROBE
+*----------------------------------------------------------------
+.save v(vip) v(vin) v(vo) v(vdd_1v8) i(vdd)
+.save v(xdut.vo1) v(xdut.vbn1) v(xdut.vbp2) v(xdut.vs)
+
+#ifdef Debug
+.option savecurrents
+.save all
+#endif
+
+*----------------------------------------------------------------
+* NGSPICE control
+*----------------------------------------------------------------
+.control
+unset askquit
+
+*- Sweep range is a testbench parameter, not {AVDD}: brace expressions
+*- are spice .param syntax and are not evaluated inside .control, so
+*- "dc VIP 0 {AVDD}" reaches nutmeg as the literal string "avdd".
+*- vsweep_stop covers the highest supply corner.
+dc VIP 0 {vsweep_stop} {vstep}
+
+write {cicname}.raw
+quit
+
+.endc
+
+.end
