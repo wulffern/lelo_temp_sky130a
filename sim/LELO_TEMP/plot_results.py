@@ -83,8 +83,9 @@ def process(name):
     with open(yamlfile, "w") as fo:
         yaml.dump(obj, fo)
 
+    m = re.search(r"(V[thl])(?:_\d+)?$", name)
     return {"temp": TEMPS.astype(float), "freq": freq,
-            "1p": err1, "2p": err2}
+            "1p": err1, "2p": err2, "supply": m.group(1) if m else "Vt"}
 
 
 def runs_of(runfile):
@@ -92,11 +93,21 @@ def runs_of(runfile):
         return [process(l.strip()) for l in fi if l.strip()]
 
 
+SUPPLY_COLOR = {"Vt": "black", "Vh": "tab:red", "Vl": "tab:blue"}
+SUPPLY_LABEL = {"Vt": "VDD typ", "Vh": "VDD high", "Vl": "VDD low"}
+
+
 def error_panel(ax, runs, cal):
     ind, com = SPEC[cal]["ind"], SPEC[cal]["com"]
+    seen = set()
     for r in runs:
-        ax.plot(r["temp"], r[cal], color="black", lw=0.9,
-                marker="o", ms=2.5, alpha=0.8)
+        sup = r["supply"]
+        ax.plot(r["temp"], r[cal], color=SUPPLY_COLOR[sup], lw=0.9,
+                marker="o", ms=2.5, alpha=0.8,
+                label=None if sup in seen else SUPPLY_LABEL[sup])
+        seen.add(sup)
+    if len(seen) > 1:
+        ax.legend(fontsize=8, loc="lower left")
     ax.axhline(+ind, color="crimson", ls="--", lw=1)
     ax.axhline(-ind, color="crimson", ls="--", lw=1)
     ax.add_patch(Rectangle((0, -com), 70, 2 * com, fill=False,
