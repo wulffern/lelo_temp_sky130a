@@ -122,8 +122,7 @@ No external hardware is required beyond something that can measure frequency.
 # Simulation graphs
 
 All result figures show both views: **Sch** is the schematic netlist,
-**Lay** the parasitic extraction of the finished layout. Points are
-colored by temperature, blue at -40 C to red at 125 C. In the error
+**Lay** the parasitic extraction of the finished layout. In the error
 figures the left column is one-point calibration, the right column
 two-point; the dashed red lines are the industrial spec (-40 to 125 C,
 ±15 C / ±10 C), the dotted box the commercial spec (0 to 70 C,

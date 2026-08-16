@@ -4,9 +4,7 @@
 One figure per run-set (typical, etc, mc), each a grid of
 temperature-error panels: rows are the views (Sch on top, Lay below),
 columns are the calibrations (one-point left, two-point right). Every
-corner is a thin gray line with its samples colored by temperature,
-blue at -40C to red at 125C, so a cold-side and a hot-side failure
-read differently at a glance. The industrial spec is the dashed red
+corner is a thin black line. The industrial spec is the dashed red
 pair of lines, the commercial spec (0..70C) the dotted box, and the
 worst corner-to-corner error is printed in each panel.
 
@@ -97,9 +95,8 @@ def runs_of(runfile):
 def error_panel(ax, runs, cal):
     ind, com = SPEC[cal]["ind"], SPEC[cal]["com"]
     for r in runs:
-        ax.plot(r["temp"], r[cal], color="0.78", lw=0.8, zorder=1)
-        ax.scatter(r["temp"], r[cal], c=r["temp"], cmap="coolwarm",
-                   vmin=TMIN, vmax=TMAX, s=16, zorder=2, edgecolors="none")
+        ax.plot(r["temp"], r[cal], color="black", lw=0.9,
+                marker="o", ms=2.5, alpha=0.8)
     ax.axhline(+ind, color="crimson", ls="--", lw=1)
     ax.axhline(-ind, color="crimson", ls="--", lw=1)
     ax.add_patch(Rectangle((0, -com), 70, 2 * com, fill=False,
@@ -150,11 +147,8 @@ def transfer_figure():
         if not os.path.exists(runfile):
             continue
         for r in runs_of(runfile):
-            ax.plot(r["temp"], r["freq"] / 1e6, styles[view], color="0.55",
-                    lw=1, label=view, zorder=1)
-            ax.scatter(r["temp"], r["freq"] / 1e6, c=r["temp"],
-                       cmap="coolwarm", vmin=TMIN, vmax=TMAX, s=22,
-                       zorder=2, edgecolors="none")
+            ax.plot(r["temp"], r["freq"] / 1e6, styles[view], color="black",
+                    lw=1, marker="o", ms=3, label=view)
     ax.set_xlabel("Temperature [C]")
     ax.set_ylabel("Frequency [MHz]")
     ax.grid(True, alpha=0.3)
