@@ -20,6 +20,143 @@ from cicpy.core.path import pin, track, landing, PITCH, SPACE
 
 log = logging.getLogger("LELO_TEMP")
 
+#- Rule figures the supply plates below clear things by. Named here
+#- once: met1.3c is what a >=3 um met1 shape asks of its neighbours,
+#- mcon.2 what two contact paints ask of each other.
+HUGE_MET1_SPACE = 2800
+CUT_SPACE = 1900
+
+
+def blockedSpans(layout, x1, y1, x2, y2, net, layers, clearance,
+                 cells=True):
+    """X-spans in [x1, x2] a supply plate over band y1..y2 must leave
+    open, measured off what is ALREADY DRAWN when the plate goes in.
+
+    Walks the layout's own tree -- paths, rings, loose rects -- and,
+    for placed instances, their PUBLISHED port pads (an instance's
+    interior is another level's business, but its pads sit on the
+    plate's band). Blocking is: a rect on one of `layers` whose net
+    is not `net`, a foreign port pad on those layers, or a child
+    CELL in the band (a cut instance is one, and two cells' contact
+    paint may not partially overlap regardless of net). Every span
+    comes back widened by `clearance` and merged.
+
+    This replaces coordinate tables: a crossing that moves takes its
+    gap with it, and a new crossing gets one without anyone editing
+    a list.
+    """
+    spans = []
+
+    def hit(o):
+        ox1, oy1 = int(o.x1), int(o.y1)
+        ox2, oy2 = int(o.x2), int(o.y2)
+        return ox2 > x1 and ox1 < x2 and oy2 > y1 and oy1 < y2
+
+    def walk(o, netctx):
+        for ch in getattr(o, "children", []) or []:
+            cls = ch.__class__.__name__
+            n = getattr(ch, "net", "") or getattr(ch, "name", "") \
+                or netctx
+            if cls in ("Instance", "InstanceCut"):
+                if not hit(ch):
+                    continue
+                cellname = str(getattr(ch, "cell", "") or ch.name)
+                if cellname.startswith("cut_") or cls == "InstanceCut":
+                    #- a contact CELL blocks whatever its net is when
+                    #- the caller lays contact paint (cells=True);
+                    #- for plain metal, only a foreign one does --
+                    #- metal overlap between cells is legal
+                    if cells or netctx != net:
+                        spans.append((int(ch.x1), int(ch.x2)))
+                else:
+                    #- a block: only its pads matter here
+                    for pt in getattr(ch, "children", []) or []:
+                        if getattr(pt, "isPort", lambda: False)() \
+                                and getattr(pt, "name", "") != net:
+                            r = pt.get()
+                            if r is not None and r.layer in layers \
+                                    and hit(r):
+                                spans.append((int(r.x1), int(r.x2)))
+            elif cls == "Rect":
+                if getattr(ch, "layer", "") in layers and hit(ch) \
+                        and n != net:
+                    spans.append((int(ch.x1), int(ch.x2)))
+            elif getattr(ch, "children", None):
+                walk(ch, n or netctx)
+    walk(layout, "")
+    spans = sorted((a - clearance, b + clearance) for a, b in spans)
+    out = []
+    for s in spans:
+        if out and s[0] <= out[-1][1]:
+            out[-1][1] = max(out[-1][1], s[1])
+        else:
+            out.append([s[0], s[1]])
+    return out
+
+
+def childRingStrapGaps(inst, net, x1, x2, pad=1400):
+    """The spans a placed child's own ring strap leaves open, read
+    off the BUILT child and mapped to this level's x.
+
+    A child's strap gaps encode every crossing measured at every
+    level -- a grandparent's corridor through the block included --
+    which is knowledge no single level's walk can see. A plate laid
+    against the child's ring opens the same spans, widened by `pad`
+    (the plate is huge met1 and asks met1.3c where the strap asked
+    met1.2). Returns [] when the child has no strap to read, so the
+    caller falls back to what it measured itself.
+    """
+    sub = (getattr(inst, "layoutcell", None)
+           or getattr(inst, "_cell_obj", None))
+    #- the child arrives as its flat block view, so the strap is
+    #- found by WHERE it is, not by structure: the seam-side row of
+    #- BOTH halves is the child's own bottom row (that is what the
+    #- mirror is for), and its met1 strap segments are the wide M2
+    #- rects inside child y 0..9000
+    segs = []
+    for r in getattr(sub, "children", []) or []:
+        if r.__class__.__name__ == "Rect" \
+                and getattr(r, "layer", "") == "M2" \
+                and int(r.y1) >= -100 and int(r.y2) <= 9100 \
+                and (r.x2 - r.x1) > (r.y2 - r.y1):
+            segs.append((int(r.x1), int(r.x2)))
+    if not segs:
+        log.warning(f"childRingStrapGaps: no strap on the seam row "
+                    f"of {getattr(inst, 'instanceName', '?')}")
+        return []
+    #- child x maps 1:1 through both placements (MX keeps x)
+    off = int(inst.x1) - int(getattr(sub, "x1", 0) or 0)
+    segs = sorted((a + off, b + off) for a, b in segs)
+    gaps, at = [], x1
+    for a, b in segs:
+        if a > at:
+            gaps.append([at - pad, a + pad])
+        at = max(at, b)
+    if at < x2:
+        gaps.append([at - pad, x2])
+    return gaps
+
+
+def mergeSpans(spans):
+    out = []
+    for s in sorted([list(s) for s in spans]):
+        if out and s[0] <= out[-1][1]:
+            out[-1][1] = max(out[-1][1], s[1])
+        else:
+            out.append(s)
+    return out
+
+
+def plateSegments(x1, x2, gaps, minseg=3000):
+    """The plate metal between the gaps: [x1, x2] minus `gaps`,
+    dropping any sliver shorter than `minseg`."""
+    segs, at = [], x1
+    for g1, g2 in gaps + [[x2, x2]]:
+        if g1 > at and g1 - at >= minseg:
+            segs.append((at, min(g1, x2)))
+        at = max(at, g2)
+    return segs
+
 
 class LELO_TEMP(SidecarCell):
 
@@ -378,7 +515,15 @@ class LELO_TEMP(SidecarCell):
             from cicpy.core.rect import Rect as _R
 
             def _on_rail(bar, x, net):
-                r = _R(bar.layer, int(x) - 1500, int(bar.y1), 3000,
+                #- 6000 wide, not rule width: this column is the only
+                #- metal joining the two halves' VDD rings, 104 um of
+                #- it, and at 3000 it was ~43 ohm of met1 carrying a
+                #- comparator's whole supply. The halves' VSS row
+                #- strap gaps hold a 6000 wire here with 4500 to
+                #- spare; the other free columns (177000/192000/
+                #- 195000) sit at or past those gap edges, which is
+                #- why this is one wider wire and not more columns.
+                r = _R(bar.layer, int(x) - 3000, int(bar.y1), 6000,
                        int(bar.y2) - int(bar.y1))
                 r.setNet(net)
                 return r
@@ -403,13 +548,88 @@ class LELO_TEMP(SidecarCell):
                     log.error(f"ccmp: {net} is not on both comparators")
                     continue
                 p = lay.path(net, "M1", start=[_on_rail(lo, x, net)],
-                             stop=[_on_rail(hi, x, net)])
+                             stop=[_on_rail(hi, x, net)], width=6000)
                 p.start()
                 p.up()                           #- M2, over everything
                 p.movey(p.landing("y"))          #- the rails carry
                 p.down()
                 p.end()
 
+
+        def beforePaint(self, entry):
+            """The seam plate goes in HERE, not in beforeRoute: its
+            gaps are measured off the seam crossings, and a path's
+            rects do not exist until routing has rendered them --
+            measured, in beforeRoute the band held only the halves'
+            VC pads, the met1 ran full width, and LVS merged every
+            net that crosses the seam into one component."""
+            lay = self.layout
+            a = lay.getInstanceFromInstanceName("x2_ccmp")
+            b = lay.getInstanceFromInstanceName("x3_ccmp")
+            if a is None or b is None:
+                log.error("ccmp: seam plate needs both halves placed")
+                return
+            self._seamPlate(lay, a, b)
+
+        def _seamPlate(self, lay, a, b):
+            """VSS, as wide as the middle of the pair allows.
+
+            The halves' VSS rows sit 2 um apart at the seam and were
+            joined by ONE rule-width vertical -- the last thin wire
+            in the tile's ground. This fills the whole seam sandwich
+            (row + gap + row, nearly full width) with locali and
+            met1, so the pair's ground is one plate.
+
+            NO COORDINATE TABLE. This runs after the seam stories
+            have drawn, so what crosses the band -- the PWRUP
+            columns, the VDD join, VC's hop, the halves' own pads --
+            is measured off the layout itself, and the met1 opens a
+            span over each with met1.3c clearance (the plate is
+            "huge" met1). The contact paint stays inside the 2 um
+            gap alone: over the rows it would partially overlap the
+            halves' own strap cuts, and two cells' contacts may not
+            partially overlap. The rows' strap cuts carry the plate
+            to locali there; the gap's own cuts keep mcon.2 to them.
+            """
+            from cicpy.core.rect import Rect as _R
+            lo, hi = self._port(a, "VSS"), self._port(b, "VSS")
+            if lo is None or hi is None:
+                log.error("ccmp: seam plate needs both VSS rows")
+                return
+            y1, y2 = int(lo.y1), int(hi.y2)      #- row + gap + row
+            g1, g2 = int(lo.y2), int(hi.y1)      #- the bare gap
+            x1, x2 = int(lo.x1) + 4800, int(lo.x2) - 4800
+            #- two sources, both live: what this level's own walk can
+            #- see in the band, and the spans the halves' OWN row
+            #- straps leave open -- the latter carry the crossings
+            #- only a higher level knows about (the PWRUP corridor
+            #- descends through the pair from the TOP, and a wrapper
+            #- walk cannot see its parent: measured, the plate missed
+            #- it and LVS merged PWRUP_B into the supplies)
+            gaps = blockedSpans(lay, x1, y1, x2, y2, "VSS",
+                                ("M1", "M2"), HUGE_MET1_SPACE)
+            for inst in (a, b):
+                gaps += childRingStrapGaps(inst, "VSS", x1, x2)
+            gaps = mergeSpans(gaps)
+            log.info(f"ccmp: seam plate band y {y1}..{y2}, gaps {gaps}")
+            li = _R("M1", x1, y1, x2 - x1, y2 - y1)
+            li.setNet("VSS")
+            lay.add(li)
+            for s1, s2 in plateSegments(x1, x2, gaps):
+                m = _R("M2", s1, y1, s2 - s1, y2 - y1)
+                m.setNet("VSS")
+                lay.add(m)
+                #- cut inset: 700 enclosure sideways, but CUT_SPACE
+                #- PLUS 700 vertically -- the halves' own tie cuts
+                #- poke their 700 enclosure INTO the gap past the row
+                #- edge, and mcon.2 is measured paint to paint
+                #- (at CUT_SPACE-700 the plate's cuts sat 500 from
+                #- them, 6 DRC, measured)
+                c = _R("VIA1", s1 + 700, g1 + (CUT_SPACE + 700),
+                       s2 - s1 - 1400, (g2 - g1) - 2 * (CUT_SPACE + 700))
+                if c.x2 > c.x1 and c.y2 > c.y1:
+                    c.setNet("VSS")
+                    lay.add(c)
 
         def afterPorts(self, entry):
             """PWRUP_B, published on the pad its own story drew.
@@ -2030,6 +2250,64 @@ class LELO_TEMP(SidecarCell):
                         "pband: the pair has no free M2 column over "
                         "PWRUP_B's span; the leg will not draw")
         super().beforeRoute(layout)
+
+    def beforePaint(self, layout):
+        """A wide VDD tie from the ring straight down onto the upper
+        comparator's own VDD row.
+
+        The ring's bar runs over the pair, but the pair's supply
+        used to reach it through one rule-width riser and the 104 um
+        column inside the wrapper. This drops a 5 um locali+met1
+        column from the bar onto the row.
+
+        In beforePaint, NOT beforeRoute: the rings re-lay as routes
+        grow the bbox, and geometry drawn against the ring's
+        beforeRoute position landed 8000 high of the painted bar
+        (measured, 30 mcon DRC). And NO COORDINATE TABLE: where the
+        tie fits is measured off what is already drawn -- foreign
+        metal with met1.3c clearance (the tie is huge met1) -- and
+        its contact paint keeps mcon.2 to the row's and the ring's
+        own cuts, because two cells' contact paints may not
+        partially overlap even on the same net, while their metal
+        may (and that overlap is what carries the current where the
+        cuts stay away).
+        """
+        super().beforePaint(layout)
+        from cicpy.core.rect import Rect as _R
+        rt = layout.named_rects.get("ring_t_VDD_1V8")
+        ccmp = layout.getInstanceFromInstanceName("xccmp")
+        if rt is None or ccmp is None:
+            log.error("top: no VDD ring or pair to tie")
+            return
+        ry1, ry2 = int(rt.y1), int(rt.y2)
+        net = "VDD_1V8"
+        #- the widest span on the pair's top row that nothing
+        #- foreign touches anywhere along the tie's height
+        band = blockedSpans(layout, int(ccmp.x1), int(ccmp.y2) - 9000,
+                            int(ccmp.x2), ry2, net, ("M1", "M2"),
+                            HUGE_MET1_SPACE, cells=False)
+        free = plateSegments(int(ccmp.x1) + 4800, int(ccmp.x2) - 4800,
+                             band, minseg=20000)
+        if not free:
+            log.error("top: no span on the pair's row for a VDD tie")
+            return
+        f1, f2 = max(free, key=lambda s: s[1] - s[0])
+        mid = (f1 + f2) // 2
+        half = min(25000, (f2 - f1) // 2)
+        tx1, tx2 = mid - half, mid + half
+        ty1 = int(ccmp.y2) - 4500
+        for lay_name in ("M1", "M2"):
+            r = _R(lay_name, tx1, ty1, tx2 - tx1, ry1 + 4500 - ty1)
+            r.setNet(net)
+            layout.add(r)
+        #- tie cuts sit in the empty band between the row's strap
+        #- cuts and the ring's, mcon.2 clear of both
+        c = _R("VIA1", tx1 + 700, int(ccmp.y2) + 1200,
+               tx2 - tx1 - 1400, ry1 - 1200 - (int(ccmp.y2) + 1200))
+        if c.y2 > c.y1:
+            c.setNet(net)
+            layout.add(c)
+        log.info(f"top: VDD ring tie onto the pair at {tx1}..{tx2}")
 
     def afterPorts(self, layout):
         """SAY WHICH RECT IS THE SUPPLY PIN. Do not let it be found.
