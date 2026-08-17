@@ -112,12 +112,21 @@ No external hardware is required beyond something that can measure frequency.
 
 # Key parameters
 
-| Parameter             | Min | Typ             | Max | Unit |
-|:----------------------|:---:|:---------------:|:---:|:----:|
-| Technology            |     | Skywater 130 nm |     |      |
-| AVDD                  | 1.7 | 1.8             | 1.9 | V    |
-| Oscillation frequency | 1.7 | 3.0             | 4.0 | MHz  |
-| Temperature           | -40 | 27              | 125 | C    |
+| Parameter                       | Min  | Typ             | Max  | Unit |
+|:--------------------------------|:----:|:---------------:|:----:|:----:|
+| Technology                      |      | Skywater 130 nm |      |      |
+| AVDD                            | 1.7  | 1.8             | 1.9  | V    |
+| Temperature                     | -40  | 27              | 125  | C    |
+| Oscillation frequency           | 1.1  | 2.0             | 4.0  | MHz  |
+| Supply current (25 C)           | 63   | 83              | 107  | uA   |
+| Power-down current (25 C)       | 10   | 11              | 50   | nA   |
+| Temperature error, 1-point cal. | -6.7 |                 | +9.1 | C    |
+| Temperature error, 2-point cal. | -7.3 |                 | +5.3 | C    |
+
+Measured on the extracted view: Typ is typical process at 1.8 V and
+27 C (frequency at the temperature extremes is 1.4 and 3.2 MHz there);
+Min/Max span the extreme test condition corners (process corners at
+1.7 to 1.9 V, -40 to 125 C).
 
 # Simulation graphs
 
