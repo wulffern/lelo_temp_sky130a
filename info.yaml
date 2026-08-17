@@ -15,6 +15,6 @@ doc:
       #- LELOTEMP_OTAN
       - LELOTEMP_OTAR
       - LELO_TEMP
-      - LELOTEMP_CCMP
-      - LELOTEMP_CMP
+      - LELOTEMP_CCMPR
+      - LELOTEMP_CMPR
       - TB_LELO_TEMP

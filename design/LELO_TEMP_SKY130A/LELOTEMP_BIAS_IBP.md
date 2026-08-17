@@ -53,7 +53,7 @@ Estimated values from the model in [LELO\_TEMP.py](https://github.com/wulffern/l
 <!--pan_doc:
 The startup circuit on the left side will ensure that the LPI node is pulled
 down when the circuit starts up. The PWRUP will enable the NMOS between LPI and
-VS2. The diode connected NMOS between VS1 and VS2 lmits the current.  The PMOS
+VS2. The diode connected NMOS between VS1 and VS2 limits the current.  The PMOS
 will eventually turn off the startup path when VR1 is high enough.
 
 -->

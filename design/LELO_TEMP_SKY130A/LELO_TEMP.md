@@ -1,10 +1,10 @@
 
-Bandgap (LEOTEMP\_BIAS\_IPB) is used to provide a PTAT current for the frequency
+Bandgap (LELOTEMP\_BIAS\_IBP) is used to provide a PTAT current for the frequency
 conversion and the comparator. The $V_C$ is the CTAT diode voltage in the bandgap.
 The output current is approximately 1 uA.
 
-The current charges the capacitor inside CCMP. When the voltage on the capacitor reaches $V_C$
-the comparator inside CCMP will trigger (low to high).
+The current charges the capacitor inside CCMPR. When the voltage on the capacitor reaches $V_C$
+the comparator inside CCMPR will trigger (low to high).
 
 The two comparators alternate to trigger the set/reset latch made by the NOR
 gates. As such, the two capacitors are alternatively charged.

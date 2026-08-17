@@ -43,7 +43,7 @@ higher than 20 kHz, so we can't hear it (according to <https://youtu.be/_2By2ane
 
 The principle of operation of the FSM and counter can be seen in Figure 1. 
 
-The FSM starts in a IDLE state where a counter is reset. Next the temperature dependent oscillator is
+The FSM starts in an IDLE state where a counter is reset. Next the temperature dependent oscillator is
 started, and a number of oscillator pulses are counted. The FSM runs on LF_CLK
 and we use the count x LF_CLK to measure the oscillation frequency. 
 
@@ -95,7 +95,7 @@ of the curve needs to be compensated for. See the python model for details.
 Power the tile, then drive PWRUP_ANA (ui[0]) high to
 power the analog core up. The temperature-dependent oscillator output
 appears on OSC_TEMP (uo[0]); measure its frequency with a counter or a
-logic analyzer. The frequency tracks temperaturw. Aweep the ambient
+logic analyzer. The frequency tracks temperature. Sweep the ambient
 and record frequency versus temperature to calibrate. Drive PWRUP_ANA
 low and the core powers down to leakage.
 
