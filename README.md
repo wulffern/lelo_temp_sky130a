@@ -116,19 +116,19 @@ No external hardware is required beyond something that can measure frequency.
 |:--------------------------------|:----:|:---------------:|:----:|:----:|
 | Technology                      |      | Skywater 130 nm |      |      |
 | AVDD                            | 1.7  | 1.8             | 1.9  | V    |
-| Temperature                     | 0    | 27              | 70   | C    |
-| Oscillation frequency           | 1.4  | 2.0             | 3.2  | MHz  |
+| Temperature                     | -40  | 27              | 125  | C    |
+| Oscillation frequency           | 1.1  | 2.0             | 4.0  | MHz  |
 | Supply current (25 C)           | 63   | 83              | 107  | uA   |
 | Power-down current (25 C)       | 10   | 11              | 50   | nA   |
-| Temperature error, 1-point cal. | -3.7 |                 | +2.9 | C    |
-| Temperature error, 2-point cal. | -1.9 |                 | +1.5 | C    |
+| Temperature error, 1-point cal. | -6.7 |                 | +9.1 | C    |
+| Temperature error, 2-point cal. | -7.3 |                 | +5.3 | C    |
 
-Measured on the extracted view over the commercial temperature range
-(0 to 70 C): Typ is typical process at 1.8 V and 27 C; Min/Max span
+Measured on the extracted view over the full industrial temperature
+range (-40 to 125 C): Typ is typical process at 1.8 V and 27 C (the
+typical frequency runs 1.4 to 3.2 MHz over that range); Min/Max span
 the extreme test condition corners (process corners at 1.7 to 1.9 V).
-Over the full industrial range (-40 to 125 C) the frequency runs 1.1
-to 4.0 MHz and the temperature error grows to -6.7..+9.1 C (1-point)
-and -7.3..+5.3 C (2-point).
+Over the commercial range (0 to 70 C) the temperature error is
+-3.7..+2.9 C (1-point) and -1.9..+1.5 C (2-point).
 
 # Simulation graphs
 
