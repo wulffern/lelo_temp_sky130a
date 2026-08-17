@@ -63,6 +63,14 @@ class LELO_TEMP():
     #  extracted view, so "Lay" is the default.  To refit after a
     #  layout or netlist change: regress dt against Vc/I over the
     #  typical run's t1/t2 measurements (least squares, two terms).
+    #  The second term is a regression INTERCEPT, not the physical
+    #  comparator delay, which is why it can be (and is) slightly
+    #  negative: a PTAT-starved comparator's delay scales ~1/I, the
+    #  same shape as the Vc/I basis, so the real delay folds into
+    #  C_eff; what the intercept holds is the head start the ramp
+    #  gets from reset charge injection (it does not start at
+    #  exactly 0 V) plus the absolute error of the analytic Vc and
+    #  the R table -- small constant-ish terms of either sign.
     #  The RC extraction ("LayR", make layr in sim/LELO_TEMP) holds
     #  the SAME 1.57 pF total but distributes it along the wiring
     #  resistance instead of lumping it on the ramp node, and loads
