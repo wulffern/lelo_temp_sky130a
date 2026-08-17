@@ -30,7 +30,7 @@ temperature.
 <sub> Figure 0: System overview </sub>
 
 This temperature sensor was made to conform to the specification at [The
-Project: Design a temperature sensor](https://analogicus.com/aic2026/2026/01/09/The-Project.html#the-project-design-a-temperature-sensor).
+Project: Design a temperature sensor](https://analogicus.com/aic2026/the_project#the-project).
 
 For more information on the oscillator, see [Schematics](http://analogicus.com/lelo_temp_sky130a/schematic.html).
 
@@ -137,10 +137,12 @@ which is the point of calibrating:
 
 <sub> Figure 4: Oscillator frequency versus temperature, typical</sub>
 
-Typical temperature error of the sensor is low, but I've calibrated the
-second order correction for typical *schematic* conditions, so the Lay
-one-point error carries the residual curvature the calibration no
-longer matches:
+Typical temperature error of the sensor is low. The frequency-to-
+temperature model is calibrated per netlist view (the effective
+oscillator capacitance is fitted from the typical run -- see
+`LELO_TEMP.FIT` in [py/LELO_TEMP.py](py/LELO_TEMP.py)), so both views
+show only the real residual curvature, about ±1 C after one-point
+calibration:
 
 ![](sim/LELO_TEMP/tran_err_typical.png)
 

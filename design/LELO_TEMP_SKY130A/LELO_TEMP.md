@@ -28,13 +28,14 @@ The $\Delta V$ increases with temperature and $V_C$ decreases with temperature,
 turns out the $\Delta V$ increases faster than $V_C$ drops, so the overall
 gradient is positive.
 
-The estimated frequency is shown in the table below (the table was generated from [model.ipynb](model.ipynb)))
+The estimated frequency is shown in the table below (computed by the
+calibrated extracted-view model in [LELO\_TEMP.py](https://github.com/wulffern/lelo_temp_sky130a/blob/main/py/LELO_TEMP.py))
 
 | Temperature [C] | Frequency [MHz] |
 |-----------------|-----------------|
-| -40             | 1.858           |
-| 25              | 2.634           |
-| 125             | 4.310           |
+| -40             | 1.399           |
+| 25              | 1.994           |
+| 125             | 3.185           |
 
 
 
